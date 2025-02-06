@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.uniroma2.nutrition.controller.graphic_controller.LogInController">
+   <children>
+      <Button fx:id="logInButton" layoutX="229.0" layoutY="259.0" mnemonicParsing="false" onAction="#submit" prefHeight="0.0" prefWidth="137.0" text="LogIn" />
+      <PasswordField fx:id="password" layoutX="226.0" layoutY="215.0" />
+      <Label fx:id="loginWelcome" layoutX="167.0" layoutY="23.0" prefHeight="89.0" prefWidth="266.0" text="Welcome to LogIn">
+         <font>
+            <Font name="System Italic" size="33.0" />
+         </font>
+      </Label>
+      <TextField fx:id="username" layoutX="226.0" layoutY="165.0" />
+   </children>
+</AnchorPane>
