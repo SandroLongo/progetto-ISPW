@@ -1,4 +1,4 @@
-package it.uniroma2.nutrition;
+package it.uniroma2.nutrition.controller.application_controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
