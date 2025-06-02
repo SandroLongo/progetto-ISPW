@@ -1,0 +1,7 @@
+#searchbuttonmenu {
+    -fx-background-image: url("/immagini/fa0394bd72610cafe4c1b8d8f185a24f.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-background-size: 30px 30px;
+    -fx-text-fill: transparent; /* opzionale */
+}
