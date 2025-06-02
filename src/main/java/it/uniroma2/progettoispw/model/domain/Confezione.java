@@ -37,6 +37,11 @@ public class Confezione {
         this.link = link;
 
     }
+
+    public Confezione(int codice_aic) {
+        this.codice_aic = codice_aic;
+    };
+
     public int getCodice_aic() {
         return codice_aic;
     }

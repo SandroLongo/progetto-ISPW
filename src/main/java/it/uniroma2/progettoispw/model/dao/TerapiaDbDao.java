@@ -2,12 +2,8 @@ package it.uniroma2.progettoispw.model.dao;
 
 import it.uniroma2.progettoispw.model.domain.*;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TerapiaDbDao extends DbDao implements TerapiaDao {
@@ -77,33 +73,73 @@ public class TerapiaDbDao extends DbDao implements TerapiaDao {
 
     @Override
     public void addTerapiaByRichiesta(Richiesta richiesta) throws DaoException {
-        try {
-            Dottore inviante = richiesta.getInviante();
-            Paziente ricevente = richiesta.getRicevente();
-            List<DoseInviata> dosiInviate= richiesta.getMedicinali();
-
-            Connection conn = ConnectionFactory.getConnection();
-            CallableStatement cs;
-
-            for (DoseInviata dose: dosiInviate) {
-
-                for () {
-                    cs = conn.prepareCall("{call add_dose_confezione(?,?,?,?,?,?,?,?)}");
-                    cs.setString(1, codiceFiscale);
-                    cs.setDate(2, java.sql.Date.valueOf(data));
-                    boolean Status = cs.execute();
-                }
+        Dottore inviante = richiesta.getInviante();
+        Paziente ricevente = richiesta.getRicevente();
+        List<DoseInviata> dosiInviate= richiesta.getMedicinali();
+        for (DoseInviata dose: dosiInviate) {
+            if (dose.isType() == TipoDose.Confezione){
+                buildDoseConfezione(dose, ricevente.getCodiceFiscale());
+            } else {
+                buildDosePrincipioAttivo(dose, ricevente.getCodiceFiscale());
             }
         }
     }
 
-    @Override
-    public void addDoseConfezione(DoseConfezione doseConfezione) throws DaoException {
+    private void buildDoseConfezione(DoseInviata doseInviata, String codiceFiscale) throws DaoException {
+        LocalDate data = doseInviata.getInizio();
+        for (int i = 0; i < doseInviata.getNumGiorni(); i++ ) {
+            data = data.plusDays((long)doseInviata.getRateGiorni());
+            addDoseConfezione(new DoseConfezione(new Confezione((int)doseInviata.getDose().getCodice()), doseInviata.getDose().getQuantita(),
+                    doseInviata.getDose().getUnita_misura(), doseInviata.getDose().getOrario(),
+                    doseInviata.getDose().getDescrizione(), doseInviata.getDose().getInviante()), data, codiceFiscale);
+        }
+    }
 
+    private void buildDosePrincipioAttivo(DoseInviata doseInviata, String codiceFiscale) throws DaoException {
+        LocalDate data = doseInviata.getInizio();
+        for (int i = 0; i < doseInviata.getNumGiorni(); i++ ) {
+            data = data.plusDays((long)doseInviata.getRateGiorni());
+            addDosePrincipioAttivo(new DosePrincipioAttivo(new PrincipioAttivo((String)doseInviata.getDose().getCodice()), doseInviata.getDose().getQuantita(),
+                    doseInviata.getDose().getUnita_misura(), doseInviata.getDose().getOrario(),
+                    doseInviata.getDose().getDescrizione(), doseInviata.getDose().getInviante()), data, codiceFiscale);
+        }
+    }
+    @Override
+    public void addDoseConfezione(DoseConfezione doseConfezione, LocalDate giorno, String codiceFiscale) throws DaoException {
+        try {
+            Connection conn = ConnectionFactory.getConnection();
+            CallableStatement cs = conn.prepareCall("{call add_dose_confezione(?,?,?,?,?,?,?,?)}");
+            cs.setString(1, codiceFiscale);
+            cs.setInt(2, doseConfezione.getCodice());
+            cs.setInt(3, doseConfezione.getQuantita());
+            cs.setString(4, doseConfezione.getUnita_misura());
+            cs.setDate(5, java.sql.Date.valueOf(giorno));
+            cs.setTime(6, Time.valueOf(doseConfezione.getOrario()));
+            cs.setString(7, doseConfezione.getDescrizione());
+            cs.setString(8, doseConfezione.getInviante().getCodiceFiscale());
+            cs.execute();
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage());
+        }
     }
 
     @Override
-    public void addDosePincipioAttivo(PrincipioAttivo principioAttivo) throws DaoException {
-
+    public void addDosePrincipioAttivo(DosePrincipioAttivo dosePrincipioAttivo, LocalDate giorno, String codiceFiscale) throws DaoException {
+        try {
+            Connection conn = ConnectionFactory.getConnection();
+            CallableStatement cs = conn.prepareCall("{call add_dose_pa(?,?,?,?,?,?,?,?)}");
+            cs.setString(1, codiceFiscale);
+            cs.setString(2, dosePrincipioAttivo.getCodice());
+            cs.setInt(3, dosePrincipioAttivo.getQuantita());
+            cs.setString(4, dosePrincipioAttivo.getUnita_misura());
+            cs.setDate(5, java.sql.Date.valueOf(giorno));
+            cs.setTime(6, Time.valueOf(dosePrincipioAttivo.getOrario()));
+            cs.setString(7, dosePrincipioAttivo.getDescrizione());
+            cs.setString(8, dosePrincipioAttivo.getInviante().getCodiceFiscale());
+            cs.execute();
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage());
+        }
     }
+
 }

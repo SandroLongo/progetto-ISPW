@@ -8,6 +8,8 @@ public class PrincipioAttivo {
         this.codice_atc = codice_atc;
         this.nome = nome;
     }
+
+    public PrincipioAttivo(String codice_atc) {}
     public String getCodice_atc() {
         return codice_atc;
     }
