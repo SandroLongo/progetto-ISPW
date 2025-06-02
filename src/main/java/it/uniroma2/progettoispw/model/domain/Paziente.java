@@ -22,6 +22,9 @@ public class Paziente extends Utente{
     public void setDottori_accettati(List<Dottore> dottori_accettati) {
         this.dottori_accettati = dottori_accettati;
     }
+    public void addDottore(Dottore dottore) {
+        this.dottori_accettati.add(dottore);
+    }
 
     @Override
     public Ruolo isType() {

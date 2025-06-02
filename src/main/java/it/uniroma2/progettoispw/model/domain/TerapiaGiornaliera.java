@@ -23,7 +23,7 @@ public class TerapiaGiornaliera {
     public TreeMap<LocalTime, List<Dose>> getDosiPerOrario() {
         return dosiPerOrario;
     }
-    public void addDoseMedicinale(Dose nuovaDose) {
+    public void addDose(Dose nuovaDose) {
         //forse da lanciare un eccezione se null
         if (nuovaDose == null){
             return;

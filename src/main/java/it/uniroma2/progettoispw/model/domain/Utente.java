@@ -1,5 +1,6 @@
 package it.uniroma2.progettoispw.model.domain;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public abstract class Utente {
@@ -8,10 +9,10 @@ public abstract class Utente {
     private String cognome;
     private String email;
     private String telefono;
-    private Date data_nascita;
+    private LocalDate data_nascita;
 
 
-    public Utente(String codice_fiscale, String nome, String cognome, Date data_nascita, String email, String telefono) {
+    public Utente(String codice_fiscale, String nome, String cognome, LocalDate data_nascita, String email, String telefono) {
         this.codice_fiscale = codice_fiscale;
         this.nome = nome;
         this.cognome = cognome;

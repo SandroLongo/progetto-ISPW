@@ -2,7 +2,7 @@ package it.uniroma2.progettoispw.model.domain;
 
 import java.time.LocalTime;
 
-public class DoseConfezione extends Dose {
+public class DoseConfezione extends Dose<Integer> {
     private Confezione confezione;
 
     public DoseConfezione(Confezione confezione, int quantita, String unita_misura, LocalTime orario, String descrizione, Dottore inviante) {
@@ -18,4 +18,13 @@ public class DoseConfezione extends Dose {
     }
 
 
+    @Override
+    public Integer getCodice() {
+        return confezione.getCodice_aic();
+    }
+
+    @Override
+    public TipoDose isType() {
+        return TipoDose.Confezione;
+    }
 }

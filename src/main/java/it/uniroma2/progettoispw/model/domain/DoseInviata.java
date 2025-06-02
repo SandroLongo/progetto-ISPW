@@ -2,7 +2,7 @@ package it.uniroma2.progettoispw.model.domain;
 
 import java.util.Date;
 
-public class DoseInviata {
+public abstract class DoseInviata {
     private Dose dose;
     private Date inizio;
     private int num_ripetizioni;
@@ -31,5 +31,4 @@ public class DoseInviata {
     public void setNumGiorni(int numGiorni) {
         this.num_ripetizioni = numGiorni;
     }
-
 }
