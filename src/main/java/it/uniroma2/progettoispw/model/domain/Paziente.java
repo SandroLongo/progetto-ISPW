@@ -1,5 +1,6 @@
 package it.uniroma2.progettoispw.model.domain;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 public class Paziente extends Utente{
     private List<Dottore> dottori_accettati;
 
-    public Paziente(String codice_fiscale, String nome, String cognome, Date nascita, String email, String telefono, List<Dottore> dottori_accettati) {
+    public Paziente(String codice_fiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, List<Dottore> dottori_accettati) {
         super(codice_fiscale, nome, cognome, nascita, email, telefono);
         if (dottori_accettati == null){
             this.dottori_accettati = new ArrayList<>();

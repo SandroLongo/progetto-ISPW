@@ -1,5 +1,7 @@
-package it.uniroma2.progettoispw.model.dao;
+package it.uniroma2.progettoispw.model.dao.dbfiledao;
 
+import it.uniroma2.progettoispw.model.dao.DaoException;
+import it.uniroma2.progettoispw.model.dao.MedicinaliDao;
 import it.uniroma2.progettoispw.model.domain.Confezione;
 import it.uniroma2.progettoispw.model.domain.PrincipioAttivo;
 
@@ -10,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConfezioniDbDao extends DbDao implements MedicinaliDao {
+public class MedicinaliDbDao extends DbDao implements MedicinaliDao {
 
     private Confezione creaConfezione(ResultSet rs) throws SQLException {
         try{
@@ -24,11 +26,17 @@ public class ConfezioniDbDao extends DbDao implements MedicinaliDao {
 
     }
 
-    private PrincipioAttivo creaPrincipioAttivo(ResultSet rs) throws SQLException {}
+    private PrincipioAttivo creaPrincipioAttivo(ResultSet rs) throws SQLException {
+        try {
+            return new PrincipioAttivo(rs.getString(1), rs.getString(2));
+        } catch(SQLException e){
+            throw new SQLException(e);
+        }
+    }
 
     @Override
     public List<String> getNomiConfezioniByNomeParziale(String nome) throws DaoException {
-        List<String> nomiConfezioni = new ArrayList<String>();
+        List<String> nomiConfezioni = new ArrayList<>();
 
         try {
             Connection conn = ConnectionFactory.getConnection();
@@ -51,7 +59,7 @@ public class ConfezioniDbDao extends DbDao implements MedicinaliDao {
 
     @Override
     public List<Confezione> getConfezioniByNome(String nome) throws DaoException {
-        List<Confezione> nomiConfezioni = new ArrayList<Confezione>();
+        List<Confezione> nomiConfezioni = new ArrayList<>();
 
         try {
             Connection conn = ConnectionFactory.getConnection();
@@ -96,7 +104,7 @@ public class ConfezioniDbDao extends DbDao implements MedicinaliDao {
 
     @Override
     public List<String> getNomiPrincipioAttivoByNomeParziale(String nome) throws DaoException {
-        List<String> nomi = new ArrayList<String>();
+        List<String> nomi = new ArrayList<>();
 
         try {
             Connection conn = ConnectionFactory.getConnection();
@@ -139,13 +147,13 @@ public class ConfezioniDbDao extends DbDao implements MedicinaliDao {
     }
 
     @Override
-    public List<Confezione> getConfezioniByCodiceAtc(int codice_atc) throws DaoException {
-        List<Confezione> confezioni = new ArrayList<Confezione>();
+    public List<Confezione> getConfezioniByCodiceAtc(String codice_atc) throws DaoException {
+        List<Confezione> confezioni = new ArrayList<>();
 
         try {
             Connection conn = ConnectionFactory.getConnection();
             CallableStatement cs = conn.prepareCall("{call search_confezione_by_pa(?)}");
-            cs.setInt(1, codice_atc);
+            cs.setString(1, codice_atc);
             boolean status = cs.execute();
 
             if (status) {
@@ -160,6 +168,27 @@ public class ConfezioniDbDao extends DbDao implements MedicinaliDao {
         }
 
         return confezioni;
+    }
+
+    @Override
+    public PrincipioAttivo getPrincipioAttvoByCodiceAtc(String codice_atc) throws DaoException {
+        PrincipioAttivo principio_attivo = null;
+        try {
+            Connection conn = ConnectionFactory.getConnection();
+            CallableStatement cs = conn.prepareCall("{call get_pa_by_codice(?)}");
+            cs.setString(1, codice_atc);
+            boolean status = cs.execute();
+            if (status) {
+                ResultSet rs = cs.getResultSet();
+                if (rs.next()){
+                    principio_attivo = creaPrincipioAttivo(rs);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return principio_attivo;
     }
 
 }

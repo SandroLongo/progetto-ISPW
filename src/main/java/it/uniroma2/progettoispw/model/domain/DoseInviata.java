@@ -3,7 +3,7 @@ package it.uniroma2.progettoispw.model.domain;
 import java.time.LocalDate;
 import java.util.Date;
 
-public abstract class DoseInviata {
+public class DoseInviata {
     private Dose dose;
     private LocalDate inizio;
     private int num_ripetizioni;

@@ -9,7 +9,9 @@ public class PrincipioAttivo {
         this.nome = nome;
     }
 
-    public PrincipioAttivo(String codice_atc) {}
+    public PrincipioAttivo(String codice_atc) {
+        this.codice_atc = codice_atc;
+    }
     public String getCodice_atc() {
         return codice_atc;
     }

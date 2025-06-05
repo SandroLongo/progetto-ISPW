@@ -22,6 +22,10 @@ public abstract class Utente {
 
     }
 
+    public Utente(String codice_fiscale) {
+        this.codice_fiscale = codice_fiscale;
+    }
+
     public abstract Ruolo isType();
 
     public String getCodiceFiscale() {

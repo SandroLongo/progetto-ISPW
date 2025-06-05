@@ -11,6 +11,7 @@ public interface MedicinaliDao {
     public List<Confezione> getConfezioniByNome(String nome) throws DaoException;
     public List<String> getNomiPrincipioAttivoByNomeParziale(String nome) throws DaoException;
     public PrincipioAttivo getPrincipioAttvoByNome(String nome) throws DaoException;
-    public List<Confezione> getConfezioniByCodiceAtc(int codice_atc) throws DaoException;
+    public List<Confezione> getConfezioniByCodiceAtc(String codice_atc) throws DaoException;
+    public PrincipioAttivo getPrincipioAttvoByCodiceAtc(String codice_atc) throws DaoException;
 
 }

@@ -1,5 +1,7 @@
-package it.uniroma2.progettoispw.model.dao;
+package it.uniroma2.progettoispw.model.dao.dbfiledao;
 
+import it.uniroma2.progettoispw.model.dao.DaoException;
+import it.uniroma2.progettoispw.model.dao.TerapiaDao;
 import it.uniroma2.progettoispw.model.domain.*;
 
 import java.sql.*;
@@ -8,25 +10,11 @@ import java.util.List;
 
 public class TerapiaDbDao extends DbDao implements TerapiaDao {
 
-    private Dottore createDottore(ResultSet rs, List<Integer> indici) throws SQLException {
-        Dottore dottore = null;
-        try {
-            dottore = new Dottore(rs.getString(indici.get(0)), rs.getString(indici.get(1)), rs.getString(indici.get(2)), rs.getDate(indici.get(3)),
-                    rs.getString(indici.get(4)), rs.getString(indici.get(5)));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return dottore;
-    }
-
     private void addDosiConfezione(ResultSet rs, TerapiaGiornaliera terapia) throws SQLException {
         try {
             while (rs.next()) {
-                terapia.addDose(new DoseConfezione(new Confezione(rs.getInt(6), rs.getInt(7), rs.getInt(8),
-                        rs.getString(9), rs.getString(10), rs.getInt(11), rs.getString(12),
-                        rs.getString(13), rs.getString(14), rs.getString(15), rs.getString(16),
-                        rs.getString(17), 0, "non fornita", rs.getString(18)), rs.getInt(1),
-                        rs.getString(2), rs.getTime(3).toLocalTime(), rs.getString(4), createDottore(rs, List.of(1,2,3,4, 5, 6))));
+                terapia.addDose(new DoseConfezione(new Confezione(rs.getInt(6)), rs.getInt(1),
+                        rs.getString(2), rs.getTime(3).toLocalTime(), rs.getString(4), new Dottore(rs.getString(5))));
             }
         } catch (SQLException e){
             e.printStackTrace();
@@ -36,8 +24,8 @@ public class TerapiaDbDao extends DbDao implements TerapiaDao {
     private void addDosiPrincipioAttivo(ResultSet rs, TerapiaGiornaliera terapia) throws SQLException {
         try {
             while (rs.next()) {
-                terapia.addDose(new DosePrincipioAttivo(new PrincipioAttivo(rs.getString(6), rs.getString(7)), rs.getInt(1),
-                        rs.getString(2), rs.getTime(3).toLocalTime(), rs.getString(4), createDottore(rs, List.of(8, 9, 10, 11, 12, 13, 14))));
+                terapia.addDose(new DosePrincipioAttivo(new PrincipioAttivo(rs.getString(6)), rs.getInt(1),
+                        rs.getString(2), rs.getTime(3).toLocalTime(), rs.getString(4), new Dottore(rs.getString(5))));
             }
         } catch (SQLException e){
             e.printStackTrace();
@@ -71,39 +59,6 @@ public class TerapiaDbDao extends DbDao implements TerapiaDao {
         return terapia;
     }
 
-    @Override
-    public void addTerapiaByRichiesta(Richiesta richiesta) throws DaoException {
-        Dottore inviante = richiesta.getInviante();
-        Paziente ricevente = richiesta.getRicevente();
-        List<DoseInviata> dosiInviate= richiesta.getMedicinali();
-        for (DoseInviata dose: dosiInviate) {
-            if (dose.isType() == TipoDose.Confezione){
-                buildDoseConfezione(dose, ricevente.getCodiceFiscale());
-            } else {
-                buildDosePrincipioAttivo(dose, ricevente.getCodiceFiscale());
-            }
-        }
-    }
-
-    private void buildDoseConfezione(DoseInviata doseInviata, String codiceFiscale) throws DaoException {
-        LocalDate data = doseInviata.getInizio();
-        for (int i = 0; i < doseInviata.getNumGiorni(); i++ ) {
-            data = data.plusDays((long)doseInviata.getRateGiorni());
-            addDoseConfezione(new DoseConfezione(new Confezione((int)doseInviata.getDose().getCodice()), doseInviata.getDose().getQuantita(),
-                    doseInviata.getDose().getUnita_misura(), doseInviata.getDose().getOrario(),
-                    doseInviata.getDose().getDescrizione(), doseInviata.getDose().getInviante()), data, codiceFiscale);
-        }
-    }
-
-    private void buildDosePrincipioAttivo(DoseInviata doseInviata, String codiceFiscale) throws DaoException {
-        LocalDate data = doseInviata.getInizio();
-        for (int i = 0; i < doseInviata.getNumGiorni(); i++ ) {
-            data = data.plusDays((long)doseInviata.getRateGiorni());
-            addDosePrincipioAttivo(new DosePrincipioAttivo(new PrincipioAttivo((String)doseInviata.getDose().getCodice()), doseInviata.getDose().getQuantita(),
-                    doseInviata.getDose().getUnita_misura(), doseInviata.getDose().getOrario(),
-                    doseInviata.getDose().getDescrizione(), doseInviata.getDose().getInviante()), data, codiceFiscale);
-        }
-    }
     @Override
     public void addDoseConfezione(DoseConfezione doseConfezione, LocalDate giorno, String codiceFiscale) throws DaoException {
         try {

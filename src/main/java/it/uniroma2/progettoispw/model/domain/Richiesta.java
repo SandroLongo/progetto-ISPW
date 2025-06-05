@@ -43,7 +43,7 @@ public class Richiesta {
     public void setInviante(Dottore inviante) {
         this.inviante = inviante;
     }
-    public void addMedicinal(DoseInviata medicinale) {
+    public void addDoseInviata(DoseInviata medicinale) {
         medicinali.add(medicinale);
     }
     public int getId() {

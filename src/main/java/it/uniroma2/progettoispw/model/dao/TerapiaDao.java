@@ -6,7 +6,6 @@ import java.time.LocalDate;
 
 public interface TerapiaDao {
     public TerapiaGiornaliera getTerapiaGiornaliera(String codiceFiscale, LocalDate data) throws DaoException;
-    public void addTerapiaByRichiesta(Richiesta richiesta) throws DaoException;
     public void addDoseConfezione(DoseConfezione doseConfezione, LocalDate giorno, String codiceFiscale) throws DaoException;
     public void addDosePrincipioAttivo(DosePrincipioAttivo principioAttivo, LocalDate giorno, String codiceFiscale) throws DaoException;
 
