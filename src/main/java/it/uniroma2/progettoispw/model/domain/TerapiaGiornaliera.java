@@ -8,7 +8,7 @@ import java.util.TreeMap;
 
 public class TerapiaGiornaliera {
     private LocalDate data;
-    TreeMap<LocalTime, List<Dose<?>>> dosiPerOrario = new TreeMap<>();
+    private TreeMap<LocalTime, List<Dose<?>>> dosiPerOrario = new TreeMap<>();
 
     public TerapiaGiornaliera(LocalDate data) {
         this.data = data;
@@ -30,6 +30,7 @@ public class TerapiaGiornaliera {
         dosiPerOrario.computeIfAbsent(nuovaDose.getOrario(), orarioChiave -> new ArrayList<>()).add(nuovaDose);
     }
 
-
-
+    public void setDosiPerOrario(TreeMap<LocalTime, List<Dose<?>>> dosiPerOrario) {
+        this.dosiPerOrario = dosiPerOrario;
+    }
 }

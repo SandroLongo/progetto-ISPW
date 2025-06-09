@@ -14,9 +14,9 @@ public class DaoFacade {
 
     public DaoFacade() {
         medicinaliDao = new MedicinaliDbDao();
-        richiesteDao = DaoFactory.getDaoFactory().getRichiesteDao();
-        terapiaDao = DaoFactory.getDaoFactory().getTerapiaDao();
-        utenteDao = DaoFactory.getDaoFactory().getUtenteDao();
+        richiesteDao = DaoFactory.getIstance().getRichiesteDao();
+        terapiaDao = DaoFactory.getIstance().getTerapiaDao();
+        utenteDao = DaoFactory.getIstance().getUtenteDao();
     }
 
     public TerapiaGiornaliera getTerapiaGiornaliera(String codiceFiscale, LocalDate data) throws DaoException{

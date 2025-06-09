@@ -8,16 +8,16 @@ import it.uniroma2.progettoispw.model.dao.UtenteDao;
 public class MemoryDaoFactory extends DaoFactory {
     @Override
     public RichiesteDao getRichiesteDao() {
-        return null;
+        return RichiesteMemoryDao.getInstance();
     }
 
     @Override
     public UtenteDao getUtenteDao() {
-        return null;
+        return UtenteMemoryDao.getInstance();
     }
 
     @Override
     public TerapiaDao getTerapiaDao() {
-        return null;
+        return TerapiaMemoryDao.getInstance();
     }
 }
