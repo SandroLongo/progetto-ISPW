@@ -1,5 +1,7 @@
 package it.uniroma2.progettoispw.model.bean;
 
+import it.uniroma2.progettoispw.model.domain.Ruolo;
+
 public abstract class UtenteLogInData {
     private String codiceFiscale;
     private String password;
@@ -23,4 +25,6 @@ public abstract class UtenteLogInData {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public abstract Ruolo isType();
 }

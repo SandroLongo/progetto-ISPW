@@ -47,14 +47,13 @@ public class LogInViewController {
         Utente utente = logInController.validate(utenteLogInData);
 
         FXMLLoader loader;
-        if (utente instanceof Paziente) {
-            loader = new FXMLLoader(getClass().getResource("/fxml/MenuPaziente.fxml"));
-        } else if (Utente instanceof Dottore) {
-            loader = new FXMLLoader(getClass().getResource("/fxml/MenuDottore.fxml"));
-
-        } else {
-            showAlert("Login fallito, credenziali errate");
-            return;
+        switch (utente.isType()) {
+            case Dottore -> loader = new FXMLLoader(getClass().getResource("/view/MenuDottore"));
+            case Paziente -> loader = new FXMLLoader(getClass().getResource("/view/MenuPaziente"));
+            default -> {
+                showAlert("Login fallito, credenziali errate");
+                return;
+            }
         }
 
         Parent root = loader.load();
@@ -62,5 +61,9 @@ public class LogInViewController {
         stage.setScene(new Scene(root));
         stage.show();
 
+    }
+
+    private void showAlert(String message) {
+        errorLabel.setText(message);
     }
 }

@@ -12,7 +12,7 @@ public class GuiApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("LoInview.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("LogInview.fxml"));
         Parent root = fxmlLoader.load();
         stage.setScene(new Scene(root));
         stage.setTitle("LogInview.fxml");

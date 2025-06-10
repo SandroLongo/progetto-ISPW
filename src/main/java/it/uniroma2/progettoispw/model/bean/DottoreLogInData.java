@@ -1,5 +1,7 @@
 package it.uniroma2.progettoispw.model.bean;
 
+import it.uniroma2.progettoispw.model.domain.Ruolo;
+
 public class DottoreLogInData extends UtenteLogInData{
     private int codice;
 
@@ -12,5 +14,10 @@ public class DottoreLogInData extends UtenteLogInData{
     }
     public void setCodice(int codice) {
         this.codice = codice;
+    }
+
+    @Override
+    public Ruolo isType() {
+        return Ruolo.Dottore;
     }
 }
