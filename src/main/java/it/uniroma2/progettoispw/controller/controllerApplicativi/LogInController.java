@@ -32,11 +32,13 @@ public class LogInController {
             switch (utenteRegistrationData.isType()) {
                 case Paziente -> {daoFacade.addPaziente(utenteRegistrationData.getCodice_fiscale(), utenteRegistrationData.getNome(),
                         utenteRegistrationData.getCognome(), utenteRegistrationData.getData_nascita(), utenteRegistrationData.getEmail(),
-                        utenteRegistrationData.getTelefono(), utenteRegistrationData.getPassword());}
+                        utenteRegistrationData.getTelefono(), utenteRegistrationData.getPassword());
+                            return true;}
                 case Dottore -> {DottoreRegistrationData dottoreRegistrationData = (DottoreRegistrationData) utenteRegistrationData;
                     daoFacade.addDottore(dottoreRegistrationData.getCodice_fiscale(), dottoreRegistrationData.getNome(), dottoreRegistrationData.getCognome(),
                             dottoreRegistrationData.getData_nascita(), dottoreRegistrationData.getEmail(), dottoreRegistrationData.getTelefono(),
-                            dottoreRegistrationData.getPassword(), dottoreRegistrationData.getCodice());}
+                            dottoreRegistrationData.getPassword(), dottoreRegistrationData.getCodice());
+                            return true;}
                 default -> throw new DaoException("Tipologia non valida");
             }
         } catch (DaoException e) {

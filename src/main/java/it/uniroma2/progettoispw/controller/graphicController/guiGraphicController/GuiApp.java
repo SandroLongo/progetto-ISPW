@@ -12,11 +12,13 @@ public class GuiApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("LogInview.fxml"));
-        Parent root = fxmlLoader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/LogInview.fxml"));
+        Parent root = loader.load();
         stage.setScene(new Scene(root));
         stage.setTitle("LogInview.fxml");
         stage.show();
 
     }
+
+
 }

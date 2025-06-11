@@ -6,8 +6,8 @@ import java.sql.SQLException;
 
 public class ConnectionFactory {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/farmaciaifa";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "";
+    private static final String DB_USER = "utente";
+    private static final String DB_PASSWORD = "12345678";
     private static Connection connection;
 
     static {

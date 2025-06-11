@@ -11,7 +11,7 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.uniroma2.progettoispw.controller.graphicController.guiGraphicController.LogInViewController">
    <children>
       <Button layoutX="223.0" layoutY="235.0" mnemonicParsing="false" onAction="#handleLogIn" prefHeight="25.0" prefWidth="149.0" text="Accedi" />
-      <Button layoutX="223.0" layoutY="354.0" mnemonicParsing="false" onAction="#register" prefHeight="25.0" prefWidth="149.0" text="Registrati" />
+      <Button layoutX="223.0" layoutY="354.0" mnemonicParsing="false" onAction="#handleRegistration" prefHeight="25.0" prefWidth="149.0" text="Registrati" />
       <CheckBox fx:id="checkMedico" layoutX="227.0" layoutY="161.0" mnemonicParsing="false" text="accedi come medico" />
       <Label layoutX="223.0" layoutY="118.0" prefHeight="17.0" prefWidth="149.0" text="Password" />
       <Label layoutX="223.0" layoutY="74.0" prefHeight="17.0" prefWidth="149.0" text="codice fiscale" />
@@ -23,7 +23,7 @@
             <Font name="Berlin Sans FB Bold" size="36.0" />
          </font>
       </Label>
-      <TextField fx:id="codiceMedicoField" disable="true" layoutX="223.0" layoutY="202.0" />
+      <TextField fx:id="codiceMedicoField" layoutX="223.0" layoutY="202.0" />
       <Label layoutX="223.0" layoutY="185.0" prefHeight="17.0" prefWidth="149.0" text="codice" />
       <Label fx:id="errorLabel" layoutX="226.0" layoutY="301.0" prefHeight="17.0" prefWidth="149.0" />
    </children>

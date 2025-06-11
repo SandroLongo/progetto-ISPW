@@ -7,6 +7,7 @@ import it.uniroma2.progettoispw.model.bean.UtenteLogInData;
 import it.uniroma2.progettoispw.model.domain.Dottore;
 import it.uniroma2.progettoispw.model.domain.Paziente;
 import it.uniroma2.progettoispw.model.domain.Utente;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -33,7 +34,7 @@ public class LogInViewController {
     private TextField codiceMedicoField;
 
     @FXML
-    public void handleLogIn() throws IOException {
+    void handleLogIn() throws IOException {
         String codice = codiceField.getText();
         String password = passwordField.getText();
         UtenteLogInData utenteLogInData;
@@ -49,7 +50,7 @@ public class LogInViewController {
         FXMLLoader loader;
         switch (utente.isType()) {
             case Dottore -> loader = new FXMLLoader(getClass().getResource("/view/MenuDottore"));
-            case Paziente -> loader = new FXMLLoader(getClass().getResource("/view/MenuPaziente"));
+            case Paziente -> loader = new FXMLLoader(getClass().getResource("it/uniroma2/progettoispw/view/LogInview.fxml"));
             default -> {
                 showAlert("Login fallito, credenziali errate");
                 return;
@@ -61,6 +62,15 @@ public class LogInViewController {
         stage.setScene(new Scene(root));
         stage.show();
 
+    }
+
+    @FXML
+    void handleRegistration(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Registrazione"));
+        Parent root = loader.load();
+        Stage stage = (Stage) errorLabel.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     private void showAlert(String message) {
