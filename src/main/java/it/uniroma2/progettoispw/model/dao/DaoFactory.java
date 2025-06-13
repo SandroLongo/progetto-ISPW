@@ -2,6 +2,7 @@ package it.uniroma2.progettoispw.model.dao;
 
 import it.uniroma2.progettoispw.model.dao.dbfiledao.DbFileDaoFactory;
 import it.uniroma2.progettoispw.model.dao.dbfiledao.MedicinaliDbDao;
+import it.uniroma2.progettoispw.model.dao.memorydao.MemoryDaoFactory;
 
 public abstract class DaoFactory {
     private static DaoFactory daoFactory;
@@ -15,7 +16,7 @@ public abstract class DaoFactory {
 
     public static DaoFactory getIstance() {
         if (daoFactory == null) {
-            daoFactory = new DbFileDaoFactory();
+            daoFactory = new MemoryDaoFactory();
         }
         return daoFactory;
     }

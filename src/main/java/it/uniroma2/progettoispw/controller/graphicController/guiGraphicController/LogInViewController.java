@@ -49,8 +49,8 @@ public class LogInViewController {
 
         FXMLLoader loader;
         switch (utente.isType()) {
-            case Dottore -> loader = new FXMLLoader(getClass().getResource("/view/MenuDottore"));
-            case Paziente -> loader = new FXMLLoader(getClass().getResource("it/uniroma2/progettoispw/view/LogInview.fxml"));
+            case Dottore -> loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/MenuDottore"));
+            case Paziente -> loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/MenuPaziente.fxml"));
             default -> {
                 showAlert("Login fallito, credenziali errate");
                 return;
@@ -66,7 +66,7 @@ public class LogInViewController {
 
     @FXML
     void handleRegistration(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Registrazione"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/Registrazione.fxml"));
         Parent root = loader.load();
         Stage stage = (Stage) errorLabel.getScene().getWindow();
         stage.setScene(new Scene(root));

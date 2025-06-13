@@ -17,6 +17,10 @@ public class Paziente extends Utente{
         }
     }
 
+    public Paziente(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono) {
+        super(codiceFiscale, nome, cognome, nascita, email, telefono);
+    }
+
     public List<Dottore> getDottori_accettati() {
         return dottori_accettati;
     }

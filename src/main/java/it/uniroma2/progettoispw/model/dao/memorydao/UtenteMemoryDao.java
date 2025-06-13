@@ -47,7 +47,10 @@ public class UtenteMemoryDao extends MemoryDao implements UtenteDao {
     @Override
     public void addPaziente(String codice_fiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
         ChiaveUtente chiaveUtente = new ChiaveUtente(codice_fiscale, nome);
+        System.out.println(codice_fiscale);
+        System.out.println(pass);
         pazienti.put(chiaveUtente, new Paziente(codice_fiscale, nome, cognome, nascita, email, telefono, new ArrayList<>()));
+        infoUtenti.put(codice_fiscale, new Paziente(codice_fiscale, nome, cognome, nascita, email, telefono));
     }
 
     @Override
@@ -56,15 +59,19 @@ public class UtenteMemoryDao extends MemoryDao implements UtenteDao {
         ChiaveDottore chiaveDottore = new ChiaveDottore(codice_fiscale, nome, codice);
         pazienti.put(chiaveUtente, new Paziente(codice_fiscale, nome, cognome, nascita, email, telefono, new ArrayList<>()));
         dottori.put(chiaveDottore, new Dottore(codice_fiscale, nome, cognome, nascita, email, telefono));
+        infoUtenti.put(codice_fiscale, new Dottore(codice_fiscale, nome, cognome, nascita, email, telefono));
     }
 
     @Override
     public Utente login(String codice_fiscale, String password, int is_dottore, int codice_dottore) throws DaoException {
-        if (pazienti.containsKey(codice_fiscale)) {
-            return (Utente) infoUtenti.get(codice_fiscale);
+        if (is_dottore == 1) {
+            ChiaveDottore chiave = new ChiaveDottore(codice_fiscale, password, codice_dottore);
+            return dottori.get(chiave);
         } else {
-            return null;
+            ChiaveUtente chiave = new ChiaveUtente(codice_fiscale, password);
+            return pazienti.get(chiave);
         }
+
     }
 
     @Override

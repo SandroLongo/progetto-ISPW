@@ -6,10 +6,16 @@ import it.uniroma2.progettoispw.model.bean.PazienteRegistrationData;
 import it.uniroma2.progettoispw.model.bean.UtenteRegistrationData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class RegistrationViewController {
     private LogInController logInController = new LogInController();
@@ -44,9 +50,10 @@ public class RegistrationViewController {
     private Label errorLabel;
 
     @FXML
-    void handleRegistration(ActionEvent event) {
+    void handleRegistration(ActionEvent event) throws IOException {
+        UtenteRegistrationData urd;
         try {
-            UtenteRegistrationData urd;
+
             if (dottoreCheckBox.isSelected()) {
                 urd = new DottoreRegistrationData(codiceFiscaleField.getText(), nomeField.getText(), cognomeField.getText(),
                             emailField.getText(), telefonoField.getText(), dataNascitaField.getValue(), Integer.parseInt(codiceField.getText()),
@@ -56,10 +63,18 @@ public class RegistrationViewController {
                         emailField.getText(), telefonoField.getText(), dataNascitaField.getValue(),
                         passwordField.getText());
             }
-            logInController.register(urd);
+
         } catch (Exception e) {
-            showAlert(e.getMessage());
+            throw new RuntimeException(e);
         }
+
+        logInController.register(urd);
+        Stage stage = (Stage) errorLabel.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/LogInview.fxml"));
+        Parent root = loader.load();
+        stage.setScene(new Scene(root));
+        stage.show();
+
     }
 
     private void showAlert(String message) {

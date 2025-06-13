@@ -12,8 +12,12 @@ public class LogInController {
     private DaoFacade daoFacade = new DaoFacade();
 
     public Utente validate(UtenteLogInData utenteLogInData) {
+        System.out.println(utenteLogInData);
         Utente utente;
         try {
+            System.out.println(utenteLogInData.isType());
+            System.out.println(utenteLogInData.getCodiceFiscale());
+            System.out.println(utenteLogInData.getPassword());
             switch (utenteLogInData.isType()){
                 case Paziente -> utente = daoFacade.login(utenteLogInData.getCodiceFiscale(), utenteLogInData.getPassword(), 0, 0);
                 case Dottore -> { DottoreLogInData dottoreData = (DottoreLogInData) utenteLogInData;
@@ -24,6 +28,7 @@ public class LogInController {
         } catch (DaoException e) {
             utente = null;
         }
+        System.out.println(utente.getCognome());
         return utente;
     }
 
@@ -33,6 +38,7 @@ public class LogInController {
                 case Paziente -> {daoFacade.addPaziente(utenteRegistrationData.getCodice_fiscale(), utenteRegistrationData.getNome(),
                         utenteRegistrationData.getCognome(), utenteRegistrationData.getData_nascita(), utenteRegistrationData.getEmail(),
                         utenteRegistrationData.getTelefono(), utenteRegistrationData.getPassword());
+                        System.out.println(utenteRegistrationData.getCodice_fiscale());
                             return true;}
                 case Dottore -> {DottoreRegistrationData dottoreRegistrationData = (DottoreRegistrationData) utenteRegistrationData;
                     daoFacade.addDottore(dottoreRegistrationData.getCodice_fiscale(), dottoreRegistrationData.getNome(), dottoreRegistrationData.getCognome(),
