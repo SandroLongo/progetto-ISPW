@@ -1,4 +1,4 @@
 package it.uniroma2.progettoispw.controller.controllerApplicativi;
 
-public class ConsultaTerapiaController {
+public class RichiesteController {
 }

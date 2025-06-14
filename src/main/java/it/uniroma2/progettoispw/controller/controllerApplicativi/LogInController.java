@@ -1,28 +1,29 @@
 package it.uniroma2.progettoispw.controller.controllerApplicativi;
 
-import it.uniroma2.progettoispw.model.bean.DottoreLogInData;
-import it.uniroma2.progettoispw.model.bean.DottoreRegistrationData;
-import it.uniroma2.progettoispw.model.bean.UtenteLogInData;
-import it.uniroma2.progettoispw.model.bean.UtenteRegistrationData;
+import it.uniroma2.progettoispw.controller.bean.DottoreRegistrationData;
+import it.uniroma2.progettoispw.controller.bean.UtenteLogInData;
+import it.uniroma2.progettoispw.controller.bean.UtenteRegistrationData;
 import it.uniroma2.progettoispw.model.dao.DaoException;
 import it.uniroma2.progettoispw.model.dao.DaoFacade;
+import it.uniroma2.progettoispw.model.domain.Ruolo;
 import it.uniroma2.progettoispw.model.domain.Utente;
+
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Date;
 
 public class LogInController {
     private DaoFacade daoFacade = new DaoFacade();
 
-    public Utente validate(UtenteLogInData utenteLogInData) {
-        System.out.println(utenteLogInData);
+    public Utente logIn(UtenteLogInData utenteLogInData) throws FomatoInvalidoException {
         Utente utente;
+
+        verifyLogInData(utenteLogInData);
         try {
-            System.out.println(utenteLogInData.isType());
-            System.out.println(utenteLogInData.getCodiceFiscale());
-            System.out.println(utenteLogInData.getPassword());
-            switch (utenteLogInData.isType()){
+            switch (utenteLogInData.getRuolo()){
                 case Paziente -> utente = daoFacade.login(utenteLogInData.getCodiceFiscale(), utenteLogInData.getPassword(), 0, 0);
-                case Dottore -> { DottoreLogInData dottoreData = (DottoreLogInData) utenteLogInData;
-                        utente = daoFacade.login(dottoreData.getCodiceFiscale(), dottoreData.getPassword(), 1,
-                                dottoreData.getCodice());}
+                case Dottore -> { utente = daoFacade.login(utenteLogInData.getCodiceFiscale(), utenteLogInData.getPassword(), 1,
+                                utenteLogInData.getCodiceDottore());}
                 default -> utente = null;
             }
         } catch (DaoException e) {
@@ -32,7 +33,22 @@ public class LogInController {
         return utente;
     }
 
-    public boolean register(UtenteRegistrationData utenteRegistrationData) {
+    private void verifyLogInData(UtenteLogInData utenteLogInData) throws FomatoInvalidoException {
+        String cf = utenteLogInData.getCodiceFiscale();
+        String pwd = utenteLogInData.getPassword();
+
+        verifyCFandPass(cf, pwd);
+        if (utenteLogInData.getRuolo() == Ruolo.Dottore) {
+            if (utenteLogInData.getCodiceDottore() >= Config.MAX_DOCTOR_CODE_LENGTH
+                    || utenteLogInData.getCodiceDottore() <= Config.MAX_DOCTOR_CODE_LENGTH){
+                throw new FomatoInvalidoException("codice dottore non valido");
+            }
+        }
+    }
+
+    public boolean register(UtenteRegistrationData utenteRegistrationData) throws FomatoInvalidoException {
+
+        verifyRegistrationData(utenteRegistrationData);
         try {
             switch (utenteRegistrationData.isType()) {
                 case Paziente -> {daoFacade.addPaziente(utenteRegistrationData.getCodice_fiscale(), utenteRegistrationData.getNome(),
@@ -51,5 +67,41 @@ public class LogInController {
             throw new RuntimeException(e);
         }
 
+    }
+
+    private void verifyRegistrationData(UtenteRegistrationData utenteRegistrationData) throws FomatoInvalidoException {
+        String cf = utenteRegistrationData.getCodice_fiscale();
+        String pwd = utenteRegistrationData.getPassword();
+        String nome = utenteRegistrationData.getNome();
+        String cognome = utenteRegistrationData.getCognome();
+        String email = utenteRegistrationData.getEmail();
+        String telefono = utenteRegistrationData.getTelefono();
+        LocalDate data_nascita = utenteRegistrationData.getData_nascita();
+
+        verifyCFandPass(cf, pwd);
+        if (nome == null || nome.length() < Config.MIN_NAME_LENGTH || nome.length() > Config.MAX_NAME_LENGTH) {
+            throw new FomatoInvalidoException("nome non valido");
+        }
+        if (cognome == null || cognome.length() < Config.MIN_SURNAME_LENGTH || cognome.length() > Config.MAX_SURNAME_LENGTH) {
+            throw new FomatoInvalidoException("cognome non valido");
+        }
+        if (email == null || cognome.length() < Config.MIN_EMAIL_LENGTH || email.length() > Config.MAX_EMAIL_LENGTH) {
+            throw new FomatoInvalidoException("email non valido");
+        }
+        if (telefono == null || telefono.length() <= Config.MIN_PHONE_LENGTH || telefono.length() > Config.MAX_PHONE_LENGTH) {
+            throw new FomatoInvalidoException("telefono non valido");
+        }
+        if (data_nascita == null || Period.between(data_nascita, LocalDate.now()).getYears() < Config.MIN_AGE) {
+            throw new FomatoInvalidoException("devi avere " + String.valueOf(Config.MIN_AGE)+ "per registrarti nell'applicazione");
+        }
+    }
+
+    private void verifyCFandPass(String cf, String pwd) {
+        if (cf == null || cf.length() < Config.MIN_CF_LENGTH || cf.length() > Config.MAX_CF_LENGTH) {
+            throw new FomatoInvalidoException("Codice fiscale non valido");
+        }
+        if (pwd == null || pwd.length() > Config.MAX_PASSWORD_LENGTH || pwd.length() <= Config.MIN_PASSWORD_LENGTH) {
+            throw new FomatoInvalidoException("Password non valida");
+        }
     }
 }

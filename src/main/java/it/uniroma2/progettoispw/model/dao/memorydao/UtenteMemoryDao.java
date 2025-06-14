@@ -46,7 +46,7 @@ public class UtenteMemoryDao extends MemoryDao implements UtenteDao {
 
     @Override
     public void addPaziente(String codice_fiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
-        ChiaveUtente chiaveUtente = new ChiaveUtente(codice_fiscale, nome);
+        ChiaveUtente chiaveUtente = new ChiaveUtente(codice_fiscale, pass);
         System.out.println(codice_fiscale);
         System.out.println(pass);
         pazienti.put(chiaveUtente, new Paziente(codice_fiscale, nome, cognome, nascita, email, telefono, new ArrayList<>()));
@@ -55,8 +55,8 @@ public class UtenteMemoryDao extends MemoryDao implements UtenteDao {
 
     @Override
     public void addDottore(String codice_fiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass, int codice) throws DaoException {
-        ChiaveUtente chiaveUtente = new ChiaveUtente(codice_fiscale, nome);
-        ChiaveDottore chiaveDottore = new ChiaveDottore(codice_fiscale, nome, codice);
+        ChiaveUtente chiaveUtente = new ChiaveUtente(codice_fiscale, pass);
+        ChiaveDottore chiaveDottore = new ChiaveDottore(codice_fiscale, pass, codice);
         pazienti.put(chiaveUtente, new Paziente(codice_fiscale, nome, cognome, nascita, email, telefono, new ArrayList<>()));
         dottori.put(chiaveDottore, new Dottore(codice_fiscale, nome, cognome, nascita, email, telefono));
         infoUtenti.put(codice_fiscale, new Dottore(codice_fiscale, nome, cognome, nascita, email, telefono));

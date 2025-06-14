@@ -1,11 +1,9 @@
 package it.uniroma2.progettoispw.controller.graphicController.guiGraphicController;
 
+import it.uniroma2.progettoispw.controller.controllerApplicativi.FomatoInvalidoException;
 import it.uniroma2.progettoispw.controller.controllerApplicativi.LogInController;
-import it.uniroma2.progettoispw.model.bean.DottoreLogInData;
-import it.uniroma2.progettoispw.model.bean.PazienteLogInData;
-import it.uniroma2.progettoispw.model.bean.UtenteLogInData;
-import it.uniroma2.progettoispw.model.domain.Dottore;
-import it.uniroma2.progettoispw.model.domain.Paziente;
+import it.uniroma2.progettoispw.controller.bean.UtenteLogInData;
+import it.uniroma2.progettoispw.model.domain.Ruolo;
 import it.uniroma2.progettoispw.model.domain.Utente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -39,17 +37,21 @@ public class LogInViewController {
         String password = passwordField.getText();
         UtenteLogInData utenteLogInData;
         if (checkMedico.isSelected()) {
-            int codiceMedico = Integer.parseInt(codiceMedicoField.getText());
-            utenteLogInData = new DottoreLogInData(codice, password, codiceMedico);
+            utenteLogInData = new UtenteLogInData(codice, password, Ruolo.Dottore, codiceMedicoField.getText());
         } else {
-            utenteLogInData = new PazienteLogInData(codice, password);
+            utenteLogInData = new UtenteLogInData(codice, password, Ruolo.Paziente);
         }
 
-        Utente utente = logInController.validate(utenteLogInData);
+        Utente utente = null;
+        try {
+            utente = logInController.logIn(utenteLogInData);
+        } catch (FomatoInvalidoException e) {
+            showAlert(e.getMessage());
+        }
 
         FXMLLoader loader;
         switch (utente.isType()) {
-            case Dottore -> loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/MenuDottore"));
+            case Dottore -> loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/MenuDottore.fxml"));
             case Paziente -> loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/MenuPaziente.fxml"));
             default -> {
                 showAlert("Login fallito, credenziali errate");

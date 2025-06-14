@@ -1,9 +1,9 @@
 package it.uniroma2.progettoispw.controller.graphicController.guiGraphicController;
 
 import it.uniroma2.progettoispw.controller.controllerApplicativi.LogInController;
-import it.uniroma2.progettoispw.model.bean.DottoreRegistrationData;
-import it.uniroma2.progettoispw.model.bean.PazienteRegistrationData;
-import it.uniroma2.progettoispw.model.bean.UtenteRegistrationData;
+import it.uniroma2.progettoispw.controller.bean.DottoreRegistrationData;
+import it.uniroma2.progettoispw.controller.bean.PazienteRegistrationData;
+import it.uniroma2.progettoispw.controller.bean.UtenteRegistrationData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

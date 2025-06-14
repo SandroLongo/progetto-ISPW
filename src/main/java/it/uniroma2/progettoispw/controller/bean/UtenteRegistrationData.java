@@ -1,4 +1,4 @@
-package it.uniroma2.progettoispw.model.bean;
+package it.uniroma2.progettoispw.controller.bean;
 
 import it.uniroma2.progettoispw.model.domain.Ruolo;
 
