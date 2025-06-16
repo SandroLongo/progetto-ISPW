@@ -38,20 +38,21 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="633.0" prefWidth="984.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="boarderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1017.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.uniroma2.progettoispw.controller.graphicController.guiGraphicController.MenuPazienteController">
    <left>
-      <VBox prefHeight="633.0" prefWidth="252.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="648.0" prefWidth="238.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" prefHeight="175.0" prefWidth="285.0" text="exit" />
-            <Button mnemonicParsing="false" prefHeight="175.0" prefWidth="285.0" text="terapia" />
-            <Button mnemonicParsing="false" prefHeight="161.0" prefWidth="257.0" text="cerca medicinale">
+            <Button mnemonicParsing="false" onAction="#home" prefHeight="49.0" prefWidth="252.0" text="Home" />
+            <Button mnemonicParsing="false" onAction="#terapia" prefHeight="61.0" prefWidth="252.0" text="terapia" />
+            <Button mnemonicParsing="false" onAction="#cercaMedicinali" prefHeight="53.0" prefWidth="252.0" text="cerca medicinale">
                <graphic>
-                  <ImageView fitHeight="151.0" fitWidth="215.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="49.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../../immagini/fa0394bd72610cafe4c1b8d8f185a24f.jpg" />
                      </image></ImageView>
                </graphic>
             </Button>
+            <Button mnemonicParsing="false" onAction="#richieste" prefHeight="41.0" prefWidth="262.0" text="richieste" />
          </children>
       </VBox>
    </left>

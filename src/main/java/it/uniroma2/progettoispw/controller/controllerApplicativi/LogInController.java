@@ -6,16 +6,16 @@ import it.uniroma2.progettoispw.controller.bean.UtenteRegistrationData;
 import it.uniroma2.progettoispw.model.dao.DaoException;
 import it.uniroma2.progettoispw.model.dao.DaoFacade;
 import it.uniroma2.progettoispw.model.domain.Ruolo;
+import it.uniroma2.progettoispw.model.domain.SessionManager;
 import it.uniroma2.progettoispw.model.domain.Utente;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Date;
 
 public class LogInController {
-    private DaoFacade daoFacade = new DaoFacade();
+    private final DaoFacade daoFacade = new DaoFacade();
 
-    public Utente logIn(UtenteLogInData utenteLogInData) throws FomatoInvalidoException {
+    public Utente logIn(UtenteLogInData utenteLogInData) throws FomatoInvalidoException, DaoException {
         Utente utente;
 
         verifyLogInData(utenteLogInData);
@@ -29,7 +29,7 @@ public class LogInController {
         } catch (DaoException e) {
             utente = null;
         }
-        System.out.println(utente.getCognome());
+        SessionManager.getInstance().setCurrentUtente(utente);
         return utente;
     }
 
@@ -46,7 +46,7 @@ public class LogInController {
         }
     }
 
-    public boolean register(UtenteRegistrationData utenteRegistrationData) throws FomatoInvalidoException {
+    public void register(UtenteRegistrationData utenteRegistrationData) throws FomatoInvalidoException, DaoException {
 
         verifyRegistrationData(utenteRegistrationData);
         try {
@@ -54,13 +54,11 @@ public class LogInController {
                 case Paziente -> {daoFacade.addPaziente(utenteRegistrationData.getCodice_fiscale(), utenteRegistrationData.getNome(),
                         utenteRegistrationData.getCognome(), utenteRegistrationData.getData_nascita(), utenteRegistrationData.getEmail(),
                         utenteRegistrationData.getTelefono(), utenteRegistrationData.getPassword());
-                        System.out.println(utenteRegistrationData.getCodice_fiscale());
-                            return true;}
+                        System.out.println(utenteRegistrationData.getCodice_fiscale());}
                 case Dottore -> {DottoreRegistrationData dottoreRegistrationData = (DottoreRegistrationData) utenteRegistrationData;
                     daoFacade.addDottore(dottoreRegistrationData.getCodice_fiscale(), dottoreRegistrationData.getNome(), dottoreRegistrationData.getCognome(),
                             dottoreRegistrationData.getData_nascita(), dottoreRegistrationData.getEmail(), dottoreRegistrationData.getTelefono(),
-                            dottoreRegistrationData.getPassword(), dottoreRegistrationData.getCodice());
-                            return true;}
+                            dottoreRegistrationData.getPassword(), dottoreRegistrationData.getCodice());}
                 default -> throw new DaoException("Tipologia non valida");
             }
         } catch (DaoException e) {

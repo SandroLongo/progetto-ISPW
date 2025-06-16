@@ -1,9 +1,11 @@
 package it.uniroma2.progettoispw.controller.graphicController.guiGraphicController;
 
+import it.uniroma2.progettoispw.controller.controllerApplicativi.FomatoInvalidoException;
 import it.uniroma2.progettoispw.controller.controllerApplicativi.LogInController;
 import it.uniroma2.progettoispw.controller.bean.DottoreRegistrationData;
 import it.uniroma2.progettoispw.controller.bean.PazienteRegistrationData;
 import it.uniroma2.progettoispw.controller.bean.UtenteRegistrationData;
+import it.uniroma2.progettoispw.model.dao.DaoException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -50,6 +52,9 @@ public class RegistrationViewController {
     private Label errorLabel;
 
     @FXML
+    private Label messageLabel;
+
+    @FXML
     void handleRegistration(ActionEvent event) throws IOException {
         UtenteRegistrationData urd;
         try {
@@ -68,12 +73,19 @@ public class RegistrationViewController {
             throw new RuntimeException(e);
         }
 
-        logInController.register(urd);
-        Stage stage = (Stage) errorLabel.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/LogInview.fxml"));
-        Parent root = loader.load();
-        stage.setScene(new Scene(root));
-        stage.show();
+        try {
+            logInController.register(urd);
+            Stage stage = (Stage) errorLabel.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/RegistrationSuccessView.fxml"));
+            Parent root = loader.load();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (FomatoInvalidoException e) {
+            showAlert(e.getMessage());
+        } catch (DaoException e) {
+            showAlert(e.getMessage());
+        }
+
 
     }
 
@@ -81,4 +93,8 @@ public class RegistrationViewController {
         errorLabel.setText(message);
     }
 
+    @FXML
+    void returnToLogin(ActionEvent event) throws IOException {
+        GuiWindowManager.getInstance().loadLogin();
+    }
 }

@@ -12,4 +12,5 @@ module it.uniroma2.progettoispw {
     opens it.uniroma2.progettoispw.controller.graphicController.guiGraphicController to javafx.fxml;
     exports it.uniroma2.progettoispw.controller.graphicController.guiGraphicController;
     exports it.uniroma2.progettoispw;
+    exports it.uniroma2.progettoispw.controller.graphicController;
 }

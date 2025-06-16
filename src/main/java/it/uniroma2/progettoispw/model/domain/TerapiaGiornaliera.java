@@ -30,6 +30,14 @@ public class TerapiaGiornaliera {
         dosiPerOrario.computeIfAbsent(nuovaDose.getOrario(), orarioChiave -> new ArrayList<>()).add(nuovaDose);
     }
 
+    public void removeDose(Dose<?> nuovaDose) {
+        if (nuovaDose == null){
+            return;
+        } else {
+            dosiPerOrario.get(nuovaDose.getOrario()).remove(nuovaDose);
+        }
+    }
+
     public void setDosiPerOrario(TreeMap<LocalTime, List<Dose<?>>> dosiPerOrario) {
         this.dosiPerOrario = dosiPerOrario;
     }
