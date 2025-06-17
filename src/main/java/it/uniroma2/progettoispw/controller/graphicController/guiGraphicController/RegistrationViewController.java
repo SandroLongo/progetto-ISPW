@@ -80,9 +80,7 @@ public class RegistrationViewController {
             Parent root = loader.load();
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (FomatoInvalidoException e) {
-            showAlert(e.getMessage());
-        } catch (DaoException e) {
+        } catch (FomatoInvalidoException | DaoException e) {
             showAlert(e.getMessage());
         }
 

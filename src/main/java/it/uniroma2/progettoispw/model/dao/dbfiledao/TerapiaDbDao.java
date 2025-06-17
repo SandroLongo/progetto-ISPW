@@ -47,6 +47,7 @@ public class TerapiaDbDao extends DbDao implements TerapiaDao {
                 addDosiConfezione(rs, terapia);
 
             }
+            cs.getMoreResults();
             if (Status) {
                 ResultSet rs = cs.getResultSet();
                 addDosiPrincipioAttivo(rs, terapia);

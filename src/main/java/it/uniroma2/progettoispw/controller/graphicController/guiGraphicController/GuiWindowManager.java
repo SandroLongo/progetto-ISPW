@@ -3,6 +3,7 @@ package it.uniroma2.progettoispw.controller.graphicController.guiGraphicControll
 import it.uniroma2.progettoispw.controller.graphicController.WindowManager;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -18,6 +19,7 @@ public class GuiWindowManager implements WindowManager {
     private VBox richiestaScene;
     private Scene loginScene;
     private Scene registrationScene;
+    private AnchorPane ricercaMedicinali;
 
     private GuiWindowManager() {}
 
@@ -62,6 +64,14 @@ public class GuiWindowManager implements WindowManager {
             terapiaGui.inizialize();
         }
         menu.setCenter(terapiaScene);
+    }
+
+    public void loadRicercaMedicinali() throws IOException {
+        if (ricercaMedicinali == null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/RicercaConfezione.fxml"));
+            ricercaMedicinali = loader.load();
+        }
+        menu.setCenter(ricercaMedicinali);
     }
 
     public void setMainStage(Stage mainStage) {

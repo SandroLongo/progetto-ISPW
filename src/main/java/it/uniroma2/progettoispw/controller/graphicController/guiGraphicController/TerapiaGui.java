@@ -28,14 +28,16 @@ public class TerapiaGui {
     private VBox doseList;
 
     @FXML
-    void addMedication(ActionEvent event) {
-
+    void addMedication(ActionEvent event) throws IOException {
+        GuiWindowManager.getInstance().loadRicercaMedicinali();
     }
 
     @FXML
     void dateChanged(ActionEvent event) throws IOException {
         update(terapiaController.switchTo(datePicker.getValue()));
     }
+
+
 
     public void inizialize() throws IOException {
         terapiaController = new TerapiaController();

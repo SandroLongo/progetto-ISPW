@@ -84,7 +84,7 @@ public class UtenteDbDao extends DbDao implements UtenteDao {
             cs.setString(6, telefono);
             cs.setString(7, pass);
             cs.execute();
-
+            System.out.println("add paziente eseguita" + codice_fiscale);
         } catch (SQLException e) {
             throw new DaoException(e.getMessage());
         }

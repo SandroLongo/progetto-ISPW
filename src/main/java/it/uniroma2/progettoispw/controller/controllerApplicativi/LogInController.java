@@ -54,7 +54,7 @@ public class LogInController {
                 case Paziente -> {daoFacade.addPaziente(utenteRegistrationData.getCodice_fiscale(), utenteRegistrationData.getNome(),
                         utenteRegistrationData.getCognome(), utenteRegistrationData.getData_nascita(), utenteRegistrationData.getEmail(),
                         utenteRegistrationData.getTelefono(), utenteRegistrationData.getPassword());
-                        System.out.println(utenteRegistrationData.getCodice_fiscale());}
+                        System.out.println(utenteRegistrationData.getCodice_fiscale() + "in logincontroller");}
                 case Dottore -> {DottoreRegistrationData dottoreRegistrationData = (DottoreRegistrationData) utenteRegistrationData;
                     daoFacade.addDottore(dottoreRegistrationData.getCodice_fiscale(), dottoreRegistrationData.getNome(), dottoreRegistrationData.getCognome(),
                             dottoreRegistrationData.getData_nascita(), dottoreRegistrationData.getEmail(), dottoreRegistrationData.getTelefono(),

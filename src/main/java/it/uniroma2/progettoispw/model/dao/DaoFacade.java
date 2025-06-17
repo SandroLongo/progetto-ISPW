@@ -51,7 +51,9 @@ public class DaoFacade {
 
     public void addPaziente(String codice_fiscale, String nome, String cognome, LocalDate nascita, String email, String telefono,
                             String pass) throws DaoException{
+        System.out.println("in add paziente");
         utenteDao.addPaziente(codice_fiscale, nome, cognome, nascita, email, telefono, pass);
+        System.out.println("fatto  add paziente");
     }
 
     public void addDottore(String codice_fiscale, String nome, String cognome, LocalDate nascita, String email, String telefono,
@@ -132,5 +134,28 @@ public class DaoFacade {
     }
     public void addRichiesta(Richiesta richiesta) throws DaoException{
         richiesteDao.addRichiesta(richiesta);
+    }
+
+    public Confezione getConfezioneByCodiceAic(int codice_aic) throws DaoException{
+        return medicinaliDao.getConfezioneByCodiceAic(codice_aic);
+    }
+
+    public List<String> getNomiConfezioniByNomeParziale(String nome) throws DaoException{
+        return medicinaliDao.getNomiConfezioniByNomeParziale(nome);
+    }
+    public List<Confezione> getConfezioniByNome(String nome) throws DaoException{
+        return medicinaliDao.getConfezioniByNome(nome);
+    }
+    public List<String> getNomiPrincipioAttivoByNomeParziale(String nome) throws DaoException{
+        return medicinaliDao.getNomiPrincipioAttivoByNomeParziale(nome);
+    }
+    public PrincipioAttivo getPrincipioAttvoByNome(String nome) throws DaoException{
+        return medicinaliDao.getPrincipioAttvoByNome(nome);
+    }
+    public List<Confezione> getConfezioniByCodiceAtc(String codice_atc) throws DaoException{
+        return medicinaliDao.getConfezioniByCodiceAtc(codice_atc);
+    }
+    public PrincipioAttivo getPrincipioAttvoByCodiceAtc(String codice_atc) throws DaoException{
+        return medicinaliDao.getPrincipioAttvoByCodiceAtc(codice_atc);
     }
  }
