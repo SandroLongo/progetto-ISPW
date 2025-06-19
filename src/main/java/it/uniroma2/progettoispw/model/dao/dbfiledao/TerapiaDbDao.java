@@ -67,6 +67,7 @@ public class TerapiaDbDao extends DbDao implements TerapiaDao {
             CallableStatement cs = conn.prepareCall("{call add_dose_confezione(?,?,?,?,?,?,?,?)}");
             cs.setString(1, codiceFiscale);
             cs.setInt(2, doseConfezione.getCodice());
+            System.out.println(doseConfezione.getCodice());
             cs.setInt(3, doseConfezione.getQuantita());
             cs.setString(4, doseConfezione.getUnita_misura());
             cs.setDate(5, java.sql.Date.valueOf(giorno));

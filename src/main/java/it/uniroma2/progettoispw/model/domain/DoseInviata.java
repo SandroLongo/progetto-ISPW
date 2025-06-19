@@ -15,6 +15,11 @@ public class DoseInviata {
         this.inizio = inizio;
         this.rate_giorni = rateGiorni;
     }
+
+    public DoseInviata() {
+
+    }
+
     public Dose getDose() {
         return dose;
     }

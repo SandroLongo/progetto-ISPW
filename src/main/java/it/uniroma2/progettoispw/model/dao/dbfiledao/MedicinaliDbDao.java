@@ -24,6 +24,7 @@ public class MedicinaliDbDao extends DbDao implements MedicinaliDao {
             throw new SQLException(e);
         }
 
+
     }
 
     private PrincipioAttivo creaPrincipioAttivo(ResultSet rs) throws SQLException {
@@ -86,7 +87,7 @@ public class MedicinaliDbDao extends DbDao implements MedicinaliDao {
         Confezione confezione = null;
         try {
             Connection conn = ConnectionFactory.getConnection();
-            CallableStatement cs = conn.prepareCall("{call search_confezione_by_nome(?)}");
+            CallableStatement cs = conn.prepareCall("{call search_confezione_by_aic(?)}");
             cs.setInt(1, codice_aic);
             boolean status = cs.execute();
 
@@ -175,7 +176,7 @@ public class MedicinaliDbDao extends DbDao implements MedicinaliDao {
         PrincipioAttivo principio_attivo = null;
         try {
             Connection conn = ConnectionFactory.getConnection();
-            CallableStatement cs = conn.prepareCall("{call get_pa_by_codice(?)}");
+            CallableStatement cs = conn.prepareCall("{call search_pa_by_codice(?)}");
             cs.setString(1, codice_atc);
             boolean status = cs.execute();
             if (status) {

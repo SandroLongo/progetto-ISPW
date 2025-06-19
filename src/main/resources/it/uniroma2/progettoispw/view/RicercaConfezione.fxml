@@ -10,12 +10,10 @@
    <children>
       <TableView fx:id="risultatiTable" layoutY="124.0" prefHeight="343.0" prefWidth="604.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
       <Button layoutX="21.0" layoutY="32.0" mnemonicParsing="false" onAction="#searchConfezione" text="cercaMedicinale" />
-      <TextField fx:id="codiceATC" layoutX="164.0" layoutY="32.0" prefHeight="25.0" prefWidth="138.0" />
-      <TextField fx:id="quantitaConfezione" layoutX="481.0" layoutY="32.0" prefHeight="25.0" prefWidth="117.0" />
-      <TextField fx:id="nomeConfezione" layoutX="318.0" layoutY="32.0" />
-      <Label layoutX="164.0" layoutY="14.0" prefHeight="17.0" prefWidth="149.0" text="codice ATC" />
-      <Label layoutX="318.0" layoutY="14.0" prefHeight="17.0" prefWidth="149.0" text="nome" />
-      <Label layoutX="481.0" layoutY="14.0" prefHeight="17.0" prefWidth="117.0" text="quantità" />
+      <TextField fx:id="codiceATC" layoutX="452.0" layoutY="151.0" prefHeight="25.0" prefWidth="138.0" />
+      <TextField fx:id="nomeConfezione" layoutX="159.0" layoutY="32.0" />
+      <Label layoutX="452.0" layoutY="134.0" prefHeight="17.0" prefWidth="149.0" text="codice ATC" />
+      <Label layoutX="159.0" layoutY="14.0" prefHeight="17.0" prefWidth="149.0" text="nome" />
       <Button layoutX="21.0" layoutY="73.0" mnemonicParsing="false" onAction="#searchPrincipio" text="cercaPrincipio" />
       <TextField fx:id="nomePrincipio" layoutX="164.0" layoutY="73.0" prefHeight="25.0" prefWidth="138.0" />
       <Label layoutX="164.0" layoutY="57.0" prefHeight="17.0" prefWidth="149.0" text="nome" />

@@ -9,6 +9,11 @@ public class DosePrincipioAttivo extends Dose<String>{
         super(quantita, unita_misura, orario, descrizione, inviante);
         this.principioAttivo = principioAttivo;
     }
+
+    public DosePrincipioAttivo() {
+        super();
+    }
+
     public PrincipioAttivo getPrincipioAttivo() {
         return principioAttivo;
     }

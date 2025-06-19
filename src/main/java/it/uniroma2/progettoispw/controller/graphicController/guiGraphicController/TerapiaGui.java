@@ -29,31 +29,38 @@ public class TerapiaGui {
 
     @FXML
     void addMedication(ActionEvent event) throws IOException {
-        GuiWindowManager.getInstance().loadRicercaMedicinali();
+        GuiWindowManager.getInstance().loadRicercaMedicinali(terapiaController);
     }
 
     @FXML
     void dateChanged(ActionEvent event) throws IOException {
-        update(terapiaController.switchTo(datePicker.getValue()));
+        terapiaGiornaliera = terapiaController.switchTo(datePicker.getValue());
+        update();
     }
 
-
+    @FXML
+    void update(ActionEvent event) throws IOException {
+        //terapiaGiornaliera = terapiaController.switchTo(datePicker.getValue());
+        update();
+    }
 
     public void inizialize() throws IOException {
         terapiaController = new TerapiaController();
         datePicker.setValue(LocalDate.now());
-        update(terapiaController.switchTo(datePicker.getValue()));
+        terapiaGiornaliera = terapiaController.switchTo(datePicker.getValue());
+        update();
 
     }
     public void setTerapia(LocalDate date){
 
     }
 
-    public void update(TerapiaGiornaliera terapia) throws IOException {
+    public void update() throws IOException {
         doseList.getChildren().clear();
         HBox doseItem;
-        for (List<Dose<?>> dosiPerOrario: terapia.getDosiPerOrario().values()){
+        for (List<Dose<?>> dosiPerOrario: this.terapiaGiornaliera.getDosiPerOrario().values()){
             for (Dose<?> dose: dosiPerOrario){
+                System.out.println(dose);
                 switch (dose.isType()) {
                     case Confezione -> {FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/DoseConfezioneItem.fxml"));
                                         Parent root = loader.load();

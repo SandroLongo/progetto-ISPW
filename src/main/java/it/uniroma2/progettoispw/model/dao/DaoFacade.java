@@ -28,12 +28,15 @@ public class DaoFacade {
                     case Confezione:
                         DoseConfezione doseConfezione= (DoseConfezione) dose;
                         int codiceAic = doseConfezione.getCodice();
+                        System.out.println(codiceAic + " in daofacade");
                         doseConfezione.setConfezione(medicinaliDao.getConfezioneByCodiceAic(codiceAic));
                         break;
                     case PrincipioAttivo:
                         DosePrincipioAttivo dosePrincipioAttivo = (DosePrincipioAttivo) dose;
                         String codiceAtc = dosePrincipioAttivo.getCodice();
+                        System.out.println(codiceAtc + " in daofacade");
                         dosePrincipioAttivo.setPrincipioAttivo(medicinaliDao.getPrincipioAttvoByCodiceAtc(codiceAtc));
+                        break;
                     default: throw new RuntimeException("errore");
                 }
                 dose.setInviante(utenteDao.getDottore(dose.getInviante().getCodiceFiscale()));
@@ -80,17 +83,18 @@ public class DaoFacade {
         }
     }
 
-    private void buildDoseConfezione(DoseInviata doseInviata, String codiceFiscale) throws DaoException {
+    public void buildDoseConfezione(DoseInviata doseInviata, String codiceFiscale) throws DaoException {
         LocalDate data = doseInviata.getInizio();
         for (int i = 0; i < doseInviata.getNumGiorni(); i++ ) {
             data = data.plusDays(doseInviata.getRateGiorni());
             terapiaDao.addDoseConfezione(new DoseConfezione(new Confezione((int)doseInviata.getDose().getCodice()), doseInviata.getDose().getQuantita(),
                     doseInviata.getDose().getUnita_misura(), doseInviata.getDose().getOrario(),
                     doseInviata.getDose().getDescrizione(), doseInviata.getDose().getInviante()), data, codiceFiscale);
+            //System.out.println(doseInviata.getDose().getCodice());
         }
     }
 
-    private void buildDosePrincipioAttivo(DoseInviata doseInviata, String codiceFiscale) throws DaoException {
+    public void buildDosePrincipioAttivo(DoseInviata doseInviata, String codiceFiscale) throws DaoException {
         LocalDate data = doseInviata.getInizio();
         for (int i = 0; i < doseInviata.getNumGiorni(); i++ ) {
             data = data.plusDays(doseInviata.getRateGiorni());

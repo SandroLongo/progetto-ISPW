@@ -1,5 +1,6 @@
 package it.uniroma2.progettoispw.controller.graphicController.guiGraphicController;
 
+import it.uniroma2.progettoispw.controller.controllerApplicativi.TerapiaController;
 import it.uniroma2.progettoispw.controller.graphicController.WindowManager;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -66,12 +67,25 @@ public class GuiWindowManager implements WindowManager {
         menu.setCenter(terapiaScene);
     }
 
-    public void loadRicercaMedicinali() throws IOException {
+    public void loadFinalStep(TerapiaController terapiaController) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/AggiungiView.fxml"));
+        AnchorPane anchorPane = loader.load();
+        AggiungiFinalStepController finalStepController = loader.getController();
+        finalStepController.initialize(terapiaController);
+        menu.setCenter(anchorPane);
+    }
+    public void loadRicercaMedicinali(TerapiaController terapiaController) throws IOException {
         if (ricercaMedicinali == null) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/RicercaConfezione.fxml"));
             ricercaMedicinali = loader.load();
+            RicercaConfezioneController ricercaConfezioneController = loader.getController();
+            ricercaConfezioneController.inizialize(terapiaController);
         }
         menu.setCenter(ricercaMedicinali);
+    }
+
+    public void loadAggiungiFinalSteo() throws IOException {
+
     }
 
     public void setMainStage(Stage mainStage) {
@@ -101,5 +115,7 @@ public class GuiWindowManager implements WindowManager {
     public void setRegistrationScene(Scene registrationScene) {
         this.registrationScene = registrationScene;
     }
+
+
 }
 

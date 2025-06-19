@@ -10,6 +10,11 @@ public class DoseConfezione extends Dose<Integer> {
         this.confezione = confezione;
 
     }
+
+    public DoseConfezione() {
+
+    }
+
     public Confezione getConfezione() {
         return confezione;
     }

@@ -6,7 +6,7 @@ public abstract class Dose<P> {
     private int quantita;
     private String unita_misura;
     private LocalTime orario;
-    private String descrizione_medica;
+    private String descrizione_medica;  
     private boolean assunta;
     private Dottore inviante;
 
@@ -17,6 +17,10 @@ public abstract class Dose<P> {
         this.descrizione_medica = descrizione;
         this.inviante = inviante;
         this.assunta = false;
+    }
+
+    public Dose() {
+
     }
 
     public abstract P getCodice();
