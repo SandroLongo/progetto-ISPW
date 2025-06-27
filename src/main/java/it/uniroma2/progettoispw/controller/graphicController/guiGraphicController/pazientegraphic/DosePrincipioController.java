@@ -1,5 +1,6 @@
-package it.uniroma2.progettoispw.controller.graphicController.guiGraphicController;
+package it.uniroma2.progettoispw.controller.graphicController.guiGraphicController.pazientegraphic;
 
+import it.uniroma2.progettoispw.controller.bean.DoseBean;
 import it.uniroma2.progettoispw.model.domain.DosePrincipioAttivo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,12 +8,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
 public class DosePrincipioController {
-    private DosePrincipioAttivo dosePrincipio;
+    private DoseBean bean;
     private TerapiaGui terapiaGui;
 
-    public void inizialize(DosePrincipioAttivo dose, TerapiaGui terapiaGui) {
+    public void inizialize(DoseBean dose, TerapiaGui terapiaGui) {
         this.terapiaGui = terapiaGui;
-        this.dosePrincipio = dose;
+        this.bean = dose;
         update();
     }
 
@@ -55,9 +56,9 @@ public class DosePrincipioController {
     }
 
     private void update() {
-        nome.setText(dosePrincipio.getPrincipioAttivo().getNome());
-        orario.setText(dosePrincipio.getOrario().toString());
-        quantita.setText(String.valueOf(dosePrincipio.getQuantita()));
+        nome.setText(bean.getNome());
+        orario.setText(bean.getOrario().toString());
+        quantita.setText(String.valueOf(bean.getQuantita()));
         tipo.setText("Principio");
     }
 

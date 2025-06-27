@@ -2,7 +2,7 @@ package it.uniroma2.progettoispw.model.domain;
 
 import java.time.LocalTime;
 
-public class DosePrincipioAttivo extends Dose<String>{
+public class DosePrincipioAttivo extends Dose{
     private PrincipioAttivo principioAttivo;
 
     public DosePrincipioAttivo(PrincipioAttivo principioAttivo, int quantita, String unita_misura, LocalTime orario, String descrizione, Dottore inviante){
@@ -12,6 +12,10 @@ public class DosePrincipioAttivo extends Dose<String>{
 
     public DosePrincipioAttivo() {
         super();
+    }
+
+    public DosePrincipioAttivo(PrincipioAttivo principioAttivo) {
+        this.principioAttivo = principioAttivo;
     }
 
     public PrincipioAttivo getPrincipioAttivo() {
@@ -29,5 +33,10 @@ public class DosePrincipioAttivo extends Dose<String>{
     @Override
     public TipoDose isType() {
         return TipoDose.PrincipioAttivo;
+    }
+
+    @Override
+    public String getNome() {
+        return principioAttivo.getNome();
     }
 }

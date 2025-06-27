@@ -10,9 +10,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class AggiungiFinalStepController {
-    private TerapiaController terapiaController;
-
+public class AggiungiFinalStepController implements GuiGraphicController{
+    private FinalAccepter accepter;
+    private String gruppo;
 
     @FXML
     private DatePicker dataIniziale;
@@ -38,8 +38,10 @@ public class AggiungiFinalStepController {
     @FXML
     private TextField unitaMisura;
 
-    public void initialize(TerapiaController terapiaController) {
-        this.terapiaController = terapiaController;
+    @Override
+    public void initialize(Object[] args) {
+        this.accepter = (FinalAccepter) args[0];
+        this.gruppo = (String)args[1];
         SpinnerValueFactory<Integer> valueFactory =
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 12);
 
@@ -54,15 +56,14 @@ public class AggiungiFinalStepController {
         dataIniziale.setValue(LocalDate.now());
     }
 
+
+
     @FXML
     void aggiungi(ActionEvent event) throws IOException {
         FinalStepBean finalStepBean = new FinalStepBean(dataIniziale.getValue(), Integer.parseInt(numGiorni.getText()), Integer.parseInt(rateGiorni.getText()),
                                                             Integer.parseInt(quantita.getText()), unitaMisura.getText(), LocalTime.of(oraPIcker.getValue(), minutiPicker.getValue()),
                                                             descrizione.getText());
-        terapiaController.setFinalInformation(finalStepBean);
-        terapiaController.loadDoseInviata();
-        GuiWindowManager.getInstance().loadTerapia();
+        accepter.setFinalInformation(finalStepBean);
     }
-
 }
 

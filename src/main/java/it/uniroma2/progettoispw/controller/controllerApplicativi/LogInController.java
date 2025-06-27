@@ -1,21 +1,23 @@
 package it.uniroma2.progettoispw.controller.controllerApplicativi;
 
+import it.uniroma2.progettoispw.controller.bean.AuthenticationBean;
 import it.uniroma2.progettoispw.controller.bean.DottoreRegistrationData;
 import it.uniroma2.progettoispw.controller.bean.UtenteLogInData;
 import it.uniroma2.progettoispw.controller.bean.UtenteRegistrationData;
 import it.uniroma2.progettoispw.model.dao.DaoException;
 import it.uniroma2.progettoispw.model.dao.DaoFacade;
 import it.uniroma2.progettoispw.model.domain.Ruolo;
+import it.uniroma2.progettoispw.model.domain.Session;
 import it.uniroma2.progettoispw.model.domain.SessionManager;
 import it.uniroma2.progettoispw.model.domain.Utente;
 
 import java.time.LocalDate;
 import java.time.Period;
 
-public class LogInController {
+public class LogInController implements Controller{
     private final DaoFacade daoFacade = new DaoFacade();
 
-    public Utente logIn(UtenteLogInData utenteLogInData) throws FomatoInvalidoException, DaoException {
+    public AuthenticationBean logIn(UtenteLogInData utenteLogInData) throws FomatoInvalidoException, DaoException {
         Utente utente;
 
         verifyLogInData(utenteLogInData);
@@ -29,8 +31,8 @@ public class LogInController {
         } catch (DaoException e) {
             utente = null;
         }
-        SessionManager.getInstance().setCurrentUtente(utente);
-        return utente;
+        Session session = SessionManager.getInstance().setSession(utente);
+        return new AuthenticationBean(session.getUtente().getNome(), session.getUtente().getCognome(), session.getCodice(), session.getUtente().isType());
     }
 
     private void verifyLogInData(UtenteLogInData utenteLogInData) throws FomatoInvalidoException {

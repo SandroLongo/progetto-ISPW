@@ -1,5 +1,6 @@
 package it.uniroma2.progettoispw.model.dao.memorydao;
 
+import it.uniroma2.progettoispw.controller.bean.RichiestaBean;
 import it.uniroma2.progettoispw.model.dao.DaoException;
 import it.uniroma2.progettoispw.model.dao.RichiesteDao;
 import it.uniroma2.progettoispw.model.domain.Paziente;
@@ -10,6 +11,7 @@ import java.util.*;
 public class RichiesteMemoryDao extends MemoryDao implements RichiesteDao {
     private static RichiesteMemoryDao instance;
     private Map<String, Map<Integer,  Richiesta>> richieste = new HashMap<>();
+    private int numRichieste;
 
     public RichiesteMemoryDao() {
         super();
@@ -38,8 +40,9 @@ public class RichiesteMemoryDao extends MemoryDao implements RichiesteDao {
     }
 
     @Override
-    public void addRichiesta(Richiesta richiesta) throws DaoException {
-        richieste.computeIfAbsent(richiesta.getRicevente().getCodiceFiscale(), k -> new HashMap<>())
-                .put(richiesta.getId(), richiesta);
+    public void addRichiesta(RichiestaBean richiesta) throws DaoException {
+        numRichieste++;
+        richieste.computeIfAbsent(richiesta.getRicevente().getCodice_fiscale(), k -> new HashMap<>())
+                .put(numRichieste, new);
     }
 }

@@ -12,5 +12,10 @@ module it.uniroma2.progettoispw {
     opens it.uniroma2.progettoispw.controller.graphicController.guiGraphicController to javafx.fxml;
     exports it.uniroma2.progettoispw.controller.graphicController.guiGraphicController;
     exports it.uniroma2.progettoispw;
+    exports it.uniroma2.progettoispw.model.domain;
     exports it.uniroma2.progettoispw.controller.graphicController;
+    exports it.uniroma2.progettoispw.controller.graphicController.guiGraphicController.pazientegraphic;
+    opens it.uniroma2.progettoispw.controller.graphicController.guiGraphicController.pazientegraphic to javafx.fxml;
+    exports it.uniroma2.progettoispw.controller.graphicController.guiGraphicController.medicographic;
+    opens it.uniroma2.progettoispw.controller.graphicController.guiGraphicController.medicographic to javafx.fxml;
 }

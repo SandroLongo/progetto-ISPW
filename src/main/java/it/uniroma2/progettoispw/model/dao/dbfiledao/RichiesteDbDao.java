@@ -1,5 +1,6 @@
 package it.uniroma2.progettoispw.model.dao.dbfiledao;
 
+import it.uniroma2.progettoispw.controller.bean.RichiestaBean;
 import it.uniroma2.progettoispw.model.dao.DaoException;
 import it.uniroma2.progettoispw.model.dao.RichiesteDao;
 import it.uniroma2.progettoispw.model.domain.*;
@@ -76,7 +77,7 @@ public class RichiesteDbDao extends DbDao implements RichiesteDao {
     }
 
     @Override
-    public void addRichiesta(Richiesta richiesta) throws DaoException {
+    public void addRichiesta(RichiestaBean richiesta) throws DaoException {
 
     }
 }

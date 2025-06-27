@@ -1,8 +1,16 @@
 package it.uniroma2.progettoispw.model.domain;
 
-import java.util.List;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CalendarioTerapeutico {
-    // per ora non serve estraggo le terapia direttamente dal database
+    private Map<Date, TerapiaGiornaliera> calendarioTerapeutico;
+
+    public CalendarioTerapeutico() {
+        calendarioTerapeutico = new HashMap<Date, TerapiaGiornaliera>();
+    }
+
+    public
 
 }

@@ -1,5 +1,6 @@
 package it.uniroma2.progettoispw.model.dao;
 
+import it.uniroma2.progettoispw.controller.bean.RichiestaBean;
 import it.uniroma2.progettoispw.model.dao.dbfiledao.MedicinaliDbDao;
 import it.uniroma2.progettoispw.model.domain.*;
 
@@ -21,13 +22,13 @@ public class DaoFacade {
 
     public TerapiaGiornaliera getTerapiaGiornaliera(String codiceFiscale, LocalDate data) throws DaoException{
         TerapiaGiornaliera terapiaGiornaliera = terapiaDao.getTerapiaGiornaliera(codiceFiscale, data);
-        for (List<Dose<?>> dosiOrario: terapiaGiornaliera.getDosiPerOrario().values()){
-            for (Dose<?> dose : dosiOrario){
+        for (List<Dose> dosiOrario: terapiaGiornaliera.getDosiPerOrario().values()){
+            for (Dose dose : dosiOrario){
                 TipoDose tipo = dose.isType();
                 switch (tipo){
                     case Confezione:
                         DoseConfezione doseConfezione= (DoseConfezione) dose;
-                        int codiceAic = doseConfezione.getCodice();
+                        int codiceAic = Integer.parseInt(doseConfezione.getCodice());
                         System.out.println(codiceAic + " in daofacade");
                         doseConfezione.setConfezione(medicinaliDao.getConfezioneByCodiceAic(codiceAic));
                         break;
@@ -87,7 +88,7 @@ public class DaoFacade {
         LocalDate data = doseInviata.getInizio();
         for (int i = 0; i < doseInviata.getNumGiorni(); i++ ) {
             data = data.plusDays(doseInviata.getRateGiorni());
-            terapiaDao.addDoseConfezione(new DoseConfezione(new Confezione((int)doseInviata.getDose().getCodice()), doseInviata.getDose().getQuantita(),
+            terapiaDao.addDoseConfezione(new DoseConfezione(new Confezione(Integer.parseInt(doseInviata.getDose().getCodice())), doseInviata.getDose().getQuantita(),
                     doseInviata.getDose().getUnita_misura(), doseInviata.getDose().getOrario(),
                     doseInviata.getDose().getDescrizione(), doseInviata.getDose().getInviante()), data, codiceFiscale);
             //System.out.println(doseInviata.getDose().getCodice());
@@ -110,12 +111,12 @@ public class DaoFacade {
             Dottore inviante = utenteDao.getDottore(richiesta.getInviante().getCodiceFiscale());
             richiesta.setInviante(inviante);
             for (DoseInviata doseInviata : richiesta.getMedicinali()) {
-                Dose<?> dose = doseInviata.getDose();
+                Dose dose = doseInviata.getDose();
                 TipoDose tipo = dose.isType();
                 switch (tipo){
                     case Confezione:
                         DoseConfezione doseConfezione = (DoseConfezione) dose;
-                        doseConfezione.setConfezione(medicinaliDao.getConfezioneByCodiceAic(doseConfezione.getCodice()));
+                        doseConfezione.setConfezione(medicinaliDao.getConfezioneByCodiceAic(Integer.parseInt(doseConfezione.getCodice())));
                         doseConfezione.setInviante(inviante);
                         break;
 
@@ -136,7 +137,7 @@ public class DaoFacade {
     public void deleteRichiesta(Richiesta richiesta) throws DaoException{
         richiesteDao.deleteRichiesta(richiesta);
     }
-    public void addRichiesta(Richiesta richiesta) throws DaoException{
+    public void addRichiesta(RichiestaBean richiesta) throws DaoException{
         richiesteDao.addRichiesta(richiesta);
     }
 

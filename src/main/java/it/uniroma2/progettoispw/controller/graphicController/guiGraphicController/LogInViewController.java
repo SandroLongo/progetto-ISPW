@@ -1,5 +1,6 @@
 package it.uniroma2.progettoispw.controller.graphicController.guiGraphicController;
 
+import it.uniroma2.progettoispw.controller.bean.AuthenticationBean;
 import it.uniroma2.progettoispw.controller.controllerApplicativi.FomatoInvalidoException;
 import it.uniroma2.progettoispw.controller.controllerApplicativi.LogInController;
 import it.uniroma2.progettoispw.controller.bean.UtenteLogInData;
@@ -43,15 +44,15 @@ public class LogInViewController {
             utenteLogInData = new UtenteLogInData(codice, password, Ruolo.Paziente);
         }
 
-        Utente utente = null;
+        AuthenticationBean authenticationBean = null;
         try {
-            utente = logInController.logIn(utenteLogInData);
+            authenticationBean = logInController.logIn(utenteLogInData);
         } catch (FomatoInvalidoException e) {
             showAlert(e.getMessage());
         }
 
         FXMLLoader loader;
-        switch (utente.isType()) {
+        switch (authenticationBean.getRuolo()) {
             case Dottore -> loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/MenuDottore.fxml"));
             case Paziente -> loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/MenuPaziente.fxml"));
             default -> {
@@ -59,14 +60,17 @@ public class LogInViewController {
                 return;
             }
         }
-
-        GuiWindowManager.getInstance().setMenu((BorderPane) loader.load());
-        GuiWindowManager.getInstance().loadMenu();
+        BorderPane root = (BorderPane) loader.load();
+        ((GuiGraphicController)loader.getController()).initialize(new Object[]{authenticationBean});
+        MenuWindowManager.getInstance().setMenu(root);
     }
 
     @FXML
     void handleRegistration(ActionEvent event) throws IOException {
-        GuiWindowManager.getInstance().loadRegistration();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/Registrazione.fxml"));
+        Parent root = loader.load();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     private void showAlert(String message) {

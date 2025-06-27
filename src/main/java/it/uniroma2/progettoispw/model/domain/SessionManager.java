@@ -1,8 +1,11 @@
 package it.uniroma2.progettoispw.model.domain;
 
+import java.util.Map;
+
 public class SessionManager {
     private static SessionManager instance;
-    private Utente currentUtente;
+    private Map<Integer, Session> sessions;
+    private int numSessions;
 
     private SessionManager() {}
 
@@ -13,11 +16,15 @@ public class SessionManager {
         return instance;
     }
 
-    public Utente getCurrentUtente() {
-        return currentUtente;
+    public Session getSession(int code) {
+        return sessions.get(code);
     }
-    public void setCurrentUtente(Utente currentUtente) {
-        this.currentUtente = currentUtente;
+
+    public Session setSession(Utente currentUtente) {
+        numSessions = numSessions+1;
+        Session session = new Session(currentUtente, numSessions);
+        sessions.put(numSessions, session);
+        return session;
     }
 
 

@@ -11,7 +11,7 @@ import it.uniroma2.progettoispw.model.domain.PrincipioAttivo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InformazioniMedicinaleController {
+public class InformazioniMedicinaleController implements Controller {
     private final DaoFacade daoFacade = new DaoFacade();
 
 

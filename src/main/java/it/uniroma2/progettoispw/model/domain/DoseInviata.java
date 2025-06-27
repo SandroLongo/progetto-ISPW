@@ -45,6 +45,9 @@ public class DoseInviata {
         this.rate_giorni = rateGiorni;
     }
 
+    public String getNomeDose(){
+        return dose.getNome();
+    }
     public TipoDose isType(){
         return dose.isType();
     };

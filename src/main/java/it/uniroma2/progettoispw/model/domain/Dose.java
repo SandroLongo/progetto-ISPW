@@ -2,7 +2,7 @@ package it.uniroma2.progettoispw.model.domain;
 
 import java.time.LocalTime;
 
-public abstract class Dose<P> {
+public abstract class Dose {
     private int quantita;
     private String unita_misura;
     private LocalTime orario;
@@ -23,8 +23,9 @@ public abstract class Dose<P> {
 
     }
 
-    public abstract P getCodice();
+    public abstract String getCodice();
     public abstract TipoDose isType();
+    public abstract String getNome();
 
     public int getQuantita() {
         return quantita;

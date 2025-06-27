@@ -1,5 +1,6 @@
-package it.uniroma2.progettoispw.controller.graphicController.guiGraphicController;
+package it.uniroma2.progettoispw.controller.graphicController.guiGraphicController.pazientegraphic;
 
+import it.uniroma2.progettoispw.controller.bean.DoseBean;
 import it.uniroma2.progettoispw.model.domain.DoseConfezione;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,12 +8,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
 public class DoseConfezioneController {
-    private DoseConfezione doseConfezione;
+    private DoseBean bean;
     private TerapiaGui terapiaGui;
 
-    public void inizialize(DoseConfezione dose, TerapiaGui terapiaGui) {
+    public void inizialize(DoseBean dose, TerapiaGui terapiaGui) {
         this.terapiaGui = terapiaGui;
-        this.doseConfezione = dose;
+        this.bean = dose;
         update();
     }
 
@@ -50,9 +51,9 @@ public class DoseConfezioneController {
     }
 
     private void update() {
-        nome.setText(doseConfezione.getConfezione().getDenominazione());
-        orario.setText(doseConfezione.getOrario().toString());
-        quantita.setText(String.valueOf(doseConfezione.getQuantita()));
+        nome.setText(bean.getNome());
+        orario.setText(bean.getOrario().toString());
+        quantita.setText(String.valueOf(bean.getQuantita()));
         tipo.setText("Confezione");
     }
 

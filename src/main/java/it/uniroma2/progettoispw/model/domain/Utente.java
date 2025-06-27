@@ -2,6 +2,7 @@ package it.uniroma2.progettoispw.model.domain;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 public abstract class Utente {
     private String codice_fiscale;
@@ -10,6 +11,8 @@ public abstract class Utente {
     private String email;
     private String telefono;
     private LocalDate data_nascita;
+    private List<Richiesta> richieste;
+    private CalendarioTerapeutico calendarioTerapeutico;
 
 
     public Utente(String codice_fiscale, String nome, String cognome, LocalDate data_nascita, String email, String telefono) {

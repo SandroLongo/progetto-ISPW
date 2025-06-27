@@ -15,7 +15,7 @@ import java.util.TreeMap;
 
 public class TerapiaMemoryDao extends MemoryDao implements TerapiaDao {
     private static TerapiaMemoryDao instance;
-    private TreeMap<String, TreeMap<LocalDate, TreeMap<LocalTime, List<Dose<?>>>>> terapie = new TreeMap<String, TreeMap<LocalDate, TreeMap<LocalTime, List<Dose<?>>>>>();
+    private TreeMap<String, TreeMap<LocalDate, TreeMap<LocalTime, List<Dose>>>> terapie = new TreeMap<String, TreeMap<LocalDate, TreeMap<LocalTime, List<Dose>>>>();
 
     private TerapiaMemoryDao() {
         super();
@@ -43,15 +43,15 @@ public class TerapiaMemoryDao extends MemoryDao implements TerapiaDao {
         LocalTime orario = doseConfezione.getOrario();
 
 
-        TreeMap<LocalDate, TreeMap<LocalTime, List<Dose<?>>>> mappaDate =
+        TreeMap<LocalDate, TreeMap<LocalTime, List<Dose>>> mappaDate =
                 terapie.computeIfAbsent(codiceFiscale, k -> new TreeMap<>());
 
 
-        TreeMap<LocalTime, List<Dose<?>>> mappaOrari =
+        TreeMap<LocalTime, List<Dose>> mappaOrari =
                 mappaDate.computeIfAbsent(giorno, d -> new TreeMap<>());
 
 
-        List<Dose<?>> listaDosi =
+        List<Dose> listaDosi =
                 mappaOrari.computeIfAbsent(orario, t -> new ArrayList<>());
 
         listaDosi.add(doseConfezione);
@@ -62,15 +62,15 @@ public class TerapiaMemoryDao extends MemoryDao implements TerapiaDao {
         LocalTime orario = principioAttivo.getOrario();
 
 
-        TreeMap<LocalDate, TreeMap<LocalTime, List<Dose<?>>>> mappaDate =
+        TreeMap<LocalDate, TreeMap<LocalTime, List<Dose>>> mappaDate =
                 terapie.computeIfAbsent(codiceFiscale, k -> new TreeMap<>());
 
 
-        TreeMap<LocalTime, List<Dose<?>>> mappaOrari =
+        TreeMap<LocalTime, List<Dose>> mappaOrari =
                 mappaDate.computeIfAbsent(giorno, d -> new TreeMap<>());
 
 
-        List<Dose<?>> listaDosi =
+        List<Dose> listaDosi =
                 mappaOrari.computeIfAbsent(orario, t -> new ArrayList<>());
 
         listaDosi.add(principioAttivo);

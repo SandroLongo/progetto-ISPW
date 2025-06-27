@@ -93,6 +93,10 @@ public class RegistrationViewController {
 
     @FXML
     void returnToLogin(ActionEvent event) throws IOException {
-        GuiWindowManager.getInstance().loadLogin();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/LogInview.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) errorLabel.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 }

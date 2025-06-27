@@ -19,6 +19,10 @@ public class Richiesta {
         medicinali = new ArrayList<>();
     }
 
+    public Richiesta() {
+
+    }
+
     public List<DoseInviata> getMedicinali() {
         return medicinali;
     }

@@ -1,25 +1,25 @@
 package it.uniroma2.progettoispw.controller.graphicController.guiGraphicController;
 
+import it.uniroma2.progettoispw.controller.bean.DoseBean;
+import it.uniroma2.progettoispw.controller.bean.FinalStepBean;
 import it.uniroma2.progettoispw.controller.bean.ListNomiPABean;
 import it.uniroma2.progettoispw.controller.controllerApplicativi.InformazioniMedicinaleController;
-import it.uniroma2.progettoispw.controller.controllerApplicativi.TerapiaController;
-import it.uniroma2.progettoispw.model.domain.Confezione;
-import it.uniroma2.progettoispw.model.domain.PrincipioAttivo;
-import javafx.beans.property.ReadOnlyObjectWrapper;
+import it.uniroma2.progettoispw.model.domain.*;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.util.List;
 
-public class RicercaConfezioneController {
+public class RicercaConfezioneController implements GuiGraphicController {
     private final InformazioniMedicinaleController informazioniMedicinaleController = new InformazioniMedicinaleController();
-    private TerapiaController terapiaController;
+    private DoseAccepter doseAccepter;
+    private String gruppo;
+    private DoseInviata doseInviata = new DoseInviata();
     @FXML
     private TextField codiceATC;
 
@@ -32,9 +32,9 @@ public class RicercaConfezioneController {
     @FXML
     private TableView<Object> risultatiTable;
 
-    public void inizialize(TerapiaController terapiaController) {
-        this.terapiaController = terapiaController;
-        terapiaController.createNewDoseInviata();
+    public void initialize(Object[] args) {
+        this.doseAccepter = (DoseAccepter) args[0];
+        this.gruppo = (String) args[1];
     }
 
     //bottone per confezioni
@@ -54,17 +54,18 @@ public class RicercaConfezioneController {
         TableColumn<Object, String> nomi = new TableColumn<>("Nomi");
         nomi.setCellValueFactory(data -> new ReadOnlyStringWrapper((String)data.getValue()));
 
-        TableColumn<Object, Void> aggiungiCol = new TableColumn<>("Aggiungi");
+        TableColumn<Object, Void> aggiungiCol = new TableColumn<>("seleziona");
         aggiungiCol.setCellFactory(col -> new TableCell<>() {
-            private final Button btn = new Button("aggiungi");
+            private final Button btn = new Button("seleziona");
 
             {
                 btn.setOnAction(event -> {
                     String selezione =  (String)getTableView().getItems().get(getIndex());
                     PrincipioAttivo principioAttivo= informazioniMedicinaleController.getPrincipioAttvoByNome(selezione);
-                    terapiaController.setPrincipio(principioAttivo);
                     try {
-                        GuiWindowManager.getInstance().loadFinalStep(terapiaController);
+                        DoseBean doseBean = new DoseBean(TipoDose.PrincipioAttivo);
+                        doseBean.setNome(principioAttivo.getNome());
+                        doseBean.set
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -133,16 +134,15 @@ public class RicercaConfezioneController {
         TableColumn<Object, String> codiceAIC = new TableColumn<>("codiceAIC");
         codiceAIC.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((Confezione)data.getValue()).getCodice_aic())));
 
-        TableColumn<Object, Void> aggiungiCol = new TableColumn<>("Aggiungi");
+        TableColumn<Object, Void> aggiungiCol = new TableColumn<>("Seleziona");
         aggiungiCol.setCellFactory(col -> new TableCell<>() {
-            private final Button btn = new Button("aggiungi");
+            private final Button btn = new Button("seleziona");
 
             {
                 btn.setOnAction(event -> {
                     Confezione confezione = (Confezione)getTableView().getItems().get(getIndex());
-                    terapiaController.setConfezione(confezione);
                     try {
-                        GuiWindowManager.getInstance().loadFinalStep(terapiaController);
+                        doseAccepter.setConfezione(confezione);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -163,8 +163,8 @@ public class RicercaConfezioneController {
         risultatiTable.getColumns().addAll(denominazione, descrizione,forma,codiceATC,paAssociati,codiceAIC, aggiungiCol);
         ObservableList<Object> dati = FXCollections.observableArrayList(confezioni);
         risultatiTable.setItems(dati);
+
+
     }
-
-
 
 }
