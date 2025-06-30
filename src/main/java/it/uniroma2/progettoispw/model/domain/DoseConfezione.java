@@ -5,7 +5,7 @@ import java.time.LocalTime;
 public class DoseConfezione extends Dose{
     private Confezione confezione;
 
-    public DoseConfezione(Confezione confezione, int quantita, String unita_misura, LocalTime orario, String descrizione, Dottore inviante) {
+    public DoseConfezione(Confezione confezione, int quantita, String unita_misura, LocalTime orario, String descrizione, Utente inviante) {
         super(quantita, unita_misura, orario, descrizione, inviante);
         this.confezione = confezione;
 

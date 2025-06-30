@@ -91,7 +91,8 @@ public class UtenteDbDao extends DbDao implements UtenteDao {
     }
 
     @Override
-    public void addDottore(String codice_fiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass, int codice) throws DaoException {
+    public int addDottore(String codice_fiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
+        int id;
         try {
             Connection conn = ConnectionFactory.getConnection();
             CallableStatement cs = conn.prepareCall("{call add_dottore(?,?,?,?,?,?,?,?)}");
@@ -102,12 +103,14 @@ public class UtenteDbDao extends DbDao implements UtenteDao {
             cs.setString(5, email);
             cs.setString(6, telefono);
             cs.setString(7, pass);
-            cs.setInt(8, codice);
+            cs.registerOutParameter(8, java.sql.Types.INTEGER);
             cs.execute();
+            id = cs.getInt(8);
 
         } catch (SQLException e) {
             throw new DaoException(e.getMessage());
         }
+        return id;
     }
 
     @Override
@@ -157,5 +160,10 @@ public class UtenteDbDao extends DbDao implements UtenteDao {
         } catch (SQLException e) {
             throw new DaoException(e.getMessage());
         }
+    }
+
+    @Override
+    public Utente getInfoUtente(String codice_fiscale) throws DaoException {
+        return getPaziente(codice_fiscale);
     }
 }

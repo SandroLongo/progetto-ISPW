@@ -8,9 +8,9 @@ public abstract class Dose {
     private LocalTime orario;
     private String descrizione_medica;  
     private boolean assunta;
-    private Dottore inviante;
+    private Utente inviante;
 
-    public Dose(int quantita, String unita_misura, LocalTime orario, String descrizione, Dottore inviante) {
+    public Dose(int quantita, String unita_misura, LocalTime orario, String descrizione, Utente inviante) {
         this.quantita = quantita;
         this.unita_misura = unita_misura;
         this.orario = orario;
@@ -57,7 +57,7 @@ public abstract class Dose {
     public void setAssunta(boolean assunta) {
         this.assunta = assunta;
     }
-    public Dottore getInviante() {
+    public Utente getInviante() {
         return inviante;
     }
     public void setInviante(Dottore inviante) {

@@ -33,17 +33,19 @@ public class MenuWindowManager {
     public void addScene(String gruppo, String fxml, Object... args) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
         Scene scene = new Scene(loader.load());
-        ((GuiGraphicController)loader.getController()).initialize(args);
         SceneMap.get(gruppo).push(scene);
+        ((GuiGraphicController)loader.getController()).initialize(args);
+        System.out.println("aggiunto"+ SceneMap.get(gruppo).peek().getRoot() + "con" + fxml);
     }
 
     public void addSceneAndShow(String gruppo, String fxml, Object...  args) throws IOException {
         addScene(gruppo, fxml, args);
-        menu.setCenter(SceneMap.get(gruppo).peek().getRoot());
+        show(gruppo);
     }
 
     public void show(String gruppo){
         menu.setCenter(SceneMap.get(gruppo).peek().getRoot());
+        System.out.println("show"+ SceneMap.get(gruppo).peek().getRoot());
     }
     public void deleteAndcomeBack(String gruppo){
         SceneMap.get(gruppo).pop();
@@ -55,7 +57,8 @@ public class MenuWindowManager {
     }
 
     public void deleteTop(String gruppo){
-        SceneMap.get(gruppo).pop();
+        Scene scene = SceneMap.get(gruppo).pop();
+        System.out.println("tolto"+ scene.getRoot());
     }
     public void setMainStage(Stage mainStage) {
         this.mainStage = mainStage;

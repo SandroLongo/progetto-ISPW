@@ -85,7 +85,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>it.uniroma2.progettoispw/it.uniroma2.progettoispw.HelloApplication</mainClass>
+                            <mainClass>it.uniroma2.progettoispw/it.uniroma2.progettoispw.ISPWApplication</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
@@ -95,6 +95,20 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+
+            <!-- per plugin eseguibile -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>it.uniroma2.progettoispw.controller.graphicController.cliGraphicController.CliApp</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
             </plugin>
         </plugins>
     </build>

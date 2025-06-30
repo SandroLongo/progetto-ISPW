@@ -35,26 +35,33 @@ public class TerapiaGui extends Notificator implements DoseAccepter, FinalAccept
 
     @FXML
     void addMedication(ActionEvent event) throws IOException {
+        doseCostructor = new DoseCostructor();
         MenuWindowManager.getInstance().addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/RicercaConfezione.fxml", this, gruppo);
     }
 
     @FXML
     void dateChanged(ActionEvent event) throws IOException {
+        terapiaGiornaliera.deleteNotificator(this);
         terapiaGiornaliera = terapiaController.getTerapiaGiornaliera(authBean.getCodice(), datePicker.getValue());
+        terapiaGiornaliera.addNotificator(this);
         update();
     }
 
     @FXML
     void update(ActionEvent event) throws IOException {
+        terapiaGiornaliera.deleteNotificator(this);
+        terapiaGiornaliera = terapiaController.getTerapiaGiornaliera(authBean.getCodice(), datePicker.getValue());
+        terapiaGiornaliera.addNotificator(this);
         update();
     }
 
     public void initialize(Object[] args) throws IOException {
-        this.authBean = (AuthenticationBean) args[0];
-        this.gruppo = (String) args[1];
+        this.authBean = (AuthenticationBean) args[1];
+        this.gruppo = (String) args[0];
         terapiaController = new TerapiaController();
         datePicker.setValue(LocalDate.now());
         terapiaGiornaliera = terapiaController.getTerapiaGiornaliera(authBean.getCodice(), datePicker.getValue());
+        terapiaGiornaliera.addNotificator(this);
         update();
 
     }
@@ -105,6 +112,7 @@ public class TerapiaGui extends Notificator implements DoseAccepter, FinalAccept
         doseCostructor.getDose().setDescrizione_medica(finalStep.getDescrizione_medica());
         doseCostructor.getDose().setOrario(finalStep.getOrario());
         doseCostructor.getDose().setUnita_misura(finalStep.getUnita_misura());
+        doseCostructor.getDose().setQuantita(finalStep.getQuantita());
         doseCostructor.getDose().setAssunta(false);
         terapiaController.addDose(authBean.getCodice(), doseCostructor);
         MenuWindowManager.getInstance().deleteTop(gruppo);

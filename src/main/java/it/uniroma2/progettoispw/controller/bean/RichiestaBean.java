@@ -1,9 +1,6 @@
 package it.uniroma2.progettoispw.controller.bean;
 
-import it.uniroma2.progettoispw.model.domain.Dose;
-import it.uniroma2.progettoispw.model.domain.DoseInviata;
-import it.uniroma2.progettoispw.model.domain.Dottore;
-import it.uniroma2.progettoispw.model.domain.Paziente;
+import it.uniroma2.progettoispw.model.domain.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -19,6 +16,14 @@ public class RichiestaBean {
 
     public RichiestaBean() {
         dosi = new ArrayList<>();
+    }
+
+    public RichiestaBean(Richiesta richiesta) {
+        this.invio = richiesta.getInvio();
+        this.inviante = new InformazioniUtente(richiesta.getInviante());
+        this.ricevente = new InformazioniUtente(richiesta.getRicevente());
+        dosi = new ArrayList<>();
+        replaceDosi(richiesta.getMedicinali());
     }
 
     public void replaceDosi(List<DoseInviata> lista) {
@@ -56,6 +61,9 @@ public class RichiestaBean {
     }
 
     public void setInviante(InformazioniUtente inviante) {
+        for (DoseCostructor doseCostructor : getDosi()) {
+            doseCostructor.getDose().setInviante(inviante);
+        }
         this.inviante = inviante;
     }
 }

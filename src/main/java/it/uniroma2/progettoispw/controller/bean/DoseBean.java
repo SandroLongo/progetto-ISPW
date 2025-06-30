@@ -17,7 +17,9 @@ public class DoseBean {
     private String nome;
     private TipoDose tipo;
 
-    public DoseBean(TipoDose tipo) {}
+    public DoseBean(TipoDose tipo) {
+        this.tipo = tipo;
+    }
 
     public DoseBean(Dose dose) {
         this.codice = dose.getCodice();
@@ -93,5 +95,13 @@ public class DoseBean {
 
     public void setTipo(TipoDose tipo) {
         this.tipo = tipo;
+    }
+
+    public String getCodice() {
+        return codice;
+    }
+
+    public void setCodice(String codice) {
+        this.codice = codice;
     }
 }

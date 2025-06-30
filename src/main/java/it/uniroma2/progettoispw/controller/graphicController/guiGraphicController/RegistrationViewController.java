@@ -24,8 +24,10 @@ public class RegistrationViewController {
 
     @FXML
     private TextField codiceFiscaleField;
+
+
     @FXML
-    private TextField codiceField;
+    private Label codiceField;
 
     @FXML
     private TextField cognomeField;
@@ -56,17 +58,21 @@ public class RegistrationViewController {
 
     @FXML
     void handleRegistration(ActionEvent event) throws IOException {
-        UtenteRegistrationData urd;
+        String messaggio;
         try {
 
             if (dottoreCheckBox.isSelected()) {
-                urd = new DottoreRegistrationData(codiceFiscaleField.getText(), nomeField.getText(), cognomeField.getText(),
-                            emailField.getText(), telefonoField.getText(), dataNascitaField.getValue(), Integer.parseInt(codiceField.getText()),
+                DottoreRegistrationData drd = new DottoreRegistrationData(codiceFiscaleField.getText(), nomeField.getText(), cognomeField.getText(),
+                            emailField.getText(), telefonoField.getText(), dataNascitaField.getValue(),
                         passwordField.getText());
+                int id = logInController.registerDottore(drd);
+                messaggio = "Il tuo codice è: " + String.valueOf(id);
             } else {
-                urd = new PazienteRegistrationData(codiceFiscaleField.getText(), nomeField.getText(), cognomeField.getText(),
+                PazienteRegistrationData prd= new PazienteRegistrationData(codiceFiscaleField.getText(), nomeField.getText(), cognomeField.getText(),
                         emailField.getText(), telefonoField.getText(), dataNascitaField.getValue(),
                         passwordField.getText());
+                logInController.registerPaziente(prd);
+                messaggio = "";
             }
 
         } catch (Exception e) {
@@ -74,10 +80,10 @@ public class RegistrationViewController {
         }
 
         try {
-            logInController.register(urd);
             Stage stage = (Stage) errorLabel.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/RegistrationSuccessView.fxml"));
             Parent root = loader.load();
+            ((GuiGraphicController)loader.getController()).initialize(new Object[]{messaggio});
             stage.setScene(new Scene(root));
             stage.show();
         } catch (FomatoInvalidoException | DaoException e) {
@@ -93,10 +99,6 @@ public class RegistrationViewController {
 
     @FXML
     void returnToLogin(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/LogInview.fxml"));
-        Parent root = loader.load();
-        Stage stage = (Stage) errorLabel.getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+
     }
 }

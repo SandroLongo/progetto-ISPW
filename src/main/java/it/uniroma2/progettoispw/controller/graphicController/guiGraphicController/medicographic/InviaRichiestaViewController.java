@@ -40,7 +40,7 @@ public class InviaRichiestaViewController implements GuiGraphicController {
 
     @FXML
     void conferma(ActionEvent event) {
-        this.utente = richiesteController.getInformazioniPaziente(CFField.getText());
+        this.utente = richiesteController.getInformazioniPaziente(authenticationBean.getCodice(), CFField.getText());
         CognomeLabel.setText(utente.getCognome());
         NomeLabel.setText(utente.getNome());
         emailLabel.setText(utente.getEmail());

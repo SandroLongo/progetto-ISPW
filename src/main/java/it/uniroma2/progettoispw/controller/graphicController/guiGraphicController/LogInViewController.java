@@ -9,6 +9,7 @@ import it.uniroma2.progettoispw.model.domain.Utente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
@@ -19,9 +20,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class LogInViewController {
+public class LogInViewController implements GuiGraphicController {
     private LogInController logInController = new LogInController();
-    private Stage stage;
     @FXML
     private Label errorLabel;
     @FXML
@@ -48,7 +48,8 @@ public class LogInViewController {
         try {
             authenticationBean = logInController.logIn(utenteLogInData);
         } catch (FomatoInvalidoException e) {
-            showAlert(e.getMessage());
+            throw new FomatoInvalidoException(e.getMessage());
+            //showAlert(e.getMessage());
         }
 
         FXMLLoader loader;
@@ -69,11 +70,17 @@ public class LogInViewController {
     void handleRegistration(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/Registrazione.fxml"));
         Parent root = loader.load();
+        Stage stage = (Stage)passwordField.getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
     }
 
     private void showAlert(String message) {
         errorLabel.setText(message);
+    }
+
+    @Override
+    public void initialize(Object[] args) throws IOException {
+
     }
 }

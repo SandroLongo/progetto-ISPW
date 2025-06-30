@@ -12,7 +12,6 @@ import java.util.TreeMap;
 public class TerapiaGiornaliera extends Subject {
     private LocalDate data;
     private TreeMap<LocalTime, List<Dose>> dosiPerOrario = new TreeMap<>();
-    private List<Observer> observers = new ArrayList<>();
 
     public TerapiaGiornaliera(LocalDate data) {
         this.data = data;
@@ -47,20 +46,4 @@ public class TerapiaGiornaliera extends Subject {
         this.dosiPerOrario = dosiPerOrario;
     }
 
-    @Override
-    public void attach(Observer o) {
-        observers.add(o);
-    }
-
-    @Override
-    public void detach(Observer o) {
-        observers.remove(o);
-    }
-
-    @Override
-    protected void notifica() {
-        for (Observer o : observers) {
-            o.update();
-        }
-    }
 }

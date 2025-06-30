@@ -20,7 +20,7 @@ public class Richiesta {
     }
 
     public Richiesta() {
-
+        medicinali = new ArrayList<>();
     }
 
     public List<DoseInviata> getMedicinali() {

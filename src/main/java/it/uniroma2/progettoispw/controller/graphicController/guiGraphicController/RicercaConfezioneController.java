@@ -62,13 +62,10 @@ public class RicercaConfezioneController implements GuiGraphicController {
                 btn.setOnAction(event -> {
                     String selezione =  (String)getTableView().getItems().get(getIndex());
                     PrincipioAttivo principioAttivo= informazioniMedicinaleController.getPrincipioAttvoByNome(selezione);
-                    try {
-                        DoseBean doseBean = new DoseBean(TipoDose.PrincipioAttivo);
-                        doseBean.setNome(principioAttivo.getNome());
-                        doseBean.set
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    DoseBean doseBean = new DoseBean(TipoDose.PrincipioAttivo);
+                    doseBean.setCodice(principioAttivo.getCodice_atc());
+                    doseBean.setNome(principioAttivo.getNome());
+                    doseAccepter.setDose(doseBean);
                 });
             }
 
@@ -141,11 +138,10 @@ public class RicercaConfezioneController implements GuiGraphicController {
             {
                 btn.setOnAction(event -> {
                     Confezione confezione = (Confezione)getTableView().getItems().get(getIndex());
-                    try {
-                        doseAccepter.setConfezione(confezione);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    DoseBean doseBean = new DoseBean(TipoDose.Confezione);
+                    doseBean.setCodice(String.valueOf(confezione.getCodice_aic()));
+                    doseBean.setNome(confezione.getDenominazione());
+                    doseAccepter.setDose(doseBean);
                 });
             }
 

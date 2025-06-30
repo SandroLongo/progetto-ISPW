@@ -1,5 +1,6 @@
 package it.uniroma2.progettoispw.controller.bean;
 
+import it.uniroma2.progettoispw.controller.graphicController.Notificator;
 import it.uniroma2.progettoispw.model.domain.Dose;
 import it.uniroma2.progettoispw.model.domain.TerapiaGiornaliera;
 
@@ -14,11 +15,13 @@ public class TerapiaGiornalieraBean extends Observer {
     private LocalDate data;
     private TreeMap<LocalTime, List<DoseBean>> dosiPerOrario = new TreeMap<>();
     private TerapiaGiornaliera terapiaGiornaliera;
+    private List<Notificator> notificators = new ArrayList<>();
 
     public TerapiaGiornalieraBean(TerapiaGiornaliera terapiaGiornaliera) {
+        this.terapiaGiornaliera = terapiaGiornaliera;
         this.data = terapiaGiornaliera.getData();
         Map<LocalTime, List<Dose>> map = terapiaGiornaliera.getDosiPerOrario();
-
+        replaceDosi(map);
     }
 
     private void replaceDosi(Map<LocalTime, List<Dose>> map){
@@ -47,8 +50,19 @@ public class TerapiaGiornalieraBean extends Observer {
         this.data = data;
     }
 
+    public void addNotificator(Notificator notificator) {
+        this.notificators.add(notificator);
+    }
+
+    public void deleteNotificator(Notificator notificator) {
+        this.notificators.remove(notificator);
+    }
+
     @Override
     public void update() {
         replaceDosi(terapiaGiornaliera.getDosiPerOrario());
+        for (Notificator notificator: notificators) {
+            notificator.notifica();
+        }
     }
 }

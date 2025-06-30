@@ -1,7 +1,20 @@
 package it.uniroma2.progettoispw.controller.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Subject {
-    public abstract void attach(Observer o);
-    public abstract void detach(Observer o);
-    protected abstract void notifica();
+    List<Observer> observers = new ArrayList<Observer>();
+
+    public void attach(Observer o){
+        observers.add(o);
+    }
+    public void detach(Observer o){
+        observers.remove(o);
+    }
+    protected void notifica(){
+        for(Observer o : observers){
+            o.update();
+        }
+    }
 }

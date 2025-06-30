@@ -6,6 +6,7 @@ public class Session {
 
     public Session(Utente utente, int codice) {
         this.utente = utente;
+        this.codice = codice;
     }
     public Utente getUtente() {
         return utente;

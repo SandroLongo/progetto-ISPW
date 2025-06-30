@@ -54,12 +54,30 @@ public class UtenteMemoryDao extends MemoryDao implements UtenteDao {
     }
 
     @Override
-    public void addDottore(String codice_fiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass, int codice) throws DaoException {
+    public int addDottore(String codice_fiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
+        int codiceDottore = generaCodiceUnico(dottori);
         ChiaveUtente chiaveUtente = new ChiaveUtente(codice_fiscale, pass);
-        ChiaveDottore chiaveDottore = new ChiaveDottore(codice_fiscale, pass, codice);
+        ChiaveDottore chiaveDottore = new ChiaveDottore(codice_fiscale, pass, codiceDottore);
         pazienti.put(chiaveUtente, new Paziente(codice_fiscale, nome, cognome, nascita, email, telefono, new ArrayList<>()));
         dottori.put(chiaveDottore, new Dottore(codice_fiscale, nome, cognome, nascita, email, telefono));
         infoUtenti.put(codice_fiscale, new Dottore(codice_fiscale, nome, cognome, nascita, email, telefono));
+        return codiceDottore;
+    }
+
+    private int generaCodiceUnico(Map<ChiaveDottore, Dottore> mappa) {
+        Set<Integer> codiciEsistenti = new HashSet<>();
+        Random random = new Random();
+
+        for (ChiaveDottore chiave : mappa.keySet()) {
+            codiciEsistenti.add(chiave.getCodiceDottore());
+        }
+
+        int nuovoCodice;
+        do {
+            nuovoCodice = random.nextInt(100_000); // codice da 0 a 99999
+        } while (codiciEsistenti.contains(nuovoCodice));
+
+        return nuovoCodice;
     }
 
     @Override
@@ -79,6 +97,11 @@ public class UtenteMemoryDao extends MemoryDao implements UtenteDao {
         if (pazienteDottore.containsKey(codicePaziente)) {
             pazienteDottore.get(codicePaziente).add(codiceDottore);
         }
+    }
+
+    @Override
+    public Utente getInfoUtente(String codice_fiscale) throws DaoException {
+        return infoUtenti.get(codice_fiscale);
     }
 
 

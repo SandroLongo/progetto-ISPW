@@ -1,9 +1,6 @@
 package it.uniroma2.progettoispw.controller.controllerApplicativi;
 
-import it.uniroma2.progettoispw.controller.bean.AuthenticationBean;
-import it.uniroma2.progettoispw.controller.bean.DottoreRegistrationData;
-import it.uniroma2.progettoispw.controller.bean.UtenteLogInData;
-import it.uniroma2.progettoispw.controller.bean.UtenteRegistrationData;
+import it.uniroma2.progettoispw.controller.bean.*;
 import it.uniroma2.progettoispw.model.dao.DaoException;
 import it.uniroma2.progettoispw.model.dao.DaoFacade;
 import it.uniroma2.progettoispw.model.domain.Ruolo;
@@ -29,8 +26,9 @@ public class LogInController implements Controller{
                 default -> utente = null;
             }
         } catch (DaoException e) {
-            utente = null;
+            throw e;
         }
+        System.out.println(utente.getCodiceFiscale());
         Session session = SessionManager.getInstance().setSession(utente);
         return new AuthenticationBean(session.getUtente().getNome(), session.getUtente().getCognome(), session.getCodice(), session.getUtente().isType());
     }
@@ -40,33 +38,30 @@ public class LogInController implements Controller{
         String pwd = utenteLogInData.getPassword();
 
         verifyCFandPass(cf, pwd);
-        if (utenteLogInData.getRuolo() == Ruolo.Dottore) {
-            if (utenteLogInData.getCodiceDottore() >= Config.MAX_DOCTOR_CODE_LENGTH
-                    || utenteLogInData.getCodiceDottore() <= Config.MAX_DOCTOR_CODE_LENGTH){
-                throw new FomatoInvalidoException("codice dottore non valido");
-            }
-        }
+//        if (utenteLogInData.getRuolo() == Ruolo.Dottore) {
+//            if (utenteLogInData.getCodiceDottore() >= Config.MAX_DOCTOR_CODE_LENGTH
+//                    || utenteLogInData.getCodiceDottore() <= Config.MAX_DOCTOR_CODE_LENGTH){
+//                throw new FomatoInvalidoException("codice dottore non valido");
+//            }
+//        }
     }
 
-    public void register(UtenteRegistrationData utenteRegistrationData) throws FomatoInvalidoException, DaoException {
+    public void registerPaziente(PazienteRegistrationData utenteRegistrationData) throws FomatoInvalidoException, DaoException {
 
         verifyRegistrationData(utenteRegistrationData);
-        try {
-            switch (utenteRegistrationData.isType()) {
-                case Paziente -> {daoFacade.addPaziente(utenteRegistrationData.getCodice_fiscale(), utenteRegistrationData.getNome(),
+        daoFacade.addPaziente(utenteRegistrationData.getCodice_fiscale(), utenteRegistrationData.getNome(),
                         utenteRegistrationData.getCognome(), utenteRegistrationData.getData_nascita(), utenteRegistrationData.getEmail(),
                         utenteRegistrationData.getTelefono(), utenteRegistrationData.getPassword());
-                        System.out.println(utenteRegistrationData.getCodice_fiscale() + "in logincontroller");}
-                case Dottore -> {DottoreRegistrationData dottoreRegistrationData = (DottoreRegistrationData) utenteRegistrationData;
-                    daoFacade.addDottore(dottoreRegistrationData.getCodice_fiscale(), dottoreRegistrationData.getNome(), dottoreRegistrationData.getCognome(),
-                            dottoreRegistrationData.getData_nascita(), dottoreRegistrationData.getEmail(), dottoreRegistrationData.getTelefono(),
-                            dottoreRegistrationData.getPassword(), dottoreRegistrationData.getCodice());}
-                default -> throw new DaoException("Tipologia non valida");
-            }
-        } catch (DaoException e) {
-            throw new RuntimeException(e);
-        }
+        System.out.println(utenteRegistrationData.getCodice_fiscale() + "in logincontroller");
 
+    }
+
+    public int registerDottore(DottoreRegistrationData utenteRegistrationData){
+        int id;
+        verifyRegistrationData(utenteRegistrationData);
+        return daoFacade.addDottore(utenteRegistrationData.getCodice_fiscale(), utenteRegistrationData.getNome(),
+                utenteRegistrationData.getCognome(), utenteRegistrationData.getData_nascita(), utenteRegistrationData.getEmail(),
+                utenteRegistrationData.getTelefono(), utenteRegistrationData.getPassword());
     }
 
     private void verifyRegistrationData(UtenteRegistrationData utenteRegistrationData) throws FomatoInvalidoException {

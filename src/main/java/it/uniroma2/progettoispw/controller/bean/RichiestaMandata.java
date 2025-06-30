@@ -12,12 +12,8 @@ public class RichiestaMandata extends RichiestaBean {
     private int idRichiesta;
 
     public RichiestaMandata(Richiesta richiesta) {
-        super();
-        super.setInvio(richiesta.getInvio());
-        super.setInviante(new InformazioniUtente(richiesta.getInviante()));
-        super.setRicevente(new InformazioniUtente(richiesta.getRicevente()));
-        List<DoseInviata> lista = richiesta.getMedicinali();
-        super.replaceDosi(lista);
+        super(richiesta);
+        this.idRichiesta = richiesta.getId();
     }
 
     public int getIdRichiesta() {

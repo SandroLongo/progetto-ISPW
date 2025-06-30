@@ -25,7 +25,7 @@ public class RecapRichiestaGraphicController implements GuiGraphicController, Do
     private ObservableList<Object> dati;
     private RichiestaBean richiestaBean = new RichiestaBean();
     private AuthenticationBean authenticationBean;
-    private DoseCostructor doseCostructor;
+    private DoseCostructor doseCostructor = new DoseCostructor();
     @FXML
     private Label CFLabel;
 
@@ -46,12 +46,15 @@ public class RecapRichiestaGraphicController implements GuiGraphicController, Do
 
     @FXML
     void aggiungi(ActionEvent event) throws IOException {
+        this.doseCostructor = new DoseCostructor();
         MenuWindowManager.getInstance().addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/RicercaConfezione.fxml", this, gruppo);
     }
 
     @FXML
     void invia(ActionEvent event) {
         richiesteController.invia(authenticationBean.getCodice(), richiestaBean);
+        MenuWindowManager.getInstance().deleteTop(gruppo);
+        MenuWindowManager.getInstance().show(gruppo);
     }
 
     @Override
@@ -60,11 +63,13 @@ public class RecapRichiestaGraphicController implements GuiGraphicController, Do
         this.gruppo = (String) args[0];
         this.authenticationBean = (AuthenticationBean) args[2];
         this.richiestaBean.setRicevente((InformazioniUtente) args[3]);
+        recapTable.getColumns().clear();
+
         TableColumn<Object, String> nome = new TableColumn<>("Nome");
         nome.setCellValueFactory(data -> new ReadOnlyStringWrapper(((DoseCostructor)data.getValue()).getDose().getNome()));
 
         TableColumn<Object, String> quantita = new TableColumn<>("quantita");
-        nome.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((DoseCostructor)data.getValue()).getDose().getQuantita())));
+        quantita.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((DoseCostructor)data.getValue()).getDose().getQuantita())));
 
         TableColumn<Object, String> unitaDiMisura = new TableColumn<>("unita di misura");
         unitaDiMisura.setCellValueFactory(data -> new ReadOnlyStringWrapper(((DoseCostructor)data.getValue()).getDose().getUnita_misura()));
@@ -118,13 +123,22 @@ public class RecapRichiestaGraphicController implements GuiGraphicController, Do
 
     @Override
     public void setFinalInformation(FinalStepBean finalStep) throws IOException {
-
+        doseCostructor.setInizio(finalStep.getInizio());
+        doseCostructor.setNum_ripetizioni(finalStep.getNum_ripetizioni());
+        doseCostructor.setRate_giorni(finalStep.getRate_giorni());
+        doseCostructor.getDose().setDescrizione_medica(finalStep.getDescrizione_medica());
+        doseCostructor.getDose().setOrario(finalStep.getOrario());
+        doseCostructor.getDose().setUnita_misura(finalStep.getUnita_misura());
+        doseCostructor.getDose().setQuantita(finalStep.getQuantita());
+        doseCostructor.getDose().setAssunta(false);
+        richiestaBean.addDoseCostructor(doseCostructor);
+        update();
         MenuWindowManager.getInstance().deleteTop(gruppo);
         MenuWindowManager.getInstance().show(gruppo);
     }
 
     public void update(){
-        dati = FXCollections.observableArrayList(richiesteController.getList());
+        dati = FXCollections.observableArrayList(richiestaBean.getDosi());
         recapTable.setItems(dati);
     }
 
