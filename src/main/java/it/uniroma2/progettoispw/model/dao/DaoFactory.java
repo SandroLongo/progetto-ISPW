@@ -21,16 +21,20 @@ public abstract class DaoFactory {
 
     public static DaoFactory getIstance() {
         if (daoFactory == null) {
-            String option;
-            System.out.println("risorse/properties.properties");
-            try (InputStream inputstream = new FileInputStream("risorse/properties.properties")){
-                Properties DBproperties = new Properties();
-                DBproperties.load(inputstream);
-                option = DBproperties.getProperty("DAOMODE");
-            }  catch (IOException e) {
-                throw new RuntimeException(e);
+            Properties props = new Properties();
+            try (InputStream in = DaoFactory.class
+                    .getClassLoader()
+                    .getResourceAsStream("properties.properties")) {
+                if (in == null) {
+                    throw new RuntimeException("properties.properties non trovato nel classpath");
+                }
+                props.load(in);
+            } catch (Exception e) {
+                throw new RuntimeException("Errore nel caricamento delle proprietà", e);
             }
-            switch (option) {
+            String option;
+            option = props.getProperty("DAOMODE");
+        switch (option) {
                 case "DB": daoFactory = new DbFileDaoFactory();
                 break;
                 case "Memory": daoFactory = new MemoryDaoFactory();

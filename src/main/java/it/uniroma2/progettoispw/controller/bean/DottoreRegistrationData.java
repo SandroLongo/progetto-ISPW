@@ -10,6 +10,10 @@ public class DottoreRegistrationData extends UtenteRegistrationData{
         super(codice_fiscale, nome, cognome, email, telefono, data_nascita, password);
     }
 
+    public DottoreRegistrationData() {
+        super();
+    }
+
     @Override
     public Ruolo isType() {
         return Ruolo.Dottore;

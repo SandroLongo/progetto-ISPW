@@ -23,6 +23,10 @@ public abstract class UtenteRegistrationData {
         this.password = password;
     }
 
+    public UtenteRegistrationData() {
+
+    }
+
     public String getCodice_fiscale() {
         return codice_fiscale;
     }

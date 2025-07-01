@@ -25,6 +25,10 @@ public class UtenteLogInData {
         this.ruolo = ruolo;
     }
 
+    public UtenteLogInData() {
+
+    }
+
     public String getCodiceFiscale() {
         return codiceFiscale;
     }
