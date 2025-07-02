@@ -1,13 +1,16 @@
 package it.uniroma2.progettoispw.controller.graphicController.cliGraphicController;
 
 import it.uniroma2.progettoispw.controller.bean.AuthenticationBean;
+import it.uniroma2.progettoispw.controller.graphicController.guiGraphicController.GuiGraphicController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+import java.io.IOException;
 
-public class PromptController {
+
+public class PromptController implements GuiGraphicController {
     private Receiver receiver;
     private AuthenticationBean authenticationBean;
 
@@ -21,7 +24,8 @@ public class PromptController {
     void processCommand(ActionEvent event) {
         String command = commandLine.getText().trim();
         terminalOutput.appendText("> " + command + "\n");
-        terminalOutput.appendText(receiver.receive(command + "\n"));
+        System.out.println(command);
+        terminalOutput.appendText(receiver.receive(command));
         commandLine.clear();
 
     }
@@ -37,5 +41,10 @@ public class PromptController {
 
     public AuthenticationBean getAuthenticationBean() {
         return authenticationBean;
+    }
+
+    @Override
+    public void initialize(Object[] args) throws IOException {
+        terminalOutput.appendText(setReceiver((Receiver) args[0]));
     }
 }

@@ -65,4 +65,17 @@ public class TerapiaGiornalieraBean extends Observer {
             notificator.notifica();
         }
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Terapia del: " + data.toString() + "\n");
+        for (LocalTime orario: dosiPerOrario.keySet()) {
+            for (DoseBean dose: dosiPerOrario.get(orario)) {
+                sb.append(orario.toString() + " - " + dose.toString() +  "assunta: " + (dose.isAssunta() ? "si" : "no") + "\n");
+            }
+        }
+        return sb.toString();
+
+    }
 }

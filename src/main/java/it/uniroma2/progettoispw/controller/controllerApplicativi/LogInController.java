@@ -96,7 +96,7 @@ public class LogInController implements Controller{
             throw new FomatoInvalidoException("Codice fiscale non valido");
         }
         if (pwd == null || pwd.length() > Config.MAX_PASSWORD_LENGTH || pwd.length() <= Config.MIN_PASSWORD_LENGTH) {
-            throw new FomatoInvalidoException("Password non valida");
+            throw  new FomatoInvalidoException("Password non valida");
         }
     }
 }

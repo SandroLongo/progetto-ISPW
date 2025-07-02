@@ -33,6 +33,19 @@ public class DoseBean {
         this.inviante = new InformazioniUtente(dose.getInviante());
     }
 
+    public DoseBean() {
+    }
+
+    @Override
+    public String toString() {
+        return "tipo: " + tipo + ", nome: " + nome +", quantita: " + quantita + " " + unita_misura;
+    }
+
+    public boolean isCompleate(){
+        return codice != null && quantita != 0 && unita_misura != null && orario != null && descrizione_medica != null && inviante != null
+                && nome != null && tipo != null;
+    }
+
     public int getQuantita() {
         return quantita;
     }

@@ -11,13 +11,24 @@ public class DoseCostructor {
     private int num_ripetizioni;
     private int rate_giorni;
 
-    public DoseCostructor() {}
+    public DoseCostructor() {
+        dose = new DoseBean();
+    }
 
     public DoseCostructor(DoseInviata doseInviata) {
         this.dose = new DoseBean(doseInviata.getDose());
         this.inizio = doseInviata.getInizio();
         this.num_ripetizioni = doseInviata.getNumGiorni();
         this.rate_giorni = doseInviata.getRateGiorni();
+    }
+
+    public boolean isComplete(){
+        return dose.isCompleate() && inizio != null && num_ripetizioni > 0 && rate_giorni > 0;
+    }
+
+    @Override
+    public String toString() {
+        return dose.toString() + "inizio: " + inizio.toString() + "per:  " + num_ripetizioni + "giorni, ogni: " + rate_giorni + "giorni";
     }
 
     public DoseBean getDose() {

@@ -1,20 +1,22 @@
-package it.uniroma2.progettoispw.controller.graphicController.cliGraphicController.paziente;
+package it.uniroma2.progettoispw.controller.graphicController.cliGraphicController.medico;
 
 import it.uniroma2.progettoispw.controller.bean.AuthenticationBean;
 import it.uniroma2.progettoispw.controller.graphicController.cliGraphicController.AbstractState;
 import it.uniroma2.progettoispw.controller.graphicController.cliGraphicController.Receiver;
+import it.uniroma2.progettoispw.controller.graphicController.cliGraphicController.paziente.MenuPaziente;
+import it.uniroma2.progettoispw.controller.graphicController.cliGraphicController.paziente.Richieste;
+import it.uniroma2.progettoispw.controller.graphicController.cliGraphicController.paziente.Terapia;
 
-public class MenuPaziente extends Receiver {
+public class MenuDottore extends Receiver {
     private AuthenticationBean authenticationBean;
     private Receiver terapiaReceiver;
-    private Receiver richiesteReceiver;
+    private Receiver inviarichiesteReceiver;
 
-    public MenuPaziente(AuthenticationBean authenticationBean, Receiver receiver) {
-        this.promptController = receiver.getPromptController();
+    public MenuDottore(AuthenticationBean authenticationBean, Receiver receiver) {
         this.authenticationBean = authenticationBean;
         this.previousReceiver = receiver;
-        this.terapiaReceiver = new Terapia(authenticationBean, this);
-        this.richiesteReceiver = new Richieste(authenticationBean, this);
+        this.promptController = receiver.getPromptController();
+        this.inviarichiesteReceiver = new InviaRichiesta(authenticationBean, this);
         currentState = new MenuState();
     }
 
@@ -22,19 +24,16 @@ public class MenuPaziente extends Receiver {
 
         public MenuState() {
             this.initialMessage = "MENU DEL PAZIENTE, scegli cosa vuoi fare\n"+
-                    "terapia --> visualizza la tua terapia\n"+
-                    "richieste --> visualizza le tue richieste\n";
+                    "invia --> invia una richiesta\n";
         }
 
         @Override
         public String goNext(Receiver stateMachine, String command) {
             String option = command.toLowerCase();
             switch (option) {
-                case "terapia": return stateMachine.getPromptController().setReceiver(terapiaReceiver);
-                case "richieste": return stateMachine.getPromptController().setReceiver(richiesteReceiver);
+                case "invia": terapiaReceiver = stateMachine;
                 default: return "scelta non trovata";
             }
         }
     }
-
 }

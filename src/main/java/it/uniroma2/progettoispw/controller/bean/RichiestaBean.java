@@ -32,6 +32,19 @@ public class RichiestaBean {
         }
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (DoseCostructor doseCostructor : dosi) {
+            sb.append(doseCostructor.toString() + "\n");
+        }
+        return sb.toString();
+    }
+
+    public String toStringBase(){
+        return "Dottore: " + ricevente.getNome() + " " + ricevente.getCognome() + "data di invio: " + invio.toString();
+    }
+
     public List<DoseCostructor> getDosi() {
         return dosi;
     }

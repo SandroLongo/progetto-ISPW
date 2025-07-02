@@ -23,4 +23,9 @@ public class RichiestaMandata extends RichiestaBean {
     public void setIdRichiesta(int idRichiesta) {
         this.idRichiesta = idRichiesta;
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

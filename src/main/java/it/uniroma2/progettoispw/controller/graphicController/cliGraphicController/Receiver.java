@@ -10,12 +10,12 @@ public abstract class Receiver {
     }
 
     public String getInitialMessage(){
-        return currentState.getInitialMessage();
+        return currentState.comeBackAction(this);
     }
 
     public String goNext(AbstractState nextState) {
         this.currentState = nextState;
-        return nextState.getInitialMessage();
+        return nextState.comeBackAction(this);
     }
 
     public PromptController getPromptController() {

@@ -5,7 +5,9 @@ import it.uniroma2.progettoispw.controller.bean.DottoreRegistrationData;
 import it.uniroma2.progettoispw.controller.bean.UtenteLogInData;
 import it.uniroma2.progettoispw.controller.bean.UtenteRegistrationData;
 import it.uniroma2.progettoispw.controller.controllerApplicativi.LogInController;
+import it.uniroma2.progettoispw.controller.graphicController.cliGraphicController.medico.MenuDottore;
 import it.uniroma2.progettoispw.controller.graphicController.cliGraphicController.paziente.MenuPaziente;
+import it.uniroma2.progettoispw.model.domain.Paziente;
 import it.uniroma2.progettoispw.model.domain.Ruolo;
 
 public class LogInReceiver extends Receiver {
@@ -17,18 +19,22 @@ public class LogInReceiver extends Receiver {
 
     private class WelcomeState extends AbstractState {
 
+        public WelcomeState() {
+            this.initialMessage  = "Benvenuto nell'applicazione, scegli in che ruolo vuoi accedere\n" +
+                    "paziente --> entra come paziente\n" +
+                    "dottore --> entra come dottore\n";
+        }
+
         @Override
         public String goNext(Receiver stateMachine, String command) {
-            int opzione;
-            try {
-                opzione = Integer.parseInt(command);
-            } catch (NumberFormatException e) {
-                return "la scelta deve essere un numero";
-            }
-            switch (opzione) {
-                case 1: return (stateMachine.goNext(new CfMedicoState()));
-                case 2: return "";
-                default: return "opzione non valida";
+            String option = command.toLowerCase();
+            switch (option) {
+                case "paziente":
+                    return stateMachine.goNext(new CFPazienteState());
+                case "dottore":
+                    return stateMachine.goNext(new CfMedicoState());
+                default:
+                    return "scelta non valida\n" + initialMessage;
             }
         }
     }
@@ -39,7 +45,7 @@ public class LogInReceiver extends Receiver {
             super();
             this.utenteLogInData = new UtenteLogInData();
             utenteLogInData.setRuolo(Ruolo.Dottore);
-            this.initialMessage = "inserisci il codice fiscale";
+            this.initialMessage = "inserisci il codice fiscale\n";
         }
 
         @Override
@@ -53,7 +59,7 @@ public class LogInReceiver extends Receiver {
         private UtenteLogInData utenteLogInData;
         public PassMedicoState(UtenteLogInData utenteLogInData) {
             super();
-            this.initialMessage = "inserisci la password";
+            this.initialMessage = "inserisci la password\n";
             this.utenteLogInData = utenteLogInData;
         }
 
@@ -79,7 +85,17 @@ public class LogInReceiver extends Receiver {
             AuthenticationBean authenticationBean = logInController.logIn(utenteLogInData);
             stateMachine.getPromptController().setAuthenticationBean(authenticationBean);
             stateMachine.setCurrentState(new WelcomeState());
-            return "login effettuato \n" + stateMachine.getPromptController().setReceiver();;
+            switch (authenticationBean.getRuolo()){
+                case Dottore -> {
+                    return stateMachine.getPromptController().setReceiver(new MenuDottore(authenticationBean, stateMachine));
+                }
+                case Paziente -> {
+                    return stateMachine.getPromptController().setReceiver(new MenuPaziente(authenticationBean, stateMachine));
+                }
+                default -> {
+                    return "ruolo non riconosciuto" + initialMessage;
+                }
+            }
         }
     }
 
@@ -101,6 +117,7 @@ public class LogInReceiver extends Receiver {
 
     private class PassPazienteState extends AbstractState{
         private UtenteLogInData utenteLogInData;
+
         public PassPazienteState(UtenteLogInData utenteLogInData) {
             super();
             this.utenteLogInData = utenteLogInData;
@@ -110,6 +127,7 @@ public class LogInReceiver extends Receiver {
 
         @Override
         public String goNext(Receiver stateMachine, String command) {
+            utenteLogInData.setPassword(command);
             LogInController logInController = new LogInController();
             AuthenticationBean authenticationBean = logInController.logIn(utenteLogInData);
             stateMachine.getPromptController().setAuthenticationBean(authenticationBean);
