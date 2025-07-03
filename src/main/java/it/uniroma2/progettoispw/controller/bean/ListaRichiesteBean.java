@@ -1,6 +1,6 @@
 package it.uniroma2.progettoispw.controller.bean;
 
-import it.uniroma2.progettoispw.controller.graphicController.Notificator;
+import it.uniroma2.progettoispw.controller.graphic.controller.Notificator;
 import it.uniroma2.progettoispw.model.domain.Richiesta;
 import it.uniroma2.progettoispw.model.domain.RichiestePendenti;
 

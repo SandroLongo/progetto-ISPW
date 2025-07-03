@@ -34,7 +34,7 @@ public class RichiestaBean {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (DoseCostructor doseCostructor : dosi) {
-            sb.append(doseCostructor.toString() + "\n");
+            sb.append(doseCostructor.toString()).append("\n");
         }
         return sb.toString();
     }

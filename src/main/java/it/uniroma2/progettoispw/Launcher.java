@@ -1,6 +1,5 @@
 package it.uniroma2.progettoispw;
 
-import it.uniroma2.progettoispw.controller.graphicController.guiGraphicController.GuiApp;
 import javafx.application.Application;
 import javafx.application.Platform;
 

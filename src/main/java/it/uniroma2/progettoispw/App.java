@@ -1,6 +1,5 @@
 package it.uniroma2.progettoispw;
 
-import it.uniroma2.progettoispw.controller.graphicController.guiGraphicController.MenuWindowManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

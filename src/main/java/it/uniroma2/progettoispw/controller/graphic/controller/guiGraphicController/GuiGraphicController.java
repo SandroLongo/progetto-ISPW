@@ -1,0 +1,10 @@
+package it.uniroma2.progettoispw.controller.graphic.controller.guiGraphicController;
+
+import java.io.IOException;
+import java.util.Objects;
+
+public interface GuiGraphicController {
+    //MenuWindowManager menuWindowManager;
+
+    void initialize(Object[] args) throws IOException;
+}

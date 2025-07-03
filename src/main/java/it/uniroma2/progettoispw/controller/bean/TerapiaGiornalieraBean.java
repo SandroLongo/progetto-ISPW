@@ -1,15 +1,12 @@
 package it.uniroma2.progettoispw.controller.bean;
 
-import it.uniroma2.progettoispw.controller.graphicController.Notificator;
+import it.uniroma2.progettoispw.controller.graphic.controller.Notificator;
 import it.uniroma2.progettoispw.model.domain.Dose;
 import it.uniroma2.progettoispw.model.domain.TerapiaGiornaliera;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class TerapiaGiornalieraBean extends Observer {
     private LocalDate data;
@@ -34,11 +31,10 @@ public class TerapiaGiornalieraBean extends Observer {
     }
 
     public void aggiungiDose(DoseBean dose) {
-        LocalTime orario = dose.getOrario();
         dosiPerOrario.computeIfAbsent(dose.getOrario(), orarioChiave -> new ArrayList<>()).add(dose);
     }
 
-    public TreeMap<LocalTime, List<DoseBean>> getDosiPerOrario() {
+    public SortedMap<LocalTime, List<DoseBean>> getDosiPerOrario() {
         return dosiPerOrario;
     }
 
@@ -69,10 +65,10 @@ public class TerapiaGiornalieraBean extends Observer {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Terapia del: " + data.toString() + "\n");
+        sb.append("Terapia del: ").append(data.toString()).append("\n");
         for (LocalTime orario: dosiPerOrario.keySet()) {
             for (DoseBean dose: dosiPerOrario.get(orario)) {
-                sb.append(orario.toString() + " - " + dose.toString() +  "assunta: " + (dose.isAssunta() ? "si" : "no") + "\n");
+                sb.append(orario.toString()).append(" - ").append(dose.toString()).append("assunta: ").append(dose.isAssunta() ? "si" : "no").append("\n");
             }
         }
         return sb.toString();
