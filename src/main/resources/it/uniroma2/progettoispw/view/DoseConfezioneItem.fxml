@@ -4,7 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 
-<HBox fx:id="item" prefHeight="28.0" prefWidth="567.0" spacing="10.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.uniroma2.progettoispw.controller.graphic.controller.guiGraphicController.pazientegraphic.DoseConfezioneController">
+<HBox fx:id="item" prefHeight="28.0" prefWidth="567.0" spacing="10.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.pazientegraphic.DoseConfezioneController">
    <children>
       <Label fx:id="tipo" prefHeight="28.0" prefWidth="26.0" text="P" />
       <Label fx:id="orario" prefHeight="28.0" prefWidth="39.0" text="11:30" />

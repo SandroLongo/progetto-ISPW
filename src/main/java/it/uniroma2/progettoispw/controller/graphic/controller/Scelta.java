@@ -1,7 +1,7 @@
 package it.uniroma2.progettoispw.controller.graphic.controller;
 
-import it.uniroma2.progettoispw.controller.graphic.controller.cliGraphicController.CliApp;
-import it.uniroma2.progettoispw.controller.graphic.controller.guiGraphicController.GuiApp;
+import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.CliApp;
+import it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.GuiApp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

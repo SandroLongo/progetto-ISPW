@@ -83,12 +83,12 @@ public class MedicinaliDbDao extends DbDao implements MedicinaliDao {
     }
 
     @Override
-    public Confezione getConfezioneByCodiceAic(int codice_aic) throws DaoException {
+    public Confezione getConfezioneByCodiceAic(int codiceAic) throws DaoException {
         Confezione confezione = null;
         try {
             Connection conn = ConnectionFactory.getConnection();
             CallableStatement cs = conn.prepareCall("{call search_confezione_by_aic(?)}");
-            cs.setInt(1, codice_aic);
+            cs.setInt(1, codiceAic);
             boolean status = cs.execute();
 
             if (status) {
@@ -148,13 +148,13 @@ public class MedicinaliDbDao extends DbDao implements MedicinaliDao {
     }
 
     @Override
-    public List<Confezione> getConfezioniByCodiceAtc(String codice_atc) throws DaoException {
+    public List<Confezione> getConfezioniByCodiceAtc(String codiceAtc) throws DaoException {
         List<Confezione> confezioni = new ArrayList<>();
 
         try {
             Connection conn = ConnectionFactory.getConnection();
             CallableStatement cs = conn.prepareCall("{call search_confezione_by_pa(?)}");
-            cs.setString(1, codice_atc);
+            cs.setString(1, codiceAtc);
             boolean status = cs.execute();
 
             if (status) {
@@ -172,12 +172,12 @@ public class MedicinaliDbDao extends DbDao implements MedicinaliDao {
     }
 
     @Override
-    public PrincipioAttivo getPrincipioAttvoByCodiceAtc(String codice_atc) throws DaoException {
+    public PrincipioAttivo getPrincipioAttvoByCodiceAtc(String codiceAtc) throws DaoException {
         PrincipioAttivo principio_attivo = null;
         try {
             Connection conn = ConnectionFactory.getConnection();
             CallableStatement cs = conn.prepareCall("{call search_pa_by_codice(?)}");
-            cs.setString(1, codice_atc);
+            cs.setString(1, codiceAtc);
             boolean status = cs.execute();
             if (status) {
                 ResultSet rs = cs.getResultSet();

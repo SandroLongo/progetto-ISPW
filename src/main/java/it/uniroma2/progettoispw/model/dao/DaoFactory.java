@@ -4,8 +4,6 @@ import it.uniroma2.progettoispw.model.dao.dbfiledao.DbFileDaoFactory;
 import it.uniroma2.progettoispw.model.dao.dbfiledao.MedicinaliDbDao;
 import it.uniroma2.progettoispw.model.dao.memorydao.MemoryDaoFactory;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 

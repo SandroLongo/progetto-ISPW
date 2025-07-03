@@ -4,6 +4,8 @@ import it.uniroma2.progettoispw.controller.bean.ListaRichiesteBean;
 import it.uniroma2.progettoispw.model.dao.DaoFacade;
 import it.uniroma2.progettoispw.model.domain.*;
 
+import java.util.Objects;
+
 public class ManageRequestController {
     DaoFacade daoFacade = new DaoFacade();
 
@@ -13,35 +15,36 @@ public class ManageRequestController {
     public ListaRichiesteBean getRichieste(int codice) {
         Utente utente = SessionManager.getInstance().getSession(codice).getUtente();
         ListaRichiesteBean listaRichiesteBean;
-        switch (utente.isType()) {
-            case Paziente -> {
-                RichiestePendenti richiestePendenti = ((Paziente)utente).getRichiestePendenti();
+        if (Objects.requireNonNull(utente.isType()) == Ruolo.Paziente) {
+            RichiestePendenti richiestePendenti = ((Paziente) utente).getRichiestePendenti();
             listaRichiesteBean = new ListaRichiesteBean(richiestePendenti);
             richiestePendenti.attach(listaRichiesteBean);
-            }
-            default -> {throw new RuntimeException("operazione non supportata");}
+        } else {
+            throw new RuntimeException("operazione non supportata");
         }
         return listaRichiesteBean;
     }
 
     public void accettaRichiesta(int codice, int codiceRichiesta) {
         Utente utente = SessionManager.getInstance().getSession(codice).getUtente();
-        switch (utente.isType()) {
-            case Paziente -> {Richiesta richiesta = ((Paziente)utente).getRichiestePendenti().getRichiestaByid(codiceRichiesta);
-                daoFacade.addTerapiaByRichiesta(richiesta);
-                ((Paziente)utente).getRichiestePendenti().deleteRichiesta(codiceRichiesta);
-                daoFacade.deleteRichiesta(codiceRichiesta);
-                SessionManager.getInstance().deleteRichiesta(richiesta);}
-            default -> {throw new RuntimeException("operazione non supportata");}
+        if (Objects.requireNonNull(utente.isType()) == Ruolo.Paziente) {
+            Richiesta richiesta = ((Paziente) utente).getRichiestePendenti().getRichiestaByid(codiceRichiesta);
+            daoFacade.addTerapiaByRichiesta(richiesta);
+            ((Paziente) utente).getRichiestePendenti().deleteRichiesta(codiceRichiesta);
+            daoFacade.deleteRichiesta(codiceRichiesta);
+            SessionManager.getInstance().deleteRichiesta(richiesta);
+        } else {
+            throw new RuntimeException("operazione non supportata");
         }
     }
 
     public void rifiutaRichiesta(int codice, int codiceRichiesta) {
         Utente utente = SessionManager.getInstance().getSession(codice).getUtente();
-        switch (utente.isType()) {
-            case Paziente -> {Richiesta richiesta = ((Paziente)utente).getRichiestePendenti().getRichiestaByid(codiceRichiesta);
-                                SessionManager.getInstance().deleteRichiesta(richiesta);}
-            default -> {throw new RuntimeException("operazione non supportata");}
+        if (Objects.requireNonNull(utente.isType()) == Ruolo.Paziente) {
+            Richiesta richiesta = ((Paziente) utente).getRichiestePendenti().getRichiestaByid(codiceRichiesta);
+            SessionManager.getInstance().deleteRichiesta(richiesta);
+        } else {
+            throw new RuntimeException("operazione non supportata");
         }
     }
 }

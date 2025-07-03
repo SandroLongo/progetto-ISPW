@@ -31,12 +31,12 @@ public class UtenteDbDao extends DbDao implements UtenteDao {
     }
 
     @Override
-    public Paziente getPaziente(String codice_fiscale) throws DaoException {
+    public Paziente getPaziente(String codiceFiscale) throws DaoException {
         Paziente paziente = null;
         try {
             Connection conn = ConnectionFactory.getConnection();
             CallableStatement cs = conn.prepareCall("{call get_paziente(?)}");
-            cs.setString(1, codice_fiscale);
+            cs.setString(1, codiceFiscale);
             boolean status = cs.execute();
             if (status) {
                 ResultSet rs = cs.getResultSet();
@@ -52,12 +52,12 @@ public class UtenteDbDao extends DbDao implements UtenteDao {
     }
 
     @Override
-    public Dottore getDottore(String codice_fiscale) throws DaoException {
+    public Dottore getDottore(String codiceFiscale) throws DaoException {
         Dottore dottore = null;
         try {
             Connection conn = ConnectionFactory.getConnection();
             CallableStatement cs = conn.prepareCall("{call get_dottore(?)}");
-            cs.setString(1, codice_fiscale);
+            cs.setString(1, codiceFiscale);
             boolean status = cs.execute();
             if (status) {
                 ResultSet rs = cs.getResultSet();
@@ -72,11 +72,11 @@ public class UtenteDbDao extends DbDao implements UtenteDao {
     }
 
     @Override
-    public void addPaziente(String codice_fiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
+    public void addPaziente(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
         try {
             Connection conn = ConnectionFactory.getConnection();
             CallableStatement cs = conn.prepareCall("{call add_paziente(?,?,?,?,?,?,?)}");
-            cs.setString(1, codice_fiscale);
+            cs.setString(1, codiceFiscale);
             cs.setString(2, nome);
             cs.setString(3, cognome);
             cs.setDate(4, java.sql.Date.valueOf(nascita));
@@ -84,19 +84,19 @@ public class UtenteDbDao extends DbDao implements UtenteDao {
             cs.setString(6, telefono);
             cs.setString(7, pass);
             cs.execute();
-            System.out.println("add paziente eseguita" + codice_fiscale);
+            System.out.println("add paziente eseguita" + codiceFiscale);
         } catch (SQLException e) {
             throw new DaoException(e.getMessage());
         }
     }
 
     @Override
-    public int addDottore(String codice_fiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
+    public int addDottore(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
         int id;
         try {
             Connection conn = ConnectionFactory.getConnection();
             CallableStatement cs = conn.prepareCall("{call add_dottore(?,?,?,?,?,?,?,?)}");
-            cs.setString(1, codice_fiscale);
+            cs.setString(1, codiceFiscale);
             cs.setString(2, nome);
             cs.setString(3, cognome);
             cs.setDate(4, java.sql.Date .valueOf(nascita));
@@ -114,12 +114,12 @@ public class UtenteDbDao extends DbDao implements UtenteDao {
     }
 
     @Override
-    public Utente login(String codice_fiscale, String password, int is_dottore, int codice_dottore) throws DaoException {
+    public Utente login(String codiceFiscale, String password, int is_dottore, int codice_dottore) throws DaoException {
         Utente utente = null;
         try {
             Connection conn = ConnectionFactory.getConnection();
             CallableStatement cs = conn.prepareCall("{call login(?,?,?,?)}");
-            cs.setString(1, codice_fiscale);
+            cs.setString(1, codiceFiscale);
             cs.setString(2, password);
             cs.setInt(3, is_dottore);
             cs.setInt(4, codice_dottore);
@@ -163,7 +163,7 @@ public class UtenteDbDao extends DbDao implements UtenteDao {
     }
 
     @Override
-    public Utente getInfoUtente(String codice_fiscale) throws DaoException {
-        return getPaziente(codice_fiscale);
+    public Utente getInfoUtente(String codiceFiscale) throws DaoException {
+        return getPaziente(codiceFiscale);
     }
 }

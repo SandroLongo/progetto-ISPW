@@ -49,30 +49,30 @@ public class DaoFacade {
         return terapiaGiornaliera;
     }
 
-    public Paziente getPaziente(String codice_fiscale) throws DaoException{
-        Paziente paziente = utenteDao.getPaziente(codice_fiscale);
+    public Paziente getPaziente(String codiceFiscale) throws DaoException{
+        Paziente paziente = utenteDao.getPaziente(codiceFiscale);
         paziente.setRichiestePendenti(richiesteDao.getRichisteOfPaziente(paziente));
         return paziente;
     }
 
-    public Dottore getDottore(String codice_fiscale) throws DaoException{
-        return utenteDao.getDottore(codice_fiscale);
+    public Dottore getDottore(String codiceFiscale) throws DaoException{
+        return utenteDao.getDottore(codiceFiscale);
     }
 
-    public void addPaziente(String codice_fiscale, String nome, String cognome, LocalDate nascita, String email, String telefono,
+    public void addPaziente(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono,
                             String pass) throws DaoException{
         System.out.println("in add paziente");
-        utenteDao.addPaziente(codice_fiscale, nome, cognome, nascita, email, telefono, pass);
+        utenteDao.addPaziente(codiceFiscale, nome, cognome, nascita, email, telefono, pass);
         System.out.println("fatto  add paziente");
     }
 
-    public int addDottore(String codice_fiscale, String nome, String cognome, LocalDate nascita, String email, String telefono,
-                           String pass) throws DaoException{
-        return utenteDao.addDottore(codice_fiscale, nome, cognome, nascita, email, telefono, pass);
+    public int addDottore(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono,
+                          String pass) throws DaoException{
+        return utenteDao.addDottore(codiceFiscale, nome, cognome, nascita, email, telefono, pass);
     }
 
-    public Utente login(String codice_fiscale, String password, int is_dottore, int codice_dottore) throws DaoException{
-        Utente utente = utenteDao.login(codice_fiscale, password, is_dottore, codice_dottore);
+    public Utente login(String codiceFiscale, String password, int isDottore, int codiceDottore) throws DaoException{
+        Utente utente = utenteDao.login(codiceFiscale, password, isDottore, codiceDottore);
         if (Objects.requireNonNull(utente.isType()) == Ruolo.Paziente) {
             ((Paziente)utente).setRichiestePendenti(getRichisteOfPaziente((Paziente) utente));
         }
@@ -127,7 +127,7 @@ public class DaoFacade {
         List<Session> sessions = SessionManager.getInstance().getOpenSessionsByCF(codiceFiscale);
         for (int i = 0; i < doseInviata.getNumGiorni(); i++ ) {
             data = data.plusDays(doseInviata.getRateGiorni());
-            DosePrincipioAttivo dosePrincipioAttivo = new DosePrincipioAttivo(new PrincipioAttivo((String)doseInviata.getDose().getCodice()), doseInviata.getDose().getQuantita(),
+            DosePrincipioAttivo dosePrincipioAttivo = new DosePrincipioAttivo(new PrincipioAttivo(doseInviata.getDose().getCodice()), doseInviata.getDose().getQuantita(),
                     doseInviata.getDose().getUnitaMisura(), doseInviata.getDose().getOrario(),
                     doseInviata.getDose().getDescrizione(), doseInviata.getDose().getInviante());
             terapiaDao.addDosePrincipioAttivo(dosePrincipioAttivo, data, codiceFiscale);
@@ -173,8 +173,8 @@ public class DaoFacade {
 
     }
 
-    public Confezione getConfezioneByCodiceAic(int codice_aic) throws DaoException{
-        return medicinaliDao.getConfezioneByCodiceAic(codice_aic);
+    public Confezione getConfezioneByCodiceAic(int codiceAic) throws DaoException{
+        return medicinaliDao.getConfezioneByCodiceAic(codiceAic);
     }
 
     public List<String> getNomiConfezioniByNomeParziale(String nome) throws DaoException{
@@ -189,11 +189,11 @@ public class DaoFacade {
     public PrincipioAttivo getPrincipioAttvoByNome(String nome) throws DaoException{
         return medicinaliDao.getPrincipioAttvoByNome(nome);
     }
-    public List<Confezione> getConfezioniByCodiceAtc(String codice_atc) throws DaoException{
-        return medicinaliDao.getConfezioniByCodiceAtc(codice_atc);
+    public List<Confezione> getConfezioniByCodiceAtc(String codiceAtc) throws DaoException{
+        return medicinaliDao.getConfezioniByCodiceAtc(codiceAtc);
     }
-    public PrincipioAttivo getPrincipioAttvoByCodiceAtc(String codice_atc) throws DaoException{
-        return medicinaliDao.getPrincipioAttvoByCodiceAtc(codice_atc);
+    public PrincipioAttivo getPrincipioAttvoByCodiceAtc(String codiceAtc) throws DaoException{
+        return medicinaliDao.getPrincipioAttvoByCodiceAtc(codiceAtc);
     }
 
     public DoseInviata wrapDoseCostructor(DoseCostructor doseCostructor) throws DaoException{
@@ -208,7 +208,7 @@ public class DaoFacade {
                 DosePrincipioAttivo dosePrincipioAttivo = new DosePrincipioAttivo(principioAttivo, doseBean.getQuantita(), doseBean.getUnitaMisura(), doseBean.getOrario(),
                         doseBean.getDescrizione(), utenteDao.getDottore(doseBean.getInviante().getCodiceFiscale()));
                 doseInviata = new DoseInviata(dosePrincipioAttivo, doseCostructor.getNumRipetizioni(), doseCostructor.getInizio(), doseCostructor.getRateGiorni());}
-            default -> {throw new DaoException("tipo errato");}
+            default -> throw new DaoException("tipo errato");
         }
         return doseInviata;
     }

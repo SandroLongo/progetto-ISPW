@@ -26,8 +26,8 @@ public class InformazioniMedicinaleController implements Controller {
         return confezioni;
     }
 
-    public Confezione getConfezioneByCodiceAic(int codice_aic) throws DaoException{
-        return daoFacade.getConfezioneByCodiceAic(codice_aic);
+    public Confezione getConfezioneByCodiceAic(int codiceAic) throws DaoException{
+        return daoFacade.getConfezioneByCodiceAic(codiceAic);
     }
     public List<String> getNomiConfezioniByNomeParziale(String nome) throws DaoException{
         return daoFacade.getNomiConfezioniByNomeParziale(nome);
@@ -41,10 +41,10 @@ public class InformazioniMedicinaleController implements Controller {
     public PrincipioAttivo getPrincipioAttvoByNome(String nome) throws DaoException{
         return daoFacade.getPrincipioAttvoByNome(nome);
     }
-    public List<Confezione> getConfezioniByCodiceAtc(String codice_atc) throws DaoException{
-        return daoFacade.getConfezioniByCodiceAtc(codice_atc);
+    public List<Confezione> getConfezioniByCodiceAtc(String codiceAtc) throws DaoException{
+        return daoFacade.getConfezioniByCodiceAtc(codiceAtc);
     }
-    public PrincipioAttivo getPrincipioAttvoByCodiceAtc(String codice_atc) throws DaoException{
-        return daoFacade.getPrincipioAttvoByCodiceAtc(codice_atc);
+    public PrincipioAttivo getPrincipioAttvoByCodiceAtc(String codiceAtc) throws DaoException{
+        return daoFacade.getPrincipioAttvoByCodiceAtc(codiceAtc);
     }
 }

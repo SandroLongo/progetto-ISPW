@@ -10,16 +10,16 @@ module it.uniroma2.progettoispw {
 
     opens it.uniroma2.progettoispw to javafx.fxml;
     opens it.uniroma2.progettoispw.controller.graphic.controller to javafx.fxml;
-    opens it.uniroma2.progettoispw.controller.graphic.controller.guiGraphicController to javafx.fxml;
-    exports it.uniroma2.progettoispw.controller.graphic.controller.cliGraphicController;
-    exports it.uniroma2.progettoispw.controller.graphic.controller.guiGraphicController;
+    opens it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller to javafx.fxml;
+    exports it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller;
+    exports it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller;
     exports it.uniroma2.progettoispw;
     exports it.uniroma2.progettoispw.controller.bean;
     exports it.uniroma2.progettoispw.model.domain;
     exports it.uniroma2.progettoispw.controller.graphic.controller;
-    exports it.uniroma2.progettoispw.controller.graphic.controller.guiGraphicController.pazientegraphic;
-    opens it.uniroma2.progettoispw.controller.graphic.controller.guiGraphicController.pazientegraphic to javafx.fxml;
-    exports it.uniroma2.progettoispw.controller.graphic.controller.guiGraphicController.medicographic;
-    opens it.uniroma2.progettoispw.controller.graphic.controller.guiGraphicController.medicographic to javafx.fxml;
-    opens it.uniroma2.progettoispw.controller.graphic.controller.cliGraphicController to javafx.fxml;
+    exports it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.pazientegraphic;
+    opens it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.pazientegraphic to javafx.fxml;
+    exports it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.medicographic;
+    opens it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.medicographic to javafx.fxml;
+    opens it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller to javafx.fxml;
 }

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.uniroma2.progettoispw.controller.graphic.controller.guiGraphicController.LogInViewController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.LogInViewController">
    <children>
       <Button layoutX="223.0" layoutY="235.0" mnemonicParsing="false" onAction="#handleLogIn" prefHeight="25.0" prefWidth="149.0" text="Accedi" />
       <Button layoutX="223.0" layoutY="354.0" mnemonicParsing="false" onAction="#handleRegistration" prefHeight="25.0" prefWidth="149.0" text="Registrati" />
