@@ -30,10 +30,12 @@ public class RichiesteMemoryDao extends MemoryDao implements RichiesteDao {
     }
 
     @Override
-    public void deleteRichiesta(Richiesta richiesta) throws DaoException {
+    public void deleteRichiesta(int id) throws DaoException {
         for (Map<Integer, Richiesta> mappaRichieste : richieste.values()) {
-            if (mappaRichieste.containsKey(richiesta.getId())) {
-                mappaRichieste.remove(richiesta.getId());
+            if (mappaRichieste.containsKey(id)) {
+                mappaRichieste.remove(id);
+            } else {
+                throw new DaoException("Richiesta non esistente");
             }
         }
     }

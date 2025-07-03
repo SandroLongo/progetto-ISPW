@@ -26,6 +26,7 @@ public class TerapiaGui extends Notificator implements DoseAccepter, FinalAccept
     private String gruppo;
     private AuthenticationBean authBean;
     private DoseCostructor doseCostructor;
+    private MenuWindowManager menuWindowManager;
 
     @FXML
     private DatePicker datePicker;
@@ -36,7 +37,7 @@ public class TerapiaGui extends Notificator implements DoseAccepter, FinalAccept
     @FXML
     void addMedication(ActionEvent event) throws IOException {
         doseCostructor = new DoseCostructor();
-        MenuWindowManager.getInstance().addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/RicercaConfezione.fxml", this, gruppo);
+        menuWindowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/RicercaConfezione.fxml", this, gruppo);
     }
 
     @FXML
@@ -58,6 +59,7 @@ public class TerapiaGui extends Notificator implements DoseAccepter, FinalAccept
     public void initialize(Object[] args) throws IOException {
         this.authBean = (AuthenticationBean) args[1];
         this.gruppo = (String) args[0];
+        this.menuWindowManager = (MenuWindowManager) args[2];
         terapiaController = new TerapiaController();
         datePicker.setValue(LocalDate.now());
         terapiaGiornaliera = terapiaController.getTerapiaGiornaliera(authBean.getCodice(), datePicker.getValue());
@@ -115,17 +117,17 @@ public class TerapiaGui extends Notificator implements DoseAccepter, FinalAccept
         doseCostructor.getDose().setQuantita(finalStep.getQuantita());
         doseCostructor.getDose().setAssunta(false);
         terapiaController.addDose(authBean.getCodice(), doseCostructor);
-        MenuWindowManager.getInstance().deleteTop(gruppo);
-        MenuWindowManager.getInstance().show(gruppo);
+        menuWindowManager.deleteTop(gruppo);
+        menuWindowManager.show(gruppo);
         update();
     }
 
     @Override
     public void setDose(DoseBean dose) {
         this.doseCostructor.setDose(dose);
-        MenuWindowManager.getInstance().deleteTop(gruppo);
+        menuWindowManager.deleteTop(gruppo);
         try {
-            MenuWindowManager.getInstance().addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/AggiungiView.fxml", this,gruppo);
+            menuWindowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/AggiungiView.fxml", this,gruppo, menuWindowManager);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

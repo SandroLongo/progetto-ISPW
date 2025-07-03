@@ -6,6 +6,7 @@ import it.uniroma2.progettoispw.controller.bean.DoseCostructor;
 import it.uniroma2.progettoispw.controller.bean.TerapiaGiornalieraBean;
 import it.uniroma2.progettoispw.controller.controllerApplicativi.TerapiaController;
 import it.uniroma2.progettoispw.controller.graphicController.cliGraphicController.AbstractState;
+import it.uniroma2.progettoispw.controller.graphicController.cliGraphicController.InformazioniFinali;
 import it.uniroma2.progettoispw.controller.graphicController.cliGraphicController.Receiver;
 import it.uniroma2.progettoispw.controller.graphicController.cliGraphicController.SelezionaMedicinale;
 
@@ -40,7 +41,7 @@ public class Terapia extends Receiver {
                     "avanti --> giorno successivo\n" +
                     "indietro --> giorno precedente\n" +
                     "aggiungi --> procedi all'aggiunta di un medicinale\n" +
-                    "menu --> torna al menu";
+                    "menu --> torna al menu\n";
 
         }
 
@@ -87,7 +88,7 @@ public class Terapia extends Receiver {
         public String comeBackAction(Receiver stateMachine){
             DoseBean dosebean = doseCostructor.getDose();
             if (dosebean.getNome() != null && dosebean.getCodice() != null) {
-                return "ora immetti le informazioni finali\n "+ stateMachine.goNext(new AggiungiStateFase2(authenticationBean, terapiaController, doseCostructor)) ;
+                return "ora immetti le informazioni finali\n "+ stateMachine.getPromptController().setReceiver(new InformazioniFinali(doseCostructor, stateMachine)) ;
             } else {
                 return stateMachine.goNext(new ShowTerapiaState(authenticationBean));
             }

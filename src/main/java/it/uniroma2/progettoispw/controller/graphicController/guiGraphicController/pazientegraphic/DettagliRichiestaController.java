@@ -20,6 +20,7 @@ public class DettagliRichiestaController implements GuiGraphicController {
     private ManageRequestController manageRequestController;
     private RichiestaMandata richiestaBean;
     private ObservableList<Object> dati;
+    private MenuWindowManager menuWindowManager;
 
     @FXML
     private Label CFLabel;
@@ -42,8 +43,8 @@ public class DettagliRichiestaController implements GuiGraphicController {
     @FXML
     void aggiungi() {
         manageRequestController.accettaRichiesta(authenticationBean.getCodice(), richiestaBean.getIdRichiesta());
-        MenuWindowManager.getInstance().deleteTop(gruppo);
-        MenuWindowManager.getInstance().show(gruppo);
+        menuWindowManager.deleteTop(gruppo);
+        menuWindowManager.show(gruppo);
     }
 
     @FXML
@@ -57,6 +58,7 @@ public class DettagliRichiestaController implements GuiGraphicController {
         this.gruppo = (String) args[0];
         this.authenticationBean = (AuthenticationBean) args[2];
         this.richiestaBean = (RichiestaMandata) args[3];
+        this.menuWindowManager = (MenuWindowManager) args[4];
 
         listDosi.getColumns().clear();
         TableColumn<Object, String> nome = new TableColumn<>("Nome");

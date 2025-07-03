@@ -18,6 +18,7 @@ public class InviaRichiestaViewController implements GuiGraphicController {
     private String gruppo;
     private AuthenticationBean authenticationBean;
     private InformazioniUtente utente;
+    private MenuWindowManager menuWindowManager;
 
     @FXML
     private TextField CFField;
@@ -50,13 +51,14 @@ public class InviaRichiestaViewController implements GuiGraphicController {
 
     @FXML
     void ConfermaDati() throws IOException {
-        MenuWindowManager.getInstance().addScene(gruppo, "/it/uniroma2/progettoispw/view/RecapRichiestaView.fxml", gruppo, richiesteController, authenticationBean, utente);
+        menuWindowManager.addScene(gruppo, "/it/uniroma2/progettoispw/view/RecapRichiestaView.fxml", gruppo, richiesteController, authenticationBean, utente, menuWindowManager);
     }
 
     @Override
     public void initialize(Object[] args) throws IOException {
         this.gruppo = (String) args[0];
         this.authenticationBean = (AuthenticationBean) args[1];
+        this.menuWindowManager = (MenuWindowManager) args[2];
         this.richiesteController = new RichiesteController();
     }
 }

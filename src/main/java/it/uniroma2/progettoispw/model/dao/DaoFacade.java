@@ -166,36 +166,11 @@ public class DaoFacade {
         }
         return list;
     }
-    public void deleteRichiesta(Richiesta richiesta) throws DaoException{
-        richiesteDao.deleteRichiesta(richiesta);
-        List<Session> sessions = SessionManager.getInstance().getOpenSessionsByCF(richiesta.getRicevente().getCodiceFiscale());
-        for (Session session : sessions){
-            Utente utente = session.getUtente();
-            switch (utente.isType()){
-                case Paziente -> {RichiestePendenti richiestePendenti = ((Paziente)utente).getRichiestePendenti();
-                    richiestePendenti.deleteRichiesta(richiesta.getId());}
-                default -> {}
-            }
-        }
+    public void deleteRichiesta(int id) throws DaoException{
+        richiesteDao.deleteRichiesta(id);
     }
     public void addRichiesta(RichiestaBean richiesta) throws DaoException{
-        Richiesta nuovaRichiesta = new Richiesta();
-        nuovaRichiesta.setInvio(richiesta.getInvio());
-        nuovaRichiesta.setRicevente(utenteDao.getPaziente(richiesta.getRicevente().getCodice_fiscale())); //da rivedere classe InformazioniUtente
-        nuovaRichiesta.setInviante(utenteDao.getDottore(richiesta.getInviante().getCodice_fiscale()));
-        for (DoseCostructor dose: richiesta.getDosi()){
-            nuovaRichiesta.addDoseInviata(wrapDoseCostructor(dose));
-        }
-        richiesteDao.addRichiesta(nuovaRichiesta);
-        List<Session> sessions = SessionManager.getInstance().getOpenSessionsByCF(richiesta.getRicevente().getCodice_fiscale());
-        for (Session session : sessions){
-            Utente utente = session.getUtente();
-            switch (utente.isType()){
-                case Paziente -> {RichiestePendenti richiestePendenti = ((Paziente)utente).getRichiestePendenti();
-                    richiestePendenti.addRichiesta(nuovaRichiesta);}
-                default -> {}
-            }
-        }
+
     }
 
     public Confezione getConfezioneByCodiceAic(int codice_aic) throws DaoException{

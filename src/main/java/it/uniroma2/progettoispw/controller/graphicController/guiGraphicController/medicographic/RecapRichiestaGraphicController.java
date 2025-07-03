@@ -26,6 +26,7 @@ public class RecapRichiestaGraphicController implements GuiGraphicController, Do
     private RichiestaBean richiestaBean = new RichiestaBean();
     private AuthenticationBean authenticationBean;
     private DoseCostructor doseCostructor = new DoseCostructor();
+    private MenuWindowManager menuWindowManager;
     @FXML
     private Label CFLabel;
 
@@ -47,14 +48,14 @@ public class RecapRichiestaGraphicController implements GuiGraphicController, Do
     @FXML
     void aggiungi(ActionEvent event) throws IOException {
         this.doseCostructor = new DoseCostructor();
-        MenuWindowManager.getInstance().addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/RicercaConfezione.fxml", this, gruppo);
+        menuWindowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/RicercaConfezione.fxml", this, gruppo, menuWindowManager);
     }
 
     @FXML
     void invia(ActionEvent event) {
         richiesteController.invia(authenticationBean.getCodice(), richiestaBean);
-        MenuWindowManager.getInstance().deleteTop(gruppo);
-        MenuWindowManager.getInstance().show(gruppo);
+        menuWindowManager.deleteTop(gruppo);
+        menuWindowManager.show(gruppo);
     }
 
     @Override
@@ -63,6 +64,7 @@ public class RecapRichiestaGraphicController implements GuiGraphicController, Do
         this.gruppo = (String) args[0];
         this.authenticationBean = (AuthenticationBean) args[2];
         this.richiestaBean.setRicevente((InformazioniUtente) args[3]);
+        this.menuWindowManager = (MenuWindowManager) args[4];
         recapTable.getColumns().clear();
 
         TableColumn<Object, String> nome = new TableColumn<>("Nome");
@@ -118,7 +120,7 @@ public class RecapRichiestaGraphicController implements GuiGraphicController, Do
         recapTable.getColumns().addAll(nome, quantita, unitaDiMisura, descrizione, numGiorni, rate, orario);
         this.dati = FXCollections.observableArrayList();
         recapTable.setItems(dati);
-        MenuWindowManager.getInstance().addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/RicercaConfezione.fxml", this, gruppo);
+        menuWindowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/RicercaConfezione.fxml", this, gruppo, menuWindowManager);
     }
 
     @Override
@@ -133,8 +135,8 @@ public class RecapRichiestaGraphicController implements GuiGraphicController, Do
         doseCostructor.getDose().setAssunta(false);
         richiestaBean.addDoseCostructor(doseCostructor);
         update();
-        MenuWindowManager.getInstance().deleteTop(gruppo);
-        MenuWindowManager.getInstance().show(gruppo);
+        menuWindowManager.deleteTop(gruppo);
+        menuWindowManager.show(gruppo);
     }
 
     public void update(){
@@ -145,9 +147,9 @@ public class RecapRichiestaGraphicController implements GuiGraphicController, Do
     @Override
     public void setDose(DoseBean dose) {
         this.doseCostructor.setDose(dose);
-        MenuWindowManager.getInstance().deleteTop(gruppo);
+        menuWindowManager.deleteTop(gruppo);
         try {
-            MenuWindowManager.getInstance().addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/AggiungiView.fxml", this,gruppo);
+            menuWindowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/AggiungiView.fxml", this,gruppo, menuWindowManager);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

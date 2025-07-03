@@ -22,6 +22,8 @@ import java.io.IOException;
 
 public class LogInViewController implements GuiGraphicController {
     private LogInController logInController = new LogInController();
+    MenuWindowManager menuWindowManager;
+
     @FXML
     private Label errorLabel;
     @FXML
@@ -62,8 +64,11 @@ public class LogInViewController implements GuiGraphicController {
             }
         }
         BorderPane root = (BorderPane) loader.load();
-        ((GuiGraphicController)loader.getController()).initialize(new Object[]{authenticationBean});
-        MenuWindowManager.getInstance().setMenu(root);
+        Stage stage = (Stage)errorLabel.getScene().getWindow();
+        MenuWindowManager menuWindowManager = new MenuWindowManager(stage);
+        ((GuiGraphicController)loader.getController()).initialize(new Object[]{authenticationBean, menuWindowManager});
+        menuWindowManager.setMenu(root);
+
     }
 
     @FXML
@@ -81,6 +86,6 @@ public class LogInViewController implements GuiGraphicController {
 
     @Override
     public void initialize(Object[] args) throws IOException {
-
+        this.menuWindowManager = (MenuWindowManager) args[0];
     }
 }

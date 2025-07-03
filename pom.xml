@@ -91,7 +91,7 @@
                             <goal>run</goal>
                         </goals>
                         <configuration>
-                            <mainClass>it.uniroma2.progettoispw.ISPWApplication</mainClass>
+                            <mainClass>it.uniroma2.progettoispw.Launcher</mainClass>
                         </configuration>
                     </execution>
                 </executions>
@@ -112,7 +112,7 @@
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>it.uniroma2.progettoispw.ISPWApplication</mainClass>
+                                    <mainClass>it.uniroma2.progettoispw.Launcher</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

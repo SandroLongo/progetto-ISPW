@@ -6,13 +6,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class GuiApp extends Application {
+public class GuiApp {
 
-
-    @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("application");
-        MenuWindowManager.getInstance().setMainStage(stage);
+        MenuWindowManager menuWindowManager = new MenuWindowManager(stage);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/LogInview.fxml"));
         Parent root = loader.load();
         stage.setScene(new Scene(root));

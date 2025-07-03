@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.uniroma2.progettoispw.controller.graphicController.Scelta">
+   <children>
+      <Button layoutX="159.0" layoutY="166.0" mnemonicParsing="false" onAction="#cliGui" prefHeight="49.0" prefWidth="105.0" text="CLIStyleGUI" />
+      <Button layoutX="291.0" layoutY="166.0" mnemonicParsing="false" onAction="#normalGui" prefHeight="49.0" prefWidth="105.0" text="NormalGUI" />
+      <Label fx:id="label" layoutX="138.0" layoutY="32.0" prefHeight="104.0" prefWidth="273.0" text="SCEGLI CHE TIPO DI GRAFICA VUOI USARE" />
+   </children>
+</AnchorPane>

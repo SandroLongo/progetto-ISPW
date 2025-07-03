@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface RichiesteDao {
     public List<Richiesta> getRichisteOfPaziente(Paziente paziente) throws DaoException;
-    public void deleteRichiesta(Richiesta richiesta) throws DaoException;
+    public void deleteRichiesta(int id) throws DaoException;
     public int addRichiesta(Richiesta richiesta) throws DaoException;
 
 }

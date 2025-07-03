@@ -5,6 +5,10 @@ public abstract class AbstractState {
 
     public abstract String goNext(Receiver stateMachine, String command);
 
+    public String getInitialMessage() {
+        return initialMessage;
+    }
+
     public String comeBackAction(Receiver stateMachine) {
         return initialMessage;
     }

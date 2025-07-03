@@ -22,6 +22,7 @@ public class RichiesteViewController extends Notificator implements GuiGraphicCo
     private ManageRequestController manageRequestController;
     private AuthenticationBean authenticationBean;
     private ListaRichiesteBean listaRichiesteBean;
+    private MenuWindowManager menuWindowManager;
 
     @FXML
     private TableView<Object> listaRichieste;
@@ -31,6 +32,7 @@ public class RichiesteViewController extends Notificator implements GuiGraphicCo
     public void initialize(Object[] args) throws IOException {
         this.gruppo = (String) args[0];
         this.authenticationBean = (AuthenticationBean) args[1];
+        this.menuWindowManager = (MenuWindowManager) args[2];
         this.manageRequestController = new ManageRequestController();
         this.listaRichiesteBean = manageRequestController.getRichieste(authenticationBean.getCodice());
         listaRichiesteBean.setNotificator(this);
@@ -51,7 +53,7 @@ public class RichiesteViewController extends Notificator implements GuiGraphicCo
                 btn.setOnAction(event -> {
                     RichiestaMandata selezione =  (RichiestaMandata) getTableView().getItems().get(getIndex());
                     try {
-                        MenuWindowManager.getInstance().addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/VisualizzaDettagliRichiestaView.fxml", gruppo, manageRequestController, authenticationBean, selezione);
+                        menuWindowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/VisualizzaDettagliRichiestaView.fxml", gruppo, manageRequestController, authenticationBean, selezione, menuWindowManager);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }

@@ -1,9 +1,13 @@
 package it.uniroma2.progettoispw.controller.controllerApplicativi;
 
+import it.uniroma2.progettoispw.controller.bean.DoseCostructor;
 import it.uniroma2.progettoispw.controller.bean.FinalStepBean;
 import it.uniroma2.progettoispw.controller.bean.InformazioniUtente;
 import it.uniroma2.progettoispw.controller.bean.RichiestaBean;
 import it.uniroma2.progettoispw.model.dao.DaoFacade;
+import it.uniroma2.progettoispw.model.dao.DaoFactory;
+import it.uniroma2.progettoispw.model.dao.RichiesteDao;
+import it.uniroma2.progettoispw.model.dao.UtenteDao;
 import it.uniroma2.progettoispw.model.domain.*;
 
 import java.time.LocalDate;
@@ -30,8 +34,19 @@ public class RichiesteController implements Controller{
         richiestaBean.setInviante(new InformazioniUtente(utente));
         richiestaBean.setInvio(LocalDate.now());
         switch (utente.isType()) {
-            case Dottore -> {daoFacade.addRichiesta(richiestaBean);}
-            default -> {throw new RuntimeException("operazione non supportata");}
-        }
+            case Dottore -> {Richiesta nuovaRichiesta = new Richiesta();
+                nuovaRichiesta.setInvio(richiestaBean.getInvio());
+                UtenteDao utenteDao = DaoFactory.getIstance().getUtenteDao();
+                nuovaRichiesta.setRicevente(utenteDao.getPaziente(richiestaBean.getRicevente().getCodice_fiscale())); //da rivedere classe InformazioniUtente
+                nuovaRichiesta.setInviante(utenteDao.getDottore(richiestaBean.getInviante().getCodice_fiscale()));
+                for (DoseCostructor dose: richiestaBean.getDosi()){
+                    nuovaRichiesta.addDoseInviata(daoFacade.wrapDoseCostructor(dose));
+                }
+                RichiesteDao richiesteDao = DaoFactory.getIstance().getRichiesteDao();
+                int id = richiesteDao.addRichiesta(nuovaRichiesta);
+                nuovaRichiesta.setId(id);
+                SessionManager.getInstance().addRichiesta(nuovaRichiesta);}
+                default -> {throw new RuntimeException("operazione non supportata");}
+            }
     }
 }

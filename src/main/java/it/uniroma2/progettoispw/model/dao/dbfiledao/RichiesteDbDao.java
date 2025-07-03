@@ -73,8 +73,15 @@ public class RichiesteDbDao extends DbDao implements RichiesteDao {
     }
 
     @Override
-    public void deleteRichiesta(Richiesta richiesta) throws DaoException {
-
+    public void deleteRichiesta(int id) throws DaoException {
+        try {
+            Connection conn = ConnectionFactory.getConnection();
+            CallableStatement cs = conn.prepareCall("{call delete_richiesta(?)}");
+            cs.setInt(1, id);
+            cs.execute();
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage());
+        }
     }
 
     @Override

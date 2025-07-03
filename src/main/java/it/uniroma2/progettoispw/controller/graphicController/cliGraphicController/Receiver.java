@@ -15,7 +15,7 @@ public abstract class Receiver {
 
     public String goNext(AbstractState nextState) {
         this.currentState = nextState;
-        return nextState.comeBackAction(this);
+        return nextState.getInitialMessage();
     }
 
     public PromptController getPromptController() {

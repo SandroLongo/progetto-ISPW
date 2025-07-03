@@ -10,6 +10,7 @@ import java.io.IOException;
 
 public class MenuMedicoController implements GuiGraphicController {
     AuthenticationBean authenticationBean;
+    private MenuWindowManager menuWindowManager;
 
     @FXML
     void home(ActionEvent event) {
@@ -23,13 +24,14 @@ public class MenuMedicoController implements GuiGraphicController {
 
     @FXML
     void sendRequest(ActionEvent event) {
-        MenuWindowManager.getInstance().show("RICHIESTA");
+        menuWindowManager.show("RICHIESTA");
     }
 
     @Override
     public void initialize(Object[] args) throws IOException {
         this.authenticationBean = (AuthenticationBean) args[0];
-        MenuWindowManager.getInstance().createNewStack("RICHIESTA");
-        MenuWindowManager.getInstance().addScene("RICHIESTA", "/it/uniroma2/progettoispw/view/InviaRichiestaView.fxml", "RICHIESTA", authenticationBean);
+        this.menuWindowManager = (MenuWindowManager) args[1];
+        menuWindowManager.createNewStack("RICHIESTA");
+        menuWindowManager.addScene("RICHIESTA", "/it/uniroma2/progettoispw/view/InviaRichiestaView.fxml", "RICHIESTA", authenticationBean, menuWindowManager);
     }
 }

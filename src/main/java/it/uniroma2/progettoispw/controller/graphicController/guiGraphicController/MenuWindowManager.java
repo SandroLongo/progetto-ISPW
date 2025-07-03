@@ -11,19 +11,14 @@ import java.util.Map;
 import java.util.Stack;
 
 public class MenuWindowManager {
-    private static MenuWindowManager instance;
     private Stage mainStage;
     private BorderPane menu;
     private Map<String, Stack<Scene>> SceneMap = new HashMap<String, Stack<Scene>>();
 
-    private MenuWindowManager() {}
-
-    public static MenuWindowManager getInstance() {
-        if (instance == null) {
-            instance = new MenuWindowManager();
-        }
-        return instance;
+    public MenuWindowManager(Stage mainStage) {
+        this.mainStage = mainStage;
     }
+
 
     public void createNewStack(String string){
 

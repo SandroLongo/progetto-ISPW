@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -14,6 +15,8 @@ public class MenuPazienteController implements GuiGraphicController {
     private final String richiestapaziente = "RICHIESTAPAZIENTE";
     private final String terapia = "TERAPIA";
     private AuthenticationBean authenticationBean;
+    private MenuWindowManager menuWindowManager;
+
     @FXML
     private BorderPane boarderPane;
 
@@ -29,21 +32,22 @@ public class MenuPazienteController implements GuiGraphicController {
 
     @FXML
     void richieste(ActionEvent event) {
-        MenuWindowManager.getInstance().show(richiestapaziente);
+        menuWindowManager.show(richiestapaziente);
     }
 
     @FXML
     void terapia(ActionEvent event) throws IOException {
-        MenuWindowManager.getInstance().show(terapia);
+        menuWindowManager.show(terapia);
     }
 
     @Override
     public void initialize(Object[] args) throws IOException {
         authenticationBean = (AuthenticationBean) args[0];
+        this.menuWindowManager = (MenuWindowManager) args[1];
         System.out.println(authenticationBean.getCodice());
-        MenuWindowManager.getInstance().createNewStack(terapia);
-        MenuWindowManager.getInstance().addScene(terapia, "/it/uniroma2/progettoispw/view/TerapiaView.fxml", terapia, authenticationBean);
-        MenuWindowManager.getInstance().createNewStack(richiestapaziente);
-        MenuWindowManager.getInstance().addScene(richiestapaziente, "/it/uniroma2/progettoispw/view/RichiesteView.fxml", richiestapaziente, authenticationBean);
+        menuWindowManager.createNewStack(terapia);
+        menuWindowManager.addScene(terapia, "/it/uniroma2/progettoispw/view/TerapiaView.fxml", terapia, authenticationBean, menuWindowManager);
+        menuWindowManager.createNewStack(richiestapaziente);
+        menuWindowManager.addScene(richiestapaziente, "/it/uniroma2/progettoispw/view/RichiesteView.fxml", richiestapaziente, authenticationBean, menuWindowManager);
     }
 }

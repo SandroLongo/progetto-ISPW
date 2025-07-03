@@ -1,5 +1,6 @@
 package it.uniroma2.progettoispw.controller.controllerApplicativi;
 
+import it.uniroma2.progettoispw.controller.bean.ConfezioneBean;
 import it.uniroma2.progettoispw.controller.bean.ListConfezioniBean;
 import it.uniroma2.progettoispw.controller.bean.ListNomiPABean;
 import it.uniroma2.progettoispw.model.dao.DaoException;

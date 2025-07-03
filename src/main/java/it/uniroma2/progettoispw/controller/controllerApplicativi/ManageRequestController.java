@@ -1,12 +1,8 @@
 package it.uniroma2.progettoispw.controller.controllerApplicativi;
 
 import it.uniroma2.progettoispw.controller.bean.ListaRichiesteBean;
-import it.uniroma2.progettoispw.controller.bean.RichiestaBean;
-import it.uniroma2.progettoispw.controller.bean.RichiestaMandata;
 import it.uniroma2.progettoispw.model.dao.DaoFacade;
 import it.uniroma2.progettoispw.model.domain.*;
-
-import java.util.List;
 
 public class ManageRequestController {
     DaoFacade daoFacade = new DaoFacade();
@@ -32,7 +28,10 @@ public class ManageRequestController {
         Utente utente = SessionManager.getInstance().getSession(codice).getUtente();
         switch (utente.isType()) {
             case Paziente -> {Richiesta richiesta = ((Paziente)utente).getRichiestePendenti().getRichiestaByid(codiceRichiesta);
-                daoFacade.addTerapiaByRichiesta(richiesta);}
+                daoFacade.addTerapiaByRichiesta(richiesta);
+                ((Paziente)utente).getRichiestePendenti().deleteRichiesta(codiceRichiesta);
+                daoFacade.deleteRichiesta(codiceRichiesta);
+                SessionManager.getInstance().deleteRichiesta(richiesta);}
             default -> {throw new RuntimeException("operazione non supportata");}
         }
     }
@@ -40,7 +39,8 @@ public class ManageRequestController {
     public void rifiutaRichiesta(int codice, int codiceRichiesta) {
         Utente utente = SessionManager.getInstance().getSession(codice).getUtente();
         switch (utente.isType()) {
-            case Paziente -> {((Paziente)utente).getRichiestePendenti().deleteRichiesta(codiceRichiesta);}
+            case Paziente -> {Richiesta richiesta = ((Paziente)utente).getRichiestePendenti().getRichiestaByid(codiceRichiesta);
+                                SessionManager.getInstance().deleteRichiesta(richiesta);}
             default -> {throw new RuntimeException("operazione non supportata");}
         }
     }
