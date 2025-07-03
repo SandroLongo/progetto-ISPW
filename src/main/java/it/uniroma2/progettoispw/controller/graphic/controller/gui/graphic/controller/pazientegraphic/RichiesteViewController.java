@@ -37,7 +37,7 @@ public class RichiesteViewController extends Notificator implements GuiGraphicCo
         listaRichiesteBean.setNotificator(this);
         listaRichieste.getColumns().clear();
 
-        TableColumn<Object, String> nomeDottore = new TableColumn<>("Dottore");
+        TableColumn<Object, String> nomeDottore = new TableColumn<>("DOTTORE");
         nomeDottore.setCellValueFactory(data -> new ReadOnlyStringWrapper(((RichiestaMandata)data.getValue()).getInviante().getNome() + " " +
                 ((RichiestaMandata)data.getValue()).getInviante().getCognome()));
 

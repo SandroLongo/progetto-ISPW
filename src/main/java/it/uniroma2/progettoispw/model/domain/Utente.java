@@ -24,7 +24,7 @@ public abstract class Utente {
 
     }
 
-    public Utente(String codiceFiscale) {
+    protected Utente(String codiceFiscale) {
         this.codiceFiscale = codiceFiscale;
     }
 

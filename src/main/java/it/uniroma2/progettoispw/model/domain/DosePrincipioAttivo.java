@@ -32,7 +32,7 @@ public class DosePrincipioAttivo extends Dose{
 
     @Override
     public TipoDose isType() {
-        return TipoDose.PrincipioAttivo;
+        return TipoDose.PRINCIPIOATTIVO;
     }
 
     @Override

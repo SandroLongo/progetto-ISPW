@@ -17,27 +17,6 @@ public class Confezione {
     private String unitaMisura;
     private String link;
 
-    public Confezione(int codiceAic, int codFarmaco, int codConfezione, String denominazione, String descrizione, int codiceDitta, String ragioneSociale,
-                      String statoAmministrativo, String tipoProcedura, String forma, String codiceAtc, String paAssociati,
-                      long quantita, String unitaMisura, String link) {
-        this.codiceAic = codiceAic;
-        this.codFarmaco = codFarmaco;
-        this.codConfezione = codConfezione;
-        this.denominazione = denominazione;
-        this.descrizione = descrizione;
-        this.codiceDitta = codiceDitta;
-        this.ragioneSociale = ragioneSociale;
-        this.statoAmministrativo = statoAmministrativo;
-        this.tipoProcedura = tipoProcedura;
-        this.forma = forma;
-        this.codiceAtc = codiceAtc;
-        this.paAssociati = paAssociati;
-        this.quantita = quantita;
-        this.unitaMisura = unitaMisura;
-        this.link = link;
-
-    }
-
     public Confezione(int codiceAic) {
         this.codiceAic = codiceAic;
     }

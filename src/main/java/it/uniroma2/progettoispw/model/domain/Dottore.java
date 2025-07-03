@@ -14,6 +14,6 @@ public class Dottore extends Utente{
 
     @Override
     public Ruolo isType() {
-        return Ruolo.Dottore;
+        return Ruolo.DOTTORE;
     }
 }

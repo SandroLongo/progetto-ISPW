@@ -40,7 +40,7 @@ public class RichiestaBean {
     }
 
     public String toStringBase(){
-        return "Dottore: " + ricevente.getNome() + " " + ricevente.getCognome() + "data di invio: " + invio.toString();
+        return "DOTTORE: " + ricevente.getNome() + " " + ricevente.getCognome() + "data di invio: " + invio.toString();
     }
 
     public List<DoseCostructor> getDosi() {

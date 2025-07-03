@@ -19,8 +19,8 @@ public class LogInController implements Controller{
         verifyLogInData(utenteLogInData);
         try {
             switch (utenteLogInData.getRuolo()){
-                case Paziente -> utente = daoFacade.login(utenteLogInData.getCodiceFiscale(), utenteLogInData.getPassword(), 0, 0);
-                case Dottore -> { utente = daoFacade.login(utenteLogInData.getCodiceFiscale(), utenteLogInData.getPassword(), 1,
+                case PAZIENTE -> utente = daoFacade.login(utenteLogInData.getCodiceFiscale(), utenteLogInData.getPassword(), 0, 0);
+                case DOTTORE -> { utente = daoFacade.login(utenteLogInData.getCodiceFiscale(), utenteLogInData.getPassword(), 1,
                                 utenteLogInData.getCodiceDottore());}
                 default -> utente = null;
             }
@@ -37,7 +37,7 @@ public class LogInController implements Controller{
         String pwd = utenteLogInData.getPassword();
 
         verifyCFandPass(cf, pwd);
-//        if (utenteLogInData.getRuolo() == Ruolo.Dottore) {
+//        if (utenteLogInData.getRuolo() == Ruolo.DOTTORE) {
 //            if (utenteLogInData.getCodiceDottore() >= Config.MAX_DOCTOR_CODE_LENGTH
 //                    || utenteLogInData.getCodiceDottore() <= Config.MAX_DOCTOR_CODE_LENGTH){
 //                throw new FomatoInvalidoException("codice dottore non valido");

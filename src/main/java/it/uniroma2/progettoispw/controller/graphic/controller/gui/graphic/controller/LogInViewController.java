@@ -39,9 +39,9 @@ public class LogInViewController implements GuiGraphicController {
         String password = passwordField.getText();
         UtenteLogInData utenteLogInData;
         if (checkMedico.isSelected()) {
-            utenteLogInData = new UtenteLogInData(codice, password, Ruolo.Dottore, codiceMedicoField.getText());
+            utenteLogInData = new UtenteLogInData(codice, password, Ruolo.DOTTORE, codiceMedicoField.getText());
         } else {
-            utenteLogInData = new UtenteLogInData(codice, password, Ruolo.Paziente);
+            utenteLogInData = new UtenteLogInData(codice, password, Ruolo.PAZIENTE);
         }
 
         AuthenticationBean authenticationBean = null;
@@ -54,8 +54,8 @@ public class LogInViewController implements GuiGraphicController {
 
         FXMLLoader loader;
         switch (authenticationBean.getRuolo()) {
-            case Dottore -> loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/MenuDottore.fxml"));
-            case Paziente -> loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/MenuPaziente.fxml"));
+            case DOTTORE -> loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/MenuDottore.fxml"));
+            case PAZIENTE -> loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/MenuPaziente.fxml"));
             default -> {
                 showAlert("Login fallito, credenziali errate");
                 return;

@@ -34,7 +34,7 @@ public class DoseConfezione extends Dose{
 
     @Override
     public TipoDose isType() {
-        return TipoDose.Confezione;
+        return TipoDose.CONFEZIONE;
     }
 
     @Override

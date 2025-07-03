@@ -40,7 +40,6 @@ public class MenuWindowManager {
 
     public void show(String gruppo){
         menu.setCenter(sceneMap.get(gruppo).peek().getRoot());
-        //System.out.println("show"+ sceneMap.get(gruppo).peek().getRoot());
     }
     public void deleteAndcomeBack(String gruppo){
         sceneMap.get(gruppo).pop();
@@ -53,7 +52,6 @@ public class MenuWindowManager {
 
     public void deleteTop(String gruppo){
         Scene scene = sceneMap.get(gruppo).pop();
-        //System.out.println("tolto"+ scene.getRoot());
     }
     public void setMainStage(Stage mainStage) {
         this.mainStage = mainStage;
@@ -63,10 +61,6 @@ public class MenuWindowManager {
         this.menu = menu;
         mainStage.setScene(new Scene(menu));
         mainStage.show();
-    }
-
-
-    public void loadRicercaMedicinali() {
     }
 }
 

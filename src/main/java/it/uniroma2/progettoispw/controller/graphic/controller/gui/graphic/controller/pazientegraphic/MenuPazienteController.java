@@ -10,8 +10,8 @@ import javafx.scene.layout.BorderPane;
 import java.io.IOException;
 
 public class MenuPazienteController implements GuiGraphicController {
-    private static final String richiestapaziente = "RICHIESTAPAZIENTE";
-    private static final String terapia = "TERAPIA";
+    private static final String RichiestaPaziente = "RICHIESTAPAZIENTE";
+    private static final String Terapia = "TERAPIA";
     private AuthenticationBean authenticationBean;
     private MenuWindowManager menuWindowManager;
 
@@ -20,31 +20,31 @@ public class MenuPazienteController implements GuiGraphicController {
 
     @FXML
     void cercaMedicinali(ActionEvent event) {
-
+        //ancora non implementato
     }
 
     @FXML
     void home(ActionEvent event) {
-
+        //ancora non implementato
     }
 
     @FXML
     void richieste(ActionEvent event) {
-        menuWindowManager.show(richiestapaziente);
+        menuWindowManager.show(RichiestaPaziente);
     }
 
     @FXML
     void terapia(ActionEvent event){
-        menuWindowManager.show(terapia);
+        menuWindowManager.show(Terapia);
     }
 
     @Override
     public void initialize(Object[] args) throws IOException {
         authenticationBean = (AuthenticationBean) args[0];
         this.menuWindowManager = (MenuWindowManager) args[1];
-        menuWindowManager.createNewStack(terapia);
-        menuWindowManager.addScene(terapia, "/it/uniroma2/progettoispw/view/TerapiaView.fxml", terapia, authenticationBean, menuWindowManager);
-        menuWindowManager.createNewStack(richiestapaziente);
-        menuWindowManager.addScene(richiestapaziente, "/it/uniroma2/progettoispw/view/RichiesteView.fxml", richiestapaziente, authenticationBean, menuWindowManager);
+        menuWindowManager.createNewStack(Terapia);
+        menuWindowManager.addScene(Terapia, "/it/uniroma2/progettoispw/view/TerapiaView.fxml", Terapia, authenticationBean, menuWindowManager);
+        menuWindowManager.createNewStack(RichiestaPaziente);
+        menuWindowManager.addScene(RichiestaPaziente, "/it/uniroma2/progettoispw/view/RichiesteView.fxml", RichiestaPaziente, authenticationBean, menuWindowManager);
     }
 }

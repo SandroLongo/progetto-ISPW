@@ -15,11 +15,6 @@ import java.util.Objects;
 public class RichiesteController implements Controller{
     DaoFacade daoFacade = new DaoFacade();
 
-    public RichiesteController() {
-    }
-
-
-
     public InformazioniUtente getInformazioniPaziente(int codice, String cf) {
 
         if (SessionManager.getInstance().esiste(codice)) {
@@ -36,7 +31,7 @@ public class RichiesteController implements Controller{
         Utente utente = SessionManager.getInstance().getSession(codice).getUtente();
         richiestaBean.setInviante(new InformazioniUtente(utente));
         richiestaBean.setInvio(LocalDate.now());
-        if (Objects.requireNonNull(utente.isType()) == Ruolo.Dottore) {
+        if (Objects.requireNonNull(utente.isType()) == Ruolo.DOTTORE) {
             Richiesta nuovaRichiesta = new Richiesta();
             nuovaRichiesta.setInvio(richiestaBean.getInvio());
             UtenteDao utenteDao = DaoFactory.getIstance().getUtenteDao();

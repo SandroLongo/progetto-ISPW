@@ -48,7 +48,7 @@ public class RichiesteDbDao extends DbDao implements RichiesteDao {
                     richieste.add(new Richiesta(rs.getInt(1), rs.getDate(2).toLocalDate(), paziente,
                             new Dottore(rs.getString(3))));
                 }
-                //da completare la creazione del Dottore inviante
+                //da completare la creazione del DOTTORE inviante
                 for (Richiesta richiesta : richieste) {
                     status = cs.getMoreResults();
                     if (status) {
@@ -100,11 +100,11 @@ public class RichiesteDbDao extends DbDao implements RichiesteDao {
                 boolean isConfezione = false;
 
                 switch (dose.isType()) {
-                    case Confezione -> {
+                    case CONFEZIONE -> {
                         procedureCall = "{call add_invio_confezione(?,?,?,?,?,?,?,?,?)}";
                         isConfezione = true;
                     }
-                    case PrincipioAttivo -> procedureCall = "{call add_invio_pa(?,?,?,?,?,?,?,?,?)}";
+                    case PRINCIPIOATTIVO -> procedureCall = "{call add_invio_pa(?,?,?,?,?,?,?,?,?)}";
                     default -> throw new DaoException("tipo confezione non valido");
                 }
 

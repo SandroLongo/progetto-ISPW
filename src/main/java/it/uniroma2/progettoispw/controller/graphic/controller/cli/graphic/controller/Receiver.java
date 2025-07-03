@@ -10,6 +10,10 @@ public abstract class Receiver {
     }
 
     public String getInitialMessage(){
+        return currentState.getInitialMessage();
+    }
+
+    public String comeBackAction(){
         return currentState.comeBackAction(this);
     }
 

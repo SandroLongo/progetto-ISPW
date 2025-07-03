@@ -9,13 +9,10 @@ import java.util.Objects;
 public class ManageRequestController {
     DaoFacade daoFacade = new DaoFacade();
 
-    public ManageRequestController() {
-    }
-
     public ListaRichiesteBean getRichieste(int codice) {
         Utente utente = SessionManager.getInstance().getSession(codice).getUtente();
         ListaRichiesteBean listaRichiesteBean;
-        if (Objects.requireNonNull(utente.isType()) == Ruolo.Paziente) {
+        if (Objects.requireNonNull(utente.isType()) == Ruolo.PAZIENTE) {
             RichiestePendenti richiestePendenti = ((Paziente) utente).getRichiestePendenti();
             listaRichiesteBean = new ListaRichiesteBean(richiestePendenti);
             richiestePendenti.attach(listaRichiesteBean);
@@ -27,7 +24,7 @@ public class ManageRequestController {
 
     public void accettaRichiesta(int codice, int codiceRichiesta) {
         Utente utente = SessionManager.getInstance().getSession(codice).getUtente();
-        if (Objects.requireNonNull(utente.isType()) == Ruolo.Paziente) {
+        if (Objects.requireNonNull(utente.isType()) == Ruolo.PAZIENTE) {
             Richiesta richiesta = ((Paziente) utente).getRichiestePendenti().getRichiestaByid(codiceRichiesta);
             daoFacade.addTerapiaByRichiesta(richiesta);
             ((Paziente) utente).getRichiestePendenti().deleteRichiesta(codiceRichiesta);
@@ -40,7 +37,7 @@ public class ManageRequestController {
 
     public void rifiutaRichiesta(int codice, int codiceRichiesta) {
         Utente utente = SessionManager.getInstance().getSession(codice).getUtente();
-        if (Objects.requireNonNull(utente.isType()) == Ruolo.Paziente) {
+        if (Objects.requireNonNull(utente.isType()) == Ruolo.PAZIENTE) {
             Richiesta richiesta = ((Paziente) utente).getRichiestePendenti().getRichiestaByid(codiceRichiesta);
             SessionManager.getInstance().deleteRichiesta(richiesta);
         } else {

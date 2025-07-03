@@ -40,10 +40,10 @@ public class SessionManager {
     }
 
     public void deleteRichiesta(Richiesta richiesta) {
-        List<Session> sessions = getOpenSessionsByCF(richiesta.getRicevente().getCodiceFiscale());
-        for (Session s : sessions){
+        List<Session> openSessionsByCF = getOpenSessionsByCF(richiesta.getRicevente().getCodiceFiscale());
+        for (Session s : openSessionsByCF){
             Utente utente = s.getUtente();
-            if (Objects.requireNonNull(utente.isType()) == Ruolo.Paziente) {
+            if (Objects.requireNonNull(utente.isType()) == Ruolo.PAZIENTE) {
                 RichiestePendenti richiestePendenti = ((Paziente) utente).getRichiestePendenti();
                 richiestePendenti.deleteRichiesta(richiesta.getId());
             }
@@ -54,7 +54,7 @@ public class SessionManager {
         List<Session> sessions = SessionManager.getInstance().getOpenSessionsByCF(richiesta.getRicevente().getCodiceFiscale());
         for (Session session : sessions){
             Utente utente = session.getUtente();
-            if (Objects.requireNonNull(utente.isType()) == Ruolo.Paziente) {
+            if (Objects.requireNonNull(utente.isType()) == Ruolo.PAZIENTE) {
                 RichiestePendenti richiestePendenti = ((Paziente) utente).getRichiestePendenti();
                 richiestePendenti.addRichiesta(richiesta);
             }

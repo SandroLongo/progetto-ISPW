@@ -36,22 +36,22 @@ public class DosePrincipioController {
 
     @FXML
     void assunta(ActionEvent event) {
-
+        //ancora non implementato
     }
 
     @FXML
     void delete(ActionEvent event) {
-
+        //ancora non implementato
     }
 
     @FXML
     void getInfo(ActionEvent event) {
-
+        //ancora non implementato
     }
 
     @FXML
     void sostituisci(ActionEvent event) {
-
+        //ancora non implementato
     }
 
     private void update() {

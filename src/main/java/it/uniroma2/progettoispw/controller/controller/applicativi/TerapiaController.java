@@ -12,13 +12,11 @@ import java.util.Objects;
 public class TerapiaController implements Controller{
     private DaoFacade daoFacade = new DaoFacade();
 
-    public TerapiaController() {
-    }
 
     public void addDose(int code, DoseCostructor doseCostructor){
         Utente utente = SessionManager.getInstance().getSession(code).getUtente();
         doseCostructor.getDose().setInviante(new InformazioniUtente(utente));
-        if (Objects.requireNonNull(doseCostructor.getDose().getTipo()) == TipoDose.Confezione) {
+        if (Objects.requireNonNull(doseCostructor.getDose().getTipo()) == TipoDose.CONFEZIONE) {
             daoFacade.buildDoseConfezione(daoFacade.wrapDoseCostructor(doseCostructor), utente.getCodiceFiscale());
         } else {
             //quindi e un principioAttivo

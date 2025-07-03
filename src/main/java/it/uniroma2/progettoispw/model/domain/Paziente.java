@@ -48,6 +48,6 @@ public class Paziente extends Utente {
 
     @Override
     public Ruolo isType() {
-        return Ruolo.Paziente;
+        return Ruolo.PAZIENTE;
     }
 }

@@ -9,6 +9,8 @@ import it.uniroma2.progettoispw.model.domain.TipoDose;
 import java.util.List;
 
 public class SelezionaMedicinale extends Receiver{
+    private static final String comandoConfezione = "confezione";
+    private static final String opzioneNonValidaErrore = "opzione non valida\n";
 
     public SelezionaMedicinale(DoseBean doseBean, Receiver prevoisReceiver) {
             this.previousReceiver = prevoisReceiver;
@@ -27,9 +29,9 @@ public class SelezionaMedicinale extends Receiver{
         public String goNext(Receiver stateMachine, String command) {
             String option = command.toLowerCase();
             switch (option) {
-                case "confezione": return stateMachine.goNext(new CercaConfezione(doseBean));
+                case comandoConfezione: return stateMachine.goNext(new CercaConfezione(doseBean));
                 case "principioattivo": return stateMachine.goNext(new CercaPrincipio(doseBean));
-                default: return "opzione non valida";
+                default: return opzioneNonValidaErrore;
             }
         }
     }
@@ -38,7 +40,9 @@ public class SelezionaMedicinale extends Receiver{
         private DoseBean doseBean;
         public CercaConfezione(DoseBean doseBean) {
             this.doseBean = doseBean;
-            this.initialMessage = "confezione";
+            this.initialMessage = """
+                    inserisci il nome della confezione(anche incompleto):
+                    """;
         }
 
         @Override
@@ -89,7 +93,7 @@ public class SelezionaMedicinale extends Receiver{
                     if (0 < numero && numero < listaConfezioni.size()){
                         Confezione confezione = listaConfezioni.get(numero);
                         this.doseBean.setNome(confezione.getDenominazione());
-                        this.doseBean.setTipo(TipoDose.Confezione);
+                        this.doseBean.setTipo(TipoDose.CONFEZIONE);
                         this.doseBean.setCodice(String.valueOf(confezione.getCodiceAic()));
                         return stateMachine.getPromptController().setReceiver(stateMachine.getPreviousReceiver());
                     } else {
@@ -99,11 +103,11 @@ public class SelezionaMedicinale extends Receiver{
                     switch (option) {
                         case "principio" : return stateMachine.goNext(new CercaPrincipio(doseBean));
                         //case "indietro": return;
-                        case "confezione": return stateMachine.goNext(new CercaConfezione(doseBean));
+                        case comandoConfezione: return stateMachine.goNext(new CercaConfezione(doseBean));
                         default: return "opzione non valida";
                     }
                 default:
-                    return "opzione non valida";
+                    return opzioneNonValidaErrore;
             }
         }
 
@@ -166,7 +170,7 @@ public class SelezionaMedicinale extends Receiver{
                     if (0 < numero && numero < risultatiPrincipio.size()){
                         PrincipioAttivo selezione = informazioniMedicinaleController.getPrincipioAttvoByNome(risultatiPrincipio.get(numero));
                         this.doseBean.setNome(selezione.getNome());
-                        this.doseBean.setTipo(TipoDose.PrincipioAttivo);
+                        this.doseBean.setTipo(TipoDose.PRINCIPIOATTIVO);
                         this.doseBean.setCodice(String.valueOf(selezione.getCodiceAtc()));
                         return stateMachine.getPromptController().setReceiver(stateMachine.getPreviousReceiver());
                     } else {
@@ -177,7 +181,7 @@ public class SelezionaMedicinale extends Receiver{
                         case "principio" :
                             return stateMachine.goNext(new CercaPrincipio(doseBean));
                         //case "indietro": return;
-                        case "confezione":
+                        case comandoConfezione:
                             return stateMachine.goNext(new CercaConfezione(doseBean));
                         case "cerca":
                             try {
@@ -195,10 +199,10 @@ public class SelezionaMedicinale extends Receiver{
                                 return "numero non valido nel comando cerca";
                             }
                         default:
-                            return "opzione non valida";
+                            return opzioneNonValidaErrore;
                     }
                 default:
-                    return "opzione non valida";
+                    return opzioneNonValidaErrore;
             }
         }
     }

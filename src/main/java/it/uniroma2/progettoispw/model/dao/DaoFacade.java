@@ -29,13 +29,13 @@ public class DaoFacade {
             for (Dose dose : dosiOrario){
                 TipoDose tipo = dose.isType();
                 switch (tipo){
-                    case Confezione:
+                    case CONFEZIONE:
                         DoseConfezione doseConfezione= (DoseConfezione) dose;
                         int codiceAic = Integer.parseInt(doseConfezione.getCodice());
                         //System.out.println(codiceAic + " in daofacade");
                         doseConfezione.setConfezione(medicinaliDao.getConfezioneByCodiceAic(codiceAic));
                         break;
-                    case PrincipioAttivo:
+                    case PRINCIPIOATTIVO:
                         DosePrincipioAttivo dosePrincipioAttivo = (DosePrincipioAttivo) dose;
                         String codiceAtc = dosePrincipioAttivo.getCodice();
                         //System.out.println(codiceAtc + " in daofacade");
@@ -73,7 +73,7 @@ public class DaoFacade {
 
     public Utente login(String codiceFiscale, String password, int isDottore, int codiceDottore) throws DaoException{
         Utente utente = utenteDao.login(codiceFiscale, password, isDottore, codiceDottore);
-        if (Objects.requireNonNull(utente.isType()) == Ruolo.Paziente) {
+        if (Objects.requireNonNull(utente.isType()) == Ruolo.PAZIENTE) {
             ((Paziente)utente).setRichiestePendenti(getRichisteOfPaziente((Paziente) utente));
         }
         return utente;
@@ -86,7 +86,7 @@ public class DaoFacade {
         Paziente ricevente = richiesta.getRicevente();
         List<DoseInviata> dosiInviate= richiesta.getMedicinali();
         for (DoseInviata dose: dosiInviate) {
-            if (dose.isType() == TipoDose.Confezione){
+            if (dose.isType() == TipoDose.CONFEZIONE){
                 buildDoseConfezione(dose, ricevente.getCodiceFiscale());
             } else {
                 buildDosePrincipioAttivo(dose, ricevente.getCodiceFiscale());
@@ -111,7 +111,7 @@ public class DaoFacade {
     private void aggiornaSessioni(List<Session> sessions, Dose dose, LocalDate data){
         for (Session session : sessions) {
             Utente utente = session.getUtente();
-            if (utente.isType() == Ruolo.Paziente){
+            if (utente.isType() == Ruolo.PAZIENTE){
                 CalendarioTerapeutico calendarioTerapeutico = ((Paziente)utente).getCalendario();
                 if (calendarioTerapeutico.esiste(data)){
                     calendarioTerapeutico.getTerapiaGiornaliera(data).addDose(dose);
@@ -145,14 +145,14 @@ public class DaoFacade {
                 Dose dose = doseInviata.getDose();
                 TipoDose tipo = dose.isType();
                 switch (tipo){
-                    case Confezione:
-                        //System.out.println("Confezione completata:" + dose.getCodice());
+                    case CONFEZIONE:
+                        //System.out.println("CONFEZIONE completata:" + dose.getCodice());
                         DoseConfezione doseConfezione = (DoseConfezione) dose;
                         doseConfezione.setConfezione(medicinaliDao.getConfezioneByCodiceAic(Integer.parseInt(doseConfezione.getCodice())));
                         doseConfezione.setInviante(inviante);
                         break;
 
-                    case PrincipioAttivo:
+                    case PRINCIPIOATTIVO:
                         DosePrincipioAttivo dosePrincipioAttivo = (DosePrincipioAttivo) dose;
                         dosePrincipioAttivo.setPrincipioAttivo(medicinaliDao.getPrincipioAttvoByCodiceAtc(dosePrincipioAttivo.getCodice()));
                         dosePrincipioAttivo.setInviante(inviante);
@@ -200,11 +200,11 @@ public class DaoFacade {
         DoseInviata doseInviata;
         DoseBean doseBean = doseCostructor.getDose();
         switch (doseBean.getTipo()){
-            case Confezione -> { Confezione confezione= medicinaliDao.getConfezioneByCodiceAic(Integer.parseInt(doseBean.getCodice()));
+            case CONFEZIONE -> { Confezione confezione= medicinaliDao.getConfezioneByCodiceAic(Integer.parseInt(doseBean.getCodice()));
                 DoseConfezione doseConfezione = new DoseConfezione(confezione, doseBean.getQuantita(), doseBean.getUnitaMisura(), doseBean.getOrario(),
                         doseBean.getDescrizione(), utenteDao.getDottore(doseBean.getInviante().getCodiceFiscale()));
                 doseInviata = new DoseInviata(doseConfezione, doseCostructor.getNumRipetizioni(), doseCostructor.getInizio(), doseCostructor.getRateGiorni());}
-            case PrincipioAttivo -> {PrincipioAttivo principioAttivo = medicinaliDao.getPrincipioAttvoByCodiceAtc(doseBean.getCodice());
+            case PRINCIPIOATTIVO -> {PrincipioAttivo principioAttivo = medicinaliDao.getPrincipioAttvoByCodiceAtc(doseBean.getCodice());
                 DosePrincipioAttivo dosePrincipioAttivo = new DosePrincipioAttivo(principioAttivo, doseBean.getQuantita(), doseBean.getUnitaMisura(), doseBean.getOrario(),
                         doseBean.getDescrizione(), utenteDao.getDottore(doseBean.getInviante().getCodiceFiscale()));
                 doseInviata = new DoseInviata(dosePrincipioAttivo, doseCostructor.getNumRipetizioni(), doseCostructor.getInizio(), doseCostructor.getRateGiorni());}

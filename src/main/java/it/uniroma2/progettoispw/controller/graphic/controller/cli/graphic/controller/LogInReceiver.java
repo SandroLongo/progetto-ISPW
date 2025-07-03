@@ -43,7 +43,7 @@ public class LogInReceiver extends Receiver {
         public CfMedicoState() {
             super();
             this.utenteLogInData = new UtenteLogInData();
-            utenteLogInData.setRuolo(Ruolo.Dottore);
+            utenteLogInData.setRuolo(Ruolo.DOTTORE);
             this.initialMessage = "inserisci il codice fiscale\n";
         }
 
@@ -85,10 +85,10 @@ public class LogInReceiver extends Receiver {
             stateMachine.getPromptController().setAuthenticationBean(authenticationBean);
             stateMachine.setCurrentState(new WelcomeState());
             switch (authenticationBean.getRuolo()){
-                case Dottore -> {
+                case DOTTORE -> {
                     return stateMachine.getPromptController().setReceiver(new MenuDottore(authenticationBean, stateMachine));
                 }
-                case Paziente -> {
+                case PAZIENTE -> {
                     return stateMachine.getPromptController().setReceiver(new MenuPaziente(authenticationBean, stateMachine));
                 }
                 default -> {
@@ -103,7 +103,7 @@ public class LogInReceiver extends Receiver {
         public CFPazienteState(){
             super();
             this.utenteLogInData = new UtenteLogInData();
-            this.utenteLogInData.setRuolo(Ruolo.Paziente);
+            this.utenteLogInData.setRuolo(Ruolo.PAZIENTE);
             this.initialMessage = "inserisci il codice fiscale";
         }
 

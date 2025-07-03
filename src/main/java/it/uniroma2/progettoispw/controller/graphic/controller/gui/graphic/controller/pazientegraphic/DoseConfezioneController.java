@@ -36,24 +36,24 @@ public class DoseConfezioneController {
 
     @FXML
     void assunta(ActionEvent event) {
-
+        //ancora non implementato
     }
 
     @FXML
     void delete(ActionEvent event) {
-
+        //ancora non implementato
     }
 
     @FXML
     void getInfo(ActionEvent event) {
-
+        //ancora non implementato
     }
 
     private void update() {
         nome.setText(bean.getNome());
         orario.setText(bean.getOrario().toString());
         quantita.setText(String.valueOf(bean.getQuantita()));
-        tipo.setText("Confezione");
+        tipo.setText("CONFEZIONE");
     }
 
 }

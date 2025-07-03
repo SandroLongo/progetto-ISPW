@@ -15,6 +15,7 @@ public class UtenteMemoryDao extends MemoryDao implements UtenteDao {
     private Map<ChiaveDottore, Dottore> dottori = new HashMap<>();
     private Map<String, Utente> infoUtenti = new HashMap<>();
     private TreeMap<String, List<String>> pazienteDottore = new TreeMap<>();
+    private Random random = new Random();
 
     private UtenteMemoryDao() {
         super();
@@ -64,7 +65,6 @@ public class UtenteMemoryDao extends MemoryDao implements UtenteDao {
 
     private int generaCodiceUnico(Map<ChiaveDottore, Dottore> mappa) {
         Set<Integer> codiciEsistenti = new HashSet<>();
-        Random random = new Random();
 
         for (ChiaveDottore chiave : mappa.keySet()) {
             codiciEsistenti.add(chiave.getCodiceDottore());

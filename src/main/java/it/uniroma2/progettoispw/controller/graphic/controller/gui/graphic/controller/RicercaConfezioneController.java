@@ -18,6 +18,7 @@ public class RicercaConfezioneController implements GuiGraphicController {
     private DoseAccepter doseAccepter;
     private String gruppo;
     private DoseInviata doseInviata = new DoseInviata();
+    private static final String seleziona = "seleziona";
     @FXML
     private TextField codiceATC;
 
@@ -52,7 +53,7 @@ public class RicercaConfezioneController implements GuiGraphicController {
         TableColumn<Object, String> nomi = new TableColumn<>("Nomi");
         nomi.setCellValueFactory(data -> new ReadOnlyStringWrapper((String)data.getValue()));
 
-        TableColumn<Object, Void> aggiungiCol = new TableColumn<>("seleziona");
+        TableColumn<Object, Void> aggiungiCol = new TableColumn<>(seleziona);
         aggiungiCol.setCellFactory(col -> new SelezionaPrincipioButtonCell());
 
         TableColumn<Object, Void> cercaCol = new TableColumn<>("Cerca");
@@ -83,7 +84,7 @@ public class RicercaConfezioneController implements GuiGraphicController {
         TableColumn<Object, String> codiceAIC = new TableColumn<>("codiceAIC");
         codiceAIC.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((Confezione)data.getValue()).getCodiceAic())));
 
-        TableColumn<Object, Void> aggiungiCol = new TableColumn<>("Seleziona");
+        TableColumn<Object, Void> aggiungiCol = new TableColumn<>(seleziona);
         aggiungiCol.setCellFactory(col -> new SelezionaConfezioneButtonCell());
 
         risultatiTable.getColumns().addAll(denominazione, descrizione,forma,codiceAtc,paAssociati,codiceAIC, aggiungiCol);
@@ -94,13 +95,13 @@ public class RicercaConfezioneController implements GuiGraphicController {
     }
 
     private class SelezionaPrincipioButtonCell extends TableCell<Object, Void> {
-        private final Button btn = new Button("seleziona");
+        private final Button btn = new Button(seleziona);
 
         public SelezionaPrincipioButtonCell() {
             btn.setOnAction(event -> {
                 String selezione = (String) getTableView().getItems().get(getIndex());
                 PrincipioAttivo principioAttivo = informazioniMedicinaleController.getPrincipioAttvoByNome(selezione);
-                DoseBean doseBean = new DoseBean(TipoDose.PrincipioAttivo);
+                DoseBean doseBean = new DoseBean(TipoDose.PRINCIPIOATTIVO);
                 doseBean.setCodice(principioAttivo.getCodiceAtc());
                 doseBean.setNome(principioAttivo.getNome());
                 doseAccepter.setDose(doseBean);
@@ -139,12 +140,12 @@ public class RicercaConfezioneController implements GuiGraphicController {
     }
 
     private class SelezionaConfezioneButtonCell extends TableCell<Object, Void> {
-        private final Button btn = new Button("seleziona");
+        private final Button btn = new Button(seleziona);
 
         public SelezionaConfezioneButtonCell() {
             btn.setOnAction(event -> {
                 Confezione confezione = (Confezione)getTableView().getItems().get(getIndex());
-                DoseBean doseBean = new DoseBean(TipoDose.Confezione);
+                DoseBean doseBean = new DoseBean(TipoDose.CONFEZIONE);
                 doseBean.setCodice(String.valueOf(confezione.getCodiceAic()));
                 doseBean.setNome(confezione.getDenominazione());
                 doseAccepter.setDose(doseBean);

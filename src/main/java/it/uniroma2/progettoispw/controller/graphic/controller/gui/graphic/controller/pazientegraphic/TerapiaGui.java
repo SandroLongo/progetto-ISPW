@@ -68,16 +68,13 @@ public class TerapiaGui extends Notificator implements DoseAccepter, FinalAccept
         update();
 
     }
-    public void setTerapia(LocalDate date){
-
-    }
 
     public void update() {
         doseList.getChildren().clear();
         for (List<DoseBean> dosiPerOrario: this.terapiaGiornaliera.getDosiPerOrario().values()){
             for (DoseBean dose: dosiPerOrario){
                 TipoDose tipo = dose.getTipo();
-                if (Objects.requireNonNull(tipo) == TipoDose.Confezione) {
+                if (Objects.requireNonNull(tipo) == TipoDose.CONFEZIONE) {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/DoseConfezioneItem.fxml"));
                     Parent root = null;
                     try {
@@ -90,7 +87,7 @@ public class TerapiaGui extends Notificator implements DoseAccepter, FinalAccept
                     DoseConfezioneController doseConfezioneController = loader.getController();
                     doseConfezioneController.inizialize(dose, this);
                     doseList.getChildren().add(root);
-                } else if (tipo == TipoDose.PrincipioAttivo) {
+                } else if (tipo == TipoDose.PRINCIPIOATTIVO) {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/DosePrincipioItem.fxml"));
                     Parent root = null;
                     try {

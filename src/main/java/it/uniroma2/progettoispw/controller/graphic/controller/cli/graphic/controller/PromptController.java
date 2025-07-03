@@ -32,7 +32,7 @@ public class PromptController implements GuiGraphicController {
 
     public String setReceiver(Receiver receiver) {
         this.receiver = receiver;
-        return receiver.getInitialMessage();
+        return receiver.comeBackAction();
     }
 
     public void setAuthenticationBean(AuthenticationBean authenticationBean) {

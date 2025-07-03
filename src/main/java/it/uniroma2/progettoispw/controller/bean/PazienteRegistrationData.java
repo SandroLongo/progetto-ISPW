@@ -11,6 +11,6 @@ public class PazienteRegistrationData extends UtenteRegistrationData{
 
     @Override
     public Ruolo isType() {
-        return Ruolo.Paziente;
+        return Ruolo.PAZIENTE;
     }
 }

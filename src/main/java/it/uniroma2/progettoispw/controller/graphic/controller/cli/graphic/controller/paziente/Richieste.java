@@ -10,10 +10,10 @@ import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.contro
 import java.util.List;
 
 public class Richieste extends Receiver {
-    private AuthenticationBean authenticationBean;
+    private static final String OpzioneNonValidaError = "opzione non valida\n";
+
     public Richieste(AuthenticationBean authenticationBean, Receiver receiver) {
         this.promptController = receiver.getPromptController();
-        this.authenticationBean = authenticationBean;
         this.previousReceiver = receiver;
         this.currentState = new ShowRichieste(authenticationBean);
     }
@@ -65,9 +65,9 @@ public class Richieste extends Receiver {
                     if (option.equals("menu")) {
                         return stateMachine.getPromptController().setReceiver(stateMachine.getPreviousReceiver());
                     }
-                    return "opzione non valida";
+                    return OpzioneNonValidaError;
                 default:
-                    return "opzione non valida";
+                    return OpzioneNonValidaError;
             }
         }
     }
@@ -93,7 +93,7 @@ public class Richieste extends Receiver {
                 case "rifiuta": return "";
                 case "indietro": return stateMachine.goNext(new ShowRichieste(authenticationBean));
                 default:
-                    return "opzione non valida";
+                    return OpzioneNonValidaError;
             }
         }
     }
