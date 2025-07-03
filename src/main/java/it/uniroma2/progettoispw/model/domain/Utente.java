@@ -14,7 +14,7 @@ public abstract class Utente {
     private CalendarioTerapeutico calendarioTerapeutico;
 
 
-    public Utente(String codiceFiscale, String nome, String cognome, LocalDate dataNascita, String email, String telefono) {
+    protected Utente(String codiceFiscale, String nome, String cognome, LocalDate dataNascita, String email, String telefono) {
         this.codiceFiscale = codiceFiscale;
         this.nome = nome;
         this.cognome = cognome;

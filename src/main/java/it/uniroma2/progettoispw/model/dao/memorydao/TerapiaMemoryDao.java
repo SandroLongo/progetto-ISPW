@@ -30,10 +30,8 @@ public class TerapiaMemoryDao extends MemoryDao implements TerapiaDao {
     @Override
     public TerapiaGiornaliera getTerapiaGiornaliera(String codiceFiscale, LocalDate data) throws DaoException {
         TerapiaGiornaliera terapiaGiornaliera= new TerapiaGiornaliera(data);
-        if (terapie.containsKey(codiceFiscale)) {
-            if (terapie.get(codiceFiscale).containsKey(data)) {
-                terapiaGiornaliera.setDosiPerOrario(terapie.get(codiceFiscale).get(data));
-            }
+        if (terapie.containsKey(codiceFiscale) && terapie.get(codiceFiscale).containsKey(data)) {
+            terapiaGiornaliera.setDosiPerOrario(terapie.get(codiceFiscale).get(data));
         }
         return terapiaGiornaliera;
     }

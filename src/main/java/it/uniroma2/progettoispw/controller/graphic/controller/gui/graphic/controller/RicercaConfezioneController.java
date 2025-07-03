@@ -122,7 +122,6 @@ public class RicercaConfezioneController implements GuiGraphicController {
                 String selezione =  (String)getTableView().getItems().get(getIndex());
                 PrincipioAttivo principioAttivo= informazioniMedicinaleController.getPrincipioAttvoByNome(selezione);
                 String codiceAtc = principioAttivo.getCodiceAtc();
-                System.out.println(codiceAtc);
                 List<Confezione> confezioni = informazioniMedicinaleController.getConfezioniByCodiceAtc(codiceAtc);
                 setConfezioni(confezioni);
             });

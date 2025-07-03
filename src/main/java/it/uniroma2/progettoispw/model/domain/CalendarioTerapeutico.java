@@ -5,22 +5,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CalendarioTerapeutico {
-    private Map<LocalDate, TerapiaGiornaliera> calendarioTerapeutico;
+    private Map<LocalDate, TerapiaGiornaliera> calendario;
 
     public CalendarioTerapeutico() {
-        calendarioTerapeutico = new HashMap<LocalDate, TerapiaGiornaliera>();
+        calendario = new HashMap<LocalDate, TerapiaGiornaliera>();
     }
 
     public void addTerapiaGiornaliera(TerapiaGiornaliera giornaliera) {
-        calendarioTerapeutico.put(giornaliera.getData(), giornaliera);
+        calendario.put(giornaliera.getData(), giornaliera);
     }
 
     public TerapiaGiornaliera getTerapiaGiornaliera(LocalDate date) {
-        return calendarioTerapeutico.get(date);
+        return calendario.get(date);
     }
 
     public boolean esiste(LocalDate date) {
-        return calendarioTerapeutico.containsKey(date);
+        return calendario.containsKey(date);
     }
 
 }

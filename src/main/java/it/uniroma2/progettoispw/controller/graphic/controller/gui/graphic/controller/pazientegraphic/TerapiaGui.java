@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 public class TerapiaGui extends Notificator implements DoseAccepter, FinalAccepter, GuiGraphicController{
     private TerapiaGiornalieraBean terapiaGiornaliera;
@@ -75,34 +76,33 @@ public class TerapiaGui extends Notificator implements DoseAccepter, FinalAccept
         doseList.getChildren().clear();
         for (List<DoseBean> dosiPerOrario: this.terapiaGiornaliera.getDosiPerOrario().values()){
             for (DoseBean dose: dosiPerOrario){
-                //System.out.println(dose);
                 TipoDose tipo = dose.getTipo();
-                switch (tipo) {
-                    case Confezione -> {FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/DoseConfezioneItem.fxml"));
-                        Parent root = null;
-                        try {
-                            root = loader.load();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            ((Stage)datePicker.getScene().getWindow()).close();
-                            return;
-                        }
-                        DoseConfezioneController doseConfezioneController= loader.getController();
-                        doseConfezioneController.inizialize(dose, this);
-                        doseList.getChildren().add(root);}
-                    case PrincipioAttivo -> {FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/DosePrincipioItem.fxml"));
-                        Parent root = null;
-                        try {
-                            root = loader.load();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            ((Stage)datePicker.getScene().getWindow()).close();
-                            return;
-                        }
-                        DosePrincipioController dosePrincipioController= loader.getController();
-                        dosePrincipioController.inizialize(dose, this);
-                        doseList.getChildren().add(root);}
-                    default -> throw new RuntimeException("default switchcase");
+                if (Objects.requireNonNull(tipo) == TipoDose.Confezione) {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/DoseConfezioneItem.fxml"));
+                    Parent root = null;
+                    try {
+                        root = loader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        ((Stage) datePicker.getScene().getWindow()).close();
+                        return;
+                    }
+                    DoseConfezioneController doseConfezioneController = loader.getController();
+                    doseConfezioneController.inizialize(dose, this);
+                    doseList.getChildren().add(root);
+                } else if (tipo == TipoDose.PrincipioAttivo) {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/DosePrincipioItem.fxml"));
+                    Parent root = null;
+                    try {
+                        root = loader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        ((Stage) datePicker.getScene().getWindow()).close();
+                        return;
+                    }
+                    DosePrincipioController dosePrincipioController = loader.getController();
+                    dosePrincipioController.inizialize(dose, this);
+                    doseList.getChildren().add(root);
                 }
 
             }

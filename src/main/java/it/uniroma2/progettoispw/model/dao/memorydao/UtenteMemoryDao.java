@@ -47,8 +47,6 @@ public class UtenteMemoryDao extends MemoryDao implements UtenteDao {
     @Override
     public void addPaziente(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
         ChiaveUtente chiaveUtente = new ChiaveUtente(codiceFiscale, pass);
-        System.out.println(codiceFiscale);
-        System.out.println(pass);
         pazienti.put(chiaveUtente, new Paziente(codiceFiscale, nome, cognome, nascita, email, telefono, new ArrayList<>()));
         infoUtenti.put(codiceFiscale, new Paziente(codiceFiscale, nome, cognome, nascita, email, telefono));
     }

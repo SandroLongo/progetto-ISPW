@@ -16,10 +16,22 @@ public class MedicinaliDbDao extends DbDao implements MedicinaliDao {
 
     private Confezione creaConfezione(ResultSet rs) throws SQLException {
         try{
-            return new Confezione(rs.getInt(1),rs.getInt(2), rs.getInt(3), rs.getString(4),
-                    rs.getString(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9),
-                    rs. getString(10), rs.getString(11), rs.getString(12), rs.getInt(14),
-                    rs.getString(15), rs.getString(13));
+            Confezione confezione = new Confezione(rs.getInt(1));
+            confezione.setCodFarmaco(rs.getInt(2));
+            confezione.setCodConfezione(rs.getInt(3));
+            confezione.setDenominazione(rs.getString(4));
+            confezione.setDescrizione(rs.getString(5));
+            confezione.setCodiceDitta(rs.getInt(6));
+            confezione.setRagioneSociale(rs.getString(7));
+            confezione.setStatoAmministrativo(rs.getString(8));
+            confezione.setTipoProcedura(rs.getString(9));
+            confezione.setForma(rs.getString(10));
+            confezione.setCodiceAtc(rs.getString(11));
+            confezione.setPaAssociati(rs.getString(12));
+            confezione.setQuantita(rs.getInt(14));
+            confezione.setUnitaMisura(rs.getString(15));
+            confezione.setLink(rs.getString(13));
+            return confezione;
         } catch(SQLException e){
             throw new DaoException(e.getMessage());
         }

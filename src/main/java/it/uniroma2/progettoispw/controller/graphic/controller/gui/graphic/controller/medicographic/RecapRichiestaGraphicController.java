@@ -13,6 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -125,7 +126,8 @@ public class RecapRichiestaGraphicController implements GuiGraphicController, Do
         try {
             menuWindowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/AggiungiView.fxml", this,gruppo, menuWindowManager);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            ((Stage)recapTable.getScene().getWindow()).close();
         }
     }
 

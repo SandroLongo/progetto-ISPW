@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class SessionManager {
     private static SessionManager instance;
@@ -26,7 +25,7 @@ public class SessionManager {
         return sessions.values().stream()
                 .filter(session -> session.getUtente() != null &&
                         cf.equals(session.getUtente().getCodiceFiscale()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public Session getSession(int code) {
@@ -36,15 +35,14 @@ public class SessionManager {
     public Session setSession(Utente currentUtente) {
         numSessions = numSessions+1;
         Session session = new Session(currentUtente, numSessions);
-        System.out.println(numSessions);
         sessions.put(numSessions, session);
         return session;
     }
 
     public void deleteRichiesta(Richiesta richiesta) {
         List<Session> sessions = getOpenSessionsByCF(richiesta.getRicevente().getCodiceFiscale());
-        for (Session session : sessions){
-            Utente utente = session.getUtente();
+        for (Session s : sessions){
+            Utente utente = s.getUtente();
             if (Objects.requireNonNull(utente.isType()) == Ruolo.Paziente) {
                 RichiestePendenti richiestePendenti = ((Paziente) utente).getRichiestePendenti();
                 richiestePendenti.deleteRichiesta(richiesta.getId());

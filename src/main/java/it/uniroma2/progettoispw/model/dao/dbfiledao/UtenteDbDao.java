@@ -25,7 +25,7 @@ public class UtenteDbDao extends DbDao implements UtenteDao {
                 default -> throw new DaoException("Utente non trovato");
             };
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DaoException(e.getMessage());
         }
         return utente;
     }
@@ -45,7 +45,7 @@ public class UtenteDbDao extends DbDao implements UtenteDao {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DaoException(e.getMessage());
         }
         return paziente;
 
@@ -66,7 +66,7 @@ public class UtenteDbDao extends DbDao implements UtenteDao {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DaoException(e.getMessage());
         }
         return dottore;
     }
@@ -84,7 +84,6 @@ public class UtenteDbDao extends DbDao implements UtenteDao {
             cs.setString(6, telefono);
             cs.setString(7, pass);
             cs.execute();
-            System.out.println("add paziente eseguita" + codiceFiscale);
         } catch (SQLException e) {
             throw new DaoException(e.getMessage());
         }
@@ -143,7 +142,7 @@ public class UtenteDbDao extends DbDao implements UtenteDao {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DaoException(e.getMessage());
         }
         return utente;
     }

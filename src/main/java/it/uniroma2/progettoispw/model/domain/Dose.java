@@ -10,7 +10,7 @@ public abstract class Dose {
     private boolean assunta;
     private Utente inviante;
 
-    public Dose(int quantita, String unitaMisura, LocalTime orario, String descrizione, Utente inviante) {
+    protected Dose(int quantita, String unitaMisura, LocalTime orario, String descrizione, Utente inviante) {
         this.quantita = quantita;
         this.unitaMisura = unitaMisura;
         this.orario = orario;
@@ -19,7 +19,7 @@ public abstract class Dose {
         this.assunta = false;
     }
 
-    public Dose() {
+    protected Dose() {
 
     }
 
