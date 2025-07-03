@@ -4,17 +4,17 @@ import java.time.LocalTime;
 
 public abstract class Dose {
     private int quantita;
-    private String unita_misura;
+    private String unitaMisura;
     private LocalTime orario;
-    private String descrizione_medica;  
+    private String descrizioneMedica;
     private boolean assunta;
     private Utente inviante;
 
-    public Dose(int quantita, String unita_misura, LocalTime orario, String descrizione, Utente inviante) {
+    public Dose(int quantita, String unitaMisura, LocalTime orario, String descrizione, Utente inviante) {
         this.quantita = quantita;
-        this.unita_misura = unita_misura;
+        this.unitaMisura = unitaMisura;
         this.orario = orario;
-        this.descrizione_medica = descrizione;
+        this.descrizioneMedica = descrizione;
         this.inviante = inviante;
         this.assunta = false;
     }
@@ -33,11 +33,11 @@ public abstract class Dose {
     public void setQuantita(int quantita) {
         this.quantita = quantita;
     }
-    public String getUnita_misura() {
-        return unita_misura;
+    public String getUnitaMisura() {
+        return unitaMisura;
     }
-    public void setUnita_misura(String unita_misura) {
-        this.unita_misura = unita_misura;
+    public void setUnitaMisura(String unitaMisura) {
+        this.unitaMisura = unitaMisura;
     }
     public LocalTime getOrario() {
         return orario;
@@ -46,10 +46,10 @@ public abstract class Dose {
         this.orario = orario;
     }
     public String getDescrizione() {
-        return descrizione_medica;
+        return descrizioneMedica;
     }
     public void setDescrizione(String descrizione) {
-        this.descrizione_medica = descrizione;
+        this.descrizioneMedica = descrizione;
     }
     public boolean isAssunta() {
         return assunta;

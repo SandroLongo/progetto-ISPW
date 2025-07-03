@@ -6,7 +6,6 @@ import it.uniroma2.progettoispw.model.domain.Confezione;
 import it.uniroma2.progettoispw.model.domain.PrincipioAttivo;
 import it.uniroma2.progettoispw.model.domain.TipoDose;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SelezionaMedicinale extends Receiver{
@@ -91,7 +90,7 @@ public class SelezionaMedicinale extends Receiver{
                         Confezione confezione = listaConfezioni.get(numero);
                         this.doseBean.setNome(confezione.getDenominazione());
                         this.doseBean.setTipo(TipoDose.Confezione);
-                        this.doseBean.setCodice(String.valueOf(confezione.getCodice_aic()));
+                        this.doseBean.setCodice(String.valueOf(confezione.getCodiceAic()));
                         return stateMachine.getPromptController().setReceiver(stateMachine.getPreviousReceiver());
                     } else {
                         return "numero non valido";
@@ -168,7 +167,7 @@ public class SelezionaMedicinale extends Receiver{
                         PrincipioAttivo selezione = informazioniMedicinaleController.getPrincipioAttvoByNome(risultatiPrincipio.get(numero));
                         this.doseBean.setNome(selezione.getNome());
                         this.doseBean.setTipo(TipoDose.PrincipioAttivo);
-                        this.doseBean.setCodice(String.valueOf(selezione.getCodice_atc()));
+                        this.doseBean.setCodice(String.valueOf(selezione.getCodiceAtc()));
                         return stateMachine.getPromptController().setReceiver(stateMachine.getPreviousReceiver());
                     } else {
                         return "numero non valido";
@@ -190,7 +189,7 @@ public class SelezionaMedicinale extends Receiver{
                             }
                             if (tipo == 1 && 0 < numero && numero < risultatiPrincipio.size()){
                                 PrincipioAttivo selezione = informazioniMedicinaleController.getPrincipioAttvoByNome(risultatiPrincipio.get(numero));
-                                List<Confezione> listaConfezioni = informazioniMedicinaleController.getConfezioniByCodiceAtc(selezione.getCodice_atc());
+                                List<Confezione> listaConfezioni = informazioniMedicinaleController.getConfezioniByCodiceAtc(selezione.getCodiceAtc());
                                 return stateMachine.goNext(new VisualizzaConfezioni(doseBean, listaConfezioni));
                             } else {
                                 return "numero non valido nel comando cerca";

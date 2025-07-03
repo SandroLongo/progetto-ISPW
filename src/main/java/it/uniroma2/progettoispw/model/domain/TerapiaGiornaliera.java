@@ -1,6 +1,5 @@
 package it.uniroma2.progettoispw.model.domain;
 
-import it.uniroma2.progettoispw.controller.bean.Observer;
 import it.uniroma2.progettoispw.controller.bean.Subject;
 
 import java.time.LocalDate;

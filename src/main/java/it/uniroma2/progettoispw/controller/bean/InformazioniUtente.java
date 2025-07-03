@@ -26,7 +26,7 @@ public class InformazioniUtente {
         cognome = inviante.getCognome();
         email = inviante.getEmail();
         telefono = inviante.getTelefono();
-        dataNascita = inviante.getData_nascita();
+        dataNascita = inviante.getDataNascita();
         codiceFiscale = inviante.getCodiceFiscale();
     }
 

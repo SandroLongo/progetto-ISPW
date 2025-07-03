@@ -22,7 +22,7 @@ public class RichiesteController implements Controller{
     public InformazioniUtente getInformazioniPaziente(int codice, String cf) {
         Utente utente = daoFacade.getInfoUtente(cf);
         InformazioniUtente informazioniUtente = new InformazioniUtente(utente.getCodiceFiscale(), utente.getNome(), utente.getCognome(),
-                utente.getEmail(), utente.getTelefono(), utente.getData_nascita());
+                utente.getEmail(), utente.getTelefono(), utente.getDataNascita());
         return informazioniUtente;
     }
 

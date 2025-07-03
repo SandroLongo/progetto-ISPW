@@ -1,64 +1,64 @@
 package it.uniroma2.progettoispw.model.domain;
 
 public class Confezione {
-    private int codice_aic;
-    private int cod_farmaco;
-    private int cod_confezione;
+    private int codiceAic;
+    private int codFarmaco;
+    private int codConfezione;
     private String denominazione;
     private String descrizione;
-    private int codice_ditta;
-    private String ragione_sociale;
-    private String stato_amministrativo;
-    private String tipo_procedura;
+    private int codiceDitta;
+    private String ragioneSociale;
+    private String statoAmministrativo;
+    private String tipoProcedura;
     private String forma;
-    private String codice_atc;
-    private String pa_associati;
+    private String codiceAtc;
+    private String paAssociati;
     private long quantita;
-    private String unita_misura;
+    private String unitaMisura;
     private String link;
 
-    public Confezione(int codice_aic, int cod_farmaco, int cod_confezione, String denominazione, String descrizione, int codice_ditta, String ragione_sociale,
-                      String stato_amministrativo, String tipo_procedura, String forma, String codice_atc, String pa_associati,
-                      long quantita, String unita_misura, String link) {
-        this.codice_aic = codice_aic;
-        this.cod_farmaco = cod_farmaco;
-        this.cod_confezione = cod_confezione;
+    public Confezione(int codiceAic, int codFarmaco, int codConfezione, String denominazione, String descrizione, int codiceDitta, String ragioneSociale,
+                      String statoAmministrativo, String tipoProcedura, String forma, String codiceAtc, String paAssociati,
+                      long quantita, String unitaMisura, String link) {
+        this.codiceAic = codiceAic;
+        this.codFarmaco = codFarmaco;
+        this.codConfezione = codConfezione;
         this.denominazione = denominazione;
         this.descrizione = descrizione;
-        this.codice_ditta = codice_ditta;
-        this.ragione_sociale = ragione_sociale;
-        this.stato_amministrativo = stato_amministrativo;
-        this.tipo_procedura = tipo_procedura;
+        this.codiceDitta = codiceDitta;
+        this.ragioneSociale = ragioneSociale;
+        this.statoAmministrativo = statoAmministrativo;
+        this.tipoProcedura = tipoProcedura;
         this.forma = forma;
-        this.codice_atc = codice_atc;
-        this.pa_associati = pa_associati;
+        this.codiceAtc = codiceAtc;
+        this.paAssociati = paAssociati;
         this.quantita = quantita;
-        this.unita_misura = unita_misura;
+        this.unitaMisura = unitaMisura;
         this.link = link;
 
     }
 
-    public Confezione(int codice_aic) {
-        this.codice_aic = codice_aic;
+    public Confezione(int codiceAic) {
+        this.codiceAic = codiceAic;
     };
 
-    public int getCodice_aic() {
-        return codice_aic;
+    public int getCodiceAic() {
+        return codiceAic;
     }
-    public void setCodice_aic(int codice_aic) {
-        this.codice_aic = codice_aic;
+    public void setCodiceAic(int codiceAic) {
+        this.codiceAic = codiceAic;
     }
-    public int getCod_farmaco() {
-        return cod_farmaco;
+    public int getCodFarmaco() {
+        return codFarmaco;
     }
-    public void setCod_farmaco(int cod_farmaco) {
-        this.cod_farmaco = cod_farmaco;
+    public void setCodFarmaco(int codFarmaco) {
+        this.codFarmaco = codFarmaco;
     }
-    public int getCod_confezione() {
-        return cod_confezione;
+    public int getCodConfezione() {
+        return codConfezione;
     }
-    public void setCod_confezione(int cod_confezione) {
-        this.cod_confezione = cod_confezione;
+    public void setCodConfezione(int codConfezione) {
+        this.codConfezione = codConfezione;
     }
     public String getDenominazione() {
         return denominazione;
@@ -72,29 +72,29 @@ public class Confezione {
     public void setDescrizione(String descrizione) {
         this.descrizione = descrizione;
     }
-    public int getCodice_ditta() {
-        return codice_ditta;
+    public int getCodiceDitta() {
+        return codiceDitta;
     }
-    public void setCodice_ditta(int codice_ditta) {
-        this.codice_ditta = codice_ditta;
+    public void setCodiceDitta(int codiceDitta) {
+        this.codiceDitta = codiceDitta;
     }
-    public String getRagione_sociale() {
-        return ragione_sociale;
+    public String getRagioneSociale() {
+        return ragioneSociale;
     }
-    public void setRagione_sociale(String ragione_sociale) {
-        this.ragione_sociale = ragione_sociale;
+    public void setRagioneSociale(String ragioneSociale) {
+        this.ragioneSociale = ragioneSociale;
     }
-    public String getStato_amministrativo() {
-        return stato_amministrativo;
+    public String getStatoAmministrativo() {
+        return statoAmministrativo;
     }
-    public void setStato_amministrativo(String stato_amministrativo) {
-        this.stato_amministrativo = stato_amministrativo;
+    public void setStatoAmministrativo(String statoAmministrativo) {
+        this.statoAmministrativo = statoAmministrativo;
     }
-    public String getTipo_procedura() {
-        return tipo_procedura;
+    public String getTipoProcedura() {
+        return tipoProcedura;
     }
-    public void setTipo_procedura(String tipo_procedura) {
-        this.tipo_procedura = tipo_procedura;
+    public void setTipoProcedura(String tipoProcedura) {
+        this.tipoProcedura = tipoProcedura;
     }
     public String getForma() {
         return forma;
@@ -102,17 +102,17 @@ public class Confezione {
     public void setForma(String forma) {
         this.forma = forma;
     }
-    public String getCodice_atc() {
-        return codice_atc;
+    public String getCodiceAtc() {
+        return codiceAtc;
     }
-    public void setCodice_atc(String codice_atc) {
-        this.codice_atc = codice_atc;
+    public void setCodiceAtc(String codiceAtc) {
+        this.codiceAtc = codiceAtc;
     }
-    public String getPa_associati() {
-        return pa_associati;
+    public String getPaAssociati() {
+        return paAssociati;
     }
-    public void setPa_associati(String pa_associati) {
-        this.pa_associati = pa_associati;
+    public void setPaAssociati(String paAssociati) {
+        this.paAssociati = paAssociati;
     }
     public long getQuantita() {
         return quantita;
@@ -120,11 +120,11 @@ public class Confezione {
     public void setQuantita(long quantita) {
         this.quantita = quantita;
     }
-    public String getUnita_misura() {
-        return unita_misura;
+    public String getUnitaMisura() {
+        return unitaMisura;
     }
-    public void setUnita_misura(String unita_misura) {
-        this.unita_misura = unita_misura;
+    public void setUnitaMisura(String unitaMisura) {
+        this.unitaMisura = unitaMisura;
     }
     public String getLink() {
         return link;

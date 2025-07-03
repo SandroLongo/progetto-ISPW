@@ -1,7 +1,6 @@
 package it.uniroma2.progettoispw.controller.graphicController.guiGraphicController;
 
 import it.uniroma2.progettoispw.controller.bean.DoseBean;
-import it.uniroma2.progettoispw.controller.bean.FinalStepBean;
 import it.uniroma2.progettoispw.controller.bean.ListNomiPABean;
 import it.uniroma2.progettoispw.controller.controllerApplicativi.InformazioniMedicinaleController;
 import it.uniroma2.progettoispw.model.domain.*;
@@ -12,7 +11,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-import java.io.IOException;
 import java.util.List;
 
 public class RicercaConfezioneController implements GuiGraphicController {
@@ -63,7 +61,7 @@ public class RicercaConfezioneController implements GuiGraphicController {
                     String selezione =  (String)getTableView().getItems().get(getIndex());
                     PrincipioAttivo principioAttivo= informazioniMedicinaleController.getPrincipioAttvoByNome(selezione);
                     DoseBean doseBean = new DoseBean(TipoDose.PrincipioAttivo);
-                    doseBean.setCodice(principioAttivo.getCodice_atc());
+                    doseBean.setCodice(principioAttivo.getCodiceAtc());
                     doseBean.setNome(principioAttivo.getNome());
                     doseAccepter.setDose(doseBean);
                 });
@@ -88,7 +86,7 @@ public class RicercaConfezioneController implements GuiGraphicController {
                 btn.setOnAction(event -> {
                     String selezione =  (String)getTableView().getItems().get(getIndex());
                     PrincipioAttivo principioAttivo= informazioniMedicinaleController.getPrincipioAttvoByNome(selezione);
-                    String codiceAtc = principioAttivo.getCodice_atc();
+                    String codiceAtc = principioAttivo.getCodiceAtc();
                     System.out.println(codiceAtc);
                     List<Confezione> confezioni = informazioniMedicinaleController.getConfezioniByCodiceAtc(codiceAtc);
                     setConfezioni(confezioni);
@@ -123,13 +121,13 @@ public class RicercaConfezioneController implements GuiGraphicController {
         forma.setCellValueFactory(data -> new ReadOnlyStringWrapper(((Confezione)data.getValue()).getForma()));
 
         TableColumn<Object, String> codiceATC = new TableColumn<>("codiceATC");
-        codiceATC.setCellValueFactory(data -> new ReadOnlyStringWrapper(((Confezione)data.getValue()).getCodice_atc()));
+        codiceATC.setCellValueFactory(data -> new ReadOnlyStringWrapper(((Confezione)data.getValue()).getCodiceAtc()));
 
         TableColumn<Object, String> paAssociati = new TableColumn<>("paAssociati");
-        paAssociati.setCellValueFactory(data -> new ReadOnlyStringWrapper(((Confezione)data.getValue()).getPa_associati()));
+        paAssociati.setCellValueFactory(data -> new ReadOnlyStringWrapper(((Confezione)data.getValue()).getPaAssociati()));
 
         TableColumn<Object, String> codiceAIC = new TableColumn<>("codiceAIC");
-        codiceAIC.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((Confezione)data.getValue()).getCodice_aic())));
+        codiceAIC.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((Confezione)data.getValue()).getCodiceAic())));
 
         TableColumn<Object, Void> aggiungiCol = new TableColumn<>("Seleziona");
         aggiungiCol.setCellFactory(col -> new TableCell<>() {
@@ -139,7 +137,7 @@ public class RicercaConfezioneController implements GuiGraphicController {
                 btn.setOnAction(event -> {
                     Confezione confezione = (Confezione)getTableView().getItems().get(getIndex());
                     DoseBean doseBean = new DoseBean(TipoDose.Confezione);
-                    doseBean.setCodice(String.valueOf(confezione.getCodice_aic()));
+                    doseBean.setCodice(String.valueOf(confezione.getCodiceAic()));
                     doseBean.setNome(confezione.getDenominazione());
                     doseAccepter.setDose(doseBean);
                 });

@@ -22,7 +22,7 @@ public class DoseBean {
 
     public DoseBean(Dose dose) {
         this.codice = dose.getCodice();
-        this.unitaMisura = dose.getUnita_misura();
+        this.unitaMisura = dose.getUnitaMisura();
         this.orario = dose.getOrario();
         this.quantita = dose.getQuantita();
         this.assunta = dose.isAssunta();

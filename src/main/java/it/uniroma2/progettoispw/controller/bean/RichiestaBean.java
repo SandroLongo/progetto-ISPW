@@ -3,10 +3,8 @@ package it.uniroma2.progettoispw.controller.bean;
 import it.uniroma2.progettoispw.model.domain.*;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class RichiestaBean {
     List<DoseCostructor> dosi;

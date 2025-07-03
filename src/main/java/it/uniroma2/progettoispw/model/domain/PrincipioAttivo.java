@@ -1,22 +1,22 @@
 package it.uniroma2.progettoispw.model.domain;
 
 public class PrincipioAttivo {
-    private String codice_atc;
+    private String codiceAtc;
     private String nome;
 
-    public PrincipioAttivo(String codice_atc, String nome) {
-        this.codice_atc = codice_atc;
+    public PrincipioAttivo(String codiceAtc, String nome) {
+        this.codiceAtc = codiceAtc;
         this.nome = nome;
     }
 
-    public PrincipioAttivo(String codice_atc) {
-        this.codice_atc = codice_atc;
+    public PrincipioAttivo(String codiceAtc) {
+        this.codiceAtc = codiceAtc;
     }
-    public String getCodice_atc() {
-        return codice_atc;
+    public String getCodiceAtc() {
+        return codiceAtc;
     }
-    public void setCodice_atc(String codice_atc) {
-        this.codice_atc = codice_atc;
+    public void setCodiceAtc(String codiceAtc) {
+        this.codiceAtc = codiceAtc;
     }
     public String getNome() {
         return nome;

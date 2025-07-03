@@ -5,8 +5,8 @@ import java.time.LocalTime;
 public class DoseConfezione extends Dose{
     private Confezione confezione;
 
-    public DoseConfezione(Confezione confezione, int quantita, String unita_misura, LocalTime orario, String descrizione, Utente inviante) {
-        super(quantita, unita_misura, orario, descrizione, inviante);
+    public DoseConfezione(Confezione confezione, int quantita, String unitaMisura, LocalTime orario, String descrizione, Utente inviante) {
+        super(quantita, unitaMisura, orario, descrizione, inviante);
         this.confezione = confezione;
 
     }
@@ -29,7 +29,7 @@ public class DoseConfezione extends Dose{
 
     @Override
     public String getCodice() {
-        return String.valueOf(confezione.getCodice_aic());
+        return String.valueOf(confezione.getCodiceAic());
     }
 
     @Override

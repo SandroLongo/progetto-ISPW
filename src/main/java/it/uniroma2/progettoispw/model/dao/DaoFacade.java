@@ -100,7 +100,7 @@ public class DaoFacade {
         for (int i = 0; i < doseInviata.getNumGiorni(); i++ ) {
             data = data.plusDays(doseInviata.getRateGiorni());
             DoseConfezione doseConfezione= new DoseConfezione(new Confezione(Integer.parseInt(doseInviata.getDose().getCodice())), doseInviata.getDose().getQuantita(),
-                    doseInviata.getDose().getUnita_misura(), doseInviata.getDose().getOrario(),
+                    doseInviata.getDose().getUnitaMisura(), doseInviata.getDose().getOrario(),
                     doseInviata.getDose().getDescrizione(), doseInviata.getDose().getInviante());
             terapiaDao.addDoseConfezione(doseConfezione, data, codiceFiscale);
             aggiornaSessioni(sessions, doseConfezione, data, codiceFiscale);
@@ -128,7 +128,7 @@ public class DaoFacade {
         for (int i = 0; i < doseInviata.getNumGiorni(); i++ ) {
             data = data.plusDays(doseInviata.getRateGiorni());
             DosePrincipioAttivo dosePrincipioAttivo = new DosePrincipioAttivo(new PrincipioAttivo((String)doseInviata.getDose().getCodice()), doseInviata.getDose().getQuantita(),
-                    doseInviata.getDose().getUnita_misura(), doseInviata.getDose().getOrario(),
+                    doseInviata.getDose().getUnitaMisura(), doseInviata.getDose().getOrario(),
                     doseInviata.getDose().getDescrizione(), doseInviata.getDose().getInviante());
             terapiaDao.addDosePrincipioAttivo(dosePrincipioAttivo, data, codiceFiscale);
             aggiornaSessioni(sessions, dosePrincipioAttivo, data, codiceFiscale);

@@ -1,7 +1,5 @@
 package it.uniroma2.progettoispw.controller.bean;
 
-import javafx.collections.ObservableList;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -6,7 +6,6 @@ import it.uniroma2.progettoispw.model.domain.*;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.List;
 
 public class TerapiaDbDao extends DbDao implements TerapiaDao {
 
@@ -69,7 +68,7 @@ public class TerapiaDbDao extends DbDao implements TerapiaDao {
             cs.setInt(2, Integer.parseInt(doseConfezione.getCodice()));
             System.out.println(doseConfezione.getCodice());
             cs.setInt(3, doseConfezione.getQuantita());
-            cs.setString(4, doseConfezione.getUnita_misura());
+            cs.setString(4, doseConfezione.getUnitaMisura());
             cs.setDate(5, java.sql.Date.valueOf(giorno));
             cs.setTime(6, Time.valueOf(doseConfezione.getOrario()));
             cs.setString(7, doseConfezione.getDescrizione());
@@ -88,7 +87,7 @@ public class TerapiaDbDao extends DbDao implements TerapiaDao {
             cs.setString(1, codiceFiscale);
             cs.setString(2, dosePrincipioAttivo.getCodice());
             cs.setInt(3, dosePrincipioAttivo.getQuantita());
-            cs.setString(4, dosePrincipioAttivo.getUnita_misura());
+            cs.setString(4, dosePrincipioAttivo.getUnitaMisura());
             cs.setDate(5, java.sql.Date.valueOf(giorno));
             cs.setTime(6, Time.valueOf(dosePrincipioAttivo.getOrario()));
             cs.setString(7, dosePrincipioAttivo.getDescrizione());

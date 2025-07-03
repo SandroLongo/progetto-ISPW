@@ -1,23 +1,20 @@
 package it.uniroma2.progettoispw.model.domain;
 
-import it.uniroma2.progettoispw.controller.bean.Subject;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Paziente extends Utente {
-    private List<Dottore> dottori_accettati;
+    private List<Dottore> dottoriAccettati;
     private CalendarioTerapeutico calendario;
     private RichiestePendenti pendenti;
 
-    public Paziente(String codice_fiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, List<Dottore> dottori_accettati) {
-        super(codice_fiscale, nome, cognome, nascita, email, telefono);
-        if (dottori_accettati == null){
-            this.dottori_accettati = new ArrayList<>();
+    public Paziente(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, List<Dottore> dottoriAccettati) {
+        super(codiceFiscale, nome, cognome, nascita, email, telefono);
+        if (dottoriAccettati == null){
+            this.dottoriAccettati = new ArrayList<>();
         } else {
-            this.dottori_accettati = new ArrayList<>(dottori_accettati);
+            this.dottoriAccettati = new ArrayList<>(dottoriAccettati);
         }
         calendario = new CalendarioTerapeutico();
         this.pendenti = new RichiestePendenti();
@@ -35,14 +32,14 @@ public class Paziente extends Utente {
         super(codiceFiscale, nome, cognome, nascita, email, telefono);
     }
 
-    public List<Dottore> getDottori_accettati() {
-        return dottori_accettati;
+    public List<Dottore> getDottoriAccettati() {
+        return dottoriAccettati;
     }
-    public void setDottori_accettati(List<Dottore> dottori_accettati) {
-        this.dottori_accettati = dottori_accettati;
+    public void setDottoriAccettati(List<Dottore> dottoriAccettati) {
+        this.dottoriAccettati = dottoriAccettati;
     }
     public void addDottore(Dottore dottore) {
-        this.dottori_accettati.add(dottore);
+        this.dottoriAccettati.add(dottore);
     }
 
     public CalendarioTerapeutico getCalendario() {

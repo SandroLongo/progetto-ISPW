@@ -1,19 +1,18 @@
 package it.uniroma2.progettoispw.model.domain;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class DoseInviata {
     private Dose dose;
     private LocalDate inizio;
-    private int num_ripetizioni;
-    private int rate_giorni;
+    private int numRipetizioni;
+    private int rateGiorni;
 
     public DoseInviata(Dose dose, int numGiorni, LocalDate inizio, int rateGiorni) {
         this.dose = dose;
-        this.num_ripetizioni = numGiorni;
+        this.numRipetizioni = numGiorni;
         this.inizio = inizio;
-        this.rate_giorni = rateGiorni;
+        this.rateGiorni = rateGiorni;
     }
 
     public DoseInviata() {
@@ -33,16 +32,16 @@ public class DoseInviata {
         this.inizio = inizio;
     }
     public int getNumGiorni() {
-        return num_ripetizioni;
+        return numRipetizioni;
     }
     public void setNumGiorni(int numGiorni) {
-        this.num_ripetizioni = numGiorni;
+        this.numRipetizioni = numGiorni;
     }
     public int getRateGiorni() {
-        return rate_giorni;
+        return rateGiorni;
     }
     public void setRateGiorni(int rateGiorni) {
-        this.rate_giorni = rateGiorni;
+        this.rateGiorni = rateGiorni;
     }
 
     public String getNomeDose(){

@@ -12,13 +12,13 @@ public class ConfezioneBean {
     private String unitaMisura;
 
     public ConfezioneBean(Confezione confezione) {
-        this.codiceAic = confezione.getCodice_aic();
+        this.codiceAic = confezione.getCodiceAic();
         this.denominazione = confezione.getDenominazione();
         this.descrizione = confezione.getDescrizione();
         this.forma = confezione.getForma();
-        this.paAssociati = confezione.getPa_associati();
+        this.paAssociati = confezione.getPaAssociati();
         this.quantita = confezione.getQuantita();
-        this.unitaMisura = confezione.getUnita_misura();
+        this.unitaMisura = confezione.getUnitaMisura();
     }
 
     public int getCodiceAic() {

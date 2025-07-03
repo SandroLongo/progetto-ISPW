@@ -7,7 +7,7 @@ public class PrincipioAttivoBean {
     private String nome;
 
     public PrincipioAttivoBean(PrincipioAttivo principioAttivo) {
-        this.codiceAtc = principioAttivo.getCodice_atc();
+        this.codiceAtc = principioAttivo.getCodiceAtc();
         this.nome = principioAttivo.getNome();
     }
 

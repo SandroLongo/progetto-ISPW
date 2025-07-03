@@ -1,41 +1,40 @@
 package it.uniroma2.progettoispw.model.domain;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public abstract class Utente {
-    private String codice_fiscale;
+    private String codiceFiscale;
     private String nome;
     private String cognome;
     private String email;
     private String telefono;
-    private LocalDate data_nascita;
+    private LocalDate dataNascita;
     private List<Richiesta> richieste;
     private CalendarioTerapeutico calendarioTerapeutico;
 
 
-    public Utente(String codice_fiscale, String nome, String cognome, LocalDate data_nascita, String email, String telefono) {
-        this.codice_fiscale = codice_fiscale;
+    public Utente(String codiceFiscale, String nome, String cognome, LocalDate dataNascita, String email, String telefono) {
+        this.codiceFiscale = codiceFiscale;
         this.nome = nome;
         this.cognome = cognome;
-        this.data_nascita = data_nascita;
+        this.dataNascita = dataNascita;
         this.email = email;
         this.telefono = telefono;
 
     }
 
-    public Utente(String codice_fiscale) {
-        this.codice_fiscale = codice_fiscale;
+    public Utente(String codiceFiscale) {
+        this.codiceFiscale = codiceFiscale;
     }
 
     public abstract Ruolo isType();
 
     public String getCodiceFiscale() {
-        return codice_fiscale;
+        return codiceFiscale;
     }
     public void setCodiceFiscale(String codice_fiscale) {
-        this.codice_fiscale = codice_fiscale;
+        this.codiceFiscale = codice_fiscale;
     }
     public String getNome() {
         return nome;
@@ -61,10 +60,10 @@ public abstract class Utente {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
-    public LocalDate getData_nascita() {
-        return data_nascita;
+    public LocalDate getDataNascita() {
+        return dataNascita;
     }
-    public void setData_nascita(LocalDate data_nascita) {
-        this.data_nascita = data_nascita;
+    public void setDataNascita(LocalDate dataNascita) {
+        this.dataNascita = dataNascita;
     }
 }

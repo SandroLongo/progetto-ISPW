@@ -106,7 +106,7 @@ public class RichiesteDbDao extends DbDao implements RichiesteDao {
                         cs1.setInt(4, doseInviata.getNumGiorni());
                         cs1.setInt(5, doseInviata.getRateGiorni());
                         cs1.setInt(6, dose.getQuantita());
-                        cs1.setString(7, dose.getUnita_misura());
+                        cs1.setString(7, dose.getUnitaMisura());
                         cs1.setTime(8, Time.valueOf(dose.getOrario()));
                         cs1.setString(9, dose.getDescrizione());
                         cs1.execute();
@@ -118,7 +118,7 @@ public class RichiesteDbDao extends DbDao implements RichiesteDao {
                         cs1.setInt(4, doseInviata.getNumGiorni());
                         cs1.setInt(5, doseInviata.getRateGiorni());
                         cs1.setInt(6, dose.getQuantita());
-                        cs1.setString(7, dose.getUnita_misura());
+                        cs1.setString(7, dose.getUnitaMisura());
                         cs1.setTime(8, Time.valueOf(dose.getOrario()));
                         cs1.setString(9, dose.getDescrizione());
                         cs1.execute();}

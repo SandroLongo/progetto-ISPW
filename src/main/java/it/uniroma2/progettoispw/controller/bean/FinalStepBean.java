@@ -12,10 +12,10 @@ public class FinalStepBean {
     private LocalTime orario;
     private String descrizioneMedica;
 
-    public FinalStepBean(LocalDate inizio, int numRipetizioni, int rate_giorni, int quantita, String unitaMisura, LocalTime orario, String descrizioneMedica) {
+    public FinalStepBean(LocalDate inizio, int numRipetizioni, int rateGiorni, int quantita, String unitaMisura, LocalTime orario, String descrizioneMedica) {
         this.inizio = inizio;
         this.numRipetizioni = numRipetizioni;
-        this.rateGiorni = rate_giorni;
+        this.rateGiorni = rateGiorni;
         this.quantita = quantita;
         this.unitaMisura = unitaMisura;
         this.orario = orario;
