@@ -158,41 +158,51 @@ public class SelezionaMedicinale extends Receiver{
             int tipo = isNumero(option) ? 1 : 0;
             switch (tipo) {
                 case 1:
-                    int numero = Integer.parseInt(option);
-                    if (0 < numero && numero < risultatiPrincipio.size()){
-                        PrincipioAttivo selezione = informazioniMedicinaleController.getPrincipioAttvoByNome(risultatiPrincipio.get(numero));
-                        this.doseBean.setNome(selezione.getNome());
-                        this.doseBean.setTipo(TipoDose.PRINCIPIOATTIVO);
-                        this.doseBean.setCodice(String.valueOf(selezione.getCodiceAtc()));
-                        return stateMachine.getPromptController().setReceiver(stateMachine.getPreviousReceiver());
-                    } else {
-                        return "numero non valido";
-                    }
+                    return processaNumero(option, informazioniMedicinaleController, stateMachine);
                 case 0:
-                    String[] options = command.split(" ");
-                    switch (options[0]) {
-                        case "principio" :
-                            return stateMachine.goNext(new CercaPrincipio(doseBean));
-                        //case "indietro": return;
-                        case COMANDO_CONFEZIONE:
-                            return stateMachine.goNext(new CercaConfezione(doseBean));
-                        case "cerca":
-                            tipo = isNumero(options[1]) ? 1 : 0;
-                            if (tipo == 1){
-                                numero = Integer.parseInt(options[1]);
-                                if (0 < numero && numero < risultatiPrincipio.size()){
-                                    PrincipioAttivo selezione = informazioniMedicinaleController.getPrincipioAttvoByNome(risultatiPrincipio.get(numero));
-                                    List<Confezione> listaConfezioni = informazioniMedicinaleController.getConfezioniByCodiceAtc(selezione.getCodiceAtc());
-                                    return stateMachine.goNext(new VisualizzaConfezioni(doseBean, listaConfezioni));
-                                }
-                            } else {
-                                return "numero non valido nel comando cerca";
-                            }
-                        default:
-                            return OPZIONE_NON_VALIDA_ERROR;
+                    return processaComando(option, informazioniMedicinaleController, stateMachine);
+                default:
+                    return OPZIONE_NON_VALIDA_ERROR;
+            }
+        }
+
+        private String processaComando(String option, InformazioniMedicinaleController informazioniMedicinaleController, Receiver stateMachine) {
+            String[] options = option.split(" ");
+            int tipo;
+            int numero;
+            switch (options[0]) {
+                case "principio" :
+                    return stateMachine.goNext(new CercaPrincipio(doseBean));
+                //case "indietro": return;
+                case COMANDO_CONFEZIONE:
+                    return stateMachine.goNext(new CercaConfezione(doseBean));
+                case "cerca":
+                    tipo = isNumero(options[1]) ? 1 : 0;
+                    if (tipo == 1){
+                        numero = Integer.parseInt(options[1]);
+                        if (0 < numero && numero < risultatiPrincipio.size()){
+                            PrincipioAttivo selezione = informazioniMedicinaleController.getPrincipioAttvoByNome(risultatiPrincipio.get(numero));
+                            List<Confezione> listaConfezioni = informazioniMedicinaleController.getConfezioniByCodiceAtc(selezione.getCodiceAtc());
+                            return stateMachine.goNext(new VisualizzaConfezioni(doseBean, listaConfezioni));
+                        }
+                    } else {
+                        return "numero non valido nel comando cerca";
                     }
                 default:
                     return OPZIONE_NON_VALIDA_ERROR;
+            }
+        }
+
+        private String processaNumero(String option, InformazioniMedicinaleController informazioniMedicinaleController, Receiver stateMachine) {
+            int numero = Integer.parseInt(option);
+            if (0 < numero && numero < risultatiPrincipio.size()){
+                PrincipioAttivo selezione = informazioniMedicinaleController.getPrincipioAttvoByNome(risultatiPrincipio.get(numero));
+                this.doseBean.setNome(selezione.getNome());
+                this.doseBean.setTipo(TipoDose.PRINCIPIOATTIVO);
+                this.doseBean.setCodice(String.valueOf(selezione.getCodiceAtc()));
+                return stateMachine.getPromptController().setReceiver(stateMachine.getPreviousReceiver());
+            } else {
+                return "numero non valido";
             }
         }
     }
