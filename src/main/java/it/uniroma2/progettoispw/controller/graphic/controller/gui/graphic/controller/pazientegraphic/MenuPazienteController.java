@@ -10,8 +10,8 @@ import javafx.scene.layout.BorderPane;
 import java.io.IOException;
 
 public class MenuPazienteController implements GuiGraphicController {
-    private static final String RichiestaPaziente = "RICHIESTAPAZIENTE";
-    private static final String Terapia = "TERAPIA";
+    private static final String RICHIESTA_PAZIENTE = "RICHIESTAPAZIENTE";
+    private static final String TERAPIA = "TERAPIA";
     private AuthenticationBean authenticationBean;
     private MenuWindowManager menuWindowManager;
 
@@ -30,21 +30,21 @@ public class MenuPazienteController implements GuiGraphicController {
 
     @FXML
     void richieste(ActionEvent event) {
-        menuWindowManager.show(RichiestaPaziente);
+        menuWindowManager.show(RICHIESTA_PAZIENTE);
     }
 
     @FXML
     void terapia(ActionEvent event){
-        menuWindowManager.show(Terapia);
+        menuWindowManager.show(TERAPIA);
     }
 
     @Override
     public void initialize(Object[] args) throws IOException {
         authenticationBean = (AuthenticationBean) args[0];
         this.menuWindowManager = (MenuWindowManager) args[1];
-        menuWindowManager.createNewStack(Terapia);
-        menuWindowManager.addScene(Terapia, "/it/uniroma2/progettoispw/view/TerapiaView.fxml", Terapia, authenticationBean, menuWindowManager);
-        menuWindowManager.createNewStack(RichiestaPaziente);
-        menuWindowManager.addScene(RichiestaPaziente, "/it/uniroma2/progettoispw/view/RichiesteView.fxml", RichiestaPaziente, authenticationBean, menuWindowManager);
+        menuWindowManager.createNewStack(TERAPIA);
+        menuWindowManager.addScene(TERAPIA, "/it/uniroma2/progettoispw/view/TerapiaView.fxml", TERAPIA, authenticationBean, menuWindowManager);
+        menuWindowManager.createNewStack(RICHIESTA_PAZIENTE);
+        menuWindowManager.addScene(RICHIESTA_PAZIENTE, "/it/uniroma2/progettoispw/view/RichiesteView.fxml", RICHIESTA_PAZIENTE, authenticationBean, menuWindowManager);
     }
 }

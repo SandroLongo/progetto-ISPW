@@ -9,8 +9,8 @@ import it.uniroma2.progettoispw.model.domain.TipoDose;
 import java.util.List;
 
 public class SelezionaMedicinale extends Receiver{
-    private static final String comandoConfezione = "confezione";
-    private static final String opzioneNonValidaErrore = "opzione non valida\n";
+    private static final String COMANDO_CONFEZIONE = "confezione";
+    private static final String OPZIONE_NON_VALIDA_ERROR = "opzione non valida\n";
 
     public SelezionaMedicinale(DoseBean doseBean, Receiver prevoisReceiver) {
             this.previousReceiver = prevoisReceiver;
@@ -29,9 +29,9 @@ public class SelezionaMedicinale extends Receiver{
         public String goNext(Receiver stateMachine, String command) {
             String option = command.toLowerCase();
             switch (option) {
-                case comandoConfezione: return stateMachine.goNext(new CercaConfezione(doseBean));
+                case COMANDO_CONFEZIONE: return stateMachine.goNext(new CercaConfezione(doseBean));
                 case "principioattivo": return stateMachine.goNext(new CercaPrincipio(doseBean));
-                default: return opzioneNonValidaErrore;
+                default: return OPZIONE_NON_VALIDA_ERROR;
             }
         }
     }
@@ -103,11 +103,11 @@ public class SelezionaMedicinale extends Receiver{
                     switch (option) {
                         case "principio" : return stateMachine.goNext(new CercaPrincipio(doseBean));
                         //case "indietro": return;
-                        case comandoConfezione: return stateMachine.goNext(new CercaConfezione(doseBean));
+                        case COMANDO_CONFEZIONE: return stateMachine.goNext(new CercaConfezione(doseBean));
                         default: return "opzione non valida";
                     }
                 default:
-                    return opzioneNonValidaErrore;
+                    return OPZIONE_NON_VALIDA_ERROR;
             }
         }
 
@@ -181,7 +181,7 @@ public class SelezionaMedicinale extends Receiver{
                         case "principio" :
                             return stateMachine.goNext(new CercaPrincipio(doseBean));
                         //case "indietro": return;
-                        case comandoConfezione:
+                        case COMANDO_CONFEZIONE:
                             return stateMachine.goNext(new CercaConfezione(doseBean));
                         case "cerca":
                             try {
@@ -199,10 +199,10 @@ public class SelezionaMedicinale extends Receiver{
                                 return "numero non valido nel comando cerca";
                             }
                         default:
-                            return opzioneNonValidaErrore;
+                            return OPZIONE_NON_VALIDA_ERROR;
                     }
                 default:
-                    return opzioneNonValidaErrore;
+                    return OPZIONE_NON_VALIDA_ERROR;
             }
         }
     }

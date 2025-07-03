@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class InformazioniFinali extends Receiver {
-    private static final String ErroreNumero = "devi inserire un numero\n";
+    private static final String ERRORENUMERO = "devi inserire un numero\n";
 
      public InformazioniFinali(DoseCostructor doseCostructor, Receiver receiver) {
          this.promptController = receiver.getPromptController();
@@ -32,7 +32,7 @@ public class InformazioniFinali extends Receiver {
                  doseCostructor.getDose().setQuantita(numero);
                  return stateMachine.goNext(new InserisciUnitaMisura(doseCostructor));
              } catch (NumberFormatException e) {
-                 return ErroreNumero + initialMessage;
+                 return ERRORENUMERO + initialMessage;
              }
          }
 
@@ -53,7 +53,7 @@ public class InformazioniFinali extends Receiver {
                 doseCostructor.getDose().setUnitaMisura(command);
                 return stateMachine.goNext(new InserisciOrario(doseCostructor));
             } catch (NumberFormatException e) {
-                return ErroreNumero + initialMessage;
+                return ERRORENUMERO + initialMessage;
             }
         }
 
@@ -120,7 +120,7 @@ public class InformazioniFinali extends Receiver {
                 doseCostructor.setNumRipetizioni(numero);
                 return stateMachine.goNext(new InserisciRate(doseCostructor));
             } catch (NumberFormatException e) {
-                return ErroreNumero + initialMessage;
+                return ERRORENUMERO + initialMessage;
             }
         }
 
@@ -142,7 +142,7 @@ public class InformazioniFinali extends Receiver {
                 doseCostructor.setRateGiorni(numero);
                 return stateMachine.goNext(new InserisciDescrizione(doseCostructor));
             } catch (NumberFormatException e) {
-                return ErroreNumero + initialMessage;
+                return ERRORENUMERO + initialMessage;
             }
         }
 
@@ -163,7 +163,7 @@ public class InformazioniFinali extends Receiver {
                 doseCostructor.getDose().setDescrizione(command);
                 return stateMachine.getPromptController().setReceiver(stateMachine.getPreviousReceiver());
             } catch (NumberFormatException e) {
-                return ErroreNumero + initialMessage;
+                return ERRORENUMERO + initialMessage;
             }
         }
 

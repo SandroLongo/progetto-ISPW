@@ -11,7 +11,7 @@ import java.io.IOException;
 public class MenuMedicoController implements GuiGraphicController {
     AuthenticationBean authenticationBean;
     private MenuWindowManager menuWindowManager;
-    private static final String gruppoRichiesta = "RICHIESTA";
+    private static final String GRUPPO_RICHIESTA = "RICHIESTA";
 
     @FXML
     void home(ActionEvent event) {
@@ -25,14 +25,14 @@ public class MenuMedicoController implements GuiGraphicController {
 
     @FXML
     void sendRequest(ActionEvent event) {
-        menuWindowManager.show(gruppoRichiesta);
+        menuWindowManager.show(GRUPPO_RICHIESTA);
     }
 
     @Override
     public void initialize(Object[] args) throws IOException {
         this.authenticationBean = (AuthenticationBean) args[0];
         this.menuWindowManager = (MenuWindowManager) args[1];
-        menuWindowManager.createNewStack(gruppoRichiesta);
-        menuWindowManager.addScene(gruppoRichiesta, "/it/uniroma2/progettoispw/view/InviaRichiestaView.fxml", gruppoRichiesta, authenticationBean, menuWindowManager);
+        menuWindowManager.createNewStack(GRUPPO_RICHIESTA);
+        menuWindowManager.addScene(GRUPPO_RICHIESTA, "/it/uniroma2/progettoispw/view/InviaRichiestaView.fxml", GRUPPO_RICHIESTA, authenticationBean, menuWindowManager);
     }
 }

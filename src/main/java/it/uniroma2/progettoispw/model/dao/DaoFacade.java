@@ -169,9 +169,6 @@ public class DaoFacade {
     public void deleteRichiesta(int id) throws DaoException{
         richiesteDao.deleteRichiesta(id);
     }
-    public void addRichiesta(RichiestaBean richiesta) throws DaoException{
-
-    }
 
     public Confezione getConfezioneByCodiceAic(int codiceAic) throws DaoException{
         return medicinaliDao.getConfezioneByCodiceAic(codiceAic);

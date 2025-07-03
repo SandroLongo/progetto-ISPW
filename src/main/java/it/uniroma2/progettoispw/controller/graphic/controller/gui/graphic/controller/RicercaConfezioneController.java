@@ -18,7 +18,7 @@ public class RicercaConfezioneController implements GuiGraphicController {
     private DoseAccepter doseAccepter;
     private String gruppo;
     private DoseInviata doseInviata = new DoseInviata();
-    private static final String seleziona = "seleziona";
+    private static final String SELEZIONA = "SELEZIONA";
     @FXML
     private TextField codiceATC;
 
@@ -53,7 +53,7 @@ public class RicercaConfezioneController implements GuiGraphicController {
         TableColumn<Object, String> nomi = new TableColumn<>("Nomi");
         nomi.setCellValueFactory(data -> new ReadOnlyStringWrapper((String)data.getValue()));
 
-        TableColumn<Object, Void> aggiungiCol = new TableColumn<>(seleziona);
+        TableColumn<Object, Void> aggiungiCol = new TableColumn<>(SELEZIONA);
         aggiungiCol.setCellFactory(col -> new SelezionaPrincipioButtonCell());
 
         TableColumn<Object, Void> cercaCol = new TableColumn<>("Cerca");
@@ -84,7 +84,7 @@ public class RicercaConfezioneController implements GuiGraphicController {
         TableColumn<Object, String> codiceAIC = new TableColumn<>("codiceAIC");
         codiceAIC.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((Confezione)data.getValue()).getCodiceAic())));
 
-        TableColumn<Object, Void> aggiungiCol = new TableColumn<>(seleziona);
+        TableColumn<Object, Void> aggiungiCol = new TableColumn<>(SELEZIONA);
         aggiungiCol.setCellFactory(col -> new SelezionaConfezioneButtonCell());
 
         risultatiTable.getColumns().addAll(denominazione, descrizione,forma,codiceAtc,paAssociati,codiceAIC, aggiungiCol);
@@ -95,7 +95,7 @@ public class RicercaConfezioneController implements GuiGraphicController {
     }
 
     private class SelezionaPrincipioButtonCell extends TableCell<Object, Void> {
-        private final Button btn = new Button(seleziona);
+        private final Button btn = new Button(SELEZIONA);
 
         public SelezionaPrincipioButtonCell() {
             btn.setOnAction(event -> {
@@ -140,7 +140,7 @@ public class RicercaConfezioneController implements GuiGraphicController {
     }
 
     private class SelezionaConfezioneButtonCell extends TableCell<Object, Void> {
-        private final Button btn = new Button(seleziona);
+        private final Button btn = new Button(SELEZIONA);
 
         public SelezionaConfezioneButtonCell() {
             btn.setOnAction(event -> {
