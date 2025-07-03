@@ -51,6 +51,10 @@ public class RichiestaBean {
         dosi.add(doseCostructor);
     }
 
+    public void deleteDoseCostructor(DoseCostructor doseCostructor){
+        dosi.remove(doseCostructor);
+    }
+
     public LocalDate getInvio() {
         return invio;
     }

@@ -53,62 +53,10 @@ public class RicercaConfezioneController implements GuiGraphicController {
         nomi.setCellValueFactory(data -> new ReadOnlyStringWrapper((String)data.getValue()));
 
         TableColumn<Object, Void> aggiungiCol = new TableColumn<>("seleziona");
-        aggiungiCol.setCellFactory(col -> new TableCell<>() {
-            private final Button btn;
-
-            {
-                btn = createButton();
-            }
-            private Button createButton() {
-                Button button = new Button("seleziona");
-                button.setOnAction(event -> {
-                    String selezione = (String) getTableView().getItems().get(getIndex());
-                    PrincipioAttivo principioAttivo = informazioniMedicinaleController.getPrincipioAttvoByNome(selezione);
-                    DoseBean doseBean = new DoseBean(TipoDose.PrincipioAttivo);
-                    doseBean.setCodice(principioAttivo.getCodiceAtc());
-                    doseBean.setNome(principioAttivo.getNome());
-                    doseAccepter.setDose(doseBean);
-                });
-                return button;
-            }
-
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(btn);
-                }
-            }
-        });
+        aggiungiCol.setCellFactory(col -> new SelezionaPrincipioButtonCell());
 
         TableColumn<Object, Void> cercaCol = new TableColumn<>("Cerca");
-        cercaCol.setCellFactory(col -> new TableCell<>() {
-            private final Button btn = new Button("cerca");
-
-            {
-                btn.setOnAction(event -> {
-                    String selezione =  (String)getTableView().getItems().get(getIndex());
-                    PrincipioAttivo principioAttivo= informazioniMedicinaleController.getPrincipioAttvoByNome(selezione);
-                    String codiceAtc = principioAttivo.getCodiceAtc();
-                    System.out.println(codiceAtc);
-                    List<Confezione> confezioni = informazioniMedicinaleController.getConfezioniByCodiceAtc(codiceAtc);
-                    setConfezioni(confezioni);
-                });
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(btn);
-                }
-            }
-        });
+        cercaCol.setCellFactory(col -> new CercaConfezioniDalPrincipioButtonCell());
 
         risultatiTable.getColumns().addAll(nomi, aggiungiCol, cercaCol);
         ObservableList<Object> dati = FXCollections.observableArrayList(nomiCompleti.getNomiPa());
@@ -126,8 +74,8 @@ public class RicercaConfezioneController implements GuiGraphicController {
         TableColumn<Object, String> forma = new TableColumn<>("Forma");
         forma.setCellValueFactory(data -> new ReadOnlyStringWrapper(((Confezione)data.getValue()).getForma()));
 
-        TableColumn<Object, String> codiceATC = new TableColumn<>("codiceATC");
-        codiceATC.setCellValueFactory(data -> new ReadOnlyStringWrapper(((Confezione)data.getValue()).getCodiceAtc()));
+        TableColumn<Object, String> codiceAtc = new TableColumn<>("codiceATC");
+        codiceAtc.setCellValueFactory(data -> new ReadOnlyStringWrapper(((Confezione)data.getValue()).getCodiceAtc()));
 
         TableColumn<Object, String> paAssociati = new TableColumn<>("paAssociati");
         paAssociati.setCellValueFactory(data -> new ReadOnlyStringWrapper(((Confezione)data.getValue()).getPaAssociati()));
@@ -136,35 +84,83 @@ public class RicercaConfezioneController implements GuiGraphicController {
         codiceAIC.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((Confezione)data.getValue()).getCodiceAic())));
 
         TableColumn<Object, Void> aggiungiCol = new TableColumn<>("Seleziona");
-        aggiungiCol.setCellFactory(col -> new TableCell<>() {
-            private final Button btn = new Button("seleziona");
+        aggiungiCol.setCellFactory(col -> new SelezionaConfezioneButtonCell());
 
-            {
-                btn.setOnAction(event -> {
-                    Confezione confezione = (Confezione)getTableView().getItems().get(getIndex());
-                    DoseBean doseBean = new DoseBean(TipoDose.Confezione);
-                    doseBean.setCodice(String.valueOf(confezione.getCodiceAic()));
-                    doseBean.setNome(confezione.getDenominazione());
-                    doseAccepter.setDose(doseBean);
-                });
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(btn);
-                }
-            }
-        });
-
-        risultatiTable.getColumns().addAll(denominazione, descrizione,forma,codiceATC,paAssociati,codiceAIC, aggiungiCol);
+        risultatiTable.getColumns().addAll(denominazione, descrizione,forma,codiceAtc,paAssociati,codiceAIC, aggiungiCol);
         ObservableList<Object> dati = FXCollections.observableArrayList(confezioni);
         risultatiTable.setItems(dati);
 
 
+    }
+
+    private class SelezionaPrincipioButtonCell extends TableCell<Object, Void> {
+        private final Button btn = new Button("seleziona");
+
+        public SelezionaPrincipioButtonCell() {
+            btn.setOnAction(event -> {
+                String selezione = (String) getTableView().getItems().get(getIndex());
+                PrincipioAttivo principioAttivo = informazioniMedicinaleController.getPrincipioAttvoByNome(selezione);
+                DoseBean doseBean = new DoseBean(TipoDose.PrincipioAttivo);
+                doseBean.setCodice(principioAttivo.getCodiceAtc());
+                doseBean.setNome(principioAttivo.getNome());
+                doseAccepter.setDose(doseBean);
+            });
+        }
+
+        @Override
+        protected void updateItem(Void item, boolean empty) {
+            super.updateItem(item, empty);
+            setGraphic(empty ? null : btn);
+        }
+    }
+
+    private class CercaConfezioniDalPrincipioButtonCell extends TableCell<Object, Void> {
+        private final Button btn = new Button("cerca");
+
+        public CercaConfezioniDalPrincipioButtonCell() {
+            btn.setOnAction(event -> {
+                String selezione =  (String)getTableView().getItems().get(getIndex());
+                PrincipioAttivo principioAttivo= informazioniMedicinaleController.getPrincipioAttvoByNome(selezione);
+                String codiceAtc = principioAttivo.getCodiceAtc();
+                System.out.println(codiceAtc);
+                List<Confezione> confezioni = informazioniMedicinaleController.getConfezioniByCodiceAtc(codiceAtc);
+                setConfezioni(confezioni);
+            });
+        }
+
+        @Override
+        protected void updateItem(Void item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty) {
+                setGraphic(null);
+            } else {
+                setGraphic(btn);
+            }
+        }
+    }
+
+    private class SelezionaConfezioneButtonCell extends TableCell<Object, Void> {
+        private final Button btn = new Button("seleziona");
+
+        public SelezionaConfezioneButtonCell() {
+            btn.setOnAction(event -> {
+                Confezione confezione = (Confezione)getTableView().getItems().get(getIndex());
+                DoseBean doseBean = new DoseBean(TipoDose.Confezione);
+                doseBean.setCodice(String.valueOf(confezione.getCodiceAic()));
+                doseBean.setNome(confezione.getDenominazione());
+                doseAccepter.setDose(doseBean);
+            });
+        }
+
+        @Override
+        protected void updateItem(Void item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty) {
+                setGraphic(null);
+            } else {
+                setGraphic(btn);
+            }
+        }
     }
 
 }

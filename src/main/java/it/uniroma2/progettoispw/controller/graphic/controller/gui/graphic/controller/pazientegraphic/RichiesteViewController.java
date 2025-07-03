@@ -45,30 +45,7 @@ public class RichiesteViewController extends Notificator implements GuiGraphicCo
         dataInvio.setCellValueFactory(data -> new ReadOnlyStringWrapper(((RichiestaMandata)data.getValue()).getInvio().toString()));
 
         TableColumn<Object, Void> aggiungiCol = new TableColumn<>("seleziona");
-        aggiungiCol.setCellFactory(col -> new TableCell<>() {
-            private final Button btn = new Button("seleziona");
-
-            {
-                btn.setOnAction(event -> {
-                    RichiestaMandata selezione =  (RichiestaMandata) getTableView().getItems().get(getIndex());
-                    try {
-                        menuWindowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/VisualizzaDettagliRichiestaView.fxml", gruppo, manageRequestController, authenticationBean, selezione, menuWindowManager);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(btn);
-                }
-            }
-        });
+        aggiungiCol.setCellFactory(col -> new SelezionaRichiestaButtonCell());
 
 
         listaRichieste.getColumns().addAll(nomeDottore, dataInvio,aggiungiCol);
@@ -81,5 +58,30 @@ public class RichiesteViewController extends Notificator implements GuiGraphicCo
     public void notifica() {
         dati = FXCollections.observableArrayList(listaRichiesteBean.getLista());
         listaRichieste.setItems(dati);
+    }
+
+    private class SelezionaRichiestaButtonCell extends TableCell<Object, Void> {
+        private final Button btn = new Button("seleziona");
+
+        public SelezionaRichiestaButtonCell() {
+            btn.setOnAction(event -> {
+                RichiestaMandata selezione =  (RichiestaMandata) getTableView().getItems().get(getIndex());
+                try {
+                    menuWindowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/VisualizzaDettagliRichiestaView.fxml", gruppo, manageRequestController, authenticationBean, selezione, menuWindowManager);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }
+
+        @Override
+        protected void updateItem(Void item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty) {
+                setGraphic(null);
+            } else {
+                setGraphic(btn);
+            }
+        }
     }
 }

@@ -42,7 +42,7 @@ public class MenuPazienteController implements GuiGraphicController {
     public void initialize(Object[] args) throws IOException {
         authenticationBean = (AuthenticationBean) args[0];
         this.menuWindowManager = (MenuWindowManager) args[1];
-        System.out.println(authenticationBean.getCodice());
+        //System.out.println(authenticationBean.getCodice());
         menuWindowManager.createNewStack(terapia);
         menuWindowManager.addScene(terapia, "/it/uniroma2/progettoispw/view/TerapiaView.fxml", terapia, authenticationBean, menuWindowManager);
         menuWindowManager.createNewStack(richiestapaziente);

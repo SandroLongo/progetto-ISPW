@@ -89,30 +89,7 @@ public class RecapRichiestaGraphicController implements GuiGraphicController, Do
         descrizione.setCellValueFactory(data -> new ReadOnlyStringWrapper(((DoseCostructor)data.getValue()).getDose().getDescrizione()));
 
         TableColumn<Object, Void> aggiungiCol = new TableColumn<>("elimina");
-        aggiungiCol.setCellFactory(col -> new TableCell<>() {
-            private final Button btn = new Button("elimina");
-
-            {
-                btn.setOnAction(event -> {
-                    Confezione confezione = (Confezione)getTableView().getItems().get(getIndex());
-                    try {
-                       //richiesteController.elimina((DoseInviata)getTableView().getItems().get(getIndex()));
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                });
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(btn);
-                }
-            }
-        });
+        aggiungiCol.setCellFactory(col -> new EliminaDoseCostructorButtonCell());
 
         recapTable.getColumns().addAll(nome, quantita, unitaDiMisura, descrizione, numGiorni, rate, orario);
         this.dati = FXCollections.observableArrayList();
@@ -149,6 +126,27 @@ public class RecapRichiestaGraphicController implements GuiGraphicController, Do
             menuWindowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/AggiungiView.fxml", this,gruppo, menuWindowManager);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private class EliminaDoseCostructorButtonCell extends TableCell<Object, Void> {
+        private final Button btn = new Button("elimina");
+
+        public EliminaDoseCostructorButtonCell() {
+            btn.setOnAction(event -> {
+                DoseCostructor selezione = (DoseCostructor)getTableView().getItems().get(getIndex());
+                richiestaBean.deleteDoseCostructor(selezione);
+            });
+        }
+
+        @Override
+        protected void updateItem(Void item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty) {
+                setGraphic(null);
+            } else {
+                setGraphic(btn);
+            }
         }
     }
 }

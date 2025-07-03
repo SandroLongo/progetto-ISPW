@@ -13,8 +13,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.DatePicker;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -75,7 +75,7 @@ public class TerapiaGui extends Notificator implements DoseAccepter, FinalAccept
         doseList.getChildren().clear();
         for (List<DoseBean> dosiPerOrario: this.terapiaGiornaliera.getDosiPerOrario().values()){
             for (DoseBean dose: dosiPerOrario){
-                System.out.println(dose);
+                //System.out.println(dose);
                 TipoDose tipo = dose.getTipo();
                 switch (tipo) {
                     case Confezione -> {FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/DoseConfezioneItem.fxml"));
@@ -83,7 +83,9 @@ public class TerapiaGui extends Notificator implements DoseAccepter, FinalAccept
                         try {
                             root = loader.load();
                         } catch (IOException e) {
-                            throw new RuntimeException(e);
+                            e.printStackTrace();
+                            ((Stage)datePicker.getScene().getWindow()).close();
+                            return;
                         }
                         DoseConfezioneController doseConfezioneController= loader.getController();
                         doseConfezioneController.inizialize(dose, this);
@@ -93,7 +95,9 @@ public class TerapiaGui extends Notificator implements DoseAccepter, FinalAccept
                         try {
                             root = loader.load();
                         } catch (IOException e) {
-                            throw new RuntimeException(e);
+                            e.printStackTrace();
+                            ((Stage)datePicker.getScene().getWindow()).close();
+                            return;
                         }
                         DosePrincipioController dosePrincipioController= loader.getController();
                         dosePrincipioController.inizialize(dose, this);
@@ -128,7 +132,8 @@ public class TerapiaGui extends Notificator implements DoseAccepter, FinalAccept
         try {
             menuWindowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/AggiungiView.fxml", this,gruppo, menuWindowManager);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            ((Stage)datePicker.getScene().getWindow()).close();
         }
     }
 

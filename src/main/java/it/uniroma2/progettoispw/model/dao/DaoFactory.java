@@ -4,6 +4,7 @@ import it.uniroma2.progettoispw.model.dao.dbfiledao.DbFileDaoFactory;
 import it.uniroma2.progettoispw.model.dao.dbfiledao.MedicinaliDbDao;
 import it.uniroma2.progettoispw.model.dao.memorydao.MemoryDaoFactory;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -23,12 +24,10 @@ public abstract class DaoFactory {
             try (InputStream in = DaoFactory.class
                     .getClassLoader()
                     .getResourceAsStream("properties.properties")) {
-                if (in == null) {
-                    throw new RuntimeException("properties.properties non trovato nel classpath");
-                }
                 props.load(in);
-            } catch (Exception e) {
-                throw new RuntimeException("Errore nel caricamento delle proprietà", e);
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.exit(1);
             }
             String option;
             option = props.getProperty("DAOMODE");
@@ -37,7 +36,7 @@ public abstract class DaoFactory {
                 break;
                 case "Memory": daoFactory = new MemoryDaoFactory();
                 break;
-                default: throw new RuntimeException("DAOMODE unknown");
+                default: System.exit(1);
             }
         }
         return daoFactory;

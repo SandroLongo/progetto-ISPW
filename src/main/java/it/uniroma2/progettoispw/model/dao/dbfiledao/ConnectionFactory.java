@@ -10,6 +10,10 @@ public class ConnectionFactory {
     private static final String DB_PASSWORD = "12345678";
     private static Connection connection;
 
+    private ConnectionFactory() {
+        //per evitare la costruzione
+    }
+
     static {
 
         try{
@@ -18,8 +22,6 @@ public class ConnectionFactory {
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        System.out.println("connesione DB");
-        System.out.println(connection);
 
     }
 

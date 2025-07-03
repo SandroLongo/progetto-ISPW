@@ -21,7 +21,7 @@ public class MedicinaliDbDao extends DbDao implements MedicinaliDao {
                     rs. getString(10), rs.getString(11), rs.getString(12), rs.getInt(14),
                     rs.getString(15), rs.getString(13));
         } catch(SQLException e){
-            throw new SQLException(e);
+            throw new DaoException(e.getMessage());
         }
 
 
@@ -31,7 +31,7 @@ public class MedicinaliDbDao extends DbDao implements MedicinaliDao {
         try {
             return new PrincipioAttivo(rs.getString(1), rs.getString(2));
         } catch(SQLException e){
-            throw new SQLException(e);
+            throw new DaoException(e.getMessage());
         }
     }
 
@@ -52,7 +52,7 @@ public class MedicinaliDbDao extends DbDao implements MedicinaliDao {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DaoException(e.getMessage());
         }
 
         return nomiConfezioni;
@@ -76,7 +76,7 @@ public class MedicinaliDbDao extends DbDao implements MedicinaliDao {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DaoException(e.getMessage());
         }
 
         return nomiConfezioni;
@@ -98,7 +98,7 @@ public class MedicinaliDbDao extends DbDao implements MedicinaliDao {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DaoException(e.getMessage());
         }
         return confezione;
     }
@@ -120,7 +120,7 @@ public class MedicinaliDbDao extends DbDao implements MedicinaliDao {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DaoException(e.getMessage());
         }
 
         return nomi;
@@ -142,7 +142,7 @@ public class MedicinaliDbDao extends DbDao implements MedicinaliDao {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DaoException(e.getMessage());
         }
         return principioAttivo;
     }
@@ -165,7 +165,7 @@ public class MedicinaliDbDao extends DbDao implements MedicinaliDao {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DaoException(e.getMessage());
         }
 
         return confezioni;
@@ -187,7 +187,7 @@ public class MedicinaliDbDao extends DbDao implements MedicinaliDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DaoException(e.getMessage());
         }
         return principioAttivo;
     }
