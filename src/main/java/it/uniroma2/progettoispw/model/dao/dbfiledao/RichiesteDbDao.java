@@ -93,39 +93,29 @@ public class RichiesteDbDao extends DbDao implements RichiesteDao {
             cs.registerOutParameter(4, java.sql.Types.INTEGER);
             cs.execute();
             id = cs.getInt(4);
+            CallableStatement cs1 = conn.prepareCall("{call add_invio_confezione(?,?,?,?,?,?,?,?,?)}");
+            CallableStatement cs2 = conn.prepareCall("{call add_invio_pa(?,?,?,?,?,?,?,?,?)}");
+            cs1.setInt(1, id);
+            cs2.setInt(1, id);
             for (DoseInviata doseInviata : richiesta.getMedicinali()) {
                 Dose dose = doseInviata.getDose();
-
-                String procedureCall;
-                boolean isConfezione = false;
-
+                cs1.setDate(3, Date.valueOf(doseInviata.getInizio()));
+                cs1.setInt(4, doseInviata.getNumGiorni());
+                cs1.setInt(5, doseInviata.getRateGiorni());
+                cs1.setInt(6, dose.getQuantita());
+                cs1.setString(7, dose.getUnitaMisura());
+                cs1.setTime(8, Time.valueOf(dose.getOrario()));
+                cs1.setString(9, dose.getDescrizione());
                 switch (dose.isType()) {
                     case CONFEZIONE -> {
-                        procedureCall = "{call add_invio_confezione(?,?,?,?,?,?,?,?,?)}";
-                        isConfezione = true;
-                    }
-                    case PRINCIPIOATTIVO -> procedureCall = "{call add_invio_pa(?,?,?,?,?,?,?,?,?)}";
-                    default -> throw new DaoException("tipo confezione non valido");
-                }
-
-                try (CallableStatement cs1 = conn.prepareCall(procedureCall)) {
-                    cs1.setInt(1, id);
-
-                    if (isConfezione) {
                         cs1.setInt(2, Integer.parseInt(dose.getCodice()));
-                    } else {
-                        cs1.setString(2, dose.getCodice());
+                        cs1.execute();
                     }
-
-                    cs1.setDate(3, Date.valueOf(doseInviata.getInizio()));
-                    cs1.setInt(4, doseInviata.getNumGiorni());
-                    cs1.setInt(5, doseInviata.getRateGiorni());
-                    cs1.setInt(6, dose.getQuantita());
-                    cs1.setString(7, dose.getUnitaMisura());
-                    cs1.setTime(8, Time.valueOf(dose.getOrario()));
-                    cs1.setString(9, dose.getDescrizione());
-
-                    cs1.execute();
+                    case PRINCIPIOATTIVO -> {
+                        cs1.setString(2, dose.getCodice());
+                        cs1.execute();
+                    }
+                    default -> throw new DaoException("tipo confezione non valido");
                 }
             }
 

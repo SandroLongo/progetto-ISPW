@@ -51,8 +51,8 @@ public class SessionManager {
     }
 
     public void addRichiesta(Richiesta richiesta) {
-        List<Session> sessions = SessionManager.getInstance().getOpenSessionsByCF(richiesta.getRicevente().getCodiceFiscale());
-        for (Session session : sessions){
+        List<Session> attive = SessionManager.getInstance().getOpenSessionsByCF(richiesta.getRicevente().getCodiceFiscale());
+        for (Session session : attive){
             Utente utente = session.getUtente();
             if (Objects.requireNonNull(utente.isType()) == Ruolo.PAZIENTE) {
                 RichiestePendenti richiestePendenti = ((Paziente) utente).getRichiestePendenti();
