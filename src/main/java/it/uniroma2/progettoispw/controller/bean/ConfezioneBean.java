@@ -3,29 +3,29 @@ package it.uniroma2.progettoispw.controller.bean;
 import it.uniroma2.progettoispw.model.domain.Confezione;
 
 public class ConfezioneBean {
-    private int codice_aic;
+    private int codiceAic;
     private String denominazione;
     private String descrizione;
     private String forma;
-    private String pa_associati;
+    private String paAssociati;
     private long quantita;
-    private String unita_misura;
+    private String unitaMisura;
 
     public ConfezioneBean(Confezione confezione) {
-        this.codice_aic = confezione.getCodice_aic();
+        this.codiceAic = confezione.getCodice_aic();
         this.denominazione = confezione.getDenominazione();
         this.descrizione = confezione.getDescrizione();
         this.forma = confezione.getForma();
-        this.pa_associati = confezione.getPa_associati();
+        this.paAssociati = confezione.getPa_associati();
         this.quantita = confezione.getQuantita();
-        this.unita_misura = confezione.getUnita_misura();
+        this.unitaMisura = confezione.getUnita_misura();
     }
 
-    public int getCodice_aic() {
-        return codice_aic;
+    public int getCodiceAic() {
+        return codiceAic;
     }
-    public void setCodice_aic(int codice_aic) {
-        this.codice_aic = codice_aic;
+    public void setCodiceAic(int codiceAic) {
+        this.codiceAic = codiceAic;
     }
     public String getDenominazione() {
         return denominazione;
@@ -46,11 +46,11 @@ public class ConfezioneBean {
     public void setForma(String forma) {
         this.forma = forma;
     }
-    public String getPa_associati() {
-        return pa_associati;
+    public String getPaAssociati() {
+        return paAssociati;
     }
-    public void setPa_associati(String pa_associati) {
-        this.pa_associati = pa_associati;
+    public void setPaAssociati(String paAssociati) {
+        this.paAssociati = paAssociati;
     }
     public long getQuantita() {
         return quantita;
@@ -58,10 +58,10 @@ public class ConfezioneBean {
     public void setQuantita(long quantita) {
         this.quantita = quantita;
     }
-    public String getUnita_misura() {
-        return unita_misura;
+    public String getUnitaMisura() {
+        return unitaMisura;
     }
-    public void setUnita_misura(String unita_misura) {
-        this.unita_misura = unita_misura;
+    public void setUnitaMisura(String unitaMisura) {
+        this.unitaMisura = unitaMisura;
     }
 }
