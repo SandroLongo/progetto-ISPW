@@ -14,7 +14,6 @@ public class UtenteMemoryDao extends MemoryDao implements UtenteDao {
     private Map<ChiaveUtente, Paziente> pazienti = new HashMap<>();
     private Map<ChiaveDottore, Dottore> dottori = new HashMap<>();
     private Map<String, Utente> infoUtenti = new HashMap<>();
-    private TreeMap<String, List<String>> pazienteDottore = new TreeMap<>();
     private Random random = new Random();
 
     private UtenteMemoryDao() {
@@ -48,7 +47,7 @@ public class UtenteMemoryDao extends MemoryDao implements UtenteDao {
     @Override
     public void addPaziente(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
         ChiaveUtente chiaveUtente = new ChiaveUtente(codiceFiscale, pass);
-        pazienti.put(chiaveUtente, new Paziente(codiceFiscale, nome, cognome, nascita, email, telefono, new ArrayList<>()));
+        pazienti.put(chiaveUtente, new Paziente(codiceFiscale, nome, cognome, nascita, email, telefono));
         infoUtenti.put(codiceFiscale, new Paziente(codiceFiscale, nome, cognome, nascita, email, telefono));
     }
 
@@ -57,7 +56,7 @@ public class UtenteMemoryDao extends MemoryDao implements UtenteDao {
         int codiceDottore = generaCodiceUnico(dottori);
         ChiaveUtente chiaveUtente = new ChiaveUtente(codiceFiscale, pass);
         ChiaveDottore chiaveDottore = new ChiaveDottore(codiceFiscale, pass, codiceDottore);
-        pazienti.put(chiaveUtente, new Paziente(codiceFiscale, nome, cognome, nascita, email, telefono, new ArrayList<>()));
+        pazienti.put(chiaveUtente, new Paziente(codiceFiscale, nome, cognome, nascita, email, telefono));
         dottori.put(chiaveDottore, new Dottore(codiceFiscale, nome, cognome, nascita, email, telefono));
         infoUtenti.put(codiceFiscale, new Dottore(codiceFiscale, nome, cognome, nascita, email, telefono));
         return codiceDottore;
@@ -90,12 +89,6 @@ public class UtenteMemoryDao extends MemoryDao implements UtenteDao {
 
     }
 
-    @Override
-    public void addDottoreAssociato(String codicePaziente, String codiceDottore) throws DaoException {
-        if (pazienteDottore.containsKey(codicePaziente)) {
-            pazienteDottore.get(codicePaziente).add(codiceDottore);
-        }
-    }
 
     @Override
     public Utente getInfoUtente(String codiceFiscale) throws DaoException {

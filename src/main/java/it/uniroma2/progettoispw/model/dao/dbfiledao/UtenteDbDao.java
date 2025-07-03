@@ -21,7 +21,7 @@ public class UtenteDbDao extends DbDao implements UtenteDao {
                 case 1 -> new Dottore(rs.getString(1), rs.getString(2), rs.getString(3), rs.getDate(4).toLocalDate(),
                         rs.getString(5), rs.getString(6));
                 case 0 -> new Paziente(rs.getString(1), rs.getString(2), rs.getString(3), rs.getDate(4).toLocalDate(),
-                        rs.getString(5), rs.getString(6), null);
+                        rs.getString(5), rs.getString(6));
                 default -> throw new DaoException("Utente non trovato");
             };
         } catch (SQLException e) {
@@ -127,18 +127,6 @@ public class UtenteDbDao extends DbDao implements UtenteDao {
                 ResultSet rs = cs.getResultSet();
                 if (rs.next()) {
                     utente = createUtente(rs, isDottore);
-                    if (isDottore == 0){
-                        Paziente paziente = (Paziente) utente;
-                        status = cs.getMoreResults();
-                        if (status) {
-                            rs = cs.getResultSet();
-                            while(rs.next()) {
-                                Dottore dottore = (Dottore)createUtente(rs, 1);
-                                paziente.addDottore(dottore);
-                            }
-                        }
-
-                    }
                 }
             }
         } catch (SQLException e) {
@@ -147,19 +135,6 @@ public class UtenteDbDao extends DbDao implements UtenteDao {
         return utente;
     }
 
-    @Override
-    public void addDottoreAssociato(String codicePaziente, String codiceDottore) throws DaoException {
-        try {
-            Connection conn = ConnectionFactory.getConnection();
-            CallableStatement cs = conn.prepareCall("{call add_dottore_associato(?,?)}");
-            cs.setString(1, codicePaziente);
-            cs.setString(2, codiceDottore);
-            cs.execute();
-
-        } catch (SQLException e) {
-            throw new DaoException(e.getMessage());
-        }
-    }
 
     @Override
     public Utente getInfoUtente(String codiceFiscale) throws DaoException {

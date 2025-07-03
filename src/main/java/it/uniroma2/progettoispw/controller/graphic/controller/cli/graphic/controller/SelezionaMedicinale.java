@@ -154,19 +154,11 @@ public class SelezionaMedicinale extends Receiver{
         @Override
         public String goNext(Receiver stateMachine, String command) {
             String option = command.toLowerCase();
-            int numero;
-            int tipo;
-            InformazioniMedicinaleController informazioniMedicinaleController = new InformazioniMedicinaleController();
-            try {
-                numero = Integer.parseInt(option);
-                tipo = 1;
-            } catch (NumberFormatException e) {
-                numero = 0;
-                tipo = 0;
-            }
-            String[] options = command.split(" ");
+            InformazioniMedicinaleController informazioniMedicinaleController= new InformazioniMedicinaleController();
+            int tipo = isNumero(option) ? 1 : 0;
             switch (tipo) {
                 case 1:
+                    int numero = Integer.parseInt(option);
                     if (0 < numero && numero < risultatiPrincipio.size()){
                         PrincipioAttivo selezione = informazioniMedicinaleController.getPrincipioAttvoByNome(risultatiPrincipio.get(numero));
                         this.doseBean.setNome(selezione.getNome());
@@ -177,6 +169,7 @@ public class SelezionaMedicinale extends Receiver{
                         return "numero non valido";
                     }
                 case 0:
+                    String[] options = command.split(" ");
                     switch (options[0]) {
                         case "principio" :
                             return stateMachine.goNext(new CercaPrincipio(doseBean));
@@ -184,17 +177,14 @@ public class SelezionaMedicinale extends Receiver{
                         case COMANDO_CONFEZIONE:
                             return stateMachine.goNext(new CercaConfezione(doseBean));
                         case "cerca":
-                            try {
-                                numero = Integer.parseInt(option);
-                                tipo = 1;
-                            } catch (NumberFormatException e) {
-                                numero = 0;
-                                tipo = 0;
-                            }
-                            if (tipo == 1 && 0 < numero && numero < risultatiPrincipio.size()){
-                                PrincipioAttivo selezione = informazioniMedicinaleController.getPrincipioAttvoByNome(risultatiPrincipio.get(numero));
-                                List<Confezione> listaConfezioni = informazioniMedicinaleController.getConfezioniByCodiceAtc(selezione.getCodiceAtc());
-                                return stateMachine.goNext(new VisualizzaConfezioni(doseBean, listaConfezioni));
+                            tipo = isNumero(options[1]) ? 1 : 0;
+                            if (tipo == 1){
+                                numero = Integer.parseInt(options[1]);
+                                if (0 < numero && numero < risultatiPrincipio.size()){
+                                    PrincipioAttivo selezione = informazioniMedicinaleController.getPrincipioAttvoByNome(risultatiPrincipio.get(numero));
+                                    List<Confezione> listaConfezioni = informazioniMedicinaleController.getConfezioniByCodiceAtc(selezione.getCodiceAtc());
+                                    return stateMachine.goNext(new VisualizzaConfezioni(doseBean, listaConfezioni));
+                                }
                             } else {
                                 return "numero non valido nel comando cerca";
                             }
@@ -204,6 +194,16 @@ public class SelezionaMedicinale extends Receiver{
                 default:
                     return OPZIONE_NON_VALIDA_ERROR;
             }
+        }
+    }
+
+    private boolean isNumero(String numero) {
+        InformazioniMedicinaleController informazioniMedicinaleController = new InformazioniMedicinaleController();
+        try {
+            Integer.parseInt(numero);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
         }
     }
 }

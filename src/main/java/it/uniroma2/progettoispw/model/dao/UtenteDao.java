@@ -14,7 +14,6 @@ public interface UtenteDao {
     int addDottore(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono,
                    String pass) throws DaoException;
     Utente login(String codiceFiscale, String password, int isDottore, int codiceDottore) throws DaoException;
-    void addDottoreAssociato(String codicePaziente,String codiceDottore) throws DaoException;
     Utente getInfoUtente(String codiceFiscale) throws DaoException;
 
 
