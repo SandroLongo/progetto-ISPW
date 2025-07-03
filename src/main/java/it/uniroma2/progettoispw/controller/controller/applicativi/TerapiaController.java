@@ -18,9 +18,9 @@ public class TerapiaController implements Controller{
         Utente utente = SessionManager.getInstance().getSession(code).getUtente();
         doseCostructor.getDose().setInviante(new InformazioniUtente(utente));
         switch (doseCostructor.getDose().getTipo()){
-            case Confezione -> {daoFacade.buildDoseConfezione(daoFacade.wrapDoseCostructor(doseCostructor), utente.getCodiceFiscale());}
-            case PrincipioAttivo -> {daoFacade.buildDosePrincipioAttivo(daoFacade.wrapDoseCostructor(doseCostructor), utente.getCodiceFiscale());}
-            default -> {throw new RuntimeException("Dose non valido");}
+            case Confezione -> daoFacade.buildDoseConfezione(daoFacade.wrapDoseCostructor(doseCostructor), utente.getCodiceFiscale());
+            case PrincipioAttivo -> daoFacade.buildDosePrincipioAttivo(daoFacade.wrapDoseCostructor(doseCostructor), utente.getCodiceFiscale());
+            default -> throw new RuntimeException("Dose non valido");
         }
     }
 

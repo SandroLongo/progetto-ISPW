@@ -114,21 +114,21 @@ public class UtenteDbDao extends DbDao implements UtenteDao {
     }
 
     @Override
-    public Utente login(String codiceFiscale, String password, int is_dottore, int codice_dottore) throws DaoException {
+    public Utente login(String codiceFiscale, String password, int isDottore, int codiceDottore) throws DaoException {
         Utente utente = null;
         try {
             Connection conn = ConnectionFactory.getConnection();
             CallableStatement cs = conn.prepareCall("{call login(?,?,?,?)}");
             cs.setString(1, codiceFiscale);
             cs.setString(2, password);
-            cs.setInt(3, is_dottore);
-            cs.setInt(4, codice_dottore);
+            cs.setInt(3, isDottore);
+            cs.setInt(4, codiceDottore);
             boolean status = cs.execute();
             if (status) {
                 ResultSet rs = cs.getResultSet();
                 if (rs.next()) {
-                    utente = createUtente(rs, is_dottore);
-                    if (is_dottore == 0){
+                    utente = createUtente(rs, isDottore);
+                    if (isDottore == 0){
                         Paziente paziente = (Paziente) utente;
                         status = cs.getMoreResults();
                         if (status) {

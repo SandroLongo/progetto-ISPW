@@ -49,5 +49,5 @@ public class DoseInviata {
     }
     public TipoDose isType(){
         return dose.isType();
-    };
+    }
 }

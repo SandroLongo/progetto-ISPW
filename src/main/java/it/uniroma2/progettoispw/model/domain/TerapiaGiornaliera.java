@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class TerapiaGiornaliera extends Subject {
@@ -21,7 +22,7 @@ public class TerapiaGiornaliera extends Subject {
     public void setData(LocalDate data) {
         this.data = data;
     }
-    public TreeMap<LocalTime, List<Dose>> getDosiPerOrario() {
+    public SortedMap<LocalTime, List<Dose>> getDosiPerOrario() {
         return dosiPerOrario;
     }
     public void addDose(Dose nuovaDose) {
@@ -33,11 +34,9 @@ public class TerapiaGiornaliera extends Subject {
         notifica();
     }
 
-    public void removeDose(Dose nuovaDose) {
-        if (nuovaDose == null){
-            return;
-        } else {
-            dosiPerOrario.get(nuovaDose.getOrario()).remove(nuovaDose);
+    public void removeDose(Dose dose) {
+        if (dose != null){
+            dosiPerOrario.get(dose.getOrario()).remove(dose);
         }
     }
 

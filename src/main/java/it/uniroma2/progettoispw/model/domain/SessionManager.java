@@ -3,6 +3,7 @@ package it.uniroma2.progettoispw.model.domain;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class SessionManager {
@@ -56,10 +57,9 @@ public class SessionManager {
         List<Session> sessions = SessionManager.getInstance().getOpenSessionsByCF(richiesta.getRicevente().getCodiceFiscale());
         for (Session session : sessions){
             Utente utente = session.getUtente();
-            switch (utente.isType()){
-                case Paziente -> {RichiestePendenti richiestePendenti = ((Paziente)utente).getRichiestePendenti();
-                    richiestePendenti.addRichiesta(richiesta);}
-                default -> {}
+            if (Objects.requireNonNull(utente.isType()) == Ruolo.Paziente) {
+                RichiestePendenti richiestePendenti = ((Paziente) utente).getRichiestePendenti();
+                richiestePendenti.addRichiesta(richiesta);
             }
         }
     }

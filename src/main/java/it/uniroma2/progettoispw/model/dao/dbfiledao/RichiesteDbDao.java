@@ -16,7 +16,7 @@ public class RichiesteDbDao extends DbDao implements RichiesteDao {
                 richiesta.addDoseInviata(new DoseInviata(new DoseConfezione(new Confezione(rs.getInt(1)), rs.getInt(5),
                         rs.getString(6), rs.getTime(7).toLocalTime(), rs.getString(8), richiesta.getInviante()),
                         rs.getInt(3), rs.getDate(2).toLocalDate(), rs.getInt(4)));
-                System.out.println("aggiunto" + String.valueOf(rs.getInt(1)));
+                //System.out.println("aggiunto" + rs.getInt(1));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -49,7 +49,7 @@ public class RichiesteDbDao extends DbDao implements RichiesteDao {
                 while (rs.next()) {
                     richieste.add(new Richiesta(rs.getInt(1), rs.getDate(2).toLocalDate(), paziente,
                             new Dottore(rs.getString(3))));
-                    System.out.println("trovata richiesta " + String.valueOf(rs.getInt(1)));
+                    //System.out.println("trovata richiesta " + String.valueOf(rs.getInt(1)));
                 }
                 //da completare la creazione del Dottore inviante
                 for (Richiesta richiesta : richieste) {
@@ -122,6 +122,7 @@ public class RichiesteDbDao extends DbDao implements RichiesteDao {
                         cs1.setTime(8, Time.valueOf(dose.getOrario()));
                         cs1.setString(9, dose.getDescrizione());
                         cs1.execute();}
+                    default -> throw new DaoException("tipo confezione non valido");
                 }
             }
 

@@ -81,9 +81,9 @@ public class UtenteMemoryDao extends MemoryDao implements UtenteDao {
     }
 
     @Override
-    public Utente login(String codiceFiscale, String password, int is_dottore, int codice_dottore) throws DaoException {
-        if (is_dottore == 1) {
-            ChiaveDottore chiave = new ChiaveDottore(codiceFiscale, password, codice_dottore);
+    public Utente login(String codiceFiscale, String password, int isDottore, int codiceDottore) throws DaoException {
+        if (isDottore == 1) {
+            ChiaveDottore chiave = new ChiaveDottore(codiceFiscale, password, codiceDottore);
             return dottori.get(chiave);
         } else {
             ChiaveUtente chiave = new ChiaveUtente(codiceFiscale, password);

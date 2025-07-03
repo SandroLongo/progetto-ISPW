@@ -128,7 +128,7 @@ public class MedicinaliDbDao extends DbDao implements MedicinaliDao {
 
     @Override
     public PrincipioAttivo getPrincipioAttvoByNome(String nome) throws DaoException {
-        PrincipioAttivo principio_attivo = null;
+        PrincipioAttivo principioAttivo = null;
         try {
             Connection conn = ConnectionFactory.getConnection();
             CallableStatement cs = conn.prepareCall("{call search_pa_by_nome(?)}");
@@ -138,13 +138,13 @@ public class MedicinaliDbDao extends DbDao implements MedicinaliDao {
             if (status) {
                 ResultSet rs = cs.getResultSet();
                 if (rs.next()) {
-                    principio_attivo = creaPrincipioAttivo(rs);
+                    principioAttivo = creaPrincipioAttivo(rs);
                 }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return principio_attivo;
+        return principioAttivo;
     }
 
     @Override
@@ -173,7 +173,7 @@ public class MedicinaliDbDao extends DbDao implements MedicinaliDao {
 
     @Override
     public PrincipioAttivo getPrincipioAttvoByCodiceAtc(String codiceAtc) throws DaoException {
-        PrincipioAttivo principio_attivo = null;
+        PrincipioAttivo principioAttivo = null;
         try {
             Connection conn = ConnectionFactory.getConnection();
             CallableStatement cs = conn.prepareCall("{call search_pa_by_codice(?)}");
@@ -182,14 +182,14 @@ public class MedicinaliDbDao extends DbDao implements MedicinaliDao {
             if (status) {
                 ResultSet rs = cs.getResultSet();
                 if (rs.next()){
-                    principio_attivo = creaPrincipioAttivo(rs);
+                    principioAttivo = creaPrincipioAttivo(rs);
                 }
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return principio_attivo;
+        return principioAttivo;
     }
 
 }

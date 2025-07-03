@@ -40,7 +40,7 @@ public class Confezione {
 
     public Confezione(int codiceAic) {
         this.codiceAic = codiceAic;
-    };
+    }
 
     public int getCodiceAic() {
         return codiceAic;
