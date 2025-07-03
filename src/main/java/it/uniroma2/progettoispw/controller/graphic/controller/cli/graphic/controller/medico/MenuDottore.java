@@ -31,8 +31,8 @@ public class MenuDottore extends Receiver {
         public String goNext(Receiver stateMachine, String command) {
             String option = command.toLowerCase();
             switch (option) {
-                case "invia": terapiaReceiver = stateMachine;
-                case "menu": stateMachine.getPromptController().setReceiver(stateMachine.getPreviousReceiver());
+                case "invia": return stateMachine.getPromptController().setReceiver(inviarichiesteReceiver);
+                case "logout": return stateMachine.getPromptController().setReceiver(stateMachine.getPreviousReceiver());
                 default: return "scelta non trovata";
             }
         }

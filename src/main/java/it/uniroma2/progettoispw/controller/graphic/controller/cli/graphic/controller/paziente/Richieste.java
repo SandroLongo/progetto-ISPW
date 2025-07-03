@@ -90,6 +90,7 @@ public class Richieste extends Receiver {
             switch (option) {
                 case "accetta":
                     manageRequestController.accettaRichiesta(authenticationBean.getCodice(), mandata.getIdRichiesta());
+                    return stateMachine.goNext(new ShowRichieste(authenticationBean));
                 case "rifiuta": return "";
                 case "indietro": return stateMachine.goNext(new ShowRichieste(authenticationBean));
                 default:

@@ -112,6 +112,7 @@ public class InviaRichiesta extends Receiver {
             switch (option) {
                 case "invia":
                     richiesteController.invia(authenticationBean.getCodice(), richiestaBean);
+                    return stateMachine.getPromptController().setReceiver(stateMachine.getPreviousReceiver());
                 case "aggiungi":
                     return stateMachine.goNext(new AggiungiState1(authenticationBean, richiesteController, doseCostructor, richiestaBean));
                 case "indietro":

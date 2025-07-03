@@ -20,23 +20,24 @@ public abstract class DaoFactory {
 
     public static DaoFactory getIstance() {
         if (daoFactory == null) {
-            Properties props = new Properties();
-            try (InputStream in = DaoFactory.class
-                    .getClassLoader()
-                    .getResourceAsStream("properties.properties")) {
-                props.load(in);
+            try (InputStream input = DaoFactory.class.getClassLoader().getResourceAsStream("properties.properties")) {
+                Properties properties = new Properties();
+                properties.load(input);
+
+                String option = properties.getProperty("DAOMODE");
+                switch (option) {
+                    case "DB":
+                        daoFactory = new DbFileDaoFactory();
+                        break;
+                    case "Memory":
+                        daoFactory = new MemoryDaoFactory();
+                        break;
+                    default:
+                        System.exit(1);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
                 System.exit(1);
-            }
-            String option;
-            option = props.getProperty("DAOMODE");
-        switch (option) {
-                case "DB": daoFactory = new DbFileDaoFactory();
-                break;
-                case "Memory": daoFactory = new MemoryDaoFactory();
-                break;
-                default: System.exit(1);
             }
         }
         return daoFactory;

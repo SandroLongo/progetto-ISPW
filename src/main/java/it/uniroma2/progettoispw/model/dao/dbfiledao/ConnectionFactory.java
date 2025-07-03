@@ -1,13 +1,15 @@
 package it.uniroma2.progettoispw.model.dao.dbfiledao;
 
+import it.uniroma2.progettoispw.model.dao.DaoFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class ConnectionFactory {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/farmaciaifa";
-    private static final String DB_USER = "utente";
-    private static final String DB_PASSWORD = "12345678";
     private static Connection connection;
 
     private ConnectionFactory() {
@@ -16,11 +18,18 @@ public class ConnectionFactory {
 
     static {
 
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-        } catch (SQLException | ClassNotFoundException e) {
+        try (InputStream input = DaoFactory.class.getClassLoader().getResourceAsStream("properties.properties")) {
+            Properties properties = new Properties();
+            properties.load(input);
+
+            String connection_url = properties.getProperty("DB_URL");
+            String user = properties.getProperty("DB_USER");
+            String pass = properties.getProperty("DB_PASS");
+
+            connection = DriverManager.getConnection(connection_url, user, pass);
+        } catch (IOException | SQLException e) {
             e.printStackTrace();
+            System.exit(1);
         }
 
     }
