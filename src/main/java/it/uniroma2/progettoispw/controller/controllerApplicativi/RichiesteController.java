@@ -1,7 +1,6 @@
 package it.uniroma2.progettoispw.controller.controllerApplicativi;
 
 import it.uniroma2.progettoispw.controller.bean.DoseCostructor;
-import it.uniroma2.progettoispw.controller.bean.FinalStepBean;
 import it.uniroma2.progettoispw.controller.bean.InformazioniUtente;
 import it.uniroma2.progettoispw.controller.bean.RichiestaBean;
 import it.uniroma2.progettoispw.model.dao.DaoFacade;
@@ -11,7 +10,6 @@ import it.uniroma2.progettoispw.model.dao.UtenteDao;
 import it.uniroma2.progettoispw.model.domain.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class RichiesteController implements Controller{
     DaoFacade daoFacade = new DaoFacade();
@@ -37,8 +35,8 @@ public class RichiesteController implements Controller{
             case Dottore -> {Richiesta nuovaRichiesta = new Richiesta();
                 nuovaRichiesta.setInvio(richiestaBean.getInvio());
                 UtenteDao utenteDao = DaoFactory.getIstance().getUtenteDao();
-                nuovaRichiesta.setRicevente(utenteDao.getPaziente(richiestaBean.getRicevente().getCodice_fiscale())); //da rivedere classe InformazioniUtente
-                nuovaRichiesta.setInviante(utenteDao.getDottore(richiestaBean.getInviante().getCodice_fiscale()));
+                nuovaRichiesta.setRicevente(utenteDao.getPaziente(richiestaBean.getRicevente().getCodiceFiscale())); //da rivedere classe InformazioniUtente
+                nuovaRichiesta.setInviante(utenteDao.getDottore(richiestaBean.getInviante().getCodiceFiscale()));
                 for (DoseCostructor dose: richiestaBean.getDosi()){
                     nuovaRichiesta.addDoseInviata(daoFacade.wrapDoseCostructor(dose));
                 }

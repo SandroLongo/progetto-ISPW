@@ -1,7 +1,6 @@
 package it.uniroma2.progettoispw.controller.bean;
 
 import it.uniroma2.progettoispw.model.domain.Dose;
-import it.uniroma2.progettoispw.model.domain.Dottore;
 import it.uniroma2.progettoispw.model.domain.TipoDose;
 
 import java.time.LocalTime;
@@ -9,9 +8,9 @@ import java.time.LocalTime;
 public class DoseBean {
     private String codice;
     private int quantita;
-    private String unita_misura;
+    private String unitaMisura;
     private LocalTime orario;
-    private String descrizione_medica;
+    private String descrizione;
     private boolean assunta;
     private InformazioniUtente inviante;
     private String nome;
@@ -23,11 +22,11 @@ public class DoseBean {
 
     public DoseBean(Dose dose) {
         this.codice = dose.getCodice();
-        this.unita_misura = dose.getUnita_misura();
+        this.unitaMisura = dose.getUnita_misura();
         this.orario = dose.getOrario();
         this.quantita = dose.getQuantita();
         this.assunta = dose.isAssunta();
-        this.descrizione_medica = dose.getDescrizione();
+        this.descrizione = dose.getDescrizione();
         this.nome = dose.getNome();
         this.tipo = dose.isType();
         this.inviante = new InformazioniUtente(dose.getInviante());
@@ -38,11 +37,11 @@ public class DoseBean {
 
     @Override
     public String toString() {
-        return "tipo: " + tipo + ", nome: " + nome +", quantita: " + quantita + " " + unita_misura;
+        return "tipo: " + tipo + ", nome: " + nome +", quantita: " + quantita + " " + unitaMisura;
     }
 
     public boolean isCompleate(){
-        return codice != null && quantita != 0 && unita_misura != null && orario != null && descrizione_medica != null && inviante != null
+        return codice != null && quantita != 0 && unitaMisura != null && orario != null && descrizione != null && inviante != null
                 && nome != null && tipo != null;
     }
 
@@ -54,12 +53,12 @@ public class DoseBean {
         this.quantita = quantita;
     }
 
-    public String getUnita_misura() {
-        return unita_misura;
+    public String getUnitaMisura() {
+        return unitaMisura;
     }
 
-    public void setUnita_misura(String unita_misura) {
-        this.unita_misura = unita_misura;
+    public void setUnitaMisura(String unitaMisura) {
+        this.unitaMisura = unitaMisura;
     }
 
     public LocalTime getOrario() {
@@ -70,12 +69,12 @@ public class DoseBean {
         this.orario = orario;
     }
 
-    public String getDescrizione_medica() {
-        return descrizione_medica;
+    public String getDescrizione() {
+        return descrizione;
     }
 
-    public void setDescrizione_medica(String descrizione_medica) {
-        this.descrizione_medica = descrizione_medica;
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
     }
 
     public boolean isAssunta() {

@@ -1,6 +1,5 @@
 package it.uniroma2.progettoispw.controller.graphicController.cliGraphicController;
 
-import it.uniroma2.progettoispw.controller.bean.DoseBean;
 import it.uniroma2.progettoispw.controller.bean.DoseCostructor;
 
 import java.time.LocalDate;
@@ -50,7 +49,7 @@ public class InformazioniFinali extends Receiver {
         @Override
         public String goNext(Receiver stateMachine, String command) {
             try {
-                doseCostructor.getDose().setUnita_misura(command);
+                doseCostructor.getDose().setUnitaMisura(command);
                 return stateMachine.goNext(new InserisciOrario(doseCostructor));
             } catch (NumberFormatException e) {
                 return "devi inserire un numero\n" + initialMessage;
@@ -117,7 +116,7 @@ public class InformazioniFinali extends Receiver {
         public String goNext(Receiver stateMachine, String command) {
             try {
                 int numero = Integer.parseInt(command);
-                doseCostructor.setNum_ripetizioni(numero);
+                doseCostructor.setNumRipetizioni(numero);
                 return stateMachine.goNext(new InserisciRate(doseCostructor));
             } catch (NumberFormatException e) {
                 return "devi inserire un numero\n" + initialMessage;
@@ -139,7 +138,7 @@ public class InformazioniFinali extends Receiver {
         public String goNext(Receiver stateMachine, String command) {
             try {
                 int numero = Integer.parseInt(command);
-                doseCostructor.setRate_giorni(numero);
+                doseCostructor.setRateGiorni(numero);
                 return stateMachine.goNext(new InserisciDescrizione(doseCostructor));
             } catch (NumberFormatException e) {
                 return "devi inserire un numero\n" + initialMessage;
@@ -160,7 +159,7 @@ public class InformazioniFinali extends Receiver {
         @Override
         public String goNext(Receiver stateMachine, String command) {
             try {
-                doseCostructor.getDose().setDescrizione_medica(command);
+                doseCostructor.getDose().setDescrizione(command);
                 return stateMachine.getPromptController().setReceiver(stateMachine.getPreviousReceiver());
             } catch (NumberFormatException e) {
                 return "devi inserire un numero\n" + initialMessage;

@@ -1,25 +1,24 @@
 package it.uniroma2.progettoispw.controller.bean;
 
-import it.uniroma2.progettoispw.model.domain.Dottore;
 import it.uniroma2.progettoispw.model.domain.Utente;
 
 import java.time.LocalDate;
 
 public class InformazioniUtente {
-    private String codice_fiscale;
+    private String codiceFiscale;
     private String nome;
     private String cognome;
     private String email;
     private String telefono;
-    private LocalDate data_nascita;
+    private LocalDate dataNascita;
 
-    public InformazioniUtente(String codice_fiscale, String nome, String cognome, String email, String telefono, LocalDate data_nascita) {
-        this.codice_fiscale = codice_fiscale;
+    public InformazioniUtente(String codiceFiscale, String nome, String cognome, String email, String telefono, LocalDate dataNascita) {
+        this.codiceFiscale = codiceFiscale;
         this.nome = nome;
         this.cognome = cognome;
         this.email = email;
         this.telefono = telefono;
-        this.data_nascita = data_nascita;
+        this.dataNascita = dataNascita;
     }
 
     public InformazioniUtente(Utente inviante) {
@@ -27,12 +26,12 @@ public class InformazioniUtente {
         cognome = inviante.getCognome();
         email = inviante.getEmail();
         telefono = inviante.getTelefono();
-        data_nascita = inviante.getData_nascita();
-        codice_fiscale = inviante.getCodiceFiscale();
+        dataNascita = inviante.getData_nascita();
+        codiceFiscale = inviante.getCodiceFiscale();
     }
 
-    public String getCodice_fiscale() {
-        return codice_fiscale;
+    public String getCodiceFiscale() {
+        return codiceFiscale;
     }
 
     public String getNome() {
@@ -51,7 +50,7 @@ public class InformazioniUtente {
         return telefono;
     }
 
-    public LocalDate getData_nascita() {
-        return data_nascita;
+    public LocalDate getDataNascita() {
+        return dataNascita;
     }
 }

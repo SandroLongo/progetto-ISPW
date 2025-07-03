@@ -3,7 +3,6 @@ package it.uniroma2.progettoispw.controller.controllerApplicativi;
 import it.uniroma2.progettoispw.controller.bean.*;
 import it.uniroma2.progettoispw.model.dao.DaoException;
 import it.uniroma2.progettoispw.model.dao.DaoFacade;
-import it.uniroma2.progettoispw.model.domain.Ruolo;
 import it.uniroma2.progettoispw.model.domain.Session;
 import it.uniroma2.progettoispw.model.domain.SessionManager;
 import it.uniroma2.progettoispw.model.domain.Utente;
@@ -49,29 +48,29 @@ public class LogInController implements Controller{
     public void registerPaziente(PazienteRegistrationData utenteRegistrationData) throws FomatoInvalidoException, DaoException {
 
         verifyRegistrationData(utenteRegistrationData);
-        daoFacade.addPaziente(utenteRegistrationData.getCodice_fiscale(), utenteRegistrationData.getNome(),
-                        utenteRegistrationData.getCognome(), utenteRegistrationData.getData_nascita(), utenteRegistrationData.getEmail(),
+        daoFacade.addPaziente(utenteRegistrationData.getCodiceFiscale(), utenteRegistrationData.getNome(),
+                        utenteRegistrationData.getCognome(), utenteRegistrationData.getDataNascita(), utenteRegistrationData.getEmail(),
                         utenteRegistrationData.getTelefono(), utenteRegistrationData.getPassword());
-        System.out.println(utenteRegistrationData.getCodice_fiscale() + "in logincontroller");
+        System.out.println(utenteRegistrationData.getCodiceFiscale() + "in logincontroller");
 
     }
 
     public int registerDottore(DottoreRegistrationData utenteRegistrationData){
         int id;
         verifyRegistrationData(utenteRegistrationData);
-        return daoFacade.addDottore(utenteRegistrationData.getCodice_fiscale(), utenteRegistrationData.getNome(),
-                utenteRegistrationData.getCognome(), utenteRegistrationData.getData_nascita(), utenteRegistrationData.getEmail(),
+        return daoFacade.addDottore(utenteRegistrationData.getCodiceFiscale(), utenteRegistrationData.getNome(),
+                utenteRegistrationData.getCognome(), utenteRegistrationData.getDataNascita(), utenteRegistrationData.getEmail(),
                 utenteRegistrationData.getTelefono(), utenteRegistrationData.getPassword());
     }
 
     private void verifyRegistrationData(UtenteRegistrationData utenteRegistrationData) throws FomatoInvalidoException {
-        String cf = utenteRegistrationData.getCodice_fiscale();
+        String cf = utenteRegistrationData.getCodiceFiscale();
         String pwd = utenteRegistrationData.getPassword();
         String nome = utenteRegistrationData.getNome();
         String cognome = utenteRegistrationData.getCognome();
         String email = utenteRegistrationData.getEmail();
         String telefono = utenteRegistrationData.getTelefono();
-        LocalDate data_nascita = utenteRegistrationData.getData_nascita();
+        LocalDate data_nascita = utenteRegistrationData.getDataNascita();
 
         verifyCFandPass(cf, pwd);
         if (nome == null || nome.length() < Config.MIN_NAME_LENGTH || nome.length() > Config.MAX_NAME_LENGTH) {

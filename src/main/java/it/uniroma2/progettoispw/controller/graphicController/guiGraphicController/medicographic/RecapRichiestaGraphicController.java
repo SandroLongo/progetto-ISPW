@@ -7,9 +7,6 @@ import it.uniroma2.progettoispw.controller.graphicController.guiGraphicControlle
 import it.uniroma2.progettoispw.controller.graphicController.guiGraphicController.GuiGraphicController;
 import it.uniroma2.progettoispw.controller.graphicController.guiGraphicController.MenuWindowManager;
 import it.uniroma2.progettoispw.model.domain.Confezione;
-import it.uniroma2.progettoispw.model.domain.DoseInviata;
-import it.uniroma2.progettoispw.model.domain.PrincipioAttivo;
-import it.uniroma2.progettoispw.model.domain.Richiesta;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -74,22 +71,22 @@ public class RecapRichiestaGraphicController implements GuiGraphicController, Do
         quantita.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((DoseCostructor)data.getValue()).getDose().getQuantita())));
 
         TableColumn<Object, String> unitaDiMisura = new TableColumn<>("unita di misura");
-        unitaDiMisura.setCellValueFactory(data -> new ReadOnlyStringWrapper(((DoseCostructor)data.getValue()).getDose().getUnita_misura()));
+        unitaDiMisura.setCellValueFactory(data -> new ReadOnlyStringWrapper(((DoseCostructor)data.getValue()).getDose().getUnitaMisura()));
 
         TableColumn<Object, String> inizio = new TableColumn<>("Data inizio");
         inizio.setCellValueFactory(data -> new ReadOnlyStringWrapper(((DoseCostructor)data.getValue()).getInizio().toString()));
 
         TableColumn<Object, String> numGiorni = new TableColumn<>("numero di volte");
-        numGiorni.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((DoseCostructor)data.getValue()).getNum_ripetizioni())));
+        numGiorni.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((DoseCostructor)data.getValue()).getNumRipetizioni())));
 
         TableColumn<Object, String> rate = new TableColumn<>("ogni tot giorni");
-        rate.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((DoseCostructor)data.getValue()).getRate_giorni())));
+        rate.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((DoseCostructor)data.getValue()).getRateGiorni())));
 
         TableColumn<Object, String> orario = new TableColumn<>("orario");
         orario.setCellValueFactory(data -> new ReadOnlyStringWrapper(((DoseCostructor)data.getValue()).getDose().getOrario().toString()));
 
         TableColumn<Object, String> descrizione = new TableColumn<>("descrizione");
-        descrizione.setCellValueFactory(data -> new ReadOnlyStringWrapper(((DoseCostructor)data.getValue()).getDose().getDescrizione_medica()));
+        descrizione.setCellValueFactory(data -> new ReadOnlyStringWrapper(((DoseCostructor)data.getValue()).getDose().getDescrizione()));
 
         TableColumn<Object, Void> aggiungiCol = new TableColumn<>("elimina");
         aggiungiCol.setCellFactory(col -> new TableCell<>() {
@@ -126,11 +123,11 @@ public class RecapRichiestaGraphicController implements GuiGraphicController, Do
     @Override
     public void setFinalInformation(FinalStepBean finalStep) throws IOException {
         doseCostructor.setInizio(finalStep.getInizio());
-        doseCostructor.setNum_ripetizioni(finalStep.getNum_ripetizioni());
-        doseCostructor.setRate_giorni(finalStep.getRate_giorni());
-        doseCostructor.getDose().setDescrizione_medica(finalStep.getDescrizione_medica());
+        doseCostructor.setNumRipetizioni(finalStep.getNumRipetizioni());
+        doseCostructor.setRateGiorni(finalStep.getRateGiorni());
+        doseCostructor.getDose().setDescrizione(finalStep.getDescrizioneMedica());
         doseCostructor.getDose().setOrario(finalStep.getOrario());
-        doseCostructor.getDose().setUnita_misura(finalStep.getUnita_misura());
+        doseCostructor.getDose().setUnitaMisura(finalStep.getUnitaMisura());
         doseCostructor.getDose().setQuantita(finalStep.getQuantita());
         doseCostructor.getDose().setAssunta(false);
         richiestaBean.addDoseCostructor(doseCostructor);

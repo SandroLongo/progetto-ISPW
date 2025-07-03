@@ -1,27 +1,25 @@
 package it.uniroma2.progettoispw.controller.bean;
 
-import it.uniroma2.progettoispw.model.domain.Dottore;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class FinalStepBean {
     private LocalDate inizio;
-    private int num_ripetizioni;
-    private int rate_giorni;
+    private int numRipetizioni;
+    private int rateGiorni;
     private int quantita;
-    private String unita_misura;
+    private String unitaMisura;
     private LocalTime orario;
-    private String descrizione_medica;
+    private String descrizioneMedica;
 
-    public FinalStepBean(LocalDate inizio, int num_ripetizioni, int rate_giorni, int quantita, String unita_misura, LocalTime orario, String descrizione_medica) {
+    public FinalStepBean(LocalDate inizio, int numRipetizioni, int rate_giorni, int quantita, String unitaMisura, LocalTime orario, String descrizioneMedica) {
         this.inizio = inizio;
-        this.num_ripetizioni = num_ripetizioni;
-        this.rate_giorni = rate_giorni;
+        this.numRipetizioni = numRipetizioni;
+        this.rateGiorni = rate_giorni;
         this.quantita = quantita;
-        this.unita_misura = unita_misura;
+        this.unitaMisura = unitaMisura;
         this.orario = orario;
-        this.descrizione_medica = descrizione_medica;
+        this.descrizioneMedica = descrizioneMedica;
     }
 
     public FinalStepBean() {}
@@ -34,20 +32,20 @@ public class FinalStepBean {
         this.inizio = inizio;
     }
 
-    public int getNum_ripetizioni() {
-        return num_ripetizioni;
+    public int getNumRipetizioni() {
+        return numRipetizioni;
     }
 
-    public void setNum_ripetizioni(int num_ripetizioni) {
-        this.num_ripetizioni = num_ripetizioni;
+    public void setNumRipetizioni(int numRipetizioni) {
+        this.numRipetizioni = numRipetizioni;
     }
 
-    public int getRate_giorni() {
-        return rate_giorni;
+    public int getRateGiorni() {
+        return rateGiorni;
     }
 
-    public void setRate_giorni(int rate_giorni) {
-        this.rate_giorni = rate_giorni;
+    public void setRateGiorni(int rateGiorni) {
+        this.rateGiorni = rateGiorni;
     }
 
     public int getQuantita() {
@@ -58,12 +56,12 @@ public class FinalStepBean {
         this.quantita = quantita;
     }
 
-    public String getUnita_misura() {
-        return unita_misura;
+    public String getUnitaMisura() {
+        return unitaMisura;
     }
 
-    public void setUnita_misura(String unita_misura) {
-        this.unita_misura = unita_misura;
+    public void setUnitaMisura(String unitaMisura) {
+        this.unitaMisura = unitaMisura;
     }
 
     public LocalTime getOrario() {
@@ -74,11 +72,11 @@ public class FinalStepBean {
         this.orario = orario;
     }
 
-    public String getDescrizione_medica() {
-        return descrizione_medica;
+    public String getDescrizioneMedica() {
+        return descrizioneMedica;
     }
 
-    public void setDescrizione_medica(String descrizione_medica) {
-        this.descrizione_medica = descrizione_medica;
+    public void setDescrizioneMedica(String descrizioneMedica) {
+        this.descrizioneMedica = descrizioneMedica;
     }
 }

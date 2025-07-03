@@ -1,6 +1,5 @@
 package it.uniroma2.progettoispw.controller.bean;
 
-import it.uniroma2.progettoispw.model.domain.Dose;
 import it.uniroma2.progettoispw.model.domain.DoseInviata;
 
 import java.time.LocalDate;
@@ -8,8 +7,8 @@ import java.time.LocalDate;
 public class DoseCostructor {
     private DoseBean dose;
     private LocalDate inizio;
-    private int num_ripetizioni;
-    private int rate_giorni;
+    private int numRipetizioni;
+    private int rateGiorni;
 
     public DoseCostructor() {
         dose = new DoseBean();
@@ -18,17 +17,17 @@ public class DoseCostructor {
     public DoseCostructor(DoseInviata doseInviata) {
         this.dose = new DoseBean(doseInviata.getDose());
         this.inizio = doseInviata.getInizio();
-        this.num_ripetizioni = doseInviata.getNumGiorni();
-        this.rate_giorni = doseInviata.getRateGiorni();
+        this.numRipetizioni = doseInviata.getNumGiorni();
+        this.rateGiorni = doseInviata.getRateGiorni();
     }
 
     public boolean isComplete(){
-        return dose.isCompleate() && inizio != null && num_ripetizioni > 0 && rate_giorni > 0;
+        return dose.isCompleate() && inizio != null && numRipetizioni > 0 && rateGiorni > 0;
     }
 
     @Override
     public String toString() {
-        return dose.toString() + "inizio: " + inizio.toString() + "per:  " + num_ripetizioni + "giorni, ogni: " + rate_giorni + "giorni";
+        return dose.toString() + "inizio: " + inizio.toString() + "per:  " + numRipetizioni + "giorni, ogni: " + rateGiorni + "giorni";
     }
 
     public DoseBean getDose() {
@@ -47,19 +46,19 @@ public class DoseCostructor {
         this.inizio = inizio;
     }
 
-    public int getNum_ripetizioni() {
-        return num_ripetizioni;
+    public int getNumRipetizioni() {
+        return numRipetizioni;
     }
 
-    public void setNum_ripetizioni(int num_ripetizioni) {
-        this.num_ripetizioni = num_ripetizioni;
+    public void setNumRipetizioni(int numRipetizioni) {
+        this.numRipetizioni = numRipetizioni;
     }
 
-    public int getRate_giorni() {
-        return rate_giorni;
+    public int getRateGiorni() {
+        return rateGiorni;
     }
 
-    public void setRate_giorni(int rate_giorni) {
-        this.rate_giorni = rate_giorni;
+    public void setRateGiorni(int rateGiorni) {
+        this.rateGiorni = rateGiorni;
     }
 }

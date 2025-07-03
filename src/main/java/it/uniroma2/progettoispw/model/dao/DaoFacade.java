@@ -201,13 +201,13 @@ public class DaoFacade {
         DoseBean doseBean = doseCostructor.getDose();
         switch (doseBean.getTipo()){
             case Confezione -> { Confezione confezione= medicinaliDao.getConfezioneByCodiceAic(Integer.parseInt(doseBean.getCodice()));
-                DoseConfezione doseConfezione = new DoseConfezione(confezione, doseBean.getQuantita(), doseBean.getUnita_misura(), doseBean.getOrario(),
-                        doseBean.getDescrizione_medica(), utenteDao.getDottore(doseBean.getInviante().getCodice_fiscale()));
-                doseInviata = new DoseInviata(doseConfezione, doseCostructor.getNum_ripetizioni(), doseCostructor.getInizio(), doseCostructor.getRate_giorni());}
+                DoseConfezione doseConfezione = new DoseConfezione(confezione, doseBean.getQuantita(), doseBean.getUnitaMisura(), doseBean.getOrario(),
+                        doseBean.getDescrizione(), utenteDao.getDottore(doseBean.getInviante().getCodiceFiscale()));
+                doseInviata = new DoseInviata(doseConfezione, doseCostructor.getNumRipetizioni(), doseCostructor.getInizio(), doseCostructor.getRateGiorni());}
             case PrincipioAttivo -> {PrincipioAttivo principioAttivo = medicinaliDao.getPrincipioAttvoByCodiceAtc(doseBean.getCodice());
-                DosePrincipioAttivo dosePrincipioAttivo = new DosePrincipioAttivo(principioAttivo, doseBean.getQuantita(), doseBean.getUnita_misura(), doseBean.getOrario(),
-                        doseBean.getDescrizione_medica(), utenteDao.getDottore(doseBean.getInviante().getCodice_fiscale()));
-                doseInviata = new DoseInviata(dosePrincipioAttivo, doseCostructor.getNum_ripetizioni(), doseCostructor.getInizio(), doseCostructor.getRate_giorni());}
+                DosePrincipioAttivo dosePrincipioAttivo = new DosePrincipioAttivo(principioAttivo, doseBean.getQuantita(), doseBean.getUnitaMisura(), doseBean.getOrario(),
+                        doseBean.getDescrizione(), utenteDao.getDottore(doseBean.getInviante().getCodiceFiscale()));
+                doseInviata = new DoseInviata(dosePrincipioAttivo, doseCostructor.getNumRipetizioni(), doseCostructor.getInizio(), doseCostructor.getRateGiorni());}
             default -> {throw new DaoException("tipo errato");}
         }
         return doseInviata;

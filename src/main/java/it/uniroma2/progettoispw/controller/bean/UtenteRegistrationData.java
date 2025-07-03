@@ -5,21 +5,21 @@ import it.uniroma2.progettoispw.model.domain.Ruolo;
 import java.time.LocalDate;
 
 public abstract class UtenteRegistrationData {
-    private String codice_fiscale;
+    private String codiceFiscale;
     private String nome;
     private String cognome;
     private String email;
     private String telefono;
-    private LocalDate data_nascita;
+    private LocalDate dataNascita;
     private String password;
 
-    public UtenteRegistrationData(String codice_fiscale, String nome, String cognome, String email, String telefono, LocalDate data_nascita, String password) {
-        this.codice_fiscale = codice_fiscale;
+    public UtenteRegistrationData(String codiceFiscale, String nome, String cognome, String email, String telefono, LocalDate dataNascita, String password) {
+        this.codiceFiscale = codiceFiscale;
         this.nome = nome;
         this.cognome = cognome;
         this.email = email;
         this.telefono = telefono;
-        this.data_nascita = data_nascita;
+        this.dataNascita = dataNascita;
         this.password = password;
     }
 
@@ -27,12 +27,12 @@ public abstract class UtenteRegistrationData {
 
     }
 
-    public String getCodice_fiscale() {
-        return codice_fiscale;
+    public String getCodiceFiscale() {
+        return codiceFiscale;
     }
 
-    public void setCodice_fiscale(String codice_fiscale) {
-        this.codice_fiscale = codice_fiscale;
+    public void setCodiceFiscale(String codiceFiscale) {
+        this.codiceFiscale = codiceFiscale;
     }
 
     public String getNome() {
@@ -67,12 +67,12 @@ public abstract class UtenteRegistrationData {
         this.telefono = telefono;
     }
 
-    public LocalDate getData_nascita() {
-        return data_nascita;
+    public LocalDate getDataNascita() {
+        return dataNascita;
     }
 
-    public void setData_nascita(LocalDate data_nascita) {
-        this.data_nascita = data_nascita;
+    public void setDataNascita(LocalDate dataNascita) {
+        this.dataNascita = dataNascita;
     }
 
     public String getPassword() {

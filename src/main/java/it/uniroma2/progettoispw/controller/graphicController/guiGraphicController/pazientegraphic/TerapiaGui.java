@@ -109,11 +109,11 @@ public class TerapiaGui extends Notificator implements DoseAccepter, FinalAccept
     @Override
     public void setFinalInformation(FinalStepBean finalStep) {
         doseCostructor.setInizio(finalStep.getInizio());
-        doseCostructor.setNum_ripetizioni(finalStep.getNum_ripetizioni());
-        doseCostructor.setRate_giorni(finalStep.getRate_giorni());
-        doseCostructor.getDose().setDescrizione_medica(finalStep.getDescrizione_medica());
+        doseCostructor.setNumRipetizioni(finalStep.getNumRipetizioni());
+        doseCostructor.setRateGiorni(finalStep.getRateGiorni());
+        doseCostructor.getDose().setDescrizione(finalStep.getDescrizioneMedica());
         doseCostructor.getDose().setOrario(finalStep.getOrario());
-        doseCostructor.getDose().setUnita_misura(finalStep.getUnita_misura());
+        doseCostructor.getDose().setUnitaMisura(finalStep.getUnitaMisura());
         doseCostructor.getDose().setQuantita(finalStep.getQuantita());
         doseCostructor.getDose().setAssunta(false);
         terapiaController.addDose(authBean.getCodice(), doseCostructor);
