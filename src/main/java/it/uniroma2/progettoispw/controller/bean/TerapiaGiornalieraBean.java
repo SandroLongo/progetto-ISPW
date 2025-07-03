@@ -66,9 +66,9 @@ public class TerapiaGiornalieraBean extends Observer {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Terapia del: ").append(data.toString()).append("\n");
-        for (LocalTime orario: dosiPerOrario.keySet()) {
-            for (DoseBean dose: dosiPerOrario.get(orario)) {
-                sb.append(orario.toString()).append(" - ").append(dose.toString()).append("assunta: ").append(dose.isAssunta() ? "si" : "no").append("\n");
+        for (Map.Entry<LocalTime, List<DoseBean>> entry: dosiPerOrario.entrySet()) {
+            for (DoseBean dose: entry.getValue()) {
+                sb.append(entry.getKey().toString()).append(" - ").append(dose.toString()).append("assunta: ").append(dose.isAssunta() ? "si" : "no").append("\n");
             }
         }
         return sb.toString();

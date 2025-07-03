@@ -11,7 +11,7 @@ import java.util.TreeMap;
 
 public class TerapiaGiornaliera extends Subject {
     private LocalDate data;
-    private TreeMap<LocalTime, List<Dose>> dosiPerOrario = new TreeMap<>();
+    private SortedMap<LocalTime, List<Dose>> dosiPerOrario = new TreeMap<>();
 
     public TerapiaGiornaliera(LocalDate data) {
         this.data = data;

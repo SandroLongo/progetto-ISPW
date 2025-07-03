@@ -10,6 +10,6 @@ public abstract class AbstractState {
     }
 
     public String comeBackAction(Receiver stateMachine) {
-        return initialMessage;
+        return stateMachine.getInitialMessage();
     }
 }

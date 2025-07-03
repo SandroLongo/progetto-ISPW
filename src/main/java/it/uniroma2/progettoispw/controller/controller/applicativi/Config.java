@@ -18,4 +18,8 @@ public class Config {
     public static final int MIN_ADDRESS_LENGTH = 1;
     public static final int MIN_DOCTOR_CODE_LENGTH = 1;
     public static final int MAX_DOCTOR_CODE_LENGTH = 5;
+
+    private Config() {
+        //in modo da non poter creare la classe
+    }
 }

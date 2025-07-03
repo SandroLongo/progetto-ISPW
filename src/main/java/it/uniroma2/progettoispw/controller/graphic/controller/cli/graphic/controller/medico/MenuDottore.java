@@ -20,9 +20,11 @@ public class MenuDottore extends Receiver {
     private class MenuState extends AbstractState {
 
         public MenuState() {
-            this.initialMessage = "MENU DEL DOTTORE, scegli cosa vuoi fare\n"+
-                    "invia --> invia una richiesta\n" +
-                    "menu --> torna al menu\n";
+            this.initialMessage = """
+                    MENU DEL DOTTORE, scegli cosa vuoi fare
+                    invia --> invia una richiesta
+                    menu --> torna al menu
+                    """;
         }
 
         @Override

@@ -3,7 +3,6 @@ package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.contr
 import java.io.IOException;
 
 public interface GuiGraphicController {
-    //MenuWindowManager menuWindowManager;
 
     void initialize(Object[] args) throws IOException;
 }

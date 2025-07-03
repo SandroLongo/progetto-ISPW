@@ -21,9 +21,14 @@ public class RichiesteController implements Controller{
 
 
     public InformazioniUtente getInformazioniPaziente(int codice, String cf) {
-        Utente utente = daoFacade.getInfoUtente(cf);
-        return new InformazioniUtente(utente.getCodiceFiscale(), utente.getNome(), utente.getCognome(),
-                utente.getEmail(), utente.getTelefono(), utente.getDataNascita());
+
+        if (SessionManager.getInstance().esiste(codice)) {
+            Utente utente = daoFacade.getInfoUtente(cf);
+            return new InformazioniUtente(utente.getCodiceFiscale(), utente.getNome(), utente.getCognome(),
+                    utente.getEmail(), utente.getTelefono(), utente.getDataNascita());
+        } else {
+            throw new UnsupportedOperation("sessione di login non valida");
+        }
     }
 
 
@@ -45,7 +50,7 @@ public class RichiesteController implements Controller{
             nuovaRichiesta.setId(id);
             SessionManager.getInstance().addRichiesta(nuovaRichiesta);
         } else {
-            throw new RuntimeException("operazione non supportata");
+            throw new UnsupportedOperation("operazione non supportata");
         }
     }
 }

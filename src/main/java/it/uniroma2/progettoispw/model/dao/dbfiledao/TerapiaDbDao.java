@@ -39,15 +39,15 @@ public class TerapiaDbDao extends DbDao implements TerapiaDao {
             CallableStatement cs = conn.prepareCall("{call get_terapia_giornaliera(?,?)}");
             cs.setString(1, codiceFiscale);
             cs.setDate(2, java.sql.Date.valueOf(data));
-            boolean Status = cs.execute();
+            boolean status = cs.execute();
             // DosiConfezioni
-            if (Status) {
+            if (status) {
                 ResultSet rs = cs.getResultSet();
                 addDosiConfezione(rs, terapia);
 
             }
             cs.getMoreResults();
-            if (Status) {
+            if (status) {
                 ResultSet rs = cs.getResultSet();
                 addDosiPrincipioAttivo(rs, terapia);
             }

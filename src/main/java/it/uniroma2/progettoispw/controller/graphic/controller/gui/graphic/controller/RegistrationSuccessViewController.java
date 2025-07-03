@@ -24,7 +24,8 @@ public class RegistrationSuccessViewController implements GuiGraphicController{
         try {
             root = loader.load();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            ((Stage)codiceField.getScene().getWindow()).close();
         }
         Stage stage = (Stage) codiceField.getScene().getWindow();
         stage.setScene(new Scene(root));

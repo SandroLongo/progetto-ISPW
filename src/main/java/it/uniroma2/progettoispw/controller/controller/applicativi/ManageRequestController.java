@@ -20,7 +20,7 @@ public class ManageRequestController {
             listaRichiesteBean = new ListaRichiesteBean(richiestePendenti);
             richiestePendenti.attach(listaRichiesteBean);
         } else {
-            throw new RuntimeException("operazione non supportata");
+            throw new UnsupportedOperation("operazione non supportata");
         }
         return listaRichiesteBean;
     }
@@ -34,7 +34,7 @@ public class ManageRequestController {
             daoFacade.deleteRichiesta(codiceRichiesta);
             SessionManager.getInstance().deleteRichiesta(richiesta);
         } else {
-            throw new RuntimeException("operazione non supportata");
+            throw new UnsupportedOperation("operazione non supportata");
         }
     }
 
@@ -44,7 +44,7 @@ public class ManageRequestController {
             Richiesta richiesta = ((Paziente) utente).getRichiestePendenti().getRichiestaByid(codiceRichiesta);
             SessionManager.getInstance().deleteRichiesta(richiesta);
         } else {
-            throw new RuntimeException("operazione non supportata");
+            throw new UnsupportedOperation("operazione non supportata");
         }
     }
 }

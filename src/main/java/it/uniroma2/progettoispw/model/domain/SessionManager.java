@@ -42,13 +42,12 @@ public class SessionManager {
     }
 
     public void deleteRichiesta(Richiesta richiesta) {
-        List<Session> sessions = SessionManager.getInstance().getOpenSessionsByCF(richiesta.getRicevente().getCodiceFiscale());
+        List<Session> sessions = getOpenSessionsByCF(richiesta.getRicevente().getCodiceFiscale());
         for (Session session : sessions){
             Utente utente = session.getUtente();
-            switch (utente.isType()){
-                case Paziente -> {RichiestePendenti richiestePendenti = ((Paziente)utente).getRichiestePendenti();
-                    richiestePendenti.deleteRichiesta(richiesta.getId());}
-                default -> {}
+            if (Objects.requireNonNull(utente.isType()) == Ruolo.Paziente) {
+                RichiestePendenti richiestePendenti = ((Paziente) utente).getRichiestePendenti();
+                richiestePendenti.deleteRichiesta(richiesta.getId());
             }
         }
     }
@@ -62,6 +61,14 @@ public class SessionManager {
                 richiestePendenti.addRichiesta(richiesta);
             }
         }
+    }
+
+    public void logout(int codice){
+        sessions.remove(codice);
+    }
+
+    public boolean esiste(int codice){
+        return sessions.containsKey(codice);
     }
 
 

@@ -19,7 +19,8 @@ public class Scelta{
         try {
             cliApp.start(stage);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            stage.close();
         }
     }
 
@@ -30,7 +31,8 @@ public class Scelta{
         try {
             guiApp.start(stage);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            stage.close();
         }
     }
 

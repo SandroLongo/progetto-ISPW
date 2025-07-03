@@ -54,18 +54,24 @@ public class RicercaConfezioneController implements GuiGraphicController {
 
         TableColumn<Object, Void> aggiungiCol = new TableColumn<>("seleziona");
         aggiungiCol.setCellFactory(col -> new TableCell<>() {
-            private final Button btn = new Button("seleziona");
+            private final Button btn;
 
             {
-                btn.setOnAction(event -> {
-                    String selezione =  (String)getTableView().getItems().get(getIndex());
-                    PrincipioAttivo principioAttivo= informazioniMedicinaleController.getPrincipioAttvoByNome(selezione);
+                btn = createButton();
+            }
+            private Button createButton() {
+                Button button = new Button("seleziona");
+                button.setOnAction(event -> {
+                    String selezione = (String) getTableView().getItems().get(getIndex());
+                    PrincipioAttivo principioAttivo = informazioniMedicinaleController.getPrincipioAttvoByNome(selezione);
                     DoseBean doseBean = new DoseBean(TipoDose.PrincipioAttivo);
                     doseBean.setCodice(principioAttivo.getCodiceAtc());
                     doseBean.setNome(principioAttivo.getNome());
                     doseAccepter.setDose(doseBean);
                 });
+                return button;
             }
+
 
             @Override
             protected void updateItem(Void item, boolean empty) {

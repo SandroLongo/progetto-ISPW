@@ -20,9 +20,11 @@ public class InviaRichiesta extends Receiver {
         private AuthenticationBean authenticationBean;
         public Opzioni(AuthenticationBean authenticationBean) {
             this.authenticationBean = authenticationBean;
-            this.initialMessage = "scegli cosa vuoi fare:\n" +
-                    "menu -->  torna al menu\n" +
-                    "inizia --> inizia l'invio della richiesta";
+            this.initialMessage = """
+                    scegli cosa vuoi fare:
+                    menu -->  torna al menu
+                    inizia --> inizia l'invio della richiesta
+                    """;
         }
 
         @Override

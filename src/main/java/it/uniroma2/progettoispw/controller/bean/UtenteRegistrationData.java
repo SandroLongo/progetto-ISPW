@@ -13,7 +13,7 @@ public abstract class UtenteRegistrationData {
     private LocalDate dataNascita;
     private String password;
 
-    public UtenteRegistrationData(String codiceFiscale, String nome, String cognome, String email, String telefono, LocalDate dataNascita, String password) {
+    protected UtenteRegistrationData(String codiceFiscale, String nome, String cognome, String email, String telefono, LocalDate dataNascita, String password) {
         this.codiceFiscale = codiceFiscale;
         this.nome = nome;
         this.cognome = cognome;
@@ -23,7 +23,7 @@ public abstract class UtenteRegistrationData {
         this.password = password;
     }
 
-    public UtenteRegistrationData() {
+    protected UtenteRegistrationData() {
 
     }
 

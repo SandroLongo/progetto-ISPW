@@ -21,9 +21,11 @@ public class MenuPaziente extends Receiver {
     private class MenuState extends AbstractState {
 
         public MenuState() {
-            this.initialMessage = "MENU DEL PAZIENTE, scegli cosa vuoi fare\n"+
-                    "terapia --> visualizza la tua terapia\n"+
-                    "richieste --> visualizza le tue richieste\n";
+            this.initialMessage = """
+                    MENU DEL PAZIENTE, scegli cosa vuoi fare
+                    terapia --> visualizza la tua terapia
+                    richieste --> visualizza le tue richieste
+                    """;
         }
 
         @Override

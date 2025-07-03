@@ -7,6 +7,7 @@ import it.uniroma2.progettoispw.model.dao.DaoFacade;
 import it.uniroma2.progettoispw.model.domain.*;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class TerapiaController implements Controller{
     private DaoFacade daoFacade = new DaoFacade();
@@ -17,16 +18,16 @@ public class TerapiaController implements Controller{
     public void addDose(int code, DoseCostructor doseCostructor){
         Utente utente = SessionManager.getInstance().getSession(code).getUtente();
         doseCostructor.getDose().setInviante(new InformazioniUtente(utente));
-        switch (doseCostructor.getDose().getTipo()){
-            case Confezione -> daoFacade.buildDoseConfezione(daoFacade.wrapDoseCostructor(doseCostructor), utente.getCodiceFiscale());
-            case PrincipioAttivo -> daoFacade.buildDosePrincipioAttivo(daoFacade.wrapDoseCostructor(doseCostructor), utente.getCodiceFiscale());
-            default -> throw new RuntimeException("Dose non valido");
+        if (Objects.requireNonNull(doseCostructor.getDose().getTipo()) == TipoDose.Confezione) {
+            daoFacade.buildDoseConfezione(daoFacade.wrapDoseCostructor(doseCostructor), utente.getCodiceFiscale());
+        } else {
+            //quindi e un principioAttivo
+            daoFacade.buildDosePrincipioAttivo(daoFacade.wrapDoseCostructor(doseCostructor), utente.getCodiceFiscale());
         }
     }
 
 
     public TerapiaGiornalieraBean getTerapiaGiornaliera(int code, LocalDate date) {
-        DaoFacade daoFacade = new DaoFacade();
         Session session = SessionManager.getInstance().getSession(code);
         Paziente paziente = (Paziente)session.getUtente();
         TerapiaGiornaliera terapiaGiornaliera= null;
@@ -41,10 +42,6 @@ public class TerapiaController implements Controller{
         terapiaGiornaliera.attach(terapiaGiornalieraBean);
         return terapiaGiornalieraBean;
     }
-
-    //public void deleteDose(int code,){
-
-    //}
 
 
 }

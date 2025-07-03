@@ -21,7 +21,7 @@ public class ListaRichiesteBean extends Observer {
 
     public void replace(List<Richiesta> richieste){
         for (Richiesta richiesta : richieste) {
-            System.out.println("aggiunto in listarichiestebean "+ richiesta.getId());
+            //System.out.println("aggiunto in listarichiestebean "+ richiesta.getId());
             RichiestaMandata richiestaMandata = new RichiestaMandata(richiesta);
             lista.add(richiestaMandata);
         }

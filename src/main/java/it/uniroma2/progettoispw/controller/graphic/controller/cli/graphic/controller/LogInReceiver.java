@@ -17,9 +17,11 @@ public class LogInReceiver extends Receiver {
     private class WelcomeState extends AbstractState {
 
         public WelcomeState() {
-            this.initialMessage  = "Benvenuto nell'applicazione, scegli in che ruolo vuoi accedere\n" +
-                    "paziente --> entra come paziente\n" +
-                    "dottore --> entra come dottore\n";
+            this.initialMessage  = """
+                    Benvenuto nell'applicazione, scegli in che ruolo vuoi accedere
+                    paziente --> entra come paziente
+                    dottore --> entra come dottore
+                    """;
         }
 
         @Override

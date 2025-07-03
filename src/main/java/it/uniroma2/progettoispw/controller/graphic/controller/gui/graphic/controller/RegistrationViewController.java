@@ -1,6 +1,6 @@
 package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller;
 
-import it.uniroma2.progettoispw.controller.controller.applicativi.FomatoInvalidoException;
+import it.uniroma2.progettoispw.controller.bean.FomatoInvalidoException;
 import it.uniroma2.progettoispw.controller.controller.applicativi.LogInController;
 import it.uniroma2.progettoispw.controller.bean.DottoreRegistrationData;
 import it.uniroma2.progettoispw.controller.bean.PazienteRegistrationData;
@@ -75,7 +75,9 @@ public class RegistrationViewController {
             }
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            errorLabel.setText(e.getMessage());
+            e.printStackTrace();
+            return;
         }
 
         try {

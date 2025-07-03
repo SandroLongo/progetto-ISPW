@@ -1,7 +1,7 @@
 package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller;
 
 import it.uniroma2.progettoispw.controller.bean.AuthenticationBean;
-import it.uniroma2.progettoispw.controller.controller.applicativi.FomatoInvalidoException;
+import it.uniroma2.progettoispw.controller.bean.FomatoInvalidoException;
 import it.uniroma2.progettoispw.controller.controller.applicativi.LogInController;
 import it.uniroma2.progettoispw.controller.bean.UtenteLogInData;
 import it.uniroma2.progettoispw.model.domain.Ruolo;
@@ -63,7 +63,6 @@ public class LogInViewController implements GuiGraphicController {
         }
         BorderPane root = (BorderPane) loader.load();
         Stage stage = (Stage)errorLabel.getScene().getWindow();
-        MenuWindowManager menuWindowManager = new MenuWindowManager(stage);
         ((GuiGraphicController)loader.getController()).initialize(new Object[]{authenticationBean, menuWindowManager});
         menuWindowManager.setMenu(root);
 

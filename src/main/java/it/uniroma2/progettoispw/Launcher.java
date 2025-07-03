@@ -39,12 +39,11 @@ public class Launcher {
         while (true) {
             try (Socket client = server.accept();
                  ObjectInputStream in = new ObjectInputStream(client.getInputStream())) {
-                String[] remoteArgs = (String[]) in.readObject();
-                Platform.runLater(() -> {
-                    // qui dentro, nella JVM principale, apri una nuova finestra
-                    App.openNewWindow(remoteArgs);
-                });
-            } catch (Exception ignored) { }
+                // qui dentro, nella JVM principale, apro una nuova finestra
+                Platform.runLater(App::openNewWindow);
+            } catch (Exception e) {
+                //ignoro e continuo semplicemente l'esecuzione
+            }
         }
     }
 
@@ -52,6 +51,8 @@ public class Launcher {
         try (Socket sock = new Socket(InetAddress.getLoopbackAddress(), PORT);
              ObjectOutputStream out = new ObjectOutputStream(sock.getOutputStream())) {
             out.writeObject(args);
-        } catch (IOException ignored) { }
+        } catch (IOException ignored) {
+            //ignoro e continuo semplicemente l'esecuzione
+        }
     }
 }

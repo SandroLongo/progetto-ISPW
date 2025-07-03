@@ -18,14 +18,14 @@ public class App extends Application {
         stage.show();
     }
 
-    public static void openNewWindow(String[] args) {
+    public static void openNewWindow() {
         Stage newStage = new Stage();
         FXMLLoader loader = new FXMLLoader(App.class.getResource("/it/uniroma2/progettoispw/sceltaGui.fxml"));
         Parent root = null;
         try {
             root = loader.load();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            return;
         }
         newStage.setScene(new Scene(root));
         newStage.show();
