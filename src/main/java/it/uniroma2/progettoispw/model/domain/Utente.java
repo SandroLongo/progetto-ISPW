@@ -66,4 +66,6 @@ public abstract class Utente {
     public void setDataNascita(LocalDate dataNascita) {
         this.dataNascita = dataNascita;
     }
+
+    public abstract void logout();
 }

@@ -17,4 +17,11 @@ public abstract class Subject {
             o.update();
         }
     }
+
+    public void detachAll(){
+        for(Observer o : observers){
+            o.detach();
+        }
+        observers.clear();
+    }
 }

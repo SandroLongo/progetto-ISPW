@@ -34,7 +34,7 @@ public class RichiesteViewController extends Notificator implements GuiGraphicCo
         this.menuWindowManager = (MenuWindowManager) args[2];
         this.manageRequestController = new ManageRequestController();
         this.listaRichiesteBean = manageRequestController.getRichieste(authenticationBean.getCodice());
-        listaRichiesteBean.setNotificator(this);
+        listaRichiesteBean.addNotificator(this);
         listaRichieste.getColumns().clear();
 
         TableColumn<Object, String> nomeDottore = new TableColumn<>("DOTTORE");

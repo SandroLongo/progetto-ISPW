@@ -49,7 +49,6 @@ public class LogInViewController implements GuiGraphicController {
             authenticationBean = logInController.logIn(utenteLogInData);
         } catch (FomatoInvalidoException e) {
             throw new FomatoInvalidoException(e.getMessage());
-            //showAlert(e.getMessage());
         }
 
         FXMLLoader loader;
@@ -63,6 +62,11 @@ public class LogInViewController implements GuiGraphicController {
         }
         BorderPane root = (BorderPane) loader.load();
         Stage stage = (Stage)errorLabel.getScene().getWindow();
+        AuthenticationBean finalAuthenticationBean = authenticationBean;
+        stage.setOnCloseRequest(event -> {
+            LogInController logInController = new LogInController();
+            logInController.logOut(finalAuthenticationBean.getCodice());
+        });
         ((GuiGraphicController)loader.getController()).initialize(new Object[]{authenticationBean, menuWindowManager});
         menuWindowManager.setMenu(root);
 

@@ -10,7 +10,7 @@ import java.util.List;
 public class ListaRichiesteBean extends Observer {
     private List<RichiestaMandata> lista = new ArrayList<RichiestaMandata>();
     private RichiestePendenti pendenti;
-    private Notificator notificator;
+    private List<Notificator> notificators = new ArrayList<>();
 
     public ListaRichiesteBean() {}
 
@@ -21,7 +21,6 @@ public class ListaRichiesteBean extends Observer {
 
     public void replace(List<Richiesta> richieste){
         for (Richiesta richiesta : richieste) {
-            //System.out.println("aggiunto in listarichiestebean "+ richiesta.getId());
             RichiestaMandata richiestaMandata = new RichiestaMandata(richiesta);
             lista.add(richiestaMandata);
         }
@@ -38,14 +37,17 @@ public class ListaRichiesteBean extends Observer {
     @Override
     public void update() {
         replace(pendenti.getRichieste());
-        notificator.notifica();
+        for (Notificator notificator : notificators) {
+            notificator.notifica();
+        }
     }
 
-    public Notificator getNotificator() {
-        return notificator;
+    @Override
+    public void detach() {
+        pendenti = null;
     }
 
-    public void setNotificator(Notificator notificator) {
-        this.notificator = notificator;
+    public void addNotificator(Notificator notificator) {
+        notificators.add(notificator);
     }
 }

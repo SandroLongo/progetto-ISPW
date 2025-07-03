@@ -15,4 +15,8 @@ public class Session {
     public int getCodice() {
         return codice;
     }
+
+    public void logout() {
+        utente.logout();
+    }
 }

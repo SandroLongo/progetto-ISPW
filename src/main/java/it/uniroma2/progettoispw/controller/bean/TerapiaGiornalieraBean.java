@@ -63,6 +63,11 @@ public class TerapiaGiornalieraBean extends Observer {
     }
 
     @Override
+    public void detach() {
+        terapiaGiornaliera = null;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Terapia del: ").append(data.toString()).append("\n");

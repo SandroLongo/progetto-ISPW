@@ -16,4 +16,9 @@ public class Dottore extends Utente{
     public Ruolo isType() {
         return Ruolo.DOTTORE;
     }
+
+    @Override
+    public void logout() {
+        //non devo fare niente
+    }
 }

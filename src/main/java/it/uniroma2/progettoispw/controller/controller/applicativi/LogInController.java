@@ -37,12 +37,6 @@ public class LogInController implements Controller{
         String pwd = utenteLogInData.getPassword();
 
         verifyCFandPass(cf, pwd);
-//        if (utenteLogInData.getRuolo() == Ruolo.DOTTORE) {
-//            if (utenteLogInData.getCodiceDottore() >= Config.MAX_DOCTOR_CODE_LENGTH
-//                    || utenteLogInData.getCodiceDottore() <= Config.MAX_DOCTOR_CODE_LENGTH){
-//                throw new FomatoInvalidoException("codice dottore non valido");
-//            }
-//        }
     }
 
     public void registerPaziente(PazienteRegistrationData utenteRegistrationData) throws FomatoInvalidoException, DaoException {
@@ -97,5 +91,9 @@ public class LogInController implements Controller{
         if (pwd == null || pwd.length() > Config.MAX_PASSWORD_LENGTH || pwd.length() <= Config.MIN_PASSWORD_LENGTH) {
             throw  new FomatoInvalidoException("Password non valida");
         }
+    }
+
+    public void logOut(int codice){
+        SessionManager.getInstance().logout(codice);
     }
 }

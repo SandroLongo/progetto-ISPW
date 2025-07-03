@@ -3,6 +3,7 @@ package it.uniroma2.progettoispw.model.domain;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Paziente extends Utente {
     private List<Dottore> dottoriAccettati;
@@ -49,5 +50,18 @@ public class Paziente extends Utente {
     @Override
     public Ruolo isType() {
         return Ruolo.PAZIENTE;
+    }
+
+    @Override
+    public void logout() {
+        if (calendario != null){
+            Map<LocalDate, TerapiaGiornaliera> map = calendario.getCalendario();
+            for (TerapiaGiornaliera t : map.values()){
+                t.detachAll();
+            }
+        }
+        if (pendenti != null){
+            pendenti.detachAll();
+        }
     }
 }

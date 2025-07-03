@@ -11,6 +11,10 @@ public class CalendarioTerapeutico {
         calendario = new HashMap<LocalDate, TerapiaGiornaliera>();
     }
 
+    public Map<LocalDate, TerapiaGiornaliera> getCalendario() {
+        return calendario;
+    }
+
     public void addTerapiaGiornaliera(TerapiaGiornaliera giornaliera) {
         calendario.put(giornaliera.getData(), giornaliera);
     }

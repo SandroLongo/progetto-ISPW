@@ -62,7 +62,8 @@ public class SessionManager {
     }
 
     public void logout(int codice){
-        sessions.remove(codice);
+        Session s = sessions.remove(codice);
+        s.logout();
     }
 
     public boolean esiste(int codice){
