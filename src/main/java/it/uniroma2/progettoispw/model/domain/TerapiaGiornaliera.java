@@ -40,7 +40,7 @@ public class TerapiaGiornaliera extends Subject {
         }
     }
 
-    public void setDosiPerOrario(TreeMap<LocalTime, List<Dose>> dosiPerOrario) {
+    public void setDosiPerOrario(SortedMap<LocalTime, List<Dose>> dosiPerOrario) {
         this.dosiPerOrario = dosiPerOrario;
     }
 

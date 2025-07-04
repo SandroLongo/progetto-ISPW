@@ -12,7 +12,6 @@ public class AuthenticationBean {
         this.nome = nome;
         this.cognome = cognome;
         this.codice = codice;
-        //System.out.println("Nome: " + nome + " Cognome: " + cognome + " Codice: " + codice);
         this.ruolo = ruolo;
     }
 

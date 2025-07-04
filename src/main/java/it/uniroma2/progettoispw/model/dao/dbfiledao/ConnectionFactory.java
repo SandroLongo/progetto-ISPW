@@ -22,11 +22,11 @@ public class ConnectionFactory {
             Properties properties = new Properties();
             properties.load(input);
 
-            String connection_url = properties.getProperty("DB_URL");
+            String connectionUrl = properties.getProperty("DB_URL");
             String user = properties.getProperty("DB_USER");
             String pass = properties.getProperty("DB_PASS");
 
-            connection = DriverManager.getConnection(connection_url, user, pass);
+            connection = DriverManager.getConnection(connectionUrl, user, pass);
         } catch (IOException | SQLException e) {
             e.printStackTrace();
             System.exit(1);

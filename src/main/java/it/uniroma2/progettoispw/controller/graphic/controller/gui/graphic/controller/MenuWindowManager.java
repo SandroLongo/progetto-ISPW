@@ -30,7 +30,6 @@ public class MenuWindowManager {
         Scene scene = new Scene(loader.load());
         sceneMap.get(gruppo).push(scene);
         ((GuiGraphicController)loader.getController()).initialize(args);
-        //System.out.println("aggiunto"+ sceneMap.get(gruppo).peek().getRoot() + "con" + fxml);
     }
 
     public void addSceneAndShow(String gruppo, String fxml, Object...  args) throws IOException {
@@ -51,7 +50,7 @@ public class MenuWindowManager {
     }
 
     public void deleteTop(String gruppo){
-        Scene scene = sceneMap.get(gruppo).pop();
+        sceneMap.get(gruppo).pop();
     }
     public void setMainStage(Stage mainStage) {
         this.mainStage = mainStage;

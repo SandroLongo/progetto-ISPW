@@ -102,7 +102,6 @@ public class SelezionaMedicinale extends Receiver{
                 case 0:
                     switch (option) {
                         case "principio" : return stateMachine.goNext(new CercaPrincipio(doseBean));
-                        //case "indietro": return;
                         case COMANDO_CONFEZIONE: return stateMachine.goNext(new CercaConfezione(doseBean));
                         default: return "opzione non valida";
                     }
@@ -173,7 +172,6 @@ public class SelezionaMedicinale extends Receiver{
             switch (options[0]) {
                 case "principio" :
                     return stateMachine.goNext(new CercaPrincipio(doseBean));
-                //case "indietro": return;
                 case COMANDO_CONFEZIONE:
                     return stateMachine.goNext(new CercaConfezione(doseBean));
                 case "cerca":
@@ -184,12 +182,23 @@ public class SelezionaMedicinale extends Receiver{
                             PrincipioAttivo selezione = informazioniMedicinaleController.getPrincipioAttvoByNome(risultatiPrincipio.get(numero));
                             List<Confezione> listaConfezioni = informazioniMedicinaleController.getConfezioniByCodiceAtc(selezione.getCodiceAtc());
                             return stateMachine.goNext(new VisualizzaConfezioni(doseBean, listaConfezioni));
+                        } else {
+                            return "il numero è troppo grande o troppo piccolo";
                         }
                     } else {
                         return "numero non valido nel comando cerca";
                     }
                 default:
                     return OPZIONE_NON_VALIDA_ERROR;
+            }
+        }
+
+        private boolean isNumero(String numero) {
+            try {
+                Integer.parseInt(numero);
+                return true;
+            } catch (NumberFormatException e) {
+                return false;
             }
         }
 
@@ -207,13 +216,4 @@ public class SelezionaMedicinale extends Receiver{
         }
     }
 
-    private boolean isNumero(String numero) {
-        InformazioniMedicinaleController informazioniMedicinaleController = new InformazioniMedicinaleController();
-        try {
-            Integer.parseInt(numero);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
 }

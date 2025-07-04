@@ -44,7 +44,7 @@ public class LogInViewController implements GuiGraphicController {
             utenteLogInData = new UtenteLogInData(codice, password, Ruolo.PAZIENTE);
         }
 
-        AuthenticationBean authenticationBean = null;
+        AuthenticationBean authenticationBean;
         try {
             authenticationBean = logInController.logIn(utenteLogInData);
         } catch (FomatoInvalidoException e) {
@@ -64,8 +64,8 @@ public class LogInViewController implements GuiGraphicController {
         Stage stage = (Stage)errorLabel.getScene().getWindow();
         AuthenticationBean finalAuthenticationBean = authenticationBean;
         stage.setOnCloseRequest(event -> {
-            LogInController logInController = new LogInController();
-            logInController.logOut(finalAuthenticationBean.getCodice());
+            LogInController logOutController = new LogInController();
+            logOutController.logOut(finalAuthenticationBean.getCodice());
         });
         ((GuiGraphicController)loader.getController()).initialize(new Object[]{authenticationBean, menuWindowManager});
         menuWindowManager.setMenu(root);

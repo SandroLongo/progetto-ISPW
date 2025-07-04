@@ -24,7 +24,6 @@ public class PromptController implements GuiGraphicController {
     void processCommand(ActionEvent event) {
         String command = commandLine.getText().trim();
         terminalOutput.appendText("> " + command + "\n");
-        //System.out.println(command);
         terminalOutput.appendText(receiver.receive(command));
         commandLine.clear();
 
