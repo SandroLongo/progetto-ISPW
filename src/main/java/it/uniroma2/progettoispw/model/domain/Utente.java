@@ -2,8 +2,6 @@ package it.uniroma2.progettoispw.model.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class Utente implements Serializable {
     private String codiceFiscale;

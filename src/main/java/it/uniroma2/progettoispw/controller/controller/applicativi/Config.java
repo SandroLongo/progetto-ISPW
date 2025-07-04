@@ -18,6 +18,8 @@ public class Config {
     public static final int MIN_ADDRESS_LENGTH = 1;
     public static final int MIN_DOCTOR_CODE_LENGTH = 1;
     public static final int MAX_DOCTOR_CODE_LENGTH = 5;
+    public static final String utentiPath = "C:\\Users\\aless\\Desktop\\progetto ispw-2\\progetto-ISPW\\risorse\\dottori.dat";
+    public static final String dottoriPath = "C:\\Users\\aless\\Desktop\\progetto ispw-2\\progetto-ISPW\\risorse\\utenti.dat";
 
     private Config() {
         //in modo da non poter creare la classe

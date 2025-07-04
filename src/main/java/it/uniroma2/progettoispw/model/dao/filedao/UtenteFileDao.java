@@ -1,5 +1,6 @@
 package it.uniroma2.progettoispw.model.dao.filedao;
 
+import it.uniroma2.progettoispw.controller.controller.applicativi.Config;
 import it.uniroma2.progettoispw.model.dao.DaoException;
 import it.uniroma2.progettoispw.model.dao.UtenteDao;
 import it.uniroma2.progettoispw.model.dao.dbfiledao.FileDao;
@@ -12,12 +13,13 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class UtenteFileDao extends FileDao implements UtenteDao {
-    private final String utentiPath = "C:\\Users\\aless\\Desktop\\progetto ispw-2\\progetto-ISPW\\risorse\\dottori.dat";
-    private final String dottoriPath = "C:\\Users\\aless\\Desktop\\progetto ispw-2\\progetto-ISPW\\risorse\\utenti.dat";
+    private String utentiPath;
+    private String dottoriPath;
     private Random random = new Random();
 
     public UtenteFileDao() {
-
+        utentiPath = Config.utentiPath;
+        dottoriPath = Config.dottoriPath;
     }
 
     private List<UtenteRegistrato> caricaUtenti() throws DaoException {
@@ -107,6 +109,7 @@ public class UtenteFileDao extends FileDao implements UtenteDao {
         }
         int codice = generaCodiceUnico(dottori);
         dottori.add(new DottoreRegistrato(new Dottore(codiceFiscale, nome, cognome, nascita,email, telefono), pass, codice));
+        salvaDottori(dottori);
         return codice;
     }
 
@@ -157,7 +160,7 @@ public class UtenteFileDao extends FileDao implements UtenteDao {
         return nuovoCodice;
     }
 
-    private class UtenteRegistrato implements Serializable {
+    private static class UtenteRegistrato implements Serializable {
         private Paziente paziente;
         private String password;
 
@@ -183,7 +186,7 @@ public class UtenteFileDao extends FileDao implements UtenteDao {
         }
     }
 
-    private class DottoreRegistrato implements Serializable {
+    private static class DottoreRegistrato implements Serializable {
         private Dottore dottore;
         private String password;
         private int codice;

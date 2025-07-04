@@ -6,6 +6,7 @@ import it.uniroma2.progettoispw.model.dao.memorydao.MemoryDaoFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 import java.util.Properties;
 
 public abstract class DaoFactory {
@@ -27,7 +28,7 @@ public abstract class DaoFactory {
                 switch (option) {
                     case "DB":
                         String option2 = properties.getProperty("UTENTE_DAOMODE");
-                        if (option2 == "DB") {
+                        if (Objects.equals(option2, "DB")) {
                             daoFactory = new DbFileDaoFactory(true);
                         } else {
                             daoFactory = new DbFileDaoFactory(false);
