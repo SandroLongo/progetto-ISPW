@@ -62,9 +62,8 @@ public class Registrazione extends Receiver{
 
         @Override
         public String goNext(Receiver stateMachine, String command) {
-            String option = command.toUpperCase();
             try {
-                urd.setCodiceFiscale(command);
+                urd.setCodiceFiscale(command.toUpperCase());
             } catch (FomatoInvalidoException e) {
                 return e.getMessage() + stateMachine.goNext(new OpzioniIntermedie(urd, this));
             }
@@ -83,9 +82,8 @@ public class Registrazione extends Receiver{
 
         @Override
         public String goNext(Receiver stateMachine, String command) {
-            String option = command.toUpperCase();
             try {
-                urd.setCodiceFiscale(command);
+                urd.setPassword(command);
             } catch (FomatoInvalidoException e) {
                 return e.getMessage() + stateMachine.goNext(new OpzioniIntermedie(urd, this));
             }
@@ -104,9 +102,8 @@ public class Registrazione extends Receiver{
 
         @Override
         public String goNext(Receiver stateMachine, String command) {
-            String option = command.toUpperCase();
             try {
-                urd.setCodiceFiscale(command);
+                urd.setNome(command);
             } catch (FomatoInvalidoException e) {
                 return e.getMessage()  + stateMachine.goNext(new OpzioniIntermedie(urd, this));
             }
@@ -125,9 +122,8 @@ public class Registrazione extends Receiver{
 
         @Override
         public String goNext(Receiver stateMachine, String command) {
-            String option = command.toUpperCase();
             try {
-                urd.setCodiceFiscale(command);
+                urd.setCognome(command);
             } catch (FomatoInvalidoException e) {
                 return e.getMessage() + stateMachine.goNext(new OpzioniIntermedie(urd, this));
             }
@@ -146,9 +142,8 @@ public class Registrazione extends Receiver{
 
         @Override
         public String goNext(Receiver stateMachine, String command) {
-            String option = command.toUpperCase();
             try {
-                urd.setCodiceFiscale(command);
+                urd.setEmail(command);
             } catch (FomatoInvalidoException e) {
                 return e.getMessage() + stateMachine.goNext(new OpzioniIntermedie(urd, this));
             }
@@ -167,9 +162,8 @@ public class Registrazione extends Receiver{
 
         @Override
         public String goNext(Receiver stateMachine, String command) {
-            String option = command.toUpperCase();
             try {
-                urd.setCodiceFiscale(command);
+                urd.setTelefono(command);
             } catch (FomatoInvalidoException e) {
                 return e.getMessage() + stateMachine.goNext(new OpzioniIntermedie(urd, this));
             }
