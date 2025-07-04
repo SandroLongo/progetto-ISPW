@@ -1,5 +1,6 @@
 package it.uniroma2.progettoispw.controller.bean;
 
+import it.uniroma2.progettoispw.controller.controller.applicativi.Config;
 import it.uniroma2.progettoispw.model.domain.Ruolo;
 
 public class UtenteLogInData {
@@ -33,16 +34,22 @@ public class UtenteLogInData {
         return codiceFiscale;
     }
 
-    public void setCodiceFiscale(String codiceFiscale) {
-        this.codiceFiscale = codiceFiscale;
+    public void setCodiceFiscale(String cf) {
+        if (cf == null || cf.length() < Config.MIN_CF_LENGTH || cf.length() > Config.MAX_CF_LENGTH) {
+            throw new FomatoInvalidoException("Codice fiscale non valido");
+        }
+        this.codiceFiscale = cf;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword(String pwd) {
+        if (pwd == null || pwd.length() > Config.MAX_PASSWORD_LENGTH || pwd.length() <= Config.MIN_PASSWORD_LENGTH) {
+            throw  new FomatoInvalidoException("Password non valida");
+        }
+        this.password = pwd;
     }
 
     public Ruolo getRuolo() {
@@ -52,14 +59,27 @@ public class UtenteLogInData {
         this.ruolo = ruolo;
     }
     public int getCodiceDottore() {
+        if (ruolo != Ruolo.DOTTORE){
+            throw new FomatoInvalidoException("il codice puo essere impostato solo per i dottori");
+        }
         return codiceDottore;
     }
     public void setCodiceDottore(String codiceDottore) {
         try {
             this.codiceDottore = Integer.parseInt(codiceDottore);
         } catch (NumberFormatException e) {
-            this.codiceDottore = null;
+            throw new FomatoInvalidoException("il codice deve essere un numero");
         }
     }
+
+    public boolean isComplete(){
+        if (ruolo != null && ruolo == Ruolo.DOTTORE) {
+            if (codiceDottore == null) {
+                return false;
+            }
+        }
+        return codiceFiscale!=null && password!=null && ruolo != null;
+    }
+
 
 }
