@@ -9,13 +9,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="375.0" prefWidth="444.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.pazientegraphic.DettagliRichiestaController">
+<AnchorPane prefHeight="375.0" prefWidth="444.0" styleClass="content" stylesheets="@../application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.pazientegraphic.DettagliRichiestaController">
    <children>
       <VBox prefHeight="330.0" prefWidth="401.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox prefHeight="160.0" prefWidth="972.0">
                <children>
-                  <AnchorPane prefHeight="127.0" prefWidth="844.0">
+                  <AnchorPane prefHeight="128.0" prefWidth="459.0">
                      <children>
                         <Label layoutX="163.0" layoutY="14.0" prefHeight="17.0" prefWidth="149.0" text="Nome" />
                         <Label fx:id="nomeLabel" layoutX="163.0" layoutY="31.0" prefHeight="17.0" prefWidth="149.0" />
@@ -28,10 +28,10 @@
                         <Label fx:id="cFLabel" layoutX="14.0" layoutY="31.0" prefHeight="17.0" prefWidth="149.0" />
                      </children>
                   </AnchorPane>
-                  <VBox minWidth="100.0" prefHeight="127.0" prefWidth="145.0" HBox.hgrow="ALWAYS">
+                  <VBox minWidth="100.0" prefHeight="128.0" prefWidth="118.0" styleClass="sidebar" HBox.hgrow="ALWAYS">
                      <children>
-                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#aggiungi" text="Aggiungi" VBox.vgrow="ALWAYS" />
-                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#elimina" text="elimina" VBox.vgrow="ALWAYS">
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#aggiungi" prefHeight="49.0" prefWidth="97.0" text="Aggiungi" wrapText="true" VBox.vgrow="ALWAYS" />
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#elimina" text="elimina" wrapText="true" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>

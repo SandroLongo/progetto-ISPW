@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class RegistrationViewController implements GuiGraphicController {
+public class RegistrationViewController extends GuiGraphicController {
     private LogInController logInController = new LogInController();
     private MenuWindowManager menuWindowManager;
 
@@ -71,10 +71,9 @@ public class RegistrationViewController implements GuiGraphicController {
                 setInformation(prd);
                 messaggio = "";
             }
-        } catch (FomatoInvalidoException e) {
-            throw new RuntimeException(e);
-        } catch (DaoException e) {
-            throw new RuntimeException(e);
+        } catch (FomatoInvalidoException | DaoException e) {
+            showAlert(e.getMessage());
+            return;
         }
 
         try {
@@ -101,12 +100,8 @@ public class RegistrationViewController implements GuiGraphicController {
         urd.setDataNascita(dataNascitaField.getValue());
     }
 
-    private void showAlert(String message) {
-        errorLabel.setText(message);
-    }
-
     @FXML
-    void returnToLogin(ActionEvent event) throws IOException {
+    void returnToLogin(ActionEvent event){
         menuWindowManager.showLogin();
     }
 

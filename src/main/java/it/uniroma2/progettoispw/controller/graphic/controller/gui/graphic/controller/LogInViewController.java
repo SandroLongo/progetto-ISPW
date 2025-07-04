@@ -4,6 +4,7 @@ import it.uniroma2.progettoispw.controller.bean.AuthenticationBean;
 import it.uniroma2.progettoispw.controller.bean.FomatoInvalidoException;
 import it.uniroma2.progettoispw.controller.controller.applicativi.LogInController;
 import it.uniroma2.progettoispw.controller.bean.UtenteLogInData;
+import it.uniroma2.progettoispw.controller.controller.applicativi.LogInFailedException;
 import it.uniroma2.progettoispw.model.domain.Ruolo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,8 +19,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class LogInViewController implements GuiGraphicController {
-    private LogInController logInController = new LogInController();
+public class LogInViewController extends GuiGraphicController {
+    private final LogInController logInController = new LogInController();
     MenuWindowManager menuWindowManager;
 
 
@@ -48,8 +49,9 @@ public class LogInViewController implements GuiGraphicController {
         AuthenticationBean authenticationBean;
         try {
             authenticationBean = logInController.logIn(utenteLogInData);
-        } catch (FomatoInvalidoException e) {
-            throw new FomatoInvalidoException(e.getMessage());
+        } catch (FomatoInvalidoException | LogInFailedException e ) {
+            showAlert(e.getMessage());
+            return;
         }
 
         FXMLLoader loader;
@@ -74,12 +76,8 @@ public class LogInViewController implements GuiGraphicController {
     }
 
     @FXML
-    void handleRegistration(ActionEvent event) throws IOException {
+    void handleRegistration(ActionEvent event){
         menuWindowManager.showRegisterScene();
-    }
-
-    private void showAlert(String message) {
-        errorLabel.setText(message);
     }
 
     @Override

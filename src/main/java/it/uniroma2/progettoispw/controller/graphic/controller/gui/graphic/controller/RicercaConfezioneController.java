@@ -13,7 +13,7 @@ import javafx.scene.control.*;
 
 import java.util.List;
 
-public class RicercaConfezioneController implements GuiGraphicController {
+public class RicercaConfezioneController extends GuiGraphicController {
     private final InformazioniMedicinaleController informazioniMedicinaleController = new InformazioniMedicinaleController();
     private DoseAccepter doseAccepter;
     private String gruppo;

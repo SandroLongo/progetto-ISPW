@@ -6,13 +6,13 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="boarderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1017.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.pazientegraphic.MenuPazienteController">
+<BorderPane fx:id="boarderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1017.0" stylesheets="@../application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.pazientegraphic.MenuPazienteController">
    <left>
-      <VBox prefHeight="648.0" prefWidth="238.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="648.0" prefWidth="238.0" styleClass="sidebar" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#home" prefHeight="49.0" prefWidth="252.0" text="Home" />
             <Button mnemonicParsing="false" onAction="#terapia" prefHeight="61.0" prefWidth="252.0" text="terapia" />
-            <Button mnemonicParsing="false" onAction="#cercaMedicinali" prefHeight="53.0" prefWidth="252.0" text="cerca medicinale">
+            <Button mnemonicParsing="false" onAction="#cercaMedicinali" prefHeight="53.0" prefWidth="252.0" text="cerca medicinale" wrapText="true">
                <graphic>
                   <ImageView fitHeight="49.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
                      <image>

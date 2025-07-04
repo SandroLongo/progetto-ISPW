@@ -95,5 +95,7 @@ public class MenuWindowManager {
         sceneMap.clear();
         this.menu = null;
     }
+
+
 }
 

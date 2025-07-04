@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class RegistrationSuccessViewController implements GuiGraphicController{
+public class RegistrationSuccessViewController extends GuiGraphicController {
     private MenuWindowManager menuWindowManager;
 
     @FXML

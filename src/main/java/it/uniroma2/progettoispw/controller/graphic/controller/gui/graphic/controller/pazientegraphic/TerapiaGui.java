@@ -21,7 +21,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
-public class TerapiaGui extends Notificator implements DoseAccepter, FinalAccepter, GuiGraphicController{
+public class TerapiaGui extends GuiGraphicController implements DoseAccepter, FinalAccepter, Notificator {
     private TerapiaGiornalieraBean terapiaGiornaliera;
     private TerapiaController terapiaController;
     private String gruppo;

@@ -10,7 +10,7 @@ import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 
-public class MenuPazienteController implements GuiGraphicController {
+public class MenuPazienteController extends GuiGraphicController {
     private static final String RICHIESTA_PAZIENTE = "RICHIESTAPAZIENTE";
     private static final String TERAPIA = "TERAPIA";
     private AuthenticationBean authenticationBean;

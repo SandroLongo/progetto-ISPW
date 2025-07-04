@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 
 
-public class PromptController implements GuiGraphicController {
+public class PromptController extends GuiGraphicController {
     private Receiver receiver;
     private AuthenticationBean authenticationBean;
 

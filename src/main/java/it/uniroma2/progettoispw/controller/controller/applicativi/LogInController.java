@@ -24,7 +24,7 @@ public class LogInController implements Controller{
                     default -> utente = null;
                 }
             } catch (DaoException e) {
-                throw e;
+                throw new LogInFailedException(e.getMessage());
             }
             System.out.println(utente.getCodiceFiscale());
             Session session = SessionManager.getInstance().setSession(utente);
@@ -35,7 +35,7 @@ public class LogInController implements Controller{
     }
 
 
-    public void registerPaziente(PazienteRegistrationData utenteRegistrationData) throws FomatoInvalidoException, DaoException {
+    public void registerPaziente(PazienteRegistrationData utenteRegistrationData) throws FomatoInvalidoException {
         if (utenteRegistrationData.isComplete()) {
             daoFacade.addPaziente(utenteRegistrationData.getCodiceFiscale(), utenteRegistrationData.getNome(),
                             utenteRegistrationData.getCognome(), utenteRegistrationData.getDataNascita(), utenteRegistrationData.getEmail(),
@@ -47,7 +47,7 @@ public class LogInController implements Controller{
 
     }
 
-    public int registerDottore(DottoreRegistrationData utenteRegistrationData){
+    public int registerDottore(DottoreRegistrationData utenteRegistrationData) throws FomatoInvalidoException{
         if (utenteRegistrationData.isComplete()) {
             return daoFacade.addDottore(utenteRegistrationData.getCodiceFiscale(), utenteRegistrationData.getNome(),
                     utenteRegistrationData.getCognome(), utenteRegistrationData.getDataNascita(), utenteRegistrationData.getEmail(),

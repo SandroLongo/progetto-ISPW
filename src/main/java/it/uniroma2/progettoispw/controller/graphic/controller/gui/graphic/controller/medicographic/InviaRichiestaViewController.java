@@ -13,7 +13,7 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
-public class InviaRichiestaViewController implements GuiGraphicController {
+public class InviaRichiestaViewController extends GuiGraphicController {
     private RichiesteController richiesteController;
     private String gruppo;
     private AuthenticationBean authenticationBean;

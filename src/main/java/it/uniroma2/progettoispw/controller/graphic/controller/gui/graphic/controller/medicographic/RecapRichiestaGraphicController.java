@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class RecapRichiestaGraphicController implements GuiGraphicController, DoseAccepter, FinalAccepter {
+public class RecapRichiestaGraphicController extends GuiGraphicController implements DoseAccepter, FinalAccepter {
     private RichiesteController richiesteController;
     private String gruppo;
     private ObservableList<Object> dati;

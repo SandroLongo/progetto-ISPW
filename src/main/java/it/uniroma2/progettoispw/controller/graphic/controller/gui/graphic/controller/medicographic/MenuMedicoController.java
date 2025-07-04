@@ -9,7 +9,7 @@ import javafx.fxml.FXML;
 
 import java.io.IOException;
 
-public class MenuMedicoController implements GuiGraphicController {
+public class MenuMedicoController extends GuiGraphicController {
     AuthenticationBean authenticationBean;
     private MenuWindowManager menuWindowManager;
     private static final String GRUPPO_RICHIESTA = "RICHIESTA";

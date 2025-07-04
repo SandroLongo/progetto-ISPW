@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class AggiungiFinalStepController implements GuiGraphicController{
+public class AggiungiFinalStepController extends GuiGraphicController {
     private FinalAccepter accepter;
     private String gruppo;
 

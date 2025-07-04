@@ -5,17 +5,17 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="416.0" prefWidth="633.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.medicographic.MenuMedicoController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="469.0" prefWidth="733.0" stylesheets="@../application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.medicographic.MenuMedicoController">
    <left>
-      <VBox prefHeight="400.0" prefWidth="125.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="400.0" prefWidth="125.0" styleClass="sidebar" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#home" prefHeight="53.0" prefWidth="150.0" text="home">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#sendRequest" prefHeight="53.0" prefWidth="150.0" text="invia richiesta" />
-            <Button mnemonicParsing="false" onAction="#searchMedicinale" prefHeight="53.0" prefWidth="150.0" text="cerca medicinale" />
+            <Button mnemonicParsing="false" onAction="#sendRequest" prefHeight="53.0" prefWidth="150.0" text="invia richiesta" wrapText="true" />
+            <Button mnemonicParsing="false" onAction="#searchMedicinale" prefHeight="53.0" prefWidth="150.0" text="cerca medicinale" wrapText="true" />
             <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#logOut" prefHeight="40.0" prefWidth="238.0" text="Logout" />
          </children>
       </VBox>

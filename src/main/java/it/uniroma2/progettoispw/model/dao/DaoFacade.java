@@ -68,7 +68,10 @@ public class DaoFacade {
 
     public Utente login(String codiceFiscale, String password, int isDottore, int codiceDottore) throws DaoException{
         Utente utente = utenteDao.login(codiceFiscale, password, isDottore, codiceDottore);
-        if (Objects.requireNonNull(utente.isType()) == Ruolo.PAZIENTE) {
+        if (utente == null){
+            throw new DaoException("credenziali errate");
+        }
+        if (utente.isType() == Ruolo.PAZIENTE) {
             ((Paziente)utente).setRichiestePendenti(getRichisteOfPaziente((Paziente) utente));
         }
         return utente;

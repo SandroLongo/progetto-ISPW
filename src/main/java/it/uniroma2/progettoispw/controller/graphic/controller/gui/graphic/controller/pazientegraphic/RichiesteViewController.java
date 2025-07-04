@@ -16,7 +16,7 @@ import javafx.scene.control.TableView;
 
 import java.io.IOException;
 
-public class RichiesteViewController extends Notificator implements GuiGraphicController {
+public class RichiesteViewController extends GuiGraphicController implements Notificator {
     private String gruppo;
     private ManageRequestController manageRequestController;
     private AuthenticationBean authenticationBean;

@@ -12,7 +12,7 @@ import javafx.scene.control.*;
 
 import java.io.IOException;
 
-public class DettagliRichiestaController implements GuiGraphicController {
+public class DettagliRichiestaController extends GuiGraphicController {
     private String gruppo;
     private AuthenticationBean authenticationBean;
     private ManageRequestController manageRequestController;
