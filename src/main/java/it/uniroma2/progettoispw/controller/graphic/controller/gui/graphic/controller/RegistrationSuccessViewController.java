@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class RegistrationSuccessViewController implements GuiGraphicController{
+    private MenuWindowManager menuWindowManager;
 
     @FXML
     private Label codiceField;
@@ -19,21 +20,12 @@ public class RegistrationSuccessViewController implements GuiGraphicController{
 
     @FXML
     void returnToLogin() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/LogInview.fxml"));
-        Parent root = null;
-        try {
-            root = loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-            ((Stage)codiceField.getScene().getWindow()).close();
-        }
-        Stage stage = (Stage) codiceField.getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+        menuWindowManager.showLogin();
     }
 
     @Override
     public void initialize(Object[] args) throws IOException {
-        codiceField.setText((String) args[0]);
+        this.codiceField.setText((String) args[0]);
+        this.menuWindowManager = (MenuWindowManager) args[1];
     }
 }

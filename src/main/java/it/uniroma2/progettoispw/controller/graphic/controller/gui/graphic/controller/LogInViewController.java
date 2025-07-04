@@ -22,6 +22,7 @@ public class LogInViewController implements GuiGraphicController {
     private LogInController logInController = new LogInController();
     MenuWindowManager menuWindowManager;
 
+
     @FXML
     private Label errorLabel;
     @FXML
@@ -61,7 +62,7 @@ public class LogInViewController implements GuiGraphicController {
             }
         }
         BorderPane root = (BorderPane) loader.load();
-        Stage stage = (Stage)errorLabel.getScene().getWindow();
+        Stage stage = menuWindowManager.getMainStage();
         AuthenticationBean finalAuthenticationBean = authenticationBean;
         stage.setOnCloseRequest(event -> {
             LogInController logOutController = new LogInController();
@@ -74,11 +75,7 @@ public class LogInViewController implements GuiGraphicController {
 
     @FXML
     void handleRegistration(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/Registrazione.fxml"));
-        Parent root = loader.load();
-        Stage stage = (Stage)passwordField.getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+        menuWindowManager.showRegisterScene();
     }
 
     private void showAlert(String message) {

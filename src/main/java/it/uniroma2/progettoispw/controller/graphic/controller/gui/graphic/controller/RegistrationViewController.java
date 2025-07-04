@@ -1,6 +1,7 @@
 package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller;
 
 import it.uniroma2.progettoispw.controller.bean.FomatoInvalidoException;
+import it.uniroma2.progettoispw.controller.bean.UtenteRegistrationData;
 import it.uniroma2.progettoispw.controller.controller.applicativi.LogInController;
 import it.uniroma2.progettoispw.controller.bean.DottoreRegistrationData;
 import it.uniroma2.progettoispw.controller.bean.PazienteRegistrationData;
@@ -18,8 +19,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class RegistrationViewController {
+public class RegistrationViewController implements GuiGraphicController {
     private LogInController logInController = new LogInController();
+    private MenuWindowManager menuWindowManager;
 
     @FXML
     private TextField codiceFiscaleField;
@@ -59,32 +61,27 @@ public class RegistrationViewController {
     void handleRegistration(ActionEvent event) throws IOException {
         String messaggio;
         try {
-
             if (dottoreCheckBox.isSelected()) {
-                DottoreRegistrationData drd = new DottoreRegistrationData(codiceFiscaleField.getText(), nomeField.getText(), cognomeField.getText(),
-                            emailField.getText(), telefonoField.getText(), dataNascitaField.getValue(),
-                        passwordField.getText());
+                DottoreRegistrationData drd = new DottoreRegistrationData();
+                setInformation(drd);
                 int id = logInController.registerDottore(drd);
                 messaggio = "Il tuo codice è: " + id;
             } else {
-                PazienteRegistrationData prd= new PazienteRegistrationData(codiceFiscaleField.getText(), nomeField.getText(), cognomeField.getText(),
-                        emailField.getText(), telefonoField.getText(), dataNascitaField.getValue(),
-                        passwordField.getText());
-                logInController.registerPaziente(prd);
+                PazienteRegistrationData prd= new PazienteRegistrationData();
+                setInformation(prd);
                 messaggio = "";
             }
-
-        } catch (Exception e) {
-            errorLabel.setText(e.getMessage());
-            e.printStackTrace();
-            return;
+        } catch (FomatoInvalidoException e) {
+            throw new RuntimeException(e);
+        } catch (DaoException e) {
+            throw new RuntimeException(e);
         }
 
         try {
             Stage stage = (Stage) errorLabel.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/RegistrationSuccessView.fxml"));
             Parent root = loader.load();
-            ((GuiGraphicController)loader.getController()).initialize(new Object[]{messaggio});
+            ((GuiGraphicController)loader.getController()).initialize(new Object[]{messaggio, menuWindowManager});
             stage.setScene(new Scene(root));
             stage.show();
         } catch (FomatoInvalidoException | DaoException e) {
@@ -94,12 +91,27 @@ public class RegistrationViewController {
 
     }
 
+    private void setInformation(UtenteRegistrationData urd) throws FomatoInvalidoException {
+        urd.setCodiceFiscale(codiceFiscaleField.getText());
+        urd.setCognome(cognomeField.getText());
+        urd.setEmail(emailField.getText());
+        urd.setNome(nomeField.getText());
+        urd.setPassword(passwordField.getText());
+        urd.setTelefono(telefonoField.getText());
+        urd.setDataNascita(dataNascitaField.getValue());
+    }
+
     private void showAlert(String message) {
         errorLabel.setText(message);
     }
 
     @FXML
     void returnToLogin(ActionEvent event) throws IOException {
-        //da fare
+        menuWindowManager.showLogin();
+    }
+
+    @Override
+    public void initialize(Object[] args) throws IOException {
+        this.menuWindowManager = (MenuWindowManager) args[0];
     }
 }

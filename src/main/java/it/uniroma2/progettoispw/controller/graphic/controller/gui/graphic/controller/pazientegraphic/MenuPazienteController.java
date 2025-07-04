@@ -1,6 +1,7 @@
 package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.pazientegraphic;
 
 import it.uniroma2.progettoispw.controller.bean.AuthenticationBean;
+import it.uniroma2.progettoispw.controller.controller.applicativi.LogInController;
 import it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.GuiGraphicController;
 import it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.MenuWindowManager;
 import javafx.event.ActionEvent;
@@ -26,6 +27,15 @@ public class MenuPazienteController implements GuiGraphicController {
     @FXML
     void home(ActionEvent event) {
         //ancora non implementato
+    }
+
+    @FXML
+    void logOut(ActionEvent event) {
+        LogInController logInController = new LogInController();
+        logInController.logOut(authenticationBean.getCodice());
+        menuWindowManager.getMainStage().setOnCloseRequest(null);
+        menuWindowManager.resetStacks();
+        menuWindowManager.showLogin();
     }
 
     @FXML

@@ -14,6 +14,8 @@ public class MenuWindowManager {
     private Stage mainStage;
     private BorderPane menu;
     private Map<String, Stack<Scene>> sceneMap = new HashMap<String, Stack<Scene>>();
+    private Scene loginScene;
+    private Scene registerScene;
 
     public MenuWindowManager(Stage mainStage) {
         this.mainStage = mainStage;
@@ -56,10 +58,42 @@ public class MenuWindowManager {
         this.mainStage = mainStage;
     }
 
+    public Stage getMainStage() {
+        return mainStage;
+    }
+
+    public void setLoginScene(String fxml, Object... args) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+        Scene scene = new Scene(loader.load());
+        this.loginScene = scene;
+        ((GuiGraphicController)loader.getController()).initialize(args);
+    }
+
+    public void setRegisterScene(String fxml, Object... args) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+        Scene scene = new Scene(loader.load());
+        this.registerScene = scene;
+        ((GuiGraphicController)loader.getController()).initialize(args);
+    }
+
+    public void showRegisterScene(){
+        mainStage.setScene(registerScene);
+        mainStage.show();
+    }
+
+    public void showLogin(){
+        mainStage.setScene(loginScene);
+        mainStage.show();
+    }
     public void setMenu(BorderPane menu) {
         this.menu = menu;
         mainStage.setScene(new Scene(menu));
         mainStage.show();
+    }
+
+    public void resetStacks() {
+        sceneMap.clear();
+        this.menu = null;
     }
 }
 

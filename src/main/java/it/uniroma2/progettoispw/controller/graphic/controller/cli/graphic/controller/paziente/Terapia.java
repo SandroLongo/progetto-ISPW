@@ -116,7 +116,6 @@ public class Terapia extends Receiver {
         public String comeBackAction(Receiver stateMachine){
             DoseBean dosebean = doseCostructor.getDose();
             if (dosebean.isCompleate()) {
-                System.out.println("doseBean completa");
                 terapiaController.addDose(authenticationBean.getCodice(), doseCostructor);
                 return "dose aggiunta con successo\n" + stateMachine.goNext(new ShowTerapiaState(authenticationBean));
             } else {

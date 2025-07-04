@@ -16,6 +16,7 @@
             </Button>
             <Button mnemonicParsing="false" onAction="#sendRequest" prefHeight="53.0" prefWidth="150.0" text="invia richiesta" />
             <Button mnemonicParsing="false" onAction="#searchMedicinale" prefHeight="53.0" prefWidth="150.0" text="cerca medicinale" />
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#logOut" prefHeight="40.0" prefWidth="238.0" text="Logout" />
          </children>
       </VBox>
    </left>

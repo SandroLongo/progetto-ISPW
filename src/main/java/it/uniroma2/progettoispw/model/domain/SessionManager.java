@@ -36,6 +36,7 @@ public class SessionManager {
         numSessions = numSessions+1;
         Session session = new Session(currentUtente, numSessions);
         sessions.put(numSessions, session);
+        System.out.println("aperta sessione" + numSessions);
         return session;
     }
 
@@ -63,6 +64,7 @@ public class SessionManager {
 
     public void logout(int codice){
         Session s = sessions.remove(codice);
+        System.out.println("chiusa sessione" + numSessions);
         s.logout();
     }
 

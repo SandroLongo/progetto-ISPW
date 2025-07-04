@@ -15,16 +15,6 @@ public abstract class UtenteRegistrationData {
     private LocalDate dataNascita;
     private String password;
 
-    protected UtenteRegistrationData(String codiceFiscale, String nome, String cognome, String email, String telefono, LocalDate dataNascita, String password) {
-        this.codiceFiscale = codiceFiscale;
-        this.nome = nome;
-        this.cognome = cognome;
-        this.email = email;
-        this.telefono = telefono;
-        this.dataNascita = dataNascita;
-        this.password = password;
-    }
-
     protected UtenteRegistrationData() {
 
     }
