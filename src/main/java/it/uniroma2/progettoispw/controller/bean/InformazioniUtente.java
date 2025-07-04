@@ -53,4 +53,9 @@ public class InformazioniUtente {
     public LocalDate getDataNascita() {
         return dataNascita;
     }
+
+    @Override
+    public String toString() {
+        return "codiceFiscale: " + codiceFiscale + " nome: " + nome + " cognome: " + cognome + " email: " + email + " telefono: " + telefono + " dataNascita: " + dataNascita;
+    }
 }

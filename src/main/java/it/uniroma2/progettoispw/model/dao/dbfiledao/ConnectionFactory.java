@@ -24,7 +24,7 @@ public class ConnectionFactory {
 
             String connectionUrl = properties.getProperty("DB_URL");
             String user = properties.getProperty("DB_USER");
-            String pass = properties.getProperty("DB_PASS");
+            String pass = properties.getProperty("DB_PASSWORD");
 
             connection = DriverManager.getConnection(connectionUrl, user, pass);
         } catch (IOException | SQLException e) {

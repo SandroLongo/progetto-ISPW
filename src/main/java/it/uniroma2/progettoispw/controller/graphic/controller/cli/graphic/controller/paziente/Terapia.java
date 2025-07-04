@@ -88,7 +88,7 @@ public class Terapia extends Receiver {
         public String comeBackAction(Receiver stateMachine){
             DoseBean dosebean = doseCostructor.getDose();
             if (dosebean.getNome() != null && dosebean.getCodice() != null) {
-                return "ora immetti le informazioni finali\n "+ stateMachine.getPromptController().setReceiver(new InformazioniFinali(doseCostructor, stateMachine)) ;
+                return stateMachine.goNext(new AggiungiStateFase2(authenticationBean, terapiaController, doseCostructor)) + stateMachine.getPromptController().setReceiver(new InformazioniFinali(doseCostructor, stateMachine)) ;
             } else {
                 return stateMachine.goNext(new ShowTerapiaState(authenticationBean));
             }
@@ -104,7 +104,7 @@ public class Terapia extends Receiver {
             this.doseCostructor = doseCostructor;
             this.authenticationBean = authenticationBean;
             this.terapiaController = terapiaController;
-            this.initialMessage = "";
+            this.initialMessage = "ora immetti le informazioni finali\n ";
         }
 
         @Override
@@ -116,10 +116,11 @@ public class Terapia extends Receiver {
         public String comeBackAction(Receiver stateMachine){
             DoseBean dosebean = doseCostructor.getDose();
             if (dosebean.isCompleate()) {
+                System.out.println("doseBean completa");
                 terapiaController.addDose(authenticationBean.getCodice(), doseCostructor);
-                return "dose aggiunta con successo" + stateMachine.goNext(new ShowTerapiaState(authenticationBean));
+                return "dose aggiunta con successo\n" + stateMachine.goNext(new ShowTerapiaState(authenticationBean));
             } else {
-                return stateMachine.goNext(new ShowTerapiaState(authenticationBean));
+                return "aggiunta della dose fallita\n" + stateMachine.goNext(new ShowTerapiaState(authenticationBean));
             }
         }
     }

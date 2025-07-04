@@ -27,12 +27,19 @@ public class Richieste extends Receiver {
             this.authenticationBean = authenticationBean;
             this.manageRequestController = new ManageRequestController();
             richiestePendenti = manageRequestController.getRichieste(authenticationBean.getCodice());
-            this.initialMessage = listaRichiesteToString(richiestePendenti.getLista());
+            this.initialMessage = listaRichiesteToString(richiestePendenti.getLista()) + """
+                    scegli cosa fare:
+                    scrivi un  numero(es 0) --> seleziona la richiesta con quel numero
+                    menu --> torna al menu
+                    """;
         }
 
         private String listaRichiesteToString(List<RichiestaMandata> lista){
             StringBuilder sb = new StringBuilder();
             int i = 0;
+            if(lista.isEmpty()){
+                return "non ci sono richieste al momento\n";
+            }
             for (RichiestaMandata mandata : lista){
                 sb.append(i).append(" - ").append(mandata.toStringBase()).append("\n");
                 i++;
@@ -55,7 +62,7 @@ public class Richieste extends Receiver {
             }
             switch (tipo) {
                 case 1:
-                    if (0 < numero && numero < richiestePendenti.getLista().size()){
+                    if (0 <= numero && numero < richiestePendenti.getLista().size()){
                         RichiestaMandata richiestaMandata = richiestePendenti.getLista().get(numero);
                         return stateMachine.goNext(new ShowDettagliRichiesta(authenticationBean, manageRequestController, richiestaMandata));
                     } else {
@@ -81,7 +88,12 @@ public class Richieste extends Receiver {
             this.authenticationBean = authenticationBean;
             this.manageRequestController = manageRequestController;
             this.mandata = mandata;
-            this.initialMessage = mandata.toString();
+            this.initialMessage = mandata.toString()  + "\n" + """
+                    sceli cosa vuoi fare
+                    accetta --> accetta la richiesta
+                    rifiuta --> rifiuta la richiesta
+                    indietro --> visualizza ancora tutte le richieste
+                    """;
         }
 
         @Override

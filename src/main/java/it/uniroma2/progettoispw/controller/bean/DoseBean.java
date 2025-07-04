@@ -37,12 +37,11 @@ public class DoseBean {
 
     @Override
     public String toString() {
-        return "tipo: " + tipo + ", nome: " + nome +", quantita: " + quantita + " " + unitaMisura;
+        return "tipo: " + tipo + ", nome: " + nome +", quantita: " + quantita + " " + unitaMisura + ", descrizione: " + descrizione;
     }
 
     public boolean isCompleate(){
-        return codice != null && quantita != 0 && unitaMisura != null && orario != null && descrizione != null && inviante != null
-                && nome != null && tipo != null;
+        return codice != null && quantita != 0 && unitaMisura != null && orario != null && descrizione != null && nome != null && tipo != null;
     }
 
     public int getQuantita() {

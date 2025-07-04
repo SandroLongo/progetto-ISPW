@@ -18,9 +18,10 @@ public class LogInReceiver extends Receiver {
 
         public WelcomeState() {
             this.initialMessage  = """
-                    Benvenuto nell'applicazione, scegli in che ruolo vuoi accedere
+                    Benvenuto nell'applicazione, scegli cosa vuoi fare
                     paziente --> entra come paziente
                     dottore --> entra come dottore
+                    registrazione --> registrati
                     """;
         }
 
@@ -32,6 +33,8 @@ public class LogInReceiver extends Receiver {
                     return stateMachine.goNext(new CFPazienteState());
                 case "dottore":
                     return stateMachine.goNext(new CfMedicoState());
+                case "registrati":
+                    return stateMachine.getPromptController().setReceiver(new Registrazione(stateMachine));
                 default:
                     return "scelta non valida\n" + initialMessage;
             }
@@ -64,6 +67,7 @@ public class LogInReceiver extends Receiver {
 
         @Override
         public String goNext(Receiver stateMachine, String command) {
+            utenteLogInData.setPassword(command);
             return stateMachine.goNext(new CodiceMedicoState(utenteLogInData));
         }
     }

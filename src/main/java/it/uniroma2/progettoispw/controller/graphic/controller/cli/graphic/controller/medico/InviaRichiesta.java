@@ -3,6 +3,7 @@ package it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.contr
 import it.uniroma2.progettoispw.controller.bean.*;
 import it.uniroma2.progettoispw.controller.controller.applicativi.RichiesteController;
 import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.AbstractState;
+import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.InformazioniFinali;
 import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.Receiver;
 import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.SelezionaMedicinale;
 
@@ -43,7 +44,7 @@ public class InviaRichiesta extends Receiver {
 
     private class GetCfPaziente extends AbstractState {
         private AuthenticationBean authenticationBean;
-        private RichiesteController richiesteController;
+        private RichiesteController richiesteController = new RichiesteController();
 
         public GetCfPaziente(AuthenticationBean authenticationBean) {
             this.authenticationBean = authenticationBean;
@@ -81,6 +82,7 @@ public class InviaRichiesta extends Receiver {
                     DoseCostructor doseCostructor = new DoseCostructor();
                     DoseBean doseBean = doseCostructor.getDose();
                     RichiestaBean richiestaBean = new RichiestaBean();
+                    richiestaBean.setRicevente(informazioniUtente);
                     stateMachine.goNext(new AggiungiState1(authenticationBean, richiesteController, doseCostructor, richiestaBean));
                     return stateMachine.getPromptController().setReceiver(new SelezionaMedicinale(doseBean, stateMachine));
                 case "indietro": return stateMachine.goNext(new GetCfPaziente(authenticationBean));
@@ -95,12 +97,12 @@ public class InviaRichiesta extends Receiver {
         private RichiestaBean richiestaBean;
         private DoseCostructor doseCostructor;
 
-        public RecapRichiesta(AuthenticationBean authenticationBean, RichiesteController richiesteController, DoseCostructor doseCostructor) {
+        public RecapRichiesta(AuthenticationBean authenticationBean, RichiesteController richiesteController, DoseCostructor doseCostructor, RichiestaBean richiestaBean) {
             this.authenticationBean = authenticationBean;
             this.richiesteController = richiesteController;
             this.doseCostructor = doseCostructor;
-            this.richiestaBean = new RichiestaBean();
-            this.initialMessage = "Recap della richiesta:\n" + richiestaBean.toString() + "scgli cosa vuoi fare:\n" +
+            this.richiestaBean = richiestaBean;
+            this.initialMessage = "Recap della richiesta:\n" + richiestaBean.toString() + "scegli cosa vuoi fare:\n" +
                     "invia -->  invia la richiesta\n" +
                     "indietro --> annulla creazione\n" +
                     "aggiungi --> aggiungi un altra dose\n";
@@ -146,9 +148,10 @@ public class InviaRichiesta extends Receiver {
         public String comeBackAction(Receiver stateMachine){
             DoseBean dosebean = doseCostructor.getDose();
             if (dosebean.getNome() != null && dosebean.getCodice() != null) {
-                return "ora immetti le informazioni finali\n "+ stateMachine.goNext(new AggiungiState2(authenticationBean, richiesteController, doseCostructor, richiestaBean)) ;
+                return stateMachine.goNext(new AggiungiState2(authenticationBean, richiesteController, doseCostructor, richiestaBean)) +
+                        stateMachine.getPromptController().setReceiver(new InformazioniFinali(doseCostructor, stateMachine));
             } else {
-                return stateMachine.goNext(new RecapRichiesta(authenticationBean, richiesteController, doseCostructor));
+                return "aggiunta abortita" + stateMachine.goNext(new RecapRichiesta(authenticationBean, richiesteController, doseCostructor, richiestaBean));
             }
         }
     }
@@ -164,6 +167,7 @@ public class InviaRichiesta extends Receiver {
             this.richiesteController = richiesteController;
             this.richiestaBean = richiestaBean;
             this.doseCostructor = doseCostructor;
+            this.initialMessage = "ora immetti le informazioni finali\n ";
         }
 
         @Override
@@ -175,9 +179,9 @@ public class InviaRichiesta extends Receiver {
         public String comeBackAction(Receiver stateMachine){
             if (doseCostructor.isComplete()) {
                 richiestaBean.addDoseCostructor(doseCostructor);
-                return "dose aggiunta con successo" + stateMachine.goNext(new RecapRichiesta(authenticationBean, richiesteController, doseCostructor));
+                return "dose aggiunta con successo" + stateMachine.goNext(new RecapRichiesta(authenticationBean, richiesteController, doseCostructor, richiestaBean));
             } else {
-                return stateMachine.goNext(new RecapRichiesta(authenticationBean, richiesteController, doseCostructor));
+                return "aggiunta abortita" + stateMachine.goNext(new RecapRichiesta(authenticationBean, richiesteController, doseCostructor, richiestaBean));
             }
         }
     }
