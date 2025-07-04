@@ -33,18 +33,18 @@ public abstract class UtenteRegistrationData {
         return codiceFiscale;
     }
 
-    public void setCodiceFiscale(String cf) {
+    public void setCodiceFiscale(String cf)  throws FomatoInvalidoException{
         if (cf == null || cf.length() < Config.MIN_CF_LENGTH || cf.length() > Config.MAX_CF_LENGTH) {
             throw new FomatoInvalidoException("Codice fiscale non valido");
         }
-        this.codiceFiscale = cf;
+        this.codiceFiscale = cf.toUpperCase();
     }
 
     public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
+    public void setNome(String nome) throws FomatoInvalidoException {
         if (nome == null || nome.length() < Config.MIN_NAME_LENGTH || nome.length() > Config.MAX_NAME_LENGTH) {
             throw new FomatoInvalidoException("nome non valido");
         }
@@ -55,7 +55,7 @@ public abstract class UtenteRegistrationData {
         return cognome;
     }
 
-    public void setCognome(String cognome) {
+    public void setCognome(String cognome)  throws FomatoInvalidoException {
         if (cognome == null || cognome.length() < Config.MIN_SURNAME_LENGTH || cognome.length() > Config.MAX_SURNAME_LENGTH) {
             throw new FomatoInvalidoException("cognome non valido");
         }
@@ -66,7 +66,7 @@ public abstract class UtenteRegistrationData {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email)  throws FomatoInvalidoException{
         if (email == null || cognome.length() < Config.MIN_EMAIL_LENGTH || email.length() > Config.MAX_EMAIL_LENGTH) {
             throw new FomatoInvalidoException("email non valido");
         }
@@ -77,7 +77,7 @@ public abstract class UtenteRegistrationData {
         return telefono;
     }
 
-    public void setTelefono(String telefono) {
+    public void setTelefono(String telefono)  throws FomatoInvalidoException{
         if (telefono == null || telefono.length() <= Config.MIN_PHONE_LENGTH || telefono.length() > Config.MAX_PHONE_LENGTH) {
             throw new FomatoInvalidoException("telefono non valido");
         }
@@ -88,9 +88,9 @@ public abstract class UtenteRegistrationData {
         return dataNascita;
     }
 
-    public void setDataNascita(LocalDate dataNascita) {
+    public void setDataNascita(LocalDate dataNascita)  throws FomatoInvalidoException {
         if (dataNascita == null || Period.between(dataNascita, LocalDate.now()).getYears() < Config.MIN_AGE) {
-            throw new FomatoInvalidoException("devi avere " + String.valueOf(Config.MIN_AGE)+ "per registrarti nell'applicazione");
+            throw new FomatoInvalidoException("devi avere " + Config.MIN_AGE + "per registrarti nell'applicazione");
         }
         this.dataNascita = dataNascita;
     }
@@ -99,7 +99,7 @@ public abstract class UtenteRegistrationData {
         return password;
     }
 
-    public void setPassword(String pwd) {
+    public void setPassword(String pwd)  throws FomatoInvalidoException {
         if (pwd == null || pwd.length() > Config.MAX_PASSWORD_LENGTH || pwd.length() <= Config.MIN_PASSWORD_LENGTH) {
             throw  new FomatoInvalidoException("Password non valida");
         }

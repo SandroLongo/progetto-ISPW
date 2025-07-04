@@ -9,6 +9,10 @@ public class PazienteRegistrationData extends UtenteRegistrationData{
         super(codiceFiscale, nome, cognome, email, telefono, dataNascita, password);
     }
 
+    public PazienteRegistrationData() {
+        super();
+    }
+
     @Override
     public Ruolo isType() {
         return Ruolo.PAZIENTE;

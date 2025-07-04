@@ -73,10 +73,9 @@ public class UtenteLogInData {
     }
 
     public boolean isComplete(){
-        if (ruolo != null && ruolo == Ruolo.DOTTORE) {
-            if (codiceDottore == null) {
-                return false;
-            }
+        if (ruolo != null && ruolo == Ruolo.DOTTORE && codiceDottore == null) {
+            return false;
+
         }
         return codiceFiscale!=null && password!=null && ruolo != null;
     }
