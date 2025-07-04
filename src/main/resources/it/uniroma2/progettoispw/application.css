@@ -25,7 +25,7 @@
     -fx-background-radius: 8;
 }
 
-.sidebar .button:pressed {
+.sidebar .button:armed {
     -fx-background-color: rgba(255,255,255,0.25);
     -fx-background-radius: 8;
 }
@@ -73,7 +73,7 @@
     -fx-padding: 6 10;
 }
 
-.text-field:focus, .password-field:focus {
+.text-field:armed, .password-field:armed {
     -fx-border-color: #548ecf;
 }
 
