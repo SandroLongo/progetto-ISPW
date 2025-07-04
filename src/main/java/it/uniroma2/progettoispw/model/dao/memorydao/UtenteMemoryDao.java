@@ -6,6 +6,7 @@ import it.uniroma2.progettoispw.model.domain.Dottore;
 import it.uniroma2.progettoispw.model.domain.Paziente;
 import it.uniroma2.progettoispw.model.domain.Utente;
 
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -14,7 +15,7 @@ public class UtenteMemoryDao extends MemoryDao implements UtenteDao {
     private Map<ChiaveUtente, Paziente> pazienti = new HashMap<>();
     private Map<ChiaveDottore, Dottore> dottori = new HashMap<>();
     private Map<String, Utente> infoUtenti = new HashMap<>();
-    private Random random = new Random();
+    private Random random = new SecureRandom();
 
     private UtenteMemoryDao() {
         super();

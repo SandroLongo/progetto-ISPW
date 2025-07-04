@@ -1,6 +1,5 @@
 package it.uniroma2.progettoispw.model.dao.filedao;
 
-import it.uniroma2.progettoispw.controller.controller.applicativi.Config;
 import it.uniroma2.progettoispw.model.dao.DaoException;
 import it.uniroma2.progettoispw.model.dao.DaoFactory;
 import it.uniroma2.progettoispw.model.dao.UtenteDao;
@@ -10,19 +9,21 @@ import it.uniroma2.progettoispw.model.domain.Paziente;
 import it.uniroma2.progettoispw.model.domain.Utente;
 
 import java.io.*;
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.*;
 
 public class UtenteFileDao extends FileDao implements UtenteDao {
     private String utentiPath;
     private String dottoriPath;
-    private Random random = new Random();
+    private Random random = new SecureRandom();
 
     public UtenteFileDao() {
         try (InputStream input = DaoFactory.class.getClassLoader().getResourceAsStream("properties.properties")) {
             Properties properties = new Properties();
             properties.load(input);
             utentiPath = properties.getProperty("utentiPath");
+            System.out.println(utentiPath);
             dottoriPath = properties.getProperty("dottoriPath");
         } catch (IOException e) {
             throw new DaoException("path non trovati");
@@ -34,10 +35,23 @@ public class UtenteFileDao extends FileDao implements UtenteDao {
         if (!file.exists()){
             throw new DaoException("file non trovato");
         }
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+        if (file.length() == 0){
+            return new ArrayList<UtenteRegistrato>();
+        }
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             return (List<UtenteRegistrato>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            throw new DaoException(e.getMessage());
+        } catch (IOException e) {
+            if (e instanceof FileNotFoundException){
+                throw new DaoException("file non trovato");
+            } else if (e instanceof EOFException){
+                throw new DaoException("file finito");
+            } else if (e instanceof StreamCorruptedException){
+                throw new DaoException("file corrotto");
+            } else {
+                throw new DaoException("file");
+            }
+        } catch (ClassNotFoundException e) {
+            throw new DaoException("class not found");
         }
     }
 
@@ -57,6 +71,9 @@ public class UtenteFileDao extends FileDao implements UtenteDao {
         File file = new File(dottoriPath);
         if (!file.exists()){
             throw new DaoException("file non trovato");
+        }
+        if (file.length() == 0){
+            return new ArrayList<DottoreRegistrato>();
         }
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             return (List<DottoreRegistrato>) ois.readObject();

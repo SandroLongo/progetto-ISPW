@@ -79,6 +79,7 @@ public class RegistrationViewController extends GuiGraphicController {
             }
         } catch (FomatoInvalidoException | DaoException e) {
             showAlert(e.getMessage());
+            e.printStackTrace();
             return;
         }
 

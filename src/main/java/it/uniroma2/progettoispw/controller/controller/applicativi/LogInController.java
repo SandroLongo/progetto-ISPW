@@ -24,6 +24,7 @@ public class LogInController implements Controller{
                     default -> utente = null;
                 }
             } catch (DaoException e) {
+                e.printStackTrace();
                 throw new LogInFailedException(e.getMessage());
             }
             System.out.println(utente.getCodiceFiscale());

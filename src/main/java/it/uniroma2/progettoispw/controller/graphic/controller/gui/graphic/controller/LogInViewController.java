@@ -51,6 +51,7 @@ public class LogInViewController extends GuiGraphicController {
             authenticationBean = logInController.logIn(utenteLogInData);
         } catch (FomatoInvalidoException | LogInFailedException e ) {
             showAlert(e.getMessage());
+            e.printStackTrace();
             return;
         }
 
