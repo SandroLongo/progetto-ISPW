@@ -40,7 +40,7 @@ public class DaoFacade {
                         break;
                     default: throw new DaoException("errore");
                 }
-                dose.setInviante(utenteDao.getDottore(dose.getInviante().getCodiceFiscale()));
+                dose.setInviante(utenteDao.getInfoUtente(dose.getInviante().getCodiceFiscale()));
             }
         }
         return terapiaGiornaliera;
@@ -58,6 +58,7 @@ public class DaoFacade {
 
     public void addPaziente(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono,
                             String pass) throws DaoException{
+        System.out.println("IN ADD PAZIENTE");
         utenteDao.addPaziente(codiceFiscale, nome, cognome, nascita, email, telefono, pass);
     }
 
@@ -191,11 +192,11 @@ public class DaoFacade {
         switch (doseBean.getTipo()){
             case CONFEZIONE -> { Confezione confezione= medicinaliDao.getConfezioneByCodiceAic(Integer.parseInt(doseBean.getCodice()));
                 DoseConfezione doseConfezione = new DoseConfezione(confezione, doseBean.getQuantita(), doseBean.getUnitaMisura(), doseBean.getOrario(),
-                        doseBean.getDescrizione(), utenteDao.getDottore(doseBean.getInviante().getCodiceFiscale()));
+                        doseBean.getDescrizione(), utenteDao.getInfoUtente(doseBean.getInviante().getCodiceFiscale()));
                 doseInviata = new DoseInviata(doseConfezione, doseCostructor.getNumRipetizioni(), doseCostructor.getInizio(), doseCostructor.getRateGiorni());}
             case PRINCIPIOATTIVO -> {PrincipioAttivo principioAttivo = medicinaliDao.getPrincipioAttvoByCodiceAtc(doseBean.getCodice());
                 DosePrincipioAttivo dosePrincipioAttivo = new DosePrincipioAttivo(principioAttivo, doseBean.getQuantita(), doseBean.getUnitaMisura(), doseBean.getOrario(),
-                        doseBean.getDescrizione(), utenteDao.getDottore(doseBean.getInviante().getCodiceFiscale()));
+                        doseBean.getDescrizione(), utenteDao.getInfoUtente(doseBean.getInviante().getCodiceFiscale()));
                 doseInviata = new DoseInviata(dosePrincipioAttivo, doseCostructor.getNumRipetizioni(), doseCostructor.getInizio(), doseCostructor.getRateGiorni());}
             default -> throw new DaoException("tipo errato");
         }

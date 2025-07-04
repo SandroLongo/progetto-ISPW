@@ -38,7 +38,7 @@ public class TerapiaGui extends GuiGraphicController implements DoseAccepter, Fi
     @FXML
     void addMedication(ActionEvent event) throws IOException {
         doseCostructor = new DoseCostructor();
-        menuWindowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/RicercaConfezione.fxml", this, gruppo);
+        menuWindowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/RicercaConfezione.fxml", this, gruppo, menuWindowManager);
     }
 
     @FXML

@@ -4,6 +4,10 @@ import java.time.LocalDate;
 
 public class Dottore extends Utente{
 
+    public Dottore(Dottore dottore){
+        super(dottore);
+    }
+
     public Dottore(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono) {
         super(codiceFiscale, nome, cognome, nascita, email, telefono);
     }

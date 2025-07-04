@@ -23,13 +23,17 @@ public abstract class DaoFactory {
             try (InputStream input = DaoFactory.class.getClassLoader().getResourceAsStream("properties.properties")) {
                 Properties properties = new Properties();
                 properties.load(input);
-
                 String option = properties.getProperty("DAOMODE");
                 switch (option) {
                     case "DB":
-                        daoFactory = new DbFileDaoFactory();
+                        String option2 = properties.getProperty("UTENTE_DAOMODE");
+                        if (option2 == "DB") {
+                            daoFactory = new DbFileDaoFactory(true);
+                        } else {
+                            daoFactory = new DbFileDaoFactory(false);
+                        }
                         break;
-                    case "Memory":
+                        case "MEMORY":
                         daoFactory = new MemoryDaoFactory();
                         break;
                     default:

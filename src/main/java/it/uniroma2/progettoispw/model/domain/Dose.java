@@ -60,7 +60,7 @@ public abstract class Dose {
     public Utente getInviante() {
         return inviante;
     }
-    public void setInviante(Dottore inviante) {
+    public void setInviante(Utente inviante) {
         this.inviante = inviante;
     }
 }

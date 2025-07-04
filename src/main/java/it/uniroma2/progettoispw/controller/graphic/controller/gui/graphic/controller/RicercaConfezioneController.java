@@ -19,6 +19,7 @@ public class RicercaConfezioneController extends GuiGraphicController {
     private String gruppo;
     private DoseInviata doseInviata = new DoseInviata();
     private static final String SELEZIONA = "SELEZIONA";
+    private MenuWindowManager menuWindowManager;
     @FXML
     private TextField codiceATC;
 
@@ -31,9 +32,15 @@ public class RicercaConfezioneController extends GuiGraphicController {
     @FXML
     private TableView<Object> risultatiTable;
 
+    @FXML
+    void indietro(ActionEvent event) {
+        menuWindowManager.deleteAndcomeBack(gruppo);
+    }
+
     public void initialize(Object[] args) {
         this.doseAccepter = (DoseAccepter) args[0];
         this.gruppo = (String) args[1];
+        this.menuWindowManager = (MenuWindowManager) args[2];
     }
 
     //bottone per confezioni

@@ -44,6 +44,11 @@ public class RecapRichiestaGraphicController extends GuiGraphicController implem
     private TableView<Object> recapTable;
 
     @FXML
+    void indietro(ActionEvent event) {
+        menuWindowManager.deleteAndcomeBack(gruppo);
+    }
+
+    @FXML
     void aggiungi(ActionEvent event) throws IOException {
         this.doseCostructor = new DoseCostructor();
         menuWindowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/RicercaConfezione.fxml", this, gruppo, menuWindowManager);

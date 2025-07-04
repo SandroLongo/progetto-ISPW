@@ -1,17 +1,26 @@
 package it.uniroma2.progettoispw.model.domain;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Utente {
+public abstract class Utente implements Serializable {
     private String codiceFiscale;
     private String nome;
     private String cognome;
     private String email;
     private String telefono;
     private LocalDate dataNascita;
-    private List<Richiesta> richieste;
-    private CalendarioTerapeutico calendarioTerapeutico;
+
+    protected Utente(Utente utente){
+        this.codiceFiscale = utente.getCodiceFiscale();
+        this.nome = utente.getNome();
+        this.cognome = utente.getCognome();
+        this.email = utente.getEmail();
+        this.telefono = utente.getTelefono();
+        this.dataNascita = utente.getDataNascita();
+    }
 
 
     protected Utente(String codiceFiscale, String nome, String cognome, LocalDate dataNascita, String email, String telefono) {

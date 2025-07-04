@@ -12,6 +12,7 @@ import java.time.LocalTime;
 public class AggiungiFinalStepController extends GuiGraphicController {
     private FinalAccepter accepter;
     private String gruppo;
+    private MenuWindowManager menuWindowManager;
 
     @FXML
     private DatePicker dataIniziale;
@@ -37,10 +38,16 @@ public class AggiungiFinalStepController extends GuiGraphicController {
     @FXML
     private TextField unitaMisura;
 
+    @FXML
+    void indietro(ActionEvent event) {
+        menuWindowManager.deleteAndcomeBack(gruppo);
+    }
+
     @Override
     public void initialize(Object[] args) {
         this.accepter = (FinalAccepter) args[0];
         this.gruppo = (String)args[1];
+        this.menuWindowManager = (MenuWindowManager) args[2];
         SpinnerValueFactory<Integer> valueFactory =
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 12);
 

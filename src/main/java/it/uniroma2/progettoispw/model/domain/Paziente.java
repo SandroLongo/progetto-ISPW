@@ -5,8 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 public class Paziente extends Utente {
-    private CalendarioTerapeutico calendario;
-    private RichiestePendenti pendenti;
+    private transient CalendarioTerapeutico calendario;
+    private transient RichiestePendenti pendenti;
+
+    public Paziente(Paziente paziente) {
+        super(paziente);
+        calendario = new CalendarioTerapeutico();
+        pendenti = new RichiestePendenti();
+    }
 
     public Paziente(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono) {
         super(codiceFiscale, nome, cognome, nascita, email, telefono);

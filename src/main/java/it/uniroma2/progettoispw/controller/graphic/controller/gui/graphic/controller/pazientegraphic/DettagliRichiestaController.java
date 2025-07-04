@@ -7,6 +7,7 @@ import it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.contro
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -39,15 +40,14 @@ public class DettagliRichiestaController extends GuiGraphicController {
     private Label numeroLabel;
 
     @FXML
+    void indietro(ActionEvent event) {
+        menuWindowManager.deleteAndcomeBack(gruppo);
+    }
+    @FXML
     void aggiungi() {
         manageRequestController.accettaRichiesta(authenticationBean.getCodice(), richiestaBean.getIdRichiesta());
         menuWindowManager.deleteTop(gruppo);
         menuWindowManager.show(gruppo);
-    }
-
-    @FXML
-    void elimina() {
-        //manageRequestController.
     }
 
     @Override

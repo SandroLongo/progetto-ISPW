@@ -58,6 +58,11 @@ public class RegistrationViewController extends GuiGraphicController {
     private Label messageLabel;
 
     @FXML
+    void indietro(ActionEvent event) {
+        menuWindowManager.showLogin();
+    }
+
+    @FXML
     void handleRegistration(ActionEvent event) throws IOException {
         String messaggio;
         try {
@@ -69,6 +74,7 @@ public class RegistrationViewController extends GuiGraphicController {
             } else {
                 PazienteRegistrationData prd= new PazienteRegistrationData();
                 setInformation(prd);
+                logInController.registerPaziente(prd);
                 messaggio = "";
             }
         } catch (FomatoInvalidoException | DaoException e) {
@@ -77,7 +83,7 @@ public class RegistrationViewController extends GuiGraphicController {
         }
 
         try {
-            Stage stage = (Stage) errorLabel.getScene().getWindow();
+            Stage stage = menuWindowManager.getMainStage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/RegistrationSuccessView.fxml"));
             Parent root = loader.load();
             ((GuiGraphicController)loader.getController()).initialize(new Object[]{messaggio, menuWindowManager});

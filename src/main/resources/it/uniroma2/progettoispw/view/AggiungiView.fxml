@@ -30,6 +30,7 @@
       <Label layoutX="209.0" layoutY="294.0" prefHeight="17.0" prefWidth="68.0" text="giorni" />
       <Label layoutX="50.0" layoutY="151.0" prefHeight="17.0" prefWidth="41.0" text="ora" />
       <Label layoutX="50.0" layoutY="179.0" prefHeight="17.0" prefWidth="41.0" text="minuto" />
-      <Button layoutX="411.0" layoutY="314.0" mnemonicParsing="false" onAction="#aggiungi" prefHeight="25.0" prefWidth="84.0" text="aggiungi" />
+      <Button layoutX="511.0" layoutY="355.0" mnemonicParsing="false" onAction="#aggiungi" prefHeight="25.0" prefWidth="84.0" text="aggiungi" />
+      <Button layoutX="511.0" layoutY="315.0" mnemonicParsing="false" onAction="#indietro" prefHeight="25.0" prefWidth="84.0" text="indietro" />
    </children>
 </AnchorPane>

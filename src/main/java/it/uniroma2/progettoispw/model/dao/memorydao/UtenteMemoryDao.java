@@ -29,7 +29,7 @@ public class UtenteMemoryDao extends MemoryDao implements UtenteDao {
     @Override
     public Paziente getPaziente(String codiceFiscale) throws DaoException {
         if (pazienti.containsKey(codiceFiscale)) {
-            return (Paziente) infoUtenti.get(codiceFiscale);
+            return (Paziente)infoUtenti.get(codiceFiscale);
         } else {
             return null;
         }
@@ -38,7 +38,7 @@ public class UtenteMemoryDao extends MemoryDao implements UtenteDao {
     @Override
     public Dottore getDottore(String codiceFiscale) throws DaoException {
         if (dottori.containsKey(codiceFiscale)) {
-            return (Dottore) infoUtenti.get(codiceFiscale);
+            return (Dottore)infoUtenti.get(codiceFiscale);
         }  else {
             return null;
         }
@@ -47,6 +47,7 @@ public class UtenteMemoryDao extends MemoryDao implements UtenteDao {
     @Override
     public void addPaziente(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
         ChiaveUtente chiaveUtente = new ChiaveUtente(codiceFiscale, pass);
+        System.out.println(codiceFiscale + pass);
         pazienti.put(chiaveUtente, new Paziente(codiceFiscale, nome, cognome, nascita, email, telefono));
         infoUtenti.put(codiceFiscale, new Paziente(codiceFiscale, nome, cognome, nascita, email, telefono));
     }
@@ -79,12 +80,13 @@ public class UtenteMemoryDao extends MemoryDao implements UtenteDao {
 
     @Override
     public Utente login(String codiceFiscale, String password, int isDottore, int codiceDottore) throws DaoException {
+        System.out.println(codiceFiscale + password);
         if (isDottore == 1) {
             ChiaveDottore chiave = new ChiaveDottore(codiceFiscale, password, codiceDottore);
-            return dottori.get(chiave);
+            return new Dottore(dottori.get(chiave));
         } else {
             ChiaveUtente chiave = new ChiaveUtente(codiceFiscale, password);
-            return pazienti.get(chiave);
+            return new Paziente(pazienti.get(chiave));
         }
 
     }
