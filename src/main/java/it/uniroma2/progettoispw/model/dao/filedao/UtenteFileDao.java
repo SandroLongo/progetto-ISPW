@@ -2,6 +2,7 @@ package it.uniroma2.progettoispw.model.dao.filedao;
 
 import it.uniroma2.progettoispw.controller.controller.applicativi.Config;
 import it.uniroma2.progettoispw.model.dao.DaoException;
+import it.uniroma2.progettoispw.model.dao.DaoFactory;
 import it.uniroma2.progettoispw.model.dao.UtenteDao;
 import it.uniroma2.progettoispw.model.dao.dbfiledao.FileDao;
 import it.uniroma2.progettoispw.model.domain.Dottore;
@@ -18,11 +19,17 @@ public class UtenteFileDao extends FileDao implements UtenteDao {
     private Random random = new Random();
 
     public UtenteFileDao() {
-        utentiPath = Config.utentiPath;
-        dottoriPath = Config.dottoriPath;
+        try (InputStream input = DaoFactory.class.getClassLoader().getResourceAsStream("properties.properties")) {
+            Properties properties = new Properties();
+            properties.load(input);
+            utentiPath = properties.getProperty("utentiPath");
+            dottoriPath = properties.getProperty("dottoriPath");
+        } catch (IOException e) {
+            throw new DaoException("path non trovati");
+        }
     }
 
-    private List<UtenteRegistrato> caricaUtenti() throws DaoException {
+        private List<UtenteRegistrato> caricaUtenti() throws DaoException {
         File file = new File(utentiPath);
         if (!file.exists()){
             throw new DaoException("file non trovato");
