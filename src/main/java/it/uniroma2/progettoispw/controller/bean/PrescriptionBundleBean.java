@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PrescriptionBundleBean {
-    List<Prescription> dosi;
+    List<PrescriptionBean> dosi;
     private LocalDate invio;
     private InformazioniUtente ricevente;
     private InformazioniUtente inviante;
@@ -26,15 +26,15 @@ public class PrescriptionBundleBean {
 
     public void replaceDosi(List<it.uniroma2.progettoispw.model.domain.Prescription> lista) {
         for (it.uniroma2.progettoispw.model.domain.Prescription prescription : lista) {
-            this.addDoseCostructor(new Prescription(prescription));
+            this.addDoseCostructor(new PrescriptionBean(prescription));
         }
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (Prescription prescription : dosi) {
-            sb.append(prescription.toString()).append("\n");
+        for (PrescriptionBean prescriptionBean : dosi) {
+            sb.append(prescriptionBean.toString()).append("\n");
         }
         return sb.toString();
     }
@@ -43,16 +43,16 @@ public class PrescriptionBundleBean {
         return "DOTTORE: " + ricevente.getNome() + " " + ricevente.getCognome() + "data di invio: " + invio.toString();
     }
 
-    public List<Prescription> getDosi() {
+    public List<PrescriptionBean> getDosi() {
         return dosi;
     }
 
-    public void addDoseCostructor(Prescription prescription) {
-        dosi.add(prescription);
+    public void addDoseCostructor(PrescriptionBean prescriptionBean) {
+        dosi.add(prescriptionBean);
     }
 
-    public void deleteDoseCostructor(Prescription prescription){
-        dosi.remove(prescription);
+    public void deleteDoseCostructor(PrescriptionBean prescriptionBean){
+        dosi.remove(prescriptionBean);
     }
 
     public LocalDate getInvio() {
@@ -76,8 +76,8 @@ public class PrescriptionBundleBean {
     }
 
     public void setInviante(InformazioniUtente inviante) {
-        for (Prescription prescription : getDosi()) {
-            prescription.getDose().setInviante(inviante);
+        for (PrescriptionBean prescriptionBean : getDosi()) {
+            prescriptionBean.getDose().setInviante(inviante);
         }
         this.inviante = inviante;
     }

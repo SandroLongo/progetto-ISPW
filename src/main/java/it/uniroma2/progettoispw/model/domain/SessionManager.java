@@ -1,5 +1,6 @@
 package it.uniroma2.progettoispw.model.domain;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +67,21 @@ public class SessionManager {
         Session s = sessions.remove(codice);
         System.out.println("chiusa sessione" + numSessions);
         s.logout();
+    }
+
+    public void aggiornaSessioni(String taxCode,MedicationDose medicationDose, LocalDate data){
+        List<Session> openSessions = getOpenSessionsByCF(taxCode);
+        for (Session session : openSessions) {
+            User user = session.getUtente();
+            if (user.isType() == Role.PAZIENTE){
+                TherapyCalendar therapyCalendar = ((Patient) user).getCalendario();
+                if (therapyCalendar.esiste(data)){
+                    therapyCalendar.getDailyTherapy(data).addDose(medicationDose);
+                }
+            }
+        }
+
+
     }
 
     public boolean esiste(int codice){

@@ -2,7 +2,7 @@ package it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.contr
 
 import it.uniroma2.progettoispw.controller.bean.AuthenticationBean;
 import it.uniroma2.progettoispw.controller.bean.DoseBean;
-import it.uniroma2.progettoispw.controller.bean.Prescription;
+import it.uniroma2.progettoispw.controller.bean.PrescriptionBean;
 import it.uniroma2.progettoispw.controller.bean.DailyTherapyBean;
 import it.uniroma2.progettoispw.controller.controller.applicativi.TherapyController;
 import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.AbstractState;
@@ -57,9 +57,9 @@ public class Terapia extends Receiver {
                 case "indietro": this.currentDate = currentDate.minusDays(1);
                     this.dailyTherapyBean = therapyController.getTerapiaGiornaliera(authenticationBean.getCodice(), currentDate);
                     return stateMachine.goNext(new ShowTerapiaState(authenticationBean, currentDate));
-                case "aggiungi": Prescription prescription = new Prescription();
-                    return stateMachine.goNext(new AggiungiStateFase1(authenticationBean, therapyController, prescription)) +
-                            stateMachine.getPromptController().setReceiver(new SelezionaMedicinale(prescription.getDose(), stateMachine));
+                case "aggiungi": PrescriptionBean prescriptionBean = new PrescriptionBean();
+                    return stateMachine.goNext(new AggiungiStateFase1(authenticationBean, therapyController, prescriptionBean)) +
+                            stateMachine.getPromptController().setReceiver(new SelezionaMedicinale(prescriptionBean.getDose(), stateMachine));
                 case "menu": return stateMachine.getPromptController().setReceiver(stateMachine.getPreviousReceiver());
                 default: return "selezione invalida";
             }
@@ -69,11 +69,11 @@ public class Terapia extends Receiver {
 
     private class AggiungiStateFase1 extends AbstractState{
         private AuthenticationBean authenticationBean;
-        private Prescription prescription;
+        private PrescriptionBean prescriptionBean;
         private TherapyController therapyController;
 
-        public AggiungiStateFase1(AuthenticationBean authenticationBean, TherapyController therapyController, Prescription prescription) {
-            this.prescription = prescription;
+        public AggiungiStateFase1(AuthenticationBean authenticationBean, TherapyController therapyController, PrescriptionBean prescriptionBean) {
+            this.prescriptionBean = prescriptionBean;
             this.authenticationBean = authenticationBean;
             this.therapyController = therapyController;
             this.initialMessage = "";
@@ -86,9 +86,9 @@ public class Terapia extends Receiver {
 
         @Override
         public String comeBackAction(Receiver stateMachine){
-            DoseBean dosebean = prescription.getDose();
+            DoseBean dosebean = prescriptionBean.getDose();
             if (dosebean.getNome() != null && dosebean.getCodice() != null) {
-                return stateMachine.goNext(new AggiungiStateFase2(authenticationBean, therapyController, prescription)) + stateMachine.getPromptController().setReceiver(new InformazioniFinali(prescription, stateMachine)) ;
+                return stateMachine.goNext(new AggiungiStateFase2(authenticationBean, therapyController, prescriptionBean)) + stateMachine.getPromptController().setReceiver(new InformazioniFinali(prescriptionBean, stateMachine)) ;
             } else {
                 return stateMachine.goNext(new ShowTerapiaState(authenticationBean));
             }
@@ -97,11 +97,11 @@ public class Terapia extends Receiver {
 
     private class AggiungiStateFase2 extends AbstractState{
         private AuthenticationBean authenticationBean;
-        private Prescription prescription;
+        private PrescriptionBean prescriptionBean;
         private TherapyController therapyController;
 
-        public AggiungiStateFase2(AuthenticationBean authenticationBean, TherapyController therapyController, Prescription prescription) {
-            this.prescription = prescription;
+        public AggiungiStateFase2(AuthenticationBean authenticationBean, TherapyController therapyController, PrescriptionBean prescriptionBean) {
+            this.prescriptionBean = prescriptionBean;
             this.authenticationBean = authenticationBean;
             this.therapyController = therapyController;
             this.initialMessage = "ora immetti le informazioni finali\n ";
@@ -114,9 +114,9 @@ public class Terapia extends Receiver {
 
         @Override
         public String comeBackAction(Receiver stateMachine){
-            DoseBean dosebean = prescription.getDose();
+            DoseBean dosebean = prescriptionBean.getDose();
             if (dosebean.isCompleate()) {
-                therapyController.addDose(authenticationBean.getCodice(), prescription);
+                therapyController.addDose(authenticationBean.getCodice(), prescriptionBean);
                 return "dose aggiunta con successo\n" + stateMachine.goNext(new ShowTerapiaState(authenticationBean));
             } else {
                 return "aggiunta della dose fallita\n" + stateMachine.goNext(new ShowTerapiaState(authenticationBean));

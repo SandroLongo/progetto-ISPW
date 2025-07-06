@@ -14,6 +14,10 @@ public class Patient extends User {
         pendenti = new PendentBundle();
     }
 
+    public Patient(String taxCode){
+        super(taxCode);
+    }
+
     public Patient(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono) {
         super(codiceFiscale, nome, cognome, nascita, email, telefono);
         this.calendario = new TherapyCalendar();

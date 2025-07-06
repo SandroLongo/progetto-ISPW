@@ -79,11 +79,11 @@ public class InviaRichiesta extends Receiver {
             String option = command.toLowerCase();
             switch (option) {
                 case "conferma":
-                    Prescription prescription = new Prescription();
-                    DoseBean doseBean = prescription.getDose();
+                    PrescriptionBean prescriptionBean = new PrescriptionBean();
+                    DoseBean doseBean = prescriptionBean.getDose();
                     PrescriptionBundleBean prescriptionBundleBean = new PrescriptionBundleBean();
                     prescriptionBundleBean.setRicevente(informazioniUtente);
-                    stateMachine.goNext(new AggiungiState1(authenticationBean, sendPrescriptionBundleController, prescription, prescriptionBundleBean));
+                    stateMachine.goNext(new AggiungiState1(authenticationBean, sendPrescriptionBundleController, prescriptionBean, prescriptionBundleBean));
                     return stateMachine.getPromptController().setReceiver(new SelezionaMedicinale(doseBean, stateMachine));
                 case "indietro": return stateMachine.goNext(new GetCfPaziente(authenticationBean));
                 default: return "comando non riconosciuto";
@@ -95,12 +95,12 @@ public class InviaRichiesta extends Receiver {
         private AuthenticationBean authenticationBean;
         private SendPrescriptionBundleController sendPrescriptionBundleController;
         private PrescriptionBundleBean prescriptionBundleBean;
-        private Prescription prescription;
+        private PrescriptionBean prescriptionBean;
 
-        public RecapRichiesta(AuthenticationBean authenticationBean, SendPrescriptionBundleController sendPrescriptionBundleController, Prescription prescription, PrescriptionBundleBean prescriptionBundleBean) {
+        public RecapRichiesta(AuthenticationBean authenticationBean, SendPrescriptionBundleController sendPrescriptionBundleController, PrescriptionBean prescriptionBean, PrescriptionBundleBean prescriptionBundleBean) {
             this.authenticationBean = authenticationBean;
             this.sendPrescriptionBundleController = sendPrescriptionBundleController;
-            this.prescription = prescription;
+            this.prescriptionBean = prescriptionBean;
             this.prescriptionBundleBean = prescriptionBundleBean;
             this.initialMessage = "Recap della sentPrescriptionBundle:\n" + prescriptionBundleBean.toString() + "scegli cosa vuoi fare:\n" +
                     "invia -->  invia la sentPrescriptionBundle\n" +
@@ -116,7 +116,7 @@ public class InviaRichiesta extends Receiver {
                     sendPrescriptionBundleController.invia(authenticationBean.getCodice(), prescriptionBundleBean);
                     return stateMachine.getPromptController().setReceiver(stateMachine.getPreviousReceiver());
                 case "aggiungi":
-                    return stateMachine.goNext(new AggiungiState1(authenticationBean, sendPrescriptionBundleController, prescription, prescriptionBundleBean));
+                    return stateMachine.goNext(new AggiungiState1(authenticationBean, sendPrescriptionBundleController, prescriptionBean, prescriptionBundleBean));
                 case "indietro":
                     return stateMachine.goNext(new Opzioni(authenticationBean));
                 default: return "comando non riconosciuto" + initialMessage;
@@ -130,13 +130,13 @@ public class InviaRichiesta extends Receiver {
         private AuthenticationBean authenticationBean;
         private SendPrescriptionBundleController sendPrescriptionBundleController;
         private PrescriptionBundleBean prescriptionBundleBean;
-        private Prescription prescription;
+        private PrescriptionBean prescriptionBean;
 
-        public AggiungiState1(AuthenticationBean authenticationBean, SendPrescriptionBundleController sendPrescriptionBundleController, Prescription prescription, PrescriptionBundleBean prescriptionBundleBean) {
+        public AggiungiState1(AuthenticationBean authenticationBean, SendPrescriptionBundleController sendPrescriptionBundleController, PrescriptionBean prescriptionBean, PrescriptionBundleBean prescriptionBundleBean) {
             this.authenticationBean = authenticationBean;
             this.sendPrescriptionBundleController = sendPrescriptionBundleController;
             this.prescriptionBundleBean = prescriptionBundleBean;
-            this.prescription = prescription;
+            this.prescriptionBean = prescriptionBean;
         }
 
         @Override
@@ -146,12 +146,12 @@ public class InviaRichiesta extends Receiver {
 
         @Override
         public String comeBackAction(Receiver stateMachine){
-            DoseBean dosebean = prescription.getDose();
+            DoseBean dosebean = prescriptionBean.getDose();
             if (dosebean.getNome() != null && dosebean.getCodice() != null) {
-                return stateMachine.goNext(new AggiungiState2(authenticationBean, sendPrescriptionBundleController, prescription, prescriptionBundleBean)) +
-                        stateMachine.getPromptController().setReceiver(new InformazioniFinali(prescription, stateMachine));
+                return stateMachine.goNext(new AggiungiState2(authenticationBean, sendPrescriptionBundleController, prescriptionBean, prescriptionBundleBean)) +
+                        stateMachine.getPromptController().setReceiver(new InformazioniFinali(prescriptionBean, stateMachine));
             } else {
-                return "aggiunta abortita" + stateMachine.goNext(new RecapRichiesta(authenticationBean, sendPrescriptionBundleController, prescription, prescriptionBundleBean));
+                return "aggiunta abortita" + stateMachine.goNext(new RecapRichiesta(authenticationBean, sendPrescriptionBundleController, prescriptionBean, prescriptionBundleBean));
             }
         }
     }
@@ -160,13 +160,13 @@ public class InviaRichiesta extends Receiver {
         private AuthenticationBean authenticationBean;
         private SendPrescriptionBundleController sendPrescriptionBundleController;
         private PrescriptionBundleBean prescriptionBundleBean;
-        private Prescription prescription;
+        private PrescriptionBean prescriptionBean;
 
-        public AggiungiState2(AuthenticationBean authenticationBean, SendPrescriptionBundleController sendPrescriptionBundleController, Prescription prescription, PrescriptionBundleBean prescriptionBundleBean) {
+        public AggiungiState2(AuthenticationBean authenticationBean, SendPrescriptionBundleController sendPrescriptionBundleController, PrescriptionBean prescriptionBean, PrescriptionBundleBean prescriptionBundleBean) {
             this.authenticationBean = authenticationBean;
             this.sendPrescriptionBundleController = sendPrescriptionBundleController;
             this.prescriptionBundleBean = prescriptionBundleBean;
-            this.prescription = prescription;
+            this.prescriptionBean = prescriptionBean;
             this.initialMessage = "ora immetti le informazioni finali\n ";
         }
 
@@ -177,11 +177,11 @@ public class InviaRichiesta extends Receiver {
 
         @Override
         public String comeBackAction(Receiver stateMachine){
-            if (prescription.isComplete()) {
-                prescriptionBundleBean.addDoseCostructor(prescription);
-                return "dose aggiunta con successo" + stateMachine.goNext(new RecapRichiesta(authenticationBean, sendPrescriptionBundleController, prescription, prescriptionBundleBean));
+            if (prescriptionBean.isComplete()) {
+                prescriptionBundleBean.addDoseCostructor(prescriptionBean);
+                return "dose aggiunta con successo" + stateMachine.goNext(new RecapRichiesta(authenticationBean, sendPrescriptionBundleController, prescriptionBean, prescriptionBundleBean));
             } else {
-                return "aggiunta abortita" + stateMachine.goNext(new RecapRichiesta(authenticationBean, sendPrescriptionBundleController, prescription, prescriptionBundleBean));
+                return "aggiunta abortita" + stateMachine.goNext(new RecapRichiesta(authenticationBean, sendPrescriptionBundleController, prescriptionBean, prescriptionBundleBean));
             }
         }
     }

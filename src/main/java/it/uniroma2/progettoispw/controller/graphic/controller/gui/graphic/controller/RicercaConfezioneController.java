@@ -74,7 +74,7 @@ public class RicercaConfezioneController extends GuiGraphicController {
     private void setConfezioni(List<MedicinalProduct> confezioni) {
         risultatiTable.getColumns().clear();
         TableColumn<Object, String> denominazione = new TableColumn<>("Nomi");
-        denominazione.setCellValueFactory(data -> new ReadOnlyStringWrapper(((MedicinalProduct)data.getValue()).getDenominazione()));
+        denominazione.setCellValueFactory(data -> new ReadOnlyStringWrapper(((MedicinalProduct)data.getValue()).getName()));
 
         TableColumn<Object, String> descrizione = new TableColumn<>("Descrizione");
         descrizione.setCellValueFactory(data -> new ReadOnlyStringWrapper(((MedicinalProduct)data.getValue()).getDescrizione()));
@@ -89,7 +89,7 @@ public class RicercaConfezioneController extends GuiGraphicController {
         paAssociati.setCellValueFactory(data -> new ReadOnlyStringWrapper(((MedicinalProduct)data.getValue()).getPaAssociati()));
 
         TableColumn<Object, String> codiceAIC = new TableColumn<>("codiceAIC");
-        codiceAIC.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((MedicinalProduct)data.getValue()).getCodiceAic())));
+        codiceAIC.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((MedicinalProduct)data.getValue()).getId())));
 
         TableColumn<Object, Void> aggiungiCol = new TableColumn<>(SELEZIONA);
         aggiungiCol.setCellFactory(col -> new SelezionaConfezioneButtonCell());
@@ -108,9 +108,9 @@ public class RicercaConfezioneController extends GuiGraphicController {
             btn.setOnAction(event -> {
                 String selezione = (String) getTableView().getItems().get(getIndex());
                 ActiveIngridient activeIngridient = medicationInformationController.getPrincipioAttvoByNome(selezione);
-                DoseBean doseBean = new DoseBean(MediccationType.PRINCIPIOATTIVO);
-                doseBean.setCodice(activeIngridient.getCodiceAtc());
-                doseBean.setNome(activeIngridient.getNome());
+                DoseBean doseBean = new DoseBean(MedicationType.PRINCIPIOATTIVO);
+                doseBean.setCodice(activeIngridient.getId());
+                doseBean.setNome(activeIngridient.getName());
                 doseAccepter.setDose(doseBean);
             });
         }
@@ -129,7 +129,7 @@ public class RicercaConfezioneController extends GuiGraphicController {
             btn.setOnAction(event -> {
                 String selezione =  (String)getTableView().getItems().get(getIndex());
                 ActiveIngridient activeIngridient = medicationInformationController.getPrincipioAttvoByNome(selezione);
-                String codiceAtc = activeIngridient.getCodiceAtc();
+                String codiceAtc = activeIngridient.getId();
                 List<MedicinalProduct> confezioni = medicationInformationController.getConfezioniByCodiceAtc(codiceAtc);
                 setConfezioni(confezioni);
             });
@@ -152,9 +152,9 @@ public class RicercaConfezioneController extends GuiGraphicController {
         public SelezionaConfezioneButtonCell() {
             btn.setOnAction(event -> {
                 MedicinalProduct medicinalProduct = (MedicinalProduct)getTableView().getItems().get(getIndex());
-                DoseBean doseBean = new DoseBean(MediccationType.CONFEZIONE);
-                doseBean.setCodice(String.valueOf(medicinalProduct.getCodiceAic()));
-                doseBean.setNome(medicinalProduct.getDenominazione());
+                DoseBean doseBean = new DoseBean(MedicationType.CONFEZIONE);
+                doseBean.setCodice(String.valueOf(medicinalProduct.getId()));
+                doseBean.setNome(medicinalProduct.getName());
                 doseAccepter.setDose(doseBean);
             });
         }

@@ -1,5 +1,8 @@
 package it.uniroma2.progettoispw.model.domain;
 
+import it.uniroma2.progettoispw.controller.bean.PrescriptionBean;
+import it.uniroma2.progettoispw.controller.bean.PrescriptionBundleBean;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +24,16 @@ public class SentPrescriptionBundle {
 
     public SentPrescriptionBundle() {
         medicinali = new ArrayList<>();
+    }
+
+    public SentPrescriptionBundle(PrescriptionBundleBean prescriptionBundle) {
+        setInvio(prescriptionBundle.getInvio());
+        this.medicinali = new ArrayList<>();
+        setInviante(new Doctor(prescriptionBundle.getInviante().getCodiceFiscale()));
+        setRicevente(new Patient(prescriptionBundle.getRicevente().getCodiceFiscale()));
+        for (PrescriptionBean prescriptionBean: prescriptionBundle.getDosi()){
+            addDoseInviata(new Prescription(prescriptionBean));
+        }
     }
 
     public List<Prescription> getMedicinali() {

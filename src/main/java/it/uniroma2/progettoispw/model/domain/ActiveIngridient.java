@@ -1,6 +1,6 @@
 package it.uniroma2.progettoispw.model.domain;
 
-public class ActiveIngridient {
+public class ActiveIngridient extends Medication {
     private String codiceAtc;
     private String nome;
 
@@ -12,17 +12,24 @@ public class ActiveIngridient {
     public ActiveIngridient(String codiceAtc) {
         this.codiceAtc = codiceAtc;
     }
-    public String getCodiceAtc() {
+
+    @Override
+    public String getId() {
         return codiceAtc;
     }
-    public void setCodiceAtc(String codiceAtc) {
-        this.codiceAtc = codiceAtc;
+
+    @Override
+    public MedicationType getType() {
+        return MedicationType.PRINCIPIOATTIVO;
     }
-    public String getNome() {
+
+    @Override
+    public String getName() {
         return nome;
     }
-    public void setNome(String nome) {
-        this.nome = nome;
+
+    public void setName(String name) {
+        this.nome = name;
     }
 
 }

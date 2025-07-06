@@ -1,7 +1,7 @@
 package it.uniroma2.progettoispw.controller.bean;
 
 import it.uniroma2.progettoispw.model.domain.MedicationDose;
-import it.uniroma2.progettoispw.model.domain.MediccationType;
+import it.uniroma2.progettoispw.model.domain.MedicationType;
 
 import java.time.LocalTime;
 
@@ -11,25 +11,23 @@ public class DoseBean {
     private String unitaMisura;
     private LocalTime orario;
     private String descrizione;
-    private boolean assunta;
     private InformazioniUtente inviante;
     private String nome;
-    private MediccationType tipo;
+    private MedicationType tipo;
 
-    public DoseBean(MediccationType tipo) {
+    public DoseBean(MedicationType tipo) {
         this.tipo = tipo;
     }
 
     public DoseBean(MedicationDose medicationDose) {
-        this.codice = medicationDose.getCodice();
-        this.unitaMisura = medicationDose.getUnitaMisura();
-        this.orario = medicationDose.getOrario();
-        this.quantita = medicationDose.getQuantita();
-        this.assunta = medicationDose.isAssunta();
-        this.descrizione = medicationDose.getDescrizione();
-        this.nome = medicationDose.getNome();
+        this.codice = medicationDose.getId();
+        this.unitaMisura = medicationDose.getMeasurementUnit();
+        this.orario = medicationDose.getScheduledTime();
+        this.quantita = medicationDose.getQuantity();
+        this.descrizione = medicationDose.getDescription();
+        this.nome = medicationDose.getName();
         this.tipo = medicationDose.isType();
-        this.inviante = new InformazioniUtente(medicationDose.getInviante());
+        this.inviante = new InformazioniUtente(medicationDose.getSender());
     }
 
     public DoseBean() {
@@ -76,14 +74,6 @@ public class DoseBean {
         this.descrizione = descrizione;
     }
 
-    public boolean isAssunta() {
-        return assunta;
-    }
-
-    public void setAssunta(boolean assunta) {
-        this.assunta = assunta;
-    }
-
     public InformazioniUtente getInviante() {
         return inviante;
     }
@@ -100,11 +90,11 @@ public class DoseBean {
         this.nome = nome;
     }
 
-    public MediccationType getTipo() {
+    public MedicationType getTipo() {
         return tipo;
     }
 
-    public void setTipo(MediccationType tipo) {
+    public void setTipo(MedicationType tipo) {
         this.tipo = tipo;
     }
 

@@ -1,6 +1,6 @@
 package it.uniroma2.progettoispw.model.domain;
 
-public class MedicinalProduct {
+public class MedicinalProduct extends Medication{
     private int codiceAic;
     private int codFarmaco;
     private int codConfezione;
@@ -21,9 +21,16 @@ public class MedicinalProduct {
         this.codiceAic = codiceAic;
     }
 
-    public int getCodiceAic() {
-        return codiceAic;
+    @Override
+    public String getId() {
+        return String.valueOf(codiceAic);
     }
+
+    @Override
+    public MedicationType getType() {
+        return MedicationType.CONFEZIONE;
+    }
+
     public void setCodiceAic(int codiceAic) {
         this.codiceAic = codiceAic;
     }
@@ -39,7 +46,8 @@ public class MedicinalProduct {
     public void setCodConfezione(int codConfezione) {
         this.codConfezione = codConfezione;
     }
-    public String getDenominazione() {
+    @Override
+    public String getName() {
         return denominazione;
     }
     public void setDenominazione(String denominazione) {

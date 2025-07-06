@@ -3,8 +3,6 @@ package it.uniroma2.progettoispw.model.dao.memorydao;
 import it.uniroma2.progettoispw.model.dao.DaoException;
 import it.uniroma2.progettoispw.model.dao.TherapyDao;
 import it.uniroma2.progettoispw.model.domain.MedicationDose;
-import it.uniroma2.progettoispw.model.domain.MedicationDoseConfezione;
-import it.uniroma2.progettoispw.model.domain.MedicationDosePrincipioAttivo;
 import it.uniroma2.progettoispw.model.domain.DailyTherapy;
 
 import java.time.LocalDate;
@@ -28,50 +26,31 @@ public class TherapyMemoryDao extends MemoryDao implements TherapyDao {
         return instance;
     }
     @Override
-    public DailyTherapy getTerapiaGiornaliera(String codiceFiscale, LocalDate data) throws DaoException {
-        DailyTherapy dailyTherapy = new DailyTherapy(data);
-        if (terapie.containsKey(codiceFiscale) && terapie.get(codiceFiscale).containsKey(data)) {
-            dailyTherapy.setDosiPerOrario(terapie.get(codiceFiscale).get(data));
+    public DailyTherapy getTerapiaGiornaliera(String taxCode, LocalDate date) throws DaoException {
+        DailyTherapy dailyTherapy = new DailyTherapy(date);
+        if (terapie.containsKey(taxCode) && terapie.get(taxCode).containsKey(date)) {
+            dailyTherapy.setDosiPerOrario(terapie.get(taxCode).get(date));
         }
         return dailyTherapy;
     }
 
     @Override
-    public void addDoseConfezione(MedicationDoseConfezione doseConfezione, LocalDate giorno, String codiceFiscale) throws DaoException {
-        LocalTime orario = doseConfezione.getOrario();
+    public void addMedicationDose(MedicationDose doseConfezione, LocalDate date, String taxCode) throws DaoException {
+        LocalTime orario = doseConfezione.getScheduledTime();
 
 
         TreeMap<LocalDate, TreeMap<LocalTime, List<MedicationDose>>> mappaDate =
-                terapie.computeIfAbsent(codiceFiscale, k -> new TreeMap<>());
+                terapie.computeIfAbsent(taxCode, k -> new TreeMap<>());
 
 
         TreeMap<LocalTime, List<MedicationDose>> mappaOrari =
-                mappaDate.computeIfAbsent(giorno, d -> new TreeMap<>());
+                mappaDate.computeIfAbsent(date, d -> new TreeMap<>());
 
 
         List<MedicationDose> listaDosi =
                 mappaOrari.computeIfAbsent(orario, t -> new ArrayList<>());
 
         listaDosi.add(doseConfezione);
-    }
-
-    @Override
-    public void addDosePrincipioAttivo(MedicationDosePrincipioAttivo principioAttivo, LocalDate giorno, String codiceFiscale) throws DaoException {
-        LocalTime orario = principioAttivo.getOrario();
-
-
-        TreeMap<LocalDate, TreeMap<LocalTime, List<MedicationDose>>> mappaDate =
-                terapie.computeIfAbsent(codiceFiscale, k -> new TreeMap<>());
-
-
-        TreeMap<LocalTime, List<MedicationDose>> mappaOrari =
-                mappaDate.computeIfAbsent(giorno, d -> new TreeMap<>());
-
-
-        List<MedicationDose> listaDosi =
-                mappaOrari.computeIfAbsent(orario, t -> new ArrayList<>());
-
-        listaDosi.add(principioAttivo);
     }
 
 }

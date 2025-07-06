@@ -2,65 +2,82 @@ package it.uniroma2.progettoispw.model.domain;
 
 import java.time.LocalTime;
 
-public abstract class MedicationDose {
-    private int quantita;
-    private String unitaMisura;
-    private LocalTime orario;
-    private String descrizioneMedica;
-    private boolean assunta;
-    private User inviante;
+public class MedicationDose {
+    private Medication medication;
+    private int quantity;
+    private String measurementUnit;
+    private LocalTime scheduledTime;
+    private String description;
+    private User sender;
 
-    protected MedicationDose(int quantita, String unitaMisura, LocalTime orario, String descrizione, User inviante) {
-        this.quantita = quantita;
-        this.unitaMisura = unitaMisura;
-        this.orario = orario;
-        this.descrizioneMedica = descrizione;
-        this.inviante = inviante;
-        this.assunta = false;
-    }
-
-    protected MedicationDose() {
+    public MedicationDose() {
 
     }
 
-    public abstract String getCodice();
-    public abstract MediccationType isType();
-    public abstract String getNome();
+    public MedicationDose(Medication medication, int quantity, String meausurementUnit, LocalTime scheduledTime, String description, User sender) {
+        this.medication = medication;
+        this.quantity = quantity;
+        this.measurementUnit = meausurementUnit;
+        this.scheduledTime = scheduledTime;
+        this.description = description;
+        this.sender = sender;
+    }
 
-    public int getQuantita() {
-        return quantita;
+    public Medication getMedication() {
+        return medication;
     }
-    public void setQuantita(int quantita) {
-        this.quantita = quantita;
+
+    public String getId(){
+        return medication.getId();
     }
-    public String getUnitaMisura() {
-        return unitaMisura;
+    public MedicationType isType(){
+        return medication.getType();
     }
-    public void setUnitaMisura(String unitaMisura) {
-        this.unitaMisura = unitaMisura;
+    public String getName(){
+        return medication.getName();
     }
-    public LocalTime getOrario() {
-        return orario;
+
+    public void setMedication(Medication medication) {
+        this.medication = medication;
     }
-    public void setOrario(LocalTime orario) {
-        this.orario = orario;
+
+    public int getQuantity() {
+        return quantity;
     }
-    public String getDescrizione() {
-        return descrizioneMedica;
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
-    public void setDescrizione(String descrizione) {
-        this.descrizioneMedica = descrizione;
+
+    public String getMeasurementUnit() {
+        return measurementUnit;
     }
-    public boolean isAssunta() {
-        return assunta;
+
+    public void setMeasurementUnit(String measurementUnit) {
+        this.measurementUnit = measurementUnit;
     }
-    public void setAssunta(boolean assunta) {
-        this.assunta = assunta;
+
+    public LocalTime getScheduledTime() {
+        return scheduledTime;
     }
-    public User getInviante() {
-        return inviante;
+
+    public void setScheduledTime(LocalTime scheduledTime) {
+        this.scheduledTime = scheduledTime;
     }
-    public void setInviante(User inviante) {
-        this.inviante = inviante;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public User getSender() {
+        return sender;
+    }
+
+    public void setSender(User sender) {
+        this.sender = sender;
     }
 }

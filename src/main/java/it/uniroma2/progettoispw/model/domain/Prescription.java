@@ -1,5 +1,9 @@
 package it.uniroma2.progettoispw.model.domain;
 
+import it.uniroma2.progettoispw.controller.bean.DoseBean;
+import it.uniroma2.progettoispw.controller.bean.FomatoInvalidoException;
+import it.uniroma2.progettoispw.controller.bean.PrescriptionBean;
+
 import java.time.LocalDate;
 
 public class Prescription {
@@ -16,6 +20,23 @@ public class Prescription {
     }
 
     public Prescription() {
+
+    }
+
+    public Prescription(PrescriptionBean prescriptionBean) {
+        setInizio(prescriptionBean.getInizio());
+        setNumGiorni(prescriptionBean.getNumRipetizioni());
+        setRateGiorni(prescriptionBean.getRateGiorni());
+        DoseBean doseBean = prescriptionBean.getDose();
+        switch (doseBean.getTipo()){
+            case CONFEZIONE -> this.medicationDose = new MedicationDose(new MedicinalProduct(Integer.parseInt(doseBean.getCodice())),
+                                                                            doseBean.getQuantita(), doseBean.getUnitaMisura(),
+                                                                        doseBean.getOrario(), doseBean.getDescrizione(), new Patient(doseBean.getInviante().getCodiceFiscale()));
+            case PRINCIPIOATTIVO -> new MedicationDose(new ActiveIngridient(doseBean.getCodice()),
+                    doseBean.getQuantita(), doseBean.getUnitaMisura(),
+                    doseBean.getOrario(), doseBean.getDescrizione(), new Patient(doseBean.getInviante().getCodiceFiscale()));
+            default -> throw new FomatoInvalidoException("invalid medication type");
+        }
 
     }
 
@@ -45,9 +66,9 @@ public class Prescription {
     }
 
     public String getNomeDose(){
-        return medicationDose.getNome();
+        return medicationDose.getName();
     }
-    public MediccationType isType(){
+    public MedicationType isType(){
         return medicationDose.isType();
     }
 }

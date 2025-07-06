@@ -7,9 +7,9 @@
 <HBox fx:id="item" prefHeight="31.0" prefWidth="753.0" spacing="10.0" stylesheets="@../application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.pazientegraphic.DosePrincipioController">
    <children>
       <Label fx:id="tipo" prefHeight="28.0" prefWidth="26.0" text="P" />
-      <Label fx:id="orario" prefHeight="28.0" prefWidth="39.0" text="11:30" />
+      <Label fx:id="scheduledTime" prefHeight="28.0" prefWidth="39.0" text="11:30" />
       <Label fx:id="nome" prefHeight="28.0" prefWidth="143.0" text="Paracetamolo" />
-      <Label fx:id="quantita" prefHeight="28.0" prefWidth="35.0" text="500" />
+      <Label fx:id="quantity" prefHeight="28.0" prefWidth="35.0" text="500" />
       <Label fx:id="unitaDiMisura" prefHeight="28.0" prefWidth="35.0" text="mg" />
       <Button mnemonicParsing="false" onAction="#delete" prefHeight="31.0" prefWidth="86.0" text="elimina" />
       <Button mnemonicParsing="false" onAction="#assunta" prefHeight="31.0" prefWidth="100.0" text="assunta" />

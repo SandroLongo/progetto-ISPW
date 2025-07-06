@@ -1,6 +1,6 @@
 package it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller;
 
-import it.uniroma2.progettoispw.controller.bean.Prescription;
+import it.uniroma2.progettoispw.controller.bean.PrescriptionBean;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -10,17 +10,17 @@ import java.time.format.DateTimeParseException;
 public class InformazioniFinali extends Receiver {
     private static final String ERRORENUMERO = "devi inserire un numero\n";
 
-     public InformazioniFinali(Prescription prescription, Receiver receiver) {
+     public InformazioniFinali(PrescriptionBean prescriptionBean, Receiver receiver) {
          this.promptController = receiver.getPromptController();
          this.previousReceiver = receiver;
-         this.currentState = new InserisciQuantita(prescription);
+         this.currentState = new InserisciQuantita(prescriptionBean);
      }
 
      private class InserisciQuantita extends AbstractState{
-         private Prescription prescription;
+         private PrescriptionBean prescriptionBean;
 
-         public InserisciQuantita(Prescription prescription) {
-             this.prescription = prescription;
+         public InserisciQuantita(PrescriptionBean prescriptionBean) {
+             this.prescriptionBean = prescriptionBean;
              this.initialMessage = "inserisci la quantita:";
          }
 
@@ -29,8 +29,8 @@ public class InformazioniFinali extends Receiver {
          public String goNext(Receiver stateMachine, String command) {
              try {
                  int numero = Integer.parseInt(command);
-                 prescription.getDose().setQuantita(numero);
-                 return stateMachine.goNext(new InserisciUnitaMisura(prescription));
+                 prescriptionBean.getDose().setQuantita(numero);
+                 return stateMachine.goNext(new InserisciUnitaMisura(prescriptionBean));
              } catch (NumberFormatException e) {
                  return ERRORENUMERO + initialMessage;
              }
@@ -39,10 +39,10 @@ public class InformazioniFinali extends Receiver {
      }
 
     private class InserisciUnitaMisura extends AbstractState{
-        private Prescription prescription;
+        private PrescriptionBean prescriptionBean;
 
-        public InserisciUnitaMisura(Prescription prescription) {
-            this.prescription = prescription;
+        public InserisciUnitaMisura(PrescriptionBean prescriptionBean) {
+            this.prescriptionBean = prescriptionBean;
             this.initialMessage = "inserisci l'unita di misura:";
         }
 
@@ -50,8 +50,8 @@ public class InformazioniFinali extends Receiver {
         @Override
         public String goNext(Receiver stateMachine, String command) {
             try {
-                prescription.getDose().setUnitaMisura(command);
-                return stateMachine.goNext(new InserisciOrario(prescription));
+                prescriptionBean.getDose().setUnitaMisura(command);
+                return stateMachine.goNext(new InserisciOrario(prescriptionBean));
             } catch (NumberFormatException e) {
                 return ERRORENUMERO + initialMessage;
             }
@@ -60,10 +60,10 @@ public class InformazioniFinali extends Receiver {
     }
 
     private class InserisciOrario extends AbstractState{
-        private Prescription prescription;
+        private PrescriptionBean prescriptionBean;
 
-        public InserisciOrario(Prescription prescription) {
-            this.prescription = prescription;
+        public InserisciOrario(PrescriptionBean prescriptionBean) {
+            this.prescriptionBean = prescriptionBean;
             this.initialMessage = "inserisci l'orario(i.e. 15:10):";
         }
 
@@ -72,8 +72,8 @@ public class InformazioniFinali extends Receiver {
         public String goNext(Receiver stateMachine, String command) {
             try {
                 LocalTime orario = LocalTime.parse(command);
-                prescription.getDose().setOrario(orario);
-                return stateMachine.goNext(new InserisciDataIniziale(prescription));
+                prescriptionBean.getDose().setOrario(orario);
+                return stateMachine.goNext(new InserisciDataIniziale(prescriptionBean));
             } catch (DateTimeParseException e) {
                 return "devi inserire qualcosa come 15:10, 8:50 ecc..\n" + initialMessage;
             }
@@ -82,10 +82,10 @@ public class InformazioniFinali extends Receiver {
     }
 
     private class InserisciDataIniziale extends AbstractState{
-        private Prescription prescription;
+        private PrescriptionBean prescriptionBean;
 
-        public InserisciDataIniziale(Prescription prescription) {
-            this.prescription = prescription;
+        public InserisciDataIniziale(PrescriptionBean prescriptionBean) {
+            this.prescriptionBean = prescriptionBean;
             this.initialMessage = "inserisci la dataIniziale(i.e. 31-1-2026):";
         }
 
@@ -95,8 +95,8 @@ public class InformazioniFinali extends Receiver {
             try {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                 LocalDate date = LocalDate.parse(command, formatter);
-                prescription.setInizio(date);
-                return stateMachine.goNext(new InserisciNumeroGiorni(prescription));
+                prescriptionBean.setInizio(date);
+                return stateMachine.goNext(new InserisciNumeroGiorni(prescriptionBean));
             } catch (DateTimeParseException e) {
                 return "devi inserire una data come 31-1-2026(gg-mm-aaaa)\n" + initialMessage;
             }
@@ -105,10 +105,10 @@ public class InformazioniFinali extends Receiver {
     }
 
     private class InserisciNumeroGiorni extends AbstractState{
-        private Prescription prescription;
+        private PrescriptionBean prescriptionBean;
 
-        public InserisciNumeroGiorni(Prescription prescription) {
-            this.prescription = prescription;
+        public InserisciNumeroGiorni(PrescriptionBean prescriptionBean) {
+            this.prescriptionBean = prescriptionBean;
             this.initialMessage = "inserisci il numero di volte:";
         }
 
@@ -117,8 +117,8 @@ public class InformazioniFinali extends Receiver {
         public String goNext(Receiver stateMachine, String command) {
             try {
                 int numero = Integer.parseInt(command);
-                prescription.setNumRipetizioni(numero);
-                return stateMachine.goNext(new InserisciRate(prescription));
+                prescriptionBean.setNumRipetizioni(numero);
+                return stateMachine.goNext(new InserisciRate(prescriptionBean));
             } catch (NumberFormatException e) {
                 return ERRORENUMERO + initialMessage;
             }
@@ -127,10 +127,10 @@ public class InformazioniFinali extends Receiver {
     }
 
     private class InserisciRate extends AbstractState{
-        private Prescription prescription;
+        private PrescriptionBean prescriptionBean;
 
-        public InserisciRate(Prescription prescription) {
-            this.prescription = prescription;
+        public InserisciRate(PrescriptionBean prescriptionBean) {
+            this.prescriptionBean = prescriptionBean;
             this.initialMessage = "inserisci ogni quanti giorni:";
         }
 
@@ -139,8 +139,8 @@ public class InformazioniFinali extends Receiver {
         public String goNext(Receiver stateMachine, String command) {
             try {
                 int numero = Integer.parseInt(command);
-                prescription.setRateGiorni(numero);
-                return stateMachine.goNext(new InserisciDescrizione(prescription));
+                prescriptionBean.setRateGiorni(numero);
+                return stateMachine.goNext(new InserisciDescrizione(prescriptionBean));
             } catch (NumberFormatException e) {
                 return ERRORENUMERO + initialMessage;
             }
@@ -149,10 +149,10 @@ public class InformazioniFinali extends Receiver {
     }
 
     private class InserisciDescrizione extends AbstractState{
-        private Prescription prescription;
+        private PrescriptionBean prescriptionBean;
 
-        public InserisciDescrizione(Prescription prescription) {
-            this.prescription = prescription;
+        public InserisciDescrizione(PrescriptionBean prescriptionBean) {
+            this.prescriptionBean = prescriptionBean;
             this.initialMessage = "inserisci una descrizione:";
         }
 
@@ -160,7 +160,7 @@ public class InformazioniFinali extends Receiver {
         @Override
         public String goNext(Receiver stateMachine, String command) {
             try {
-                prescription.getDose().setDescrizione(command);
+                prescriptionBean.getDose().setDescrizione(command);
                 return stateMachine.getPromptController().setReceiver(stateMachine.getPreviousReceiver());
             } catch (NumberFormatException e) {
                 return ERRORENUMERO + initialMessage;

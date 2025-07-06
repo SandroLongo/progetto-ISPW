@@ -7,8 +7,8 @@ public class PrincipioAttivoBean {
     private String nome;
 
     public PrincipioAttivoBean(ActiveIngridient activeIngridient) {
-        this.codiceAtc = activeIngridient.getCodiceAtc();
-        this.nome = activeIngridient.getNome();
+        this.codiceAtc = activeIngridient.getId();
+        this.nome = activeIngridient.getName();
     }
 
     public String getCodiceAtc() {

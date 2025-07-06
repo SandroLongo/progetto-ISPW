@@ -2,17 +2,17 @@ package it.uniroma2.progettoispw.controller.bean;
 
 import java.time.LocalDate;
 
-public class Prescription {
+public class PrescriptionBean {
     private DoseBean dose;
     private LocalDate inizio;
     private int numRipetizioni;
     private int rateGiorni;
 
-    public Prescription() {
+    public PrescriptionBean() {
         dose = new DoseBean();
     }
 
-    public Prescription(it.uniroma2.progettoispw.model.domain.Prescription prescription) {
+    public PrescriptionBean(it.uniroma2.progettoispw.model.domain.Prescription prescription) {
         this.dose = new DoseBean(prescription.getDose());
         this.inizio = prescription.getInizio();
         this.numRipetizioni = prescription.getNumGiorni();

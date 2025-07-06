@@ -1,5 +1,6 @@
 package it.uniroma2.progettoispw.model.dao.memorydao;
 
+import it.uniroma2.progettoispw.controller.bean.PrescriptionBundleBean;
 import it.uniroma2.progettoispw.model.dao.DaoException;
 import it.uniroma2.progettoispw.model.dao.PrescriptionBundleDao;
 import it.uniroma2.progettoispw.model.domain.Patient;
@@ -9,7 +10,8 @@ import java.util.*;
 
 public class PrescriptionBundleMemoryDao extends MemoryDao implements PrescriptionBundleDao {
     private static PrescriptionBundleMemoryDao instance;
-    private Map<String, Map<Integer, SentPrescriptionBundle>> richieste = new HashMap<>();
+    private Map<String, Map<Integer, SentPrescriptionBundle>> prescriptionBundleByUser = new HashMap<>();
+    private Map<Integer, SentPrescriptionBundle> prescriptionBundleById = new HashMap<>();
     private int numRichieste;
 
     public PrescriptionBundleMemoryDao() {
@@ -26,12 +28,12 @@ public class PrescriptionBundleMemoryDao extends MemoryDao implements Prescripti
 
     @Override
     public List<SentPrescriptionBundle> getRichisteOfPaziente(Patient patient) throws DaoException {
-        return new ArrayList<>(richieste.getOrDefault(patient.getCodiceFiscale(), Collections.emptyMap()).values());
+        return new ArrayList<>(prescriptionBundleByUser.getOrDefault(patient.getCodiceFiscale(), Collections.emptyMap()).values());
     }
 
     @Override
     public void deleteRichiesta(int id) throws DaoException {
-        for (Map<Integer, SentPrescriptionBundle> mappaRichieste : richieste.values()) {
+        for (Map<Integer, SentPrescriptionBundle> mappaRichieste : prescriptionBundleByUser.values()) {
             if (mappaRichieste.containsKey(id)) {
                 mappaRichieste.remove(id);
             } else {
@@ -41,10 +43,18 @@ public class PrescriptionBundleMemoryDao extends MemoryDao implements Prescripti
     }
 
     @Override
-    public int addRichiesta(SentPrescriptionBundle sentPrescriptionBundle) throws DaoException {
+    public int addRichiesta(PrescriptionBundleBean prescriptionBundle) throws DaoException {
         numRichieste++;
-        richieste.computeIfAbsent(sentPrescriptionBundle.getRicevente().getCodiceFiscale(), k -> new HashMap<>())
+        SentPrescriptionBundle sentPrescriptionBundle = new SentPrescriptionBundle(prescriptionBundle);
+        sentPrescriptionBundle.setId(numRichieste);
+        prescriptionBundleById.put(numRichieste, sentPrescriptionBundle);
+        prescriptionBundleByUser.computeIfAbsent(sentPrescriptionBundle.getRicevente().getCodiceFiscale(), k -> new HashMap<>())
                 .put(numRichieste, sentPrescriptionBundle);
         return numRichieste;
+    }
+
+    @Override
+    public SentPrescriptionBundle getPrescriptionBundleById(int id) throws DaoException {
+        return prescriptionBundleByUser.get(id).get(id);
     }
 }

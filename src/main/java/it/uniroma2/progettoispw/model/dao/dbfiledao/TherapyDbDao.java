@@ -12,7 +12,7 @@ public class TherapyDbDao extends DbDao implements TherapyDao {
     private void addDosiConfezione(ResultSet rs, DailyTherapy terapia) throws SQLException {
         try {
             while (rs.next()) {
-                terapia.addDose(new MedicationDoseConfezione(new MedicinalProduct(rs.getInt(6)), rs.getInt(1),
+                terapia.addDose(new MedicationDose(new MedicinalProduct(rs.getInt(6)), rs.getInt(1),
                         rs.getString(2), rs.getTime(3).toLocalTime(), rs.getString(4), new Doctor(rs.getString(5))));
             }
         } catch (SQLException e){
@@ -23,7 +23,7 @@ public class TherapyDbDao extends DbDao implements TherapyDao {
     private void addDosiPrincipioAttivo(ResultSet rs, DailyTherapy terapia) throws SQLException {
         try {
             while (rs.next()) {
-                terapia.addDose(new MedicationDosePrincipioAttivo(new ActiveIngridient(rs.getString(6)), rs.getInt(1),
+                terapia.addDose(new MedicationDose(new ActiveIngridient(rs.getString(6)), rs.getInt(1),
                         rs.getString(2), rs.getTime(3).toLocalTime(), rs.getString(4), new Doctor(rs.getString(5))));
             }
         } catch (SQLException e){
@@ -32,19 +32,18 @@ public class TherapyDbDao extends DbDao implements TherapyDao {
     }
 
     @Override
-    public DailyTherapy getTerapiaGiornaliera(String codiceFiscale, LocalDate data) throws DaoException {
-        DailyTherapy terapia = new DailyTherapy(data);
+    public DailyTherapy getTerapiaGiornaliera(String taxCode, LocalDate date) throws DaoException {
+        DailyTherapy terapia = new DailyTherapy(date);
         try {
             Connection conn = ConnectionFactory.getConnection();
             CallableStatement cs = conn.prepareCall("{call get_terapia_giornaliera(?,?)}");
-            cs.setString(1, codiceFiscale);
-            cs.setDate(2, java.sql.Date.valueOf(data));
+            cs.setString(1, taxCode);
+            cs.setDate(2, java.sql.Date.valueOf(date));
             boolean status = cs.execute();
             // DosiConfezioni
             if (status) {
                 ResultSet rs = cs.getResultSet();
                 addDosiConfezione(rs, terapia);
-
             }
             cs.getMoreResults();
             if (status) {
@@ -60,41 +59,37 @@ public class TherapyDbDao extends DbDao implements TherapyDao {
     }
 
     @Override
-    public void addDoseConfezione(MedicationDoseConfezione doseConfezione, LocalDate giorno, String codiceFiscale) throws DaoException {
+    public void addMedicationDose(MedicationDose doseConfezione, LocalDate date, String taxCode) throws DaoException {
         try {
             Connection conn = ConnectionFactory.getConnection();
-            CallableStatement cs = conn.prepareCall("{call add_dose_confezione(?,?,?,?,?,?,?,?)}");
-            cs.setString(1, codiceFiscale);
-            cs.setInt(2, Integer.parseInt(doseConfezione.getCodice()));
-            cs.setInt(3, doseConfezione.getQuantita());
-            cs.setString(4, doseConfezione.getUnitaMisura());
-            cs.setDate(5, java.sql.Date.valueOf(giorno));
-            cs.setTime(6, Time.valueOf(doseConfezione.getOrario()));
-            cs.setString(7, doseConfezione.getDescrizione());
-            cs.setString(8, doseConfezione.getInviante().getCodiceFiscale());
+            CallableStatement cs = createCSandSetMedicationInformation(doseConfezione.getMedication());
+            cs.setString(1, taxCode);
+            cs.setInt(3, doseConfezione.getQuantity());
+            cs.setString(4, doseConfezione.getMeasurementUnit());
+            cs.setDate(5, java.sql.Date.valueOf(date));
+            cs.setTime(6, Time.valueOf(doseConfezione.getScheduledTime()));
+            cs.setString(7, doseConfezione.getDescription());
+            cs.setString(8, doseConfezione.getSender().getCodiceFiscale());
             cs.execute();
         } catch (SQLException e) {
             throw new DaoException(e.getMessage());
         }
     }
 
-    @Override
-    public void addDosePrincipioAttivo(MedicationDosePrincipioAttivo dosePrincipioAttivo, LocalDate giorno, String codiceFiscale) throws DaoException {
-        try {
-            Connection conn = ConnectionFactory.getConnection();
-            CallableStatement cs = conn.prepareCall("{call add_dose_pa(?,?,?,?,?,?,?,?)}");
-            cs.setString(1, codiceFiscale);
-            cs.setString(2, dosePrincipioAttivo.getCodice());
-            cs.setInt(3, dosePrincipioAttivo.getQuantita());
-            cs.setString(4, dosePrincipioAttivo.getUnitaMisura());
-            cs.setDate(5, java.sql.Date.valueOf(giorno));
-            cs.setTime(6, Time.valueOf(dosePrincipioAttivo.getOrario()));
-            cs.setString(7, dosePrincipioAttivo.getDescrizione());
-            cs.setString(8, dosePrincipioAttivo.getInviante().getCodiceFiscale());
-            cs.execute();
-        } catch (SQLException e) {
-            throw new DaoException(e.getMessage());
+    private CallableStatement createCSandSetMedicationInformation(Medication medication) throws SQLException,DaoException {
+        Connection conn = ConnectionFactory.getConnection();
+        CallableStatement cs;
+        switch (medication.getType()){
+            case CONFEZIONE -> {
+                cs = conn.prepareCall("{call add_dose_confezione(?,?,?,?,?,?,?,?)}");
+                cs.setInt(2, Integer.parseInt(medication.getId()));}
+            case PRINCIPIOATTIVO -> {
+                cs = conn.prepareCall("{call add_dose_pa(?,?,?,?,?,?,?,?)}");
+                cs.setString(1, medication.getId());}
+            default -> {throw new DaoException("invalid medication type");
+            }
         }
+        return cs;
     }
 
 }

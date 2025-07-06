@@ -12,8 +12,8 @@ public class ConfezioneBean {
     private String unitaMisura;
 
     public ConfezioneBean(MedicinalProduct medicinalProduct) {
-        this.codiceAic = medicinalProduct.getCodiceAic();
-        this.denominazione = medicinalProduct.getDenominazione();
+        this.codiceAic = Integer.parseInt(medicinalProduct.getId());
+        this.denominazione = medicinalProduct.getName();
         this.descrizione = medicinalProduct.getDescrizione();
         this.forma = medicinalProduct.getForma();
         this.paAssociati = medicinalProduct.getPaAssociati();
