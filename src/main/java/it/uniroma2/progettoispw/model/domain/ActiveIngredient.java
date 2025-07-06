@@ -1,15 +1,15 @@
 package it.uniroma2.progettoispw.model.domain;
 
-public class ActiveIngridient extends Medication {
+public class ActiveIngredient extends Medication {
     private String codiceAtc;
     private String nome;
 
-    public ActiveIngridient(String codiceAtc, String nome) {
+    public ActiveIngredient(String codiceAtc, String nome) {
         this.codiceAtc = codiceAtc;
         this.nome = nome;
     }
 
-    public ActiveIngridient(String codiceAtc) {
+    public ActiveIngredient(String codiceAtc) {
         this.codiceAtc = codiceAtc;
     }
 
@@ -20,7 +20,7 @@ public class ActiveIngridient extends Medication {
 
     @Override
     public MedicationType getType() {
-        return MedicationType.PRINCIPIOATTIVO;
+        return MedicationType.ACRIVEINGREDIENT;
     }
 
     @Override

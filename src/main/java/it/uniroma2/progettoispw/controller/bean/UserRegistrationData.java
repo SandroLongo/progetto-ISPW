@@ -7,49 +7,49 @@ import java.time.LocalDate;
 import java.time.Period;
 
 public abstract class UserRegistrationData {
-    private String codiceFiscale;
-    private String nome;
-    private String cognome;
-    private String email;
-    private String telefono;
-    private LocalDate dataNascita;
-    private String password;
+    protected String taxCode;
+    protected String name;
+    protected String surname;
+    protected String email;
+    protected String phoneNumber;
+    protected LocalDate birthDate;
+    protected String password;
 
     protected UserRegistrationData() {
 
     }
 
-    public String getCodiceFiscale() {
-        return codiceFiscale;
+    public String getTaxCode() {
+        return taxCode;
     }
 
-    public void setCodiceFiscale(String cf)  throws FomatoInvalidoException{
+    public void setTaxCode(String cf)  throws FomatoInvalidoException{
         if (cf == null || cf.length() < Config.MIN_CF_LENGTH || cf.length() > Config.MAX_CF_LENGTH) {
             throw new FomatoInvalidoException("Codice fiscale non valido");
         }
-        this.codiceFiscale = cf.toUpperCase();
+        this.taxCode = cf.toUpperCase();
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) throws FomatoInvalidoException {
-        if (nome == null || nome.length() < Config.MIN_NAME_LENGTH || nome.length() > Config.MAX_NAME_LENGTH) {
-            throw new FomatoInvalidoException("nome non valido");
+    public void setName(String name) throws FomatoInvalidoException {
+        if (name == null || name.length() < Config.MIN_NAME_LENGTH || name.length() > Config.MAX_NAME_LENGTH) {
+            throw new FomatoInvalidoException("name non valido");
         }
-        this.nome = nome;
+        this.name = name;
     }
 
-    public String getCognome() {
-        return cognome;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setCognome(String cognome)  throws FomatoInvalidoException {
-        if (cognome == null || cognome.length() < Config.MIN_SURNAME_LENGTH || cognome.length() > Config.MAX_SURNAME_LENGTH) {
-            throw new FomatoInvalidoException("cognome non valido");
+    public void setSurname(String surname)  throws FomatoInvalidoException {
+        if (surname == null || surname.length() < Config.MIN_SURNAME_LENGTH || surname.length() > Config.MAX_SURNAME_LENGTH) {
+            throw new FomatoInvalidoException("surname non valido");
         }
-        this.cognome = cognome;
+        this.surname = surname;
     }
 
     public String getEmail() {
@@ -57,32 +57,32 @@ public abstract class UserRegistrationData {
     }
 
     public void setEmail(String email)  throws FomatoInvalidoException{
-        if (email == null || cognome.length() < Config.MIN_EMAIL_LENGTH || email.length() > Config.MAX_EMAIL_LENGTH) {
+        if (email == null || surname.length() < Config.MIN_EMAIL_LENGTH || email.length() > Config.MAX_EMAIL_LENGTH) {
             throw new FomatoInvalidoException("email non valido");
         }
         this.email = email;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setTelefono(String telefono)  throws FomatoInvalidoException{
-        if (telefono == null || telefono.length() <= Config.MIN_PHONE_LENGTH || telefono.length() > Config.MAX_PHONE_LENGTH) {
-            throw new FomatoInvalidoException("telefono non valido");
+    public void setPhoneNumber(String phoneNumber)  throws FomatoInvalidoException{
+        if (phoneNumber == null || phoneNumber.length() <= Config.MIN_PHONE_LENGTH || phoneNumber.length() > Config.MAX_PHONE_LENGTH) {
+            throw new FomatoInvalidoException("phoneNumber non valido");
         }
-        this.telefono = telefono;
+        this.phoneNumber = phoneNumber;
     }
 
-    public LocalDate getDataNascita() {
-        return dataNascita;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
-    public void setDataNascita(LocalDate dataNascita)  throws FomatoInvalidoException {
-        if (dataNascita == null || Period.between(dataNascita, LocalDate.now()).getYears() < Config.MIN_AGE) {
+    public void setBirthDate(LocalDate birthDate)  throws FomatoInvalidoException {
+        if (birthDate == null || Period.between(birthDate, LocalDate.now()).getYears() < Config.MIN_AGE) {
             throw new FomatoInvalidoException("devi avere " + Config.MIN_AGE + "per registrarti nell'applicazione");
         }
-        this.dataNascita = dataNascita;
+        this.birthDate = birthDate;
     }
 
     public String getPassword() {
@@ -97,7 +97,7 @@ public abstract class UserRegistrationData {
     }
 
     public boolean isComplete(){
-        return codiceFiscale != null && nome != null && cognome != null && email != null && telefono != null && dataNascita != null && password != null;
+        return taxCode != null && name != null && surname != null && email != null && phoneNumber != null && birthDate != null && password != null;
     }
     public abstract Role isType();
 

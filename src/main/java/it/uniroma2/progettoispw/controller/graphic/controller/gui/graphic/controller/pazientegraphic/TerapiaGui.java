@@ -45,7 +45,7 @@ public class TerapiaGui extends GuiGraphicController implements DoseAccepter, Fi
     @FXML
     void dateChanged(ActionEvent event) throws IOException {
         terapiaGiornaliera.deleteNotificator(this);
-        terapiaGiornaliera = therapyController.getTerapiaGiornaliera(authBean.getCodice(), datePicker.getValue());
+        terapiaGiornaliera = therapyController.getDailyTherapy(authBean.getCodice(), datePicker.getValue());
         terapiaGiornaliera.addNotificator(this);
         update();
     }
@@ -53,7 +53,7 @@ public class TerapiaGui extends GuiGraphicController implements DoseAccepter, Fi
     @FXML
     void update(ActionEvent event) throws IOException {
         terapiaGiornaliera.deleteNotificator(this);
-        terapiaGiornaliera = therapyController.getTerapiaGiornaliera(authBean.getCodice(), datePicker.getValue());
+        terapiaGiornaliera = therapyController.getDailyTherapy(authBean.getCodice(), datePicker.getValue());
         terapiaGiornaliera.addNotificator(this);
         update();
     }
@@ -64,7 +64,7 @@ public class TerapiaGui extends GuiGraphicController implements DoseAccepter, Fi
         this.menuWindowManager = (MenuWindowManager) args[2];
         therapyController = new TherapyController();
         datePicker.setValue(LocalDate.now());
-        terapiaGiornaliera = therapyController.getTerapiaGiornaliera(authBean.getCodice(), datePicker.getValue());
+        terapiaGiornaliera = therapyController.getDailyTherapy(authBean.getCodice(), datePicker.getValue());
         terapiaGiornaliera.addNotificator(this);
         update();
 
@@ -74,8 +74,8 @@ public class TerapiaGui extends GuiGraphicController implements DoseAccepter, Fi
         doseList.getChildren().clear();
         for (List<DoseBean> dosiPerOrario: this.terapiaGiornaliera.getDosiPerOrario().values()){
             for (DoseBean dose: dosiPerOrario){
-                MedicationType tipo = dose.getTipo();
-                if (Objects.requireNonNull(tipo) == MedicationType.CONFEZIONE) {
+                MedicationType tipo = dose.getType();
+                if (Objects.requireNonNull(tipo) == MedicationType.MEDICINALPRODUCT) {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/DoseConfezioneItem.fxml"));
                     Parent root = null;
                     try {
@@ -88,7 +88,7 @@ public class TerapiaGui extends GuiGraphicController implements DoseAccepter, Fi
                     DoseConfezioneController doseConfezioneController = loader.getController();
                     doseConfezioneController.inizialize(dose, this);
                     doseList.getChildren().add(root);
-                } else if (tipo == MedicationType.PRINCIPIOATTIVO) {
+                } else if (tipo == MedicationType.ACRIVEINGREDIENT) {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/DosePrincipioItem.fxml"));
                     Parent root = null;
                     try {
@@ -109,13 +109,7 @@ public class TerapiaGui extends GuiGraphicController implements DoseAccepter, Fi
 
     @Override
     public void setFinalInformation(FinalStepBean finalStep) {
-        prescriptionBean.setInizio(finalStep.getInizio());
-        prescriptionBean.setNumRipetizioni(finalStep.getNumRipetizioni());
-        prescriptionBean.setRateGiorni(finalStep.getRateGiorni());
-        prescriptionBean.getDose().setDescrizione(finalStep.getDescrizioneMedica());
-        prescriptionBean.getDose().setOrario(finalStep.getOrario());
-        prescriptionBean.getDose().setUnitaMisura(finalStep.getUnitaMisura());
-        prescriptionBean.getDose().setQuantita(finalStep.getQuantita());
+        prescriptionBean.setLastInformation(finalStep);
         therapyController.addDose(authBean.getCodice(), prescriptionBean);
         menuWindowManager.deleteTop(gruppo);
         menuWindowManager.show(gruppo);

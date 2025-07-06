@@ -11,14 +11,14 @@
    <children>
       <Button layoutX="213.0" layoutY="348.0" mnemonicParsing="false" onAction="#handleRegistration" prefHeight="25.0" prefWidth="149.0" text="Registrati" />
       <Label layoutX="14.0" layoutY="68.0" prefHeight="17.0" prefWidth="149.0" text="Password" />
-      <Label layoutX="14.0" layoutY="24.0" prefHeight="17.0" prefWidth="149.0" text="codice fiscale" />
+      <Label layoutX="14.0" layoutY="24.0" prefHeight="17.0" prefWidth="149.0" text="id fiscale" />
       <TextField fx:id="codiceFiscaleField" layoutX="14.0" layoutY="41.0" />
-      <Label layoutX="14.0" layoutY="157.0" prefHeight="17.0" prefWidth="149.0" text="cognome" />
-      <Label layoutX="14.0" layoutY="113.0" prefHeight="17.0" prefWidth="149.0" text="nome" />
+      <Label layoutX="14.0" layoutY="157.0" prefHeight="17.0" prefWidth="149.0" text="surname" />
+      <Label layoutX="14.0" layoutY="113.0" prefHeight="17.0" prefWidth="149.0" text="name" />
       <TextField fx:id="nomeField" layoutX="14.0" layoutY="130.0" />
       <TextField fx:id="passwordField" layoutX="14.0" layoutY="88.0" />
       <TextField fx:id="cognomeField" layoutX="14.0" layoutY="181.0" />
-      <Label layoutX="213.0" layoutY="74.0" prefHeight="17.0" prefWidth="149.0" text="telefono" />
+      <Label layoutX="213.0" layoutY="74.0" prefHeight="17.0" prefWidth="149.0" text="phoneNumber" />
       <Label layoutX="213.0" layoutY="30.0" prefHeight="17.0" prefWidth="149.0" text="email" />
       <TextField fx:id="emailField" layoutX="213.0" layoutY="47.0" />
       <TextField fx:id="telefonoField" layoutX="213.0" layoutY="98.0" />

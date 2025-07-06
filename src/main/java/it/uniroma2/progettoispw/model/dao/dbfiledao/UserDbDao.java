@@ -31,7 +31,7 @@ public class UserDbDao extends DbDao implements UserDao {
     }
 
     @Override
-    public Patient getPaziente(String taxCode) throws DaoException {
+    public Patient getPatient(String taxCode) throws DaoException {
         Patient patient = null;
         try {
             Connection conn = ConnectionFactory.getConnection();
@@ -52,7 +52,7 @@ public class UserDbDao extends DbDao implements UserDao {
     }
 
     @Override
-    public Doctor getDottore(String taxCode) throws DaoException {
+    public Doctor getDoctor(String taxCode) throws DaoException {
         Doctor doctor = null;
         try {
             Connection conn = ConnectionFactory.getConnection();
@@ -72,7 +72,7 @@ public class UserDbDao extends DbDao implements UserDao {
     }
 
     @Override
-    public void addPaziente(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
+    public void addPatient(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
         try {
             Connection conn = ConnectionFactory.getConnection();
             CallableStatement cs = conn.prepareCall("{call add_paziente(?,?,?,?,?,?,?)}");
@@ -90,7 +90,7 @@ public class UserDbDao extends DbDao implements UserDao {
     }
 
     @Override
-    public int addDottore(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
+    public int addDoctor(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
         int id;
         try {
             Connection conn = ConnectionFactory.getConnection();
@@ -137,7 +137,7 @@ public class UserDbDao extends DbDao implements UserDao {
 
 
     @Override
-    public User getInfoUtente(String codiceFiscale) throws DaoException {
-        return getPaziente(codiceFiscale);
+    public User getUserInformation(String codiceFiscale) throws DaoException {
+        return getPatient(codiceFiscale);
     }
 }

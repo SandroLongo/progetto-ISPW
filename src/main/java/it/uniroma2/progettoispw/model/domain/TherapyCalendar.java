@@ -16,14 +16,14 @@ public class TherapyCalendar {
     }
 
     public void addDailyTherapy(DailyTherapy DailyTherapy) {
-        calendar.put(DailyTherapy.getData(), DailyTherapy);
+        calendar.put(DailyTherapy.getDate(), DailyTherapy);
     }
 
     public DailyTherapy getDailyTherapy(LocalDate date) {
         return calendar.get(date);
     }
 
-    public boolean esiste(LocalDate date) {
+    public boolean exists(LocalDate date) {
         return calendar.containsKey(date);
     }
 

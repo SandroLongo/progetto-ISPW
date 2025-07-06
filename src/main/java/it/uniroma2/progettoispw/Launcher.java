@@ -18,7 +18,7 @@ public class Launcher {
             // Sono la prima istanza: lancio JavaFX
             Application.launch(App.class, args);
         } else {
-            // Già esiste: devo mandargli i miei args e uscire
+            // Già exists: devo mandargli i miei args e uscire
             sendArgsToRunningInstance(args);
             System.exit(0);
         }

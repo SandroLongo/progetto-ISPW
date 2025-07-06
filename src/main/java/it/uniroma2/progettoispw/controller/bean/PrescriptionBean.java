@@ -1,62 +1,65 @@
 package it.uniroma2.progettoispw.controller.bean;
 
+import it.uniroma2.progettoispw.model.domain.Prescription;
+
 import java.time.LocalDate;
 
 public class PrescriptionBean {
     private DoseBean dose;
-    private LocalDate inizio;
-    private int numRipetizioni;
-    private int rateGiorni;
+    private LocalDate startDate;
+    private int repetitionNumber;
+    private int dayRate;
 
     public PrescriptionBean() {
-        dose = new DoseBean();
     }
 
-    public PrescriptionBean(it.uniroma2.progettoispw.model.domain.Prescription prescription) {
+    public PrescriptionBean(Prescription prescription) {
         this.dose = new DoseBean(prescription.getDose());
-        this.inizio = prescription.getInizio();
-        this.numRipetizioni = prescription.getNumGiorni();
-        this.rateGiorni = prescription.getRateGiorni();
+        this.startDate = prescription.getInizio();
+        this.repetitionNumber = prescription.getNumGiorni();
+        this.dayRate = prescription.getRateGiorni();
     }
 
     public boolean isComplete(){
-        return dose.isCompleate() && inizio != null && numRipetizioni > 0 && rateGiorni > 0;
+        return dose.isCompleate() && startDate != null && repetitionNumber > 0 && dayRate > 0;
     }
 
     @Override
     public String toString() {
-        return dose.toString() + "inizio: " + inizio.toString() + "per:  " + numRipetizioni + "giorni, ogni: " + rateGiorni + "giorni";
+        return dose.toString() + "startDate: " + startDate.toString() + "per:  " + repetitionNumber + "giorni, ogni: " + dayRate + "giorni";
     }
 
     public DoseBean getDose() {
         return dose;
     }
 
-    public void setDose(DoseBean dose) {
+    public void setDose(DoseBean dose) throws IllegalArgumentException{
+        if (dose == null) {}
         this.dose = dose;
     }
 
-    public LocalDate getInizio() {
-        return inizio;
+    public void setLastInformation(FinalStepBean lastInformation)throws IllegalArgumentException{
+        if (!lastInformation.isComplete()) {
+            throw new IllegalArgumentException("information incompleate");
+        }
+        this.startDate = lastInformation.getStartDate();
+        this.repetitionNumber = lastInformation.getRepetitionNumber();
+        this.dayRate = lastInformation.getDayRate();
+        this.dose.setDescription(lastInformation.getDescription());
+        this.dose.setQuantity(lastInformation.getQuantity());
+        this.dose.setMeausurementUnit(lastInformation.getMeasurementUnit());
+        this.dose.setScheduledTime(lastInformation.getScheduledTime());
     }
 
-    public void setInizio(LocalDate inizio) {
-        this.inizio = inizio;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public int getNumRipetizioni() {
-        return numRipetizioni;
+    public int getRepetitionNumber() {
+        return repetitionNumber;
     }
 
-    public void setNumRipetizioni(int numRipetizioni) {
-        this.numRipetizioni = numRipetizioni;
-    }
-
-    public int getRateGiorni() {
-        return rateGiorni;
-    }
-
-    public void setRateGiorni(int rateGiorni) {
-        this.rateGiorni = rateGiorni;
+    public int getDayRate() {
+        return dayRate;
     }
 }

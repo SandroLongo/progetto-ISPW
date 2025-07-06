@@ -18,7 +18,7 @@
       </HBox>
       <HBox alignment="CENTER_LEFT" cache="true" prefHeight="61.0" prefWidth="732.0" spacing="10.0">
          <children>
-            <Label prefHeight="36.0" prefWidth="51.0" text="tipo" />
+            <Label prefHeight="36.0" prefWidth="51.0" text="type" />
             <Label prefHeight="17.0" prefWidth="66.0" text="scheduledTime" />
             <Label prefHeight="17.0" prefWidth="194.0" text="Confezione/PrincipioAttivo" />
             <Label prefHeight="17.0" prefWidth="54.0" text="Quantità" />

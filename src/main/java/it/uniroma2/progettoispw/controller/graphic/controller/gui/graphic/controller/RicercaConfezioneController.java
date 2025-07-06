@@ -1,7 +1,7 @@
 package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller;
 
 import it.uniroma2.progettoispw.controller.bean.DoseBean;
-import it.uniroma2.progettoispw.controller.bean.ListNomiPABean;
+import it.uniroma2.progettoispw.controller.bean.ListActiveIngridientName;
 import it.uniroma2.progettoispw.controller.controller.applicativi.MedicationInformationController;
 import it.uniroma2.progettoispw.model.domain.*;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -46,7 +46,7 @@ public class RicercaConfezioneController extends GuiGraphicController {
     //bottone per confezioni
     @FXML
     void searchConfezione(ActionEvent event) {
-        List<MedicinalProduct> confezioni = medicationInformationController.getConfezioniByNomeParziale(nomeConfezione.getText());
+        List<MedicinalProduct> confezioni = medicationInformationController.getMedicinalProductsByPartialName(nomeConfezione.getText());
 
         setConfezioni(confezioni);
     }
@@ -55,7 +55,7 @@ public class RicercaConfezioneController extends GuiGraphicController {
     @FXML
     void searchPrincipio(ActionEvent event) {
         risultatiTable.getColumns().clear();
-        ListNomiPABean nomiCompleti = medicationInformationController.getPABynomeParziale(nomePrincipio.getText());
+        ListActiveIngridientName nomiCompleti = medicationInformationController.getActiveIngridientsByPartialName(nomePrincipio.getText());
 
         TableColumn<Object, String> nomi = new TableColumn<>("Nomi");
         nomi.setCellValueFactory(data -> new ReadOnlyStringWrapper((String)data.getValue()));
@@ -107,10 +107,10 @@ public class RicercaConfezioneController extends GuiGraphicController {
         public SelezionaPrincipioButtonCell() {
             btn.setOnAction(event -> {
                 String selezione = (String) getTableView().getItems().get(getIndex());
-                ActiveIngridient activeIngridient = medicationInformationController.getPrincipioAttvoByNome(selezione);
-                DoseBean doseBean = new DoseBean(MedicationType.PRINCIPIOATTIVO);
-                doseBean.setCodice(activeIngridient.getId());
-                doseBean.setNome(activeIngridient.getName());
+                ActiveIngredient activeIngredient = medicationInformationController.getActiveIngridientByName(selezione);
+                DoseBean doseBean = new DoseBean(MedicationType.ACRIVEINGREDIENT);
+                doseBean.setId(activeIngredient.getId());
+                doseBean.setName(activeIngredient.getName());
                 doseAccepter.setDose(doseBean);
             });
         }
@@ -128,9 +128,9 @@ public class RicercaConfezioneController extends GuiGraphicController {
         public CercaConfezioniDalPrincipioButtonCell() {
             btn.setOnAction(event -> {
                 String selezione =  (String)getTableView().getItems().get(getIndex());
-                ActiveIngridient activeIngridient = medicationInformationController.getPrincipioAttvoByNome(selezione);
-                String codiceAtc = activeIngridient.getId();
-                List<MedicinalProduct> confezioni = medicationInformationController.getConfezioniByCodiceAtc(codiceAtc);
+                ActiveIngredient activeIngredient = medicationInformationController.getActiveIngridientByName(selezione);
+                String codiceAtc = activeIngredient.getId();
+                List<MedicinalProduct> confezioni = medicationInformationController.getMedicinalProductByActiveIngridient(codiceAtc);
                 setConfezioni(confezioni);
             });
         }
@@ -152,9 +152,9 @@ public class RicercaConfezioneController extends GuiGraphicController {
         public SelezionaConfezioneButtonCell() {
             btn.setOnAction(event -> {
                 MedicinalProduct medicinalProduct = (MedicinalProduct)getTableView().getItems().get(getIndex());
-                DoseBean doseBean = new DoseBean(MedicationType.CONFEZIONE);
-                doseBean.setCodice(String.valueOf(medicinalProduct.getId()));
-                doseBean.setNome(medicinalProduct.getName());
+                DoseBean doseBean = new DoseBean(MedicationType.MEDICINALPRODUCT);
+                doseBean.setId(String.valueOf(medicinalProduct.getId()));
+                doseBean.setName(medicinalProduct.getName());
                 doseAccepter.setDose(doseBean);
             });
         }

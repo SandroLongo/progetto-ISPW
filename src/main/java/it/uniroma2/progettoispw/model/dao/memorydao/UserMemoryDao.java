@@ -28,7 +28,7 @@ public class UserMemoryDao extends MemoryDao implements UserDao {
     }
 
     @Override
-    public Patient getPaziente(String taxCode) throws DaoException {
+    public Patient getPatient(String taxCode) throws DaoException {
         if (pazienti.containsKey(taxCode)) {
             return (Patient)infoUtenti.get(taxCode);
         } else {
@@ -37,7 +37,7 @@ public class UserMemoryDao extends MemoryDao implements UserDao {
     }
 
     @Override
-    public Doctor getDottore(String taxCode) throws DaoException {
+    public Doctor getDoctor(String taxCode) throws DaoException {
         if (dottori.containsKey(taxCode)) {
             return (Doctor)infoUtenti.get(taxCode);
         }  else {
@@ -46,7 +46,7 @@ public class UserMemoryDao extends MemoryDao implements UserDao {
     }
 
     @Override
-    public void addPaziente(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
+    public void addPatient(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
         ChiaveUtente chiaveUtente = new ChiaveUtente(codiceFiscale, pass);
         System.out.println(codiceFiscale + pass);
         pazienti.put(chiaveUtente, new Patient(codiceFiscale, nome, cognome, nascita, email, telefono));
@@ -54,7 +54,7 @@ public class UserMemoryDao extends MemoryDao implements UserDao {
     }
 
     @Override
-    public int addDottore(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
+    public int addDoctor(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
         int codiceDottore = generaCodiceUnico(dottori);
         ChiaveUtente chiaveUtente = new ChiaveUtente(codiceFiscale, pass);
         ChiaveDottore chiaveDottore = new ChiaveDottore(codiceFiscale, pass, codiceDottore);
@@ -94,7 +94,7 @@ public class UserMemoryDao extends MemoryDao implements UserDao {
 
 
     @Override
-    public User getInfoUtente(String codiceFiscale) throws DaoException {
+    public User getUserInformation(String codiceFiscale) throws DaoException {
         return infoUtenti.get(codiceFiscale);
     }
 

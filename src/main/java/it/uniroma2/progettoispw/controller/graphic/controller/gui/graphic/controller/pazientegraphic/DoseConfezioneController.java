@@ -50,10 +50,10 @@ public class DoseConfezioneController {
     }
 
     private void update() {
-        nome.setText(bean.getNome());
-        orario.setText(bean.getOrario().toString());
-        quantita.setText(String.valueOf(bean.getQuantita()));
-        tipo.setText("CONFEZIONE");
+        nome.setText(bean.getName());
+        orario.setText(bean.getScheduledTime().toString());
+        quantita.setText(String.valueOf(bean.getQuantity()));
+        tipo.setText("MEDICINALPRODUCT");
     }
 
 }

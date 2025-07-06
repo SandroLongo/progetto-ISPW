@@ -18,6 +18,6 @@
       <Label layoutX="309.0" layoutY="294.0" prefHeight="17.0" prefWidth="149.0" text="email" />
       <Label fx:id="emailLabel" layoutX="309.0" layoutY="311.0" prefHeight="17.0" prefWidth="149.0" />
       <Button fx:id="confermaButton" disable="true" layoutX="465.0" layoutY="336.0" mnemonicParsing="false" onAction="#confermaDati" text="Confermi i dati?" />
-      <Label layoutX="14.0" layoutY="30.0" prefHeight="50.0" prefWidth="576.0" styleClass="label-title" text="inserisci il CF del patient e premi invio per visualizzare le informazioni e procedere" />
+      <Label layoutX="14.0" layoutY="30.0" prefHeight="50.0" prefWidth="576.0" styleClass="label-title" text="inserisci il CF del patient e premi submissionDate per visualizzare le informazioni e procedere" />
    </children>
 </AnchorPane>

@@ -26,17 +26,17 @@ public class TherapyMemoryDao extends MemoryDao implements TherapyDao {
         return instance;
     }
     @Override
-    public DailyTherapy getTerapiaGiornaliera(String taxCode, LocalDate date) throws DaoException {
+    public DailyTherapy getDailyTherapy(String taxCode, LocalDate date) throws DaoException {
         DailyTherapy dailyTherapy = new DailyTherapy(date);
         if (terapie.containsKey(taxCode) && terapie.get(taxCode).containsKey(date)) {
-            dailyTherapy.setDosiPerOrario(terapie.get(taxCode).get(date));
+            dailyTherapy.setDosesByTime(terapie.get(taxCode).get(date));
         }
         return dailyTherapy;
     }
 
     @Override
-    public void addMedicationDose(MedicationDose doseConfezione, LocalDate date, String taxCode) throws DaoException {
-        LocalTime orario = doseConfezione.getScheduledTime();
+    public void addMedicationDose(MedicationDose medicationDose, LocalDate date, String taxCode) throws DaoException {
+        LocalTime orario = medicationDose.getScheduledTime();
 
 
         TreeMap<LocalDate, TreeMap<LocalTime, List<MedicationDose>>> mappaDate =
@@ -50,7 +50,7 @@ public class TherapyMemoryDao extends MemoryDao implements TherapyDao {
         List<MedicationDose> listaDosi =
                 mappaOrari.computeIfAbsent(orario, t -> new ArrayList<>());
 
-        listaDosi.add(doseConfezione);
+        listaDosi.add(medicationDose);
     }
 
 }

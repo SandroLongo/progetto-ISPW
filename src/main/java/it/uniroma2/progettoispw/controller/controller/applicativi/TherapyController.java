@@ -2,14 +2,12 @@ package it.uniroma2.progettoispw.controller.controller.applicativi;
 
 import it.uniroma2.progettoispw.controller.bean.DoseBean;
 import it.uniroma2.progettoispw.controller.bean.PrescriptionBean;
-import it.uniroma2.progettoispw.controller.bean.InformazioniUtente;
 import it.uniroma2.progettoispw.controller.bean.DailyTherapyBean;
 import it.uniroma2.progettoispw.model.dao.DaoFacade;
 import it.uniroma2.progettoispw.model.domain.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 
 public class TherapyController implements Controller{
     private DaoFacade daoFacade = new DaoFacade();
@@ -19,25 +17,25 @@ public class TherapyController implements Controller{
         User user = SessionManager.getInstance().getSession(code).getUtente();
         Medication medication;
         DoseBean doseBean = prescriptionBean.getDose();
-        switch (doseBean.getTipo()){
-            case CONFEZIONE -> {
-                medication = daoFacade.getConfezioneByCodiceAic(Integer.parseInt(doseBean.getCodice()));
+        switch (doseBean.getType()){
+            case MEDICINALPRODUCT -> {
+                medication = daoFacade.getConfezioneByCodiceAic(Integer.parseInt(doseBean.getId()));
             }
-            case PRINCIPIOATTIVO -> {
-                medication = daoFacade.getPrincipioAttvoByCodiceAtc(doseBean.getCodice());
+            case ACRIVEINGREDIENT -> {
+                medication = daoFacade.getPrincipioAttvoByCodiceAtc(doseBean.getId());
             }
             default -> throw new IllegalArgumentException("invalid dose type");
         }
         if (medication == null){
             throw new UnsupportedOperation("the medication specified is not existent");
         }
-        Prescription prescription = new Prescription(new MedicationDose(medication, doseBean.getQuantita(), doseBean.getUnitaMisura(), doseBean.getOrario(),
-                                                        doseBean.getDescrizione(), user), prescriptionBean.getNumRipetizioni(), prescriptionBean.getInizio(),
-                                                        prescriptionBean.getRateGiorni());
+        Prescription prescription = new Prescription(new MedicationDose(medication, doseBean.getQuantity(), doseBean.getMeausurementUnit(), doseBean.getScheduledTime(),
+                                                        doseBean.getDescription(), user), prescriptionBean.getRepetitionNumber(), prescriptionBean.getStartDate(),
+                                                        prescriptionBean.getDayRate());
         prescription.getDose().setSender(user);
         MedicationDose medDose = new MedicationDose();
-        String taxCode = user.getCodiceFiscale();
-        List<LocalDate> dates = daoFacade.buildMedicationDose(prescription, user.getCodiceFiscale());
+        String taxCode = user.getTaxCode();
+        List<LocalDate> dates = daoFacade.buildMedicationDose(prescription, user.getTaxCode());
         SessionManager sessionManager = SessionManager.getInstance();
         for (LocalDate date : dates) {
             sessionManager.aggiornaSessioni(taxCode, medDose, date);
@@ -45,16 +43,16 @@ public class TherapyController implements Controller{
     }
 
 
-    public DailyTherapyBean getTerapiaGiornaliera(int code, LocalDate date) {
+    public DailyTherapyBean getDailyTherapy(int code, LocalDate date) {
         Session session = SessionManager.getInstance().getSession(code);
         Patient patient = (Patient)session.getUtente();
         DailyTherapy dailyTherapy = null;
-        TherapyCalendar therapyCalendar = patient.getCalendario();
-        if (therapyCalendar.esiste(date)) {
+        TherapyCalendar therapyCalendar = patient.getCalendar();
+        if (therapyCalendar.exists(date)) {
             dailyTherapy = therapyCalendar.getDailyTherapy(date);
         } else {
-            dailyTherapy = daoFacade.getTerapiaGiornaliera(patient.getCodiceFiscale(), date);
-            patient.getCalendario().addDailyTherapy(dailyTherapy);
+            dailyTherapy = daoFacade.getTerapiaGiornaliera(patient.getTaxCode(), date);
+            patient.getCalendar().addDailyTherapy(dailyTherapy);
         }
         DailyTherapyBean dailyTherapyBean = new DailyTherapyBean(dailyTherapy);
         dailyTherapy.attach(dailyTherapyBean);

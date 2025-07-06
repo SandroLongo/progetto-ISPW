@@ -28,7 +28,7 @@ public class PrescriptionBundleDbDao extends DbDao implements PrescriptionBundle
     private void addDosiInviataPrincipioAttivo(ResultSet rs, SentPrescriptionBundle sentPrescriptionBundle) throws SQLException {
         try {
             while (rs.next()) {
-                sentPrescriptionBundle.addDoseInviata(new Prescription(new MedicationDose(new ActiveIngridient(rs.getString(1)), rs.getInt(5),
+                sentPrescriptionBundle.addDoseInviata(new Prescription(new MedicationDose(new ActiveIngredient(rs.getString(1)), rs.getInt(5),
                         rs.getString(6), rs.getTime(7).toLocalTime(), rs.getString(8), sentPrescriptionBundle.getInviante()),
                         rs.getInt(3), rs.getDate(2).toLocalDate(), rs.getInt(4)));
             }
@@ -38,12 +38,12 @@ public class PrescriptionBundleDbDao extends DbDao implements PrescriptionBundle
     }
 
     @Override
-    public List<SentPrescriptionBundle> getRichisteOfPaziente(Patient patient) throws DaoException {
+    public List<SentPrescriptionBundle> getPrescriptionBundlesByPatient(Patient patient) throws DaoException {
         List<SentPrescriptionBundle> richieste = new ArrayList<SentPrescriptionBundle>();
         try {
             Connection conn = ConnectionFactory.getConnection();
             CallableStatement cs = conn.prepareCall("{call get_richieste(?)}");
-            cs.setString(1, patient.getCodiceFiscale());
+            cs.setString(1, patient.getTaxCode());
             boolean status = cs.execute();
             if (status) {
                 ResultSet rs = cs.getResultSet();
@@ -51,7 +51,7 @@ public class PrescriptionBundleDbDao extends DbDao implements PrescriptionBundle
                     richieste.add(new SentPrescriptionBundle(rs.getInt(1), rs.getDate(2).toLocalDate(), patient,
                             new Doctor(rs.getString(3))));
                 }
-                //da completare la creazione del DOTTORE inviante
+                //da completare la creazione del DOCTOR inviante
                 for (SentPrescriptionBundle sentPrescriptionBundle : richieste) {
                     addPrescriptions(sentPrescriptionBundle, cs);
                 }
@@ -64,7 +64,7 @@ public class PrescriptionBundleDbDao extends DbDao implements PrescriptionBundle
     }
 
     @Override
-    public void deleteRichiesta(int id) throws DaoException {
+    public void deletePrescriptionBundle(int id) throws DaoException {
         try {
             Connection conn = ConnectionFactory.getConnection();
             CallableStatement cs = conn.prepareCall("{call delete_richiesta(?)}");
@@ -76,14 +76,14 @@ public class PrescriptionBundleDbDao extends DbDao implements PrescriptionBundle
     }
 
     @Override
-    public int addRichiesta(PrescriptionBundleBean sentPrescriptionBundle) throws DaoException {
+    public int addPrescriptionBundle(PrescriptionBundleBean sentPrescriptionBundle) throws DaoException {
         int id;
         try {
             Connection conn = ConnectionFactory.getConnection();
             CallableStatement cs = conn.prepareCall("{call add_richiesta(?,?,?,?)}");
-            cs.setDate(1, Date.valueOf(sentPrescriptionBundle.getInvio()));
-            cs.setString(2, sentPrescriptionBundle.getRicevente().getCodiceFiscale());
-            cs.setString(3, sentPrescriptionBundle.getInviante().getCodiceFiscale());
+            cs.setDate(1, Date.valueOf(sentPrescriptionBundle.getSubmissionDate()));
+            cs.setString(2, sentPrescriptionBundle.getReceiver().getTaxCode());
+            cs.setString(3, sentPrescriptionBundle.getSender().getTaxCode());
             cs.registerOutParameter(4, java.sql.Types.INTEGER);
             cs.execute();
             id = cs.getInt(4);
@@ -91,22 +91,22 @@ public class PrescriptionBundleDbDao extends DbDao implements PrescriptionBundle
             CallableStatement cs2 = conn.prepareCall("{call add_invio_pa(?,?,?,?,?,?,?,?,?)}");
             cs1.setInt(1, id);
             cs2.setInt(1, id);
-            for (PrescriptionBean prescription : sentPrescriptionBundle.getDosi()) {
+            for (PrescriptionBean prescription : sentPrescriptionBundle.getPrescriptions()) {
                 DoseBean medicationDose = prescription.getDose();
-                cs1.setDate(3, Date.valueOf(prescription.getInizio()));
-                cs1.setInt(4, prescription.getNumRipetizioni());
-                cs1.setInt(5, prescription.getRateGiorni());
-                cs1.setInt(6, medicationDose.getQuantita());
-                cs1.setString(7, medicationDose.getUnitaMisura());
-                cs1.setTime(8, Time.valueOf(medicationDose.getOrario()));
-                cs1.setString(9, medicationDose.getDescrizione());
-                switch (medicationDose.getTipo()) {
-                    case CONFEZIONE -> {
-                        cs1.setInt(2, Integer.parseInt(medicationDose.getCodice()));
+                cs1.setDate(3, Date.valueOf(prescription.getStartDate()));
+                cs1.setInt(4, prescription.getRepetitionNumber());
+                cs1.setInt(5, prescription.getDayRate());
+                cs1.setInt(6, medicationDose.getQuantity());
+                cs1.setString(7, medicationDose.getMeausurementUnit());
+                cs1.setTime(8, Time.valueOf(medicationDose.getScheduledTime()));
+                cs1.setString(9, medicationDose.getDescription());
+                switch (medicationDose.getType()) {
+                    case MEDICINALPRODUCT -> {
+                        cs1.setInt(2, Integer.parseInt(medicationDose.getId()));
                         cs1.execute();
                     }
-                    case PRINCIPIOATTIVO -> {
-                        cs1.setString(2, medicationDose.getCodice());
+                    case ACRIVEINGREDIENT -> {
+                        cs1.setString(2, medicationDose.getId());
                         cs1.execute();
                     }
                     default -> throw new DaoException("tipo confezione non valido");

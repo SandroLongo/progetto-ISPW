@@ -1,82 +1,109 @@
 package it.uniroma2.progettoispw.controller.bean;
 
+import it.uniroma2.progettoispw.controller.controller.applicativi.Config;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class FinalStepBean {
-    private LocalDate inizio;
-    private int numRipetizioni;
-    private int rateGiorni;
-    private int quantita;
-    private String unitaMisura;
-    private LocalTime orario;
-    private String descrizioneMedica;
+    private LocalDate startDate;
+    private int repetitionNumber;
+    private int dayRate;
+    private int quantity;
+    private String measurementUnit;
+    private LocalTime scheduledTime;
+    private String description;
 
-    public FinalStepBean(LocalDate inizio, int numRipetizioni, int rateGiorni, int quantita, String unitaMisura, LocalTime orario, String descrizioneMedica) {
-        this.inizio = inizio;
-        this.numRipetizioni = numRipetizioni;
-        this.rateGiorni = rateGiorni;
-        this.quantita = quantita;
-        this.unitaMisura = unitaMisura;
-        this.orario = orario;
-        this.descrizioneMedica = descrizioneMedica;
+    public FinalStepBean(LocalDate startDate, int repetitionNumber, int dayRate, int quantity, String measurementUnit, LocalTime scheduledTime, String description) {
+        this.startDate = startDate;
+        this.repetitionNumber = repetitionNumber;
+        this.dayRate = dayRate;
+        this.quantity = quantity;
+        this.measurementUnit = measurementUnit;
+        this.scheduledTime = scheduledTime;
+        this.description = description;
     }
 
     public FinalStepBean() {}
 
-    public LocalDate getInizio() {
-        return inizio;
+    public boolean isComplete() {
+        return startDate != null && repetitionNumber > 0 && dayRate > 0 && quantity > 0 && description != null && measurementUnit != null && scheduledTime != null;
     }
 
-    public void setInizio(LocalDate inizio) {
-        this.inizio = inizio;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public int getNumRipetizioni() {
-        return numRipetizioni;
+    public void setStartDate(LocalDate startDate) throws IllegalArgumentException{
+        if (startDate == null) {
+            throw new IllegalArgumentException("startDate is null");
+        }
+        this.startDate = startDate;
     }
 
-    public void setNumRipetizioni(int numRipetizioni) {
-        this.numRipetizioni = numRipetizioni;
+    public int getRepetitionNumber() {
+        return repetitionNumber;
     }
 
-    public int getRateGiorni() {
-        return rateGiorni;
+    public void setRepetitionNumber(int repetitionNumber) throws IllegalArgumentException {
+        if (repetitionNumber < 0 || repetitionNumber > Config.MAX_REPETITION_ALLOWED) {
+            throw new IllegalArgumentException("repetitionNumber is out of range");
+        }
+        this.repetitionNumber = repetitionNumber;
     }
 
-    public void setRateGiorni(int rateGiorni) {
-        this.rateGiorni = rateGiorni;
+    public int getDayRate() {
+        return dayRate;
     }
 
-    public int getQuantita() {
-        return quantita;
+    public void setDayRate(int dayRate) throws IllegalArgumentException {
+        if (dayRate < 0 || dayRate > Config.MAX_RATE_ALLOWED) {
+            throw new IllegalArgumentException("dayRate is out of range");
+        }
+        this.dayRate = dayRate;
     }
 
-    public void setQuantita(int quantita) {
-        this.quantita = quantita;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public String getUnitaMisura() {
-        return unitaMisura;
+    public void setQuantity(int quantity) throws IllegalArgumentException {
+        if (quantity < 0 || quantity > Config.MAX_QUANTITY_ALLOWED) {
+            throw new IllegalArgumentException("quantity is out of range");
+        }
+        this.quantity = quantity;
     }
 
-    public void setUnitaMisura(String unitaMisura) {
-        this.unitaMisura = unitaMisura;
+    public String getMeasurementUnit() {
+        return measurementUnit;
     }
 
-    public LocalTime getOrario() {
-        return orario;
+    public void setMeasurementUnit(String measurementUnit) throws IllegalArgumentException {
+        if (measurementUnit == null || measurementUnit.isEmpty() || measurementUnit.length() > Config.MAX_MEAUSUREMENT_UNIT_LENGHT) {
+            throw new IllegalArgumentException("measurementUnit is out of range");
+        }
+        this.measurementUnit = measurementUnit;
     }
 
-    public void setOrario(LocalTime orario) {
-        this.orario = orario;
+    public LocalTime getScheduledTime() {
+        return scheduledTime;
     }
 
-    public String getDescrizioneMedica() {
-        return descrizioneMedica;
+    public void setScheduledTime(LocalTime scheduledTime) throws IllegalArgumentException {
+        if (scheduledTime == null) {
+            throw new IllegalArgumentException("scheduledTime is null");
+        }
+        this.scheduledTime = scheduledTime;
     }
 
-    public void setDescrizioneMedica(String descrizioneMedica) {
-        this.descrizioneMedica = descrizioneMedica;
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        if (description == null || description.isEmpty() || description.length() > Config.MAX_DESCRIPTION_LENGTH) {
+            throw new IllegalArgumentException("description empty or too long");
+        }
+        this.description = description;
     }
 }

@@ -3,12 +3,12 @@ package it.uniroma2.progettoispw.controller.bean;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListNomiPABean {
+public class ListActiveIngridientName {
     private List<String> nomiPa = new ArrayList<String>();
 
-    public ListNomiPABean() {}
+    public ListActiveIngridientName() {}
 
-    public ListNomiPABean(List<String> nomiPa) {
+    public ListActiveIngridientName(List<String> nomiPa) {
         this.nomiPa = nomiPa;
     }
 

@@ -7,9 +7,8 @@ import it.uniroma2.progettoispw.model.domain.SentPrescriptionBundle;
 import java.util.List;
 
 public interface PrescriptionBundleDao {
-    public List<SentPrescriptionBundle> getRichisteOfPaziente(Patient patient) throws DaoException;
-    public void deleteRichiesta(int id) throws DaoException;
-    public int addRichiesta(PrescriptionBundleBean sentPrescriptionBundle) throws DaoException;
-
+    public List<SentPrescriptionBundle> getPrescriptionBundlesByPatient(Patient patient) throws DaoException;
+    public void deletePrescriptionBundle(int id) throws DaoException;
+    public int addPrescriptionBundle(PrescriptionBundleBean sentPrescriptionBundle) throws DaoException;
     public SentPrescriptionBundle getPrescriptionBundleById(int id) throws DaoException;
 }

@@ -16,8 +16,8 @@ public class DailyTherapyBean extends Observer {
 
     public DailyTherapyBean(DailyTherapy dailyTherapy) {
         this.dailyTherapy = dailyTherapy;
-        this.data = dailyTherapy.getData();
-        Map<LocalTime, List<MedicationDose>> map = dailyTherapy.getDosiPerOrario();
+        this.data = dailyTherapy.getDate();
+        Map<LocalTime, List<MedicationDose>> map = dailyTherapy.getDosesByTime();
         replaceDosi(map);
     }
 
@@ -30,8 +30,8 @@ public class DailyTherapyBean extends Observer {
         }
     }
 
-    public void aggiungiDose(DoseBean dose) {
-        dosiPerOrario.computeIfAbsent(dose.getOrario(), orarioChiave -> new ArrayList<>()).add(dose);
+    private void aggiungiDose(DoseBean dose) {
+        dosiPerOrario.computeIfAbsent(dose.getScheduledTime(), orarioChiave -> new ArrayList<>()).add(dose);
     }
 
     public SortedMap<LocalTime, List<DoseBean>> getDosiPerOrario() {
@@ -40,10 +40,6 @@ public class DailyTherapyBean extends Observer {
 
     public LocalDate getData() {
         return data;
-    }
-
-    public void setData(LocalDate data) {
-        this.data = data;
     }
 
     public void addNotificator(Notificator notificator) {
@@ -56,7 +52,7 @@ public class DailyTherapyBean extends Observer {
 
     @Override
     public void update() {
-        replaceDosi(dailyTherapy.getDosiPerOrario());
+        replaceDosi(dailyTherapy.getDosesByTime());
         for (Notificator notificator: notificators) {
             notificator.notifica();
         }

@@ -4,24 +4,24 @@ import it.uniroma2.progettoispw.controller.controller.applicativi.Config;
 import it.uniroma2.progettoispw.model.domain.Role;
 
 public class UserLogInData {
-    private String codiceFiscale;
+    private String taxCode;
     private String password;
     private Role role;
-    private Integer codiceDottore;
+    private Integer doctorCode;
 
-    public UserLogInData(String codiceFiscale, String password, Role role, String codiceDottore) {
-        this.codiceFiscale = codiceFiscale;
+    public UserLogInData(String taxCode, String password, Role role, String doctorCode) {
+        this.taxCode = taxCode;
         this.password = password;
         this.role = role;
         try {
-            this.codiceDottore = Integer.parseInt(codiceDottore);
+            this.doctorCode = Integer.parseInt(doctorCode);
         } catch (NumberFormatException e) {
-            this.codiceDottore = null;
+            this.doctorCode = null;
         }
     }
 
     public UserLogInData(String codice, String password, Role role) {
-        this.codiceFiscale = codice;
+        this.taxCode = codice;
         this.password = password;
         this.role = role;
     }
@@ -30,15 +30,15 @@ public class UserLogInData {
 
     }
 
-    public String getCodiceFiscale() {
-        return codiceFiscale;
+    public String getTaxCode() {
+        return taxCode;
     }
 
-    public void setCodiceFiscale(String cf) {
+    public void setTaxCode(String cf) {
         if (cf == null || cf.length() < Config.MIN_CF_LENGTH || cf.length() > Config.MAX_CF_LENGTH) {
             throw new FomatoInvalidoException("Codice fiscale non valido");
         }
-        this.codiceFiscale = cf;
+        this.taxCode = cf;
     }
 
     public String getPassword() {
@@ -52,32 +52,32 @@ public class UserLogInData {
         this.password = pwd;
     }
 
-    public Role getRuolo() {
+    public Role getRole() {
         return role;
     }
-    public void setRuolo(Role role) {
+    public void setRole(Role role) {
         this.role = role;
     }
-    public int getCodiceDottore() {
-        if (role != Role.DOTTORE){
+    public int getDoctorCode() {
+        if (role != Role.DOCTOR){
             throw new FomatoInvalidoException("il codice puo essere impostato solo per i dottori");
         }
-        return codiceDottore;
+        return doctorCode;
     }
-    public void setCodiceDottore(String codiceDottore) {
+    public void setDoctorCode(String doctorCode) {
         try {
-            this.codiceDottore = Integer.parseInt(codiceDottore);
+            this.doctorCode = Integer.parseInt(doctorCode);
         } catch (NumberFormatException e) {
             throw new FomatoInvalidoException("il codice deve essere un numero");
         }
     }
 
     public boolean isComplete(){
-        if (role != null && role == Role.DOTTORE && codiceDottore == null) {
+        if (role != null && role == Role.DOCTOR && doctorCode == null) {
             return false;
 
         }
-        return codiceFiscale!=null && password!=null && role != null;
+        return taxCode !=null && password!=null && role != null;
     }
 
 

@@ -24,17 +24,17 @@ public class Prescription {
     }
 
     public Prescription(PrescriptionBean prescriptionBean) {
-        setInizio(prescriptionBean.getInizio());
-        setNumGiorni(prescriptionBean.getNumRipetizioni());
-        setRateGiorni(prescriptionBean.getRateGiorni());
+        setInizio(prescriptionBean.getStartDate());
+        setNumGiorni(prescriptionBean.getRepetitionNumber());
+        setRateGiorni(prescriptionBean.getDayRate());
         DoseBean doseBean = prescriptionBean.getDose();
-        switch (doseBean.getTipo()){
-            case CONFEZIONE -> this.medicationDose = new MedicationDose(new MedicinalProduct(Integer.parseInt(doseBean.getCodice())),
-                                                                            doseBean.getQuantita(), doseBean.getUnitaMisura(),
-                                                                        doseBean.getOrario(), doseBean.getDescrizione(), new Patient(doseBean.getInviante().getCodiceFiscale()));
-            case PRINCIPIOATTIVO -> new MedicationDose(new ActiveIngridient(doseBean.getCodice()),
-                    doseBean.getQuantita(), doseBean.getUnitaMisura(),
-                    doseBean.getOrario(), doseBean.getDescrizione(), new Patient(doseBean.getInviante().getCodiceFiscale()));
+        switch (doseBean.getType()){
+            case MEDICINALPRODUCT -> this.medicationDose = new MedicationDose(new MedicinalProduct(Integer.parseInt(doseBean.getId())),
+                                                                            doseBean.getQuantity(), doseBean.getMeausurementUnit(),
+                                                                        doseBean.getScheduledTime(), doseBean.getDescription(), new Patient(doseBean.getSender().getTaxCode()));
+            case ACRIVEINGREDIENT -> new MedicationDose(new ActiveIngredient(doseBean.getId()),
+                    doseBean.getQuantity(), doseBean.getMeausurementUnit(),
+                    doseBean.getScheduledTime(), doseBean.getDescription(), new Patient(doseBean.getSender().getTaxCode()));
             default -> throw new FomatoInvalidoException("invalid medication type");
         }
 

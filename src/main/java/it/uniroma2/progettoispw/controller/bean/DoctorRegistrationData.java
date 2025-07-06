@@ -12,7 +12,7 @@ public class DoctorRegistrationData extends UserRegistrationData {
 
     @Override
     public Role isType() {
-        return Role.DOTTORE;
+        return Role.DOCTOR;
     }
 
 }

@@ -69,12 +69,12 @@ public class RegistrationViewController extends GuiGraphicController {
             if (dottoreCheckBox.isSelected()) {
                 DoctorRegistrationData drd = new DoctorRegistrationData();
                 setInformation(drd);
-                int id = logInController.registerDottore(drd);
+                int id = logInController.registerDoctor(drd);
                 messaggio = "Il tuo codice è: " + id;
             } else {
                 PatientRegistrationData prd= new PatientRegistrationData();
                 setInformation(prd);
-                logInController.registerPaziente(prd);
+                logInController.registerPatient(prd);
                 messaggio = "";
             }
         } catch (FomatoInvalidoException | DaoException e) {
@@ -98,13 +98,13 @@ public class RegistrationViewController extends GuiGraphicController {
     }
 
     private void setInformation(UserRegistrationData urd) throws FomatoInvalidoException {
-        urd.setCodiceFiscale(codiceFiscaleField.getText());
-        urd.setCognome(cognomeField.getText());
+        urd.setTaxCode(codiceFiscaleField.getText());
+        urd.setSurname(cognomeField.getText());
         urd.setEmail(emailField.getText());
-        urd.setNome(nomeField.getText());
+        urd.setName(nomeField.getText());
         urd.setPassword(passwordField.getText());
-        urd.setTelefono(telefonoField.getText());
-        urd.setDataNascita(dataNascitaField.getValue());
+        urd.setPhoneNumber(telefonoField.getText());
+        urd.setBirthDate(dataNascitaField.getValue());
     }
 
     @FXML

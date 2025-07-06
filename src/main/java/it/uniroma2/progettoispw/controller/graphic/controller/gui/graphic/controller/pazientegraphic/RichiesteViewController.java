@@ -33,30 +33,30 @@ public class RichiesteViewController extends GuiGraphicController implements Not
         this.authenticationBean = (AuthenticationBean) args[1];
         this.menuWindowManager = (MenuWindowManager) args[2];
         this.manageSentPrescriptionBundleController = new ManageSentPrescriptionBundleController();
-        this.listPrescriptionBundleBean = manageSentPrescriptionBundleController.getRichieste(authenticationBean.getCodice());
+        this.listPrescriptionBundleBean = manageSentPrescriptionBundleController.getPendingPrescriptionBundles(authenticationBean.getCodice());
         listPrescriptionBundleBean.addNotificator(this);
         listaRichieste.getColumns().clear();
 
-        TableColumn<Object, String> nomeDottore = new TableColumn<>("DOTTORE");
-        nomeDottore.setCellValueFactory(data -> new ReadOnlyStringWrapper(((SentPrescriptionBundleBean)data.getValue()).getInviante().getNome() + " " +
-                ((SentPrescriptionBundleBean)data.getValue()).getInviante().getCognome()));
+        TableColumn<Object, String> nomeDottore = new TableColumn<>("DOCTOR");
+        nomeDottore.setCellValueFactory(data -> new ReadOnlyStringWrapper(((SentPrescriptionBundleBean)data.getValue()).getSender().getName() + " " +
+                ((SentPrescriptionBundleBean)data.getValue()).getSender().getSurname()));
 
         TableColumn<Object, String> dataInvio = new TableColumn<>("inviata");
-        dataInvio.setCellValueFactory(data -> new ReadOnlyStringWrapper(((SentPrescriptionBundleBean)data.getValue()).getInvio().toString()));
+        dataInvio.setCellValueFactory(data -> new ReadOnlyStringWrapper(((SentPrescriptionBundleBean)data.getValue()).getSubmissionDate().toString()));
 
         TableColumn<Object, Void> aggiungiCol = new TableColumn<>("seleziona");
         aggiungiCol.setCellFactory(col -> new SelezionaRichiestaButtonCell());
 
 
         listaRichieste.getColumns().addAll(nomeDottore, dataInvio,aggiungiCol);
-        this.dati = FXCollections.observableArrayList(listPrescriptionBundleBean.getLista());
+        this.dati = FXCollections.observableArrayList(listPrescriptionBundleBean.getList());
         listaRichieste.setItems(dati);
 
     }
 
     @Override
     public void notifica() {
-        dati = FXCollections.observableArrayList(listPrescriptionBundleBean.getLista());
+        dati = FXCollections.observableArrayList(listPrescriptionBundleBean.getList());
         listaRichieste.setItems(dati);
     }
 

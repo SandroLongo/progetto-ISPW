@@ -27,11 +27,11 @@ public class SentPrescriptionBundle {
     }
 
     public SentPrescriptionBundle(PrescriptionBundleBean prescriptionBundle) {
-        setInvio(prescriptionBundle.getInvio());
+        setInvio(prescriptionBundle.getSubmissionDate());
         this.medicinali = new ArrayList<>();
-        setInviante(new Doctor(prescriptionBundle.getInviante().getCodiceFiscale()));
-        setRicevente(new Patient(prescriptionBundle.getRicevente().getCodiceFiscale()));
-        for (PrescriptionBean prescriptionBean: prescriptionBundle.getDosi()){
+        setInviante(new Doctor(prescriptionBundle.getSender().getTaxCode()));
+        setRicevente(new Patient(prescriptionBundle.getReceiver().getTaxCode()));
+        for (PrescriptionBean prescriptionBean: prescriptionBundle.getPrescriptions()){
             addDoseInviata(new Prescription(prescriptionBean));
         }
     }

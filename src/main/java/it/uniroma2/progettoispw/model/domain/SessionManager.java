@@ -22,10 +22,10 @@ public class SessionManager {
         return instance;
     }
 
-    public List<Session> getOpenSessionsByCF(String cf) {
+    public List<Session> getOpenSessionsByCF(String taxCode) {
         return sessions.values().stream()
                 .filter(session -> session.getUtente() != null &&
-                        cf.equals(session.getUtente().getCodiceFiscale()))
+                        taxCode.equals(session.getUtente().getTaxCode()))
                 .toList();
     }
 
@@ -42,41 +42,41 @@ public class SessionManager {
     }
 
     public void deleteRichiesta(SentPrescriptionBundle sentPrescriptionBundle) {
-        List<Session> openSessionsByCF = getOpenSessionsByCF(sentPrescriptionBundle.getRicevente().getCodiceFiscale());
+        List<Session> openSessionsByCF = getOpenSessionsByCF(sentPrescriptionBundle.getRicevente().getTaxCode());
         for (Session s : openSessionsByCF){
             User user = s.getUtente();
-            if (Objects.requireNonNull(user.isType()) == Role.PAZIENTE) {
-                PendentBundle pendentBundle = ((Patient) user).getRichiestePendenti();
-                pendentBundle.deleteRichiesta(sentPrescriptionBundle.getId());
+            if (Objects.requireNonNull(user.isType()) == Role.PATIENT) {
+                PendentBundles pendentBundles = ((Patient) user).getRichiestePendenti();
+                pendentBundles.deleteRichiesta(sentPrescriptionBundle.getId());
             }
         }
     }
 
     public void addRichiesta(SentPrescriptionBundle sentPrescriptionBundle) {
-        List<Session> attive = SessionManager.getInstance().getOpenSessionsByCF(sentPrescriptionBundle.getRicevente().getCodiceFiscale());
+        List<Session> attive = SessionManager.getInstance().getOpenSessionsByCF(sentPrescriptionBundle.getRicevente().getTaxCode());
         for (Session session : attive){
             User user = session.getUtente();
-            if (Objects.requireNonNull(user.isType()) == Role.PAZIENTE) {
-                PendentBundle pendentBundle = ((Patient) user).getRichiestePendenti();
-                pendentBundle.addRichiesta(sentPrescriptionBundle);
+            if (Objects.requireNonNull(user.isType()) == Role.PATIENT) {
+                PendentBundles pendentBundles = ((Patient) user).getRichiestePendenti();
+                pendentBundles.addBundle(sentPrescriptionBundle);
             }
         }
     }
 
-    public void logout(int codice){
-        Session s = sessions.remove(codice);
+    public void logout(int code){
+        Session s = sessions.remove(code);
         System.out.println("chiusa sessione" + numSessions);
         s.logout();
     }
 
-    public void aggiornaSessioni(String taxCode,MedicationDose medicationDose, LocalDate data){
+    public void aggiornaSessioni(String taxCode,MedicationDose medicationDose, LocalDate date){
         List<Session> openSessions = getOpenSessionsByCF(taxCode);
         for (Session session : openSessions) {
             User user = session.getUtente();
-            if (user.isType() == Role.PAZIENTE){
-                TherapyCalendar therapyCalendar = ((Patient) user).getCalendario();
-                if (therapyCalendar.esiste(data)){
-                    therapyCalendar.getDailyTherapy(data).addDose(medicationDose);
+            if (user.isType() == Role.PATIENT){
+                TherapyCalendar therapyCalendar = ((Patient) user).getCalendar();
+                if (therapyCalendar.exists(date)){
+                    therapyCalendar.getDailyTherapy(date).addDose(medicationDose);
                 }
             }
         }
@@ -84,8 +84,8 @@ public class SessionManager {
 
     }
 
-    public boolean esiste(int codice){
-        return sessions.containsKey(codice);
+    public boolean exists(int code){
+        return sessions.containsKey(code);
     }
 
 

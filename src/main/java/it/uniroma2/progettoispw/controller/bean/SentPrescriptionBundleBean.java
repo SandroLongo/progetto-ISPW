@@ -4,19 +4,15 @@ import it.uniroma2.progettoispw.model.domain.SentPrescriptionBundle;
 
 
 public class SentPrescriptionBundleBean extends PrescriptionBundleBean {
-    private int idRichiesta;
+    private int id;
 
     public SentPrescriptionBundleBean(SentPrescriptionBundle sentPrescriptionBundle) {
         super(sentPrescriptionBundle);
-        this.idRichiesta = sentPrescriptionBundle.getId();
+        this.id = sentPrescriptionBundle.getId();
     }
 
-    public int getIdRichiesta() {
-        return idRichiesta;
-    }
-
-    public void setIdRichiesta(int idRichiesta) {
-        this.idRichiesta = idRichiesta;
+    public int getId() {
+        return id;
     }
 
     @Override

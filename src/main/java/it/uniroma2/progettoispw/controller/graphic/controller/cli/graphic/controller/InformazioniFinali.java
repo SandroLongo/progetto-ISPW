@@ -29,7 +29,7 @@ public class InformazioniFinali extends Receiver {
          public String goNext(Receiver stateMachine, String command) {
              try {
                  int numero = Integer.parseInt(command);
-                 prescriptionBean.getDose().setQuantita(numero);
+                 prescriptionBean.getDose().setQuantity(numero);
                  return stateMachine.goNext(new InserisciUnitaMisura(prescriptionBean));
              } catch (NumberFormatException e) {
                  return ERRORENUMERO + initialMessage;
@@ -50,7 +50,7 @@ public class InformazioniFinali extends Receiver {
         @Override
         public String goNext(Receiver stateMachine, String command) {
             try {
-                prescriptionBean.getDose().setUnitaMisura(command);
+                prescriptionBean.getDose().setMeausurementUnit(command);
                 return stateMachine.goNext(new InserisciOrario(prescriptionBean));
             } catch (NumberFormatException e) {
                 return ERRORENUMERO + initialMessage;
@@ -72,7 +72,7 @@ public class InformazioniFinali extends Receiver {
         public String goNext(Receiver stateMachine, String command) {
             try {
                 LocalTime orario = LocalTime.parse(command);
-                prescriptionBean.getDose().setOrario(orario);
+                prescriptionBean.getDose().setScheduledTime(orario);
                 return stateMachine.goNext(new InserisciDataIniziale(prescriptionBean));
             } catch (DateTimeParseException e) {
                 return "devi inserire qualcosa come 15:10, 8:50 ecc..\n" + initialMessage;
@@ -95,7 +95,7 @@ public class InformazioniFinali extends Receiver {
             try {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                 LocalDate date = LocalDate.parse(command, formatter);
-                prescriptionBean.setInizio(date);
+                prescriptionBean.setStartDate(date);
                 return stateMachine.goNext(new InserisciNumeroGiorni(prescriptionBean));
             } catch (DateTimeParseException e) {
                 return "devi inserire una data come 31-1-2026(gg-mm-aaaa)\n" + initialMessage;
@@ -117,7 +117,7 @@ public class InformazioniFinali extends Receiver {
         public String goNext(Receiver stateMachine, String command) {
             try {
                 int numero = Integer.parseInt(command);
-                prescriptionBean.setNumRipetizioni(numero);
+                prescriptionBean.setRepetitionNumber(numero);
                 return stateMachine.goNext(new InserisciRate(prescriptionBean));
             } catch (NumberFormatException e) {
                 return ERRORENUMERO + initialMessage;
@@ -139,7 +139,7 @@ public class InformazioniFinali extends Receiver {
         public String goNext(Receiver stateMachine, String command) {
             try {
                 int numero = Integer.parseInt(command);
-                prescriptionBean.setRateGiorni(numero);
+                prescriptionBean.setDayRate(numero);
                 return stateMachine.goNext(new InserisciDescrizione(prescriptionBean));
             } catch (NumberFormatException e) {
                 return ERRORENUMERO + initialMessage;
@@ -160,7 +160,7 @@ public class InformazioniFinali extends Receiver {
         @Override
         public String goNext(Receiver stateMachine, String command) {
             try {
-                prescriptionBean.getDose().setDescrizione(command);
+                prescriptionBean.getDose().setDescription(command);
                 return stateMachine.getPromptController().setReceiver(stateMachine.getPreviousReceiver());
             } catch (NumberFormatException e) {
                 return ERRORENUMERO + initialMessage;

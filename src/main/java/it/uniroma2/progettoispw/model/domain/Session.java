@@ -2,18 +2,18 @@ package it.uniroma2.progettoispw.model.domain;
 
 public class Session {
     private User user;
-    private int codice;
+    private int code;
 
-    public Session(User user, int codice) {
+    public Session(User user, int code) {
         this.user = user;
-        this.codice = codice;
+        this.code = code;
     }
     public User getUtente() {
         return user;
     }
 
-    public int getCodice() {
-        return codice;
+    public int getCode() {
+        return code;
     }
 
     public void logout() {

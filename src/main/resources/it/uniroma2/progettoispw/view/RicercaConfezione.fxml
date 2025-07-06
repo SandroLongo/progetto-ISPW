@@ -11,10 +11,10 @@
       <TableView fx:id="risultatiTable" layoutY="124.0" prefHeight="343.0" prefWidth="604.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
       <Button layoutX="21.0" layoutY="32.0" mnemonicParsing="false" onAction="#searchConfezione" text="cercaMedicinale" />
       <TextField fx:id="nomeConfezione" layoutX="159.0" layoutY="32.0" />
-      <Label layoutX="159.0" layoutY="14.0" prefHeight="17.0" prefWidth="149.0" text="nome" />
+      <Label layoutX="159.0" layoutY="14.0" prefHeight="17.0" prefWidth="149.0" text="name" />
       <Button layoutX="21.0" layoutY="73.0" mnemonicParsing="false" onAction="#searchPrincipio" text="cercaPrincipio" />
       <TextField fx:id="nomePrincipio" layoutX="164.0" layoutY="73.0" prefHeight="25.0" prefWidth="138.0" />
-      <Label layoutX="164.0" layoutY="57.0" prefHeight="17.0" prefWidth="149.0" text="nome" />
+      <Label layoutX="164.0" layoutY="57.0" prefHeight="17.0" prefWidth="149.0" text="name" />
       <Button layoutX="497.0" layoutY="31.0" mnemonicParsing="false" onAction="#indietro" prefHeight="25.0" prefWidth="84.0" text="indietro" />
    </children>
 </AnchorPane>

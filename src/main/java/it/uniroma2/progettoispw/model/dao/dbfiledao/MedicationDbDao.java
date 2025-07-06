@@ -3,7 +3,7 @@ package it.uniroma2.progettoispw.model.dao.dbfiledao;
 import it.uniroma2.progettoispw.model.dao.DaoException;
 import it.uniroma2.progettoispw.model.dao.MedicationDao;
 import it.uniroma2.progettoispw.model.domain.MedicinalProduct;
-import it.uniroma2.progettoispw.model.domain.ActiveIngridient;
+import it.uniroma2.progettoispw.model.domain.ActiveIngredient;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -39,9 +39,9 @@ public class MedicationDbDao extends DbDao implements MedicationDao {
 
     }
 
-    private ActiveIngridient creaPrincipioAttivo(ResultSet rs) throws SQLException {
+    private ActiveIngredient creaPrincipioAttivo(ResultSet rs) throws SQLException {
         try {
-            return new ActiveIngridient(rs.getString(1), rs.getString(2));
+            return new ActiveIngredient(rs.getString(1), rs.getString(2));
         } catch(SQLException e){
             throw new DaoException(e.getMessage());
         }
@@ -116,7 +116,7 @@ public class MedicationDbDao extends DbDao implements MedicationDao {
     }
 
     @Override
-    public List<String> getNomiPrincipioAttivoByNomeParziale(String nome) throws DaoException {
+    public List<String> getMedicinalProductNameByPartialName(String nome) throws DaoException {
         List<String> nomi = new ArrayList<>();
 
         try {
@@ -139,8 +139,8 @@ public class MedicationDbDao extends DbDao implements MedicationDao {
     }
 
     @Override
-    public ActiveIngridient getPrincipioAttvoByNome(String nome) throws DaoException {
-        ActiveIngridient activeIngridient = null;
+    public ActiveIngredient getPrincipioAttvoByNome(String nome) throws DaoException {
+        ActiveIngredient activeIngredient = null;
         try {
             Connection conn = ConnectionFactory.getConnection();
             CallableStatement cs = conn.prepareCall("{call search_pa_by_nome(?)}");
@@ -150,13 +150,13 @@ public class MedicationDbDao extends DbDao implements MedicationDao {
             if (status) {
                 ResultSet rs = cs.getResultSet();
                 if (rs.next()) {
-                    activeIngridient = creaPrincipioAttivo(rs);
+                    activeIngredient = creaPrincipioAttivo(rs);
                 }
             }
         } catch (SQLException e) {
             throw new DaoException(e.getMessage());
         }
-        return activeIngridient;
+        return activeIngredient;
     }
 
     @Override
@@ -184,8 +184,8 @@ public class MedicationDbDao extends DbDao implements MedicationDao {
     }
 
     @Override
-    public ActiveIngridient getPrincipioAttvoByCodiceAtc(String codiceAtc) throws DaoException {
-        ActiveIngridient activeIngridient = null;
+    public ActiveIngredient getPrincipioAttvoByCodiceAtc(String codiceAtc) throws DaoException {
+        ActiveIngredient activeIngredient = null;
         try {
             Connection conn = ConnectionFactory.getConnection();
             CallableStatement cs = conn.prepareCall("{call search_pa_by_codice(?)}");
@@ -194,14 +194,14 @@ public class MedicationDbDao extends DbDao implements MedicationDao {
             if (status) {
                 ResultSet rs = cs.getResultSet();
                 if (rs.next()){
-                    activeIngridient = creaPrincipioAttivo(rs);
+                    activeIngredient = creaPrincipioAttivo(rs);
                 }
             }
 
         } catch (SQLException e) {
             throw new DaoException(e.getMessage());
         }
-        return activeIngridient;
+        return activeIngredient;
     }
 
 }

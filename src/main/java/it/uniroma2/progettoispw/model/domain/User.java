@@ -4,56 +4,56 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 public abstract class User implements Serializable {
-    private String codiceFiscale;
-    private String nome;
-    private String cognome;
+    private String taxCode;
+    private String name;
+    private String surname;
     private String email;
-    private String telefono;
-    private LocalDate dataNascita;
+    private String phoneNumber;
+    private LocalDate birthDate;
 
     protected User(User user){
-        this.codiceFiscale = user.getCodiceFiscale();
-        this.nome = user.getNome();
-        this.cognome = user.getCognome();
+        this.taxCode = user.getTaxCode();
+        this.name = user.getName();
+        this.surname = user.getSurname();
         this.email = user.getEmail();
-        this.telefono = user.getTelefono();
-        this.dataNascita = user.getDataNascita();
+        this.phoneNumber = user.getPhoneNumber();
+        this.birthDate = user.getBirthDate();
     }
 
 
-    protected User(String codiceFiscale, String nome, String cognome, LocalDate dataNascita, String email, String telefono) {
-        this.codiceFiscale = codiceFiscale;
-        this.nome = nome;
-        this.cognome = cognome;
-        this.dataNascita = dataNascita;
+    protected User(String taxCode, String name, String surname, LocalDate birthDate, String email, String phoneNumber) {
+        this.taxCode = taxCode;
+        this.name = name;
+        this.surname = surname;
+        this.birthDate = birthDate;
         this.email = email;
-        this.telefono = telefono;
+        this.phoneNumber = phoneNumber;
 
     }
 
-    protected User(String codiceFiscale) {
-        this.codiceFiscale = codiceFiscale;
+    protected User(String taxCode) {
+        this.taxCode = taxCode;
     }
 
     public abstract Role isType();
 
-    public String getCodiceFiscale() {
-        return codiceFiscale;
+    public String getTaxCode() {
+        return taxCode;
     }
-    public void setCodiceFiscale(String codiceFiscale) {
-        this.codiceFiscale = codiceFiscale;
+    public void setTaxCode(String taxCode) {
+        this.taxCode = taxCode;
     }
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
-    public String getCognome() {
-        return cognome;
+    public String getSurname() {
+        return surname;
     }
-    public void setCognome(String cognome) {
-        this.cognome = cognome;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
     public String getEmail() {
         return email;
@@ -61,17 +61,17 @@ public abstract class User implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
-    public String getTelefono() {
-        return telefono;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
-    public LocalDate getDataNascita() {
-        return dataNascita;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
-    public void setDataNascita(LocalDate dataNascita) {
-        this.dataNascita = dataNascita;
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
     public abstract void logout();

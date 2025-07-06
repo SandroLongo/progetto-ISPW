@@ -23,7 +23,7 @@ public class TherapyDbDao extends DbDao implements TherapyDao {
     private void addDosiPrincipioAttivo(ResultSet rs, DailyTherapy terapia) throws SQLException {
         try {
             while (rs.next()) {
-                terapia.addDose(new MedicationDose(new ActiveIngridient(rs.getString(6)), rs.getInt(1),
+                terapia.addDose(new MedicationDose(new ActiveIngredient(rs.getString(6)), rs.getInt(1),
                         rs.getString(2), rs.getTime(3).toLocalTime(), rs.getString(4), new Doctor(rs.getString(5))));
             }
         } catch (SQLException e){
@@ -32,7 +32,7 @@ public class TherapyDbDao extends DbDao implements TherapyDao {
     }
 
     @Override
-    public DailyTherapy getTerapiaGiornaliera(String taxCode, LocalDate date) throws DaoException {
+    public DailyTherapy getDailyTherapy(String taxCode, LocalDate date) throws DaoException {
         DailyTherapy terapia = new DailyTherapy(date);
         try {
             Connection conn = ConnectionFactory.getConnection();
@@ -59,17 +59,17 @@ public class TherapyDbDao extends DbDao implements TherapyDao {
     }
 
     @Override
-    public void addMedicationDose(MedicationDose doseConfezione, LocalDate date, String taxCode) throws DaoException {
+    public void addMedicationDose(MedicationDose medicationDose, LocalDate date, String taxCode) throws DaoException {
         try {
             Connection conn = ConnectionFactory.getConnection();
-            CallableStatement cs = createCSandSetMedicationInformation(doseConfezione.getMedication());
+            CallableStatement cs = createCSandSetMedicationInformation(medicationDose.getMedication());
             cs.setString(1, taxCode);
-            cs.setInt(3, doseConfezione.getQuantity());
-            cs.setString(4, doseConfezione.getMeasurementUnit());
+            cs.setInt(3, medicationDose.getQuantity());
+            cs.setString(4, medicationDose.getMeasurementUnit());
             cs.setDate(5, java.sql.Date.valueOf(date));
-            cs.setTime(6, Time.valueOf(doseConfezione.getScheduledTime()));
-            cs.setString(7, doseConfezione.getDescription());
-            cs.setString(8, doseConfezione.getSender().getCodiceFiscale());
+            cs.setTime(6, Time.valueOf(medicationDose.getScheduledTime()));
+            cs.setString(7, medicationDose.getDescription());
+            cs.setString(8, medicationDose.getSender().getTaxCode());
             cs.execute();
         } catch (SQLException e) {
             throw new DaoException(e.getMessage());
@@ -80,10 +80,10 @@ public class TherapyDbDao extends DbDao implements TherapyDao {
         Connection conn = ConnectionFactory.getConnection();
         CallableStatement cs;
         switch (medication.getType()){
-            case CONFEZIONE -> {
+            case MEDICINALPRODUCT -> {
                 cs = conn.prepareCall("{call add_dose_confezione(?,?,?,?,?,?,?,?)}");
                 cs.setInt(2, Integer.parseInt(medication.getId()));}
-            case PRINCIPIOATTIVO -> {
+            case ACRIVEINGREDIENT -> {
                 cs = conn.prepareCall("{call add_dose_pa(?,?,?,?,?,?,?,?)}");
                 cs.setString(1, medication.getId());}
             default -> {throw new DaoException("invalid medication type");

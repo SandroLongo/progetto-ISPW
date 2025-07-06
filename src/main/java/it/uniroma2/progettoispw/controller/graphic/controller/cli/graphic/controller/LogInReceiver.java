@@ -46,13 +46,13 @@ public class LogInReceiver extends Receiver {
         public CfMedicoState() {
             super();
             this.userLogInData = new UserLogInData();
-            userLogInData.setRuolo(Role.DOTTORE);
+            userLogInData.setRole(Role.DOCTOR);
             this.initialMessage = "inserisci il codice fiscale\n";
         }
 
         @Override
         public String goNext(Receiver stateMachine, String command) {
-            this.userLogInData.setCodiceFiscale(command);
+            this.userLogInData.setTaxCode(command);
             return stateMachine.goNext(new PassMedicoState(userLogInData));
         }
     }
@@ -83,17 +83,17 @@ public class LogInReceiver extends Receiver {
 
         @Override
         public String goNext(Receiver stateMachine, String command) {
-            userLogInData.setCodiceDottore(command);
+            userLogInData.setDoctorCode(command);
             LogInController logInController = new LogInController();
             AuthenticationBean authenticationBean = logInController.logIn(userLogInData);
             stateMachine.getPromptController().setLogout(authenticationBean);
             stateMachine.getPromptController().setAuthenticationBean(authenticationBean);
             stateMachine.setCurrentState(new WelcomeState());
             switch (authenticationBean.getRuolo()){
-                case DOTTORE -> {
+                case DOCTOR -> {
                     return stateMachine.getPromptController().setReceiver(new MenuDottore(authenticationBean, stateMachine));
                 }
-                case PAZIENTE -> {
+                case PATIENT -> {
                     return stateMachine.getPromptController().setReceiver(new MenuPaziente(authenticationBean, stateMachine));
                 }
                 default -> {
@@ -108,13 +108,13 @@ public class LogInReceiver extends Receiver {
         public CFPazienteState(){
             super();
             this.userLogInData = new UserLogInData();
-            this.userLogInData.setRuolo(Role.PAZIENTE);
+            this.userLogInData.setRole(Role.PATIENT);
             this.initialMessage = "inserisci il codice fiscale";
         }
 
         @Override
         public String goNext(Receiver stateMachine, String command) {
-            userLogInData.setCodiceFiscale(command);
+            userLogInData.setTaxCode(command);
             return stateMachine.goNext(new PassPazienteState(userLogInData));
         }
     }

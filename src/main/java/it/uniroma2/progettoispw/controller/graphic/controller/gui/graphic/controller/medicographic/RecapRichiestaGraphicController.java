@@ -55,7 +55,7 @@ public class RecapRichiestaGraphicController extends GuiGraphicController implem
 
     @FXML
     void invia(ActionEvent event) {
-        sendPrescriptionBundleController.invia(authenticationBean.getCodice(), prescriptionBundleBean);
+        sendPrescriptionBundleController.send(authenticationBean.getCodice(), prescriptionBundleBean);
         menuWindowManager.deleteTop(gruppo);
         menuWindowManager.show(gruppo);
     }
@@ -65,33 +65,33 @@ public class RecapRichiestaGraphicController extends GuiGraphicController implem
         this.sendPrescriptionBundleController = (SendPrescriptionBundleController) args[1];
         this.gruppo = (String) args[0];
         this.authenticationBean = (AuthenticationBean) args[2];
-        this.prescriptionBundleBean.setRicevente((InformazioniUtente) args[3]);
+        this.prescriptionBundleBean.setReceiver((UserInformation) args[3]);
         this.menuWindowManager = (MenuWindowManager) args[4];
         recapTable.getColumns().clear();
 
         TableColumn<Object, String> nome = new TableColumn<>("Nome");
-        nome.setCellValueFactory(data -> new ReadOnlyStringWrapper(((PrescriptionBean)data.getValue()).getDose().getNome()));
+        nome.setCellValueFactory(data -> new ReadOnlyStringWrapper(((PrescriptionBean)data.getValue()).getDose().getName()));
 
         TableColumn<Object, String> quantita = new TableColumn<>("quantita");
-        quantita.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((PrescriptionBean)data.getValue()).getDose().getQuantita())));
+        quantita.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((PrescriptionBean)data.getValue()).getDose().getQuantity())));
 
         TableColumn<Object, String> unitaDiMisura = new TableColumn<>("unita di misura");
-        unitaDiMisura.setCellValueFactory(data -> new ReadOnlyStringWrapper(((PrescriptionBean)data.getValue()).getDose().getUnitaMisura()));
+        unitaDiMisura.setCellValueFactory(data -> new ReadOnlyStringWrapper(((PrescriptionBean)data.getValue()).getDose().getMeausurementUnit()));
 
         TableColumn<Object, String> inizio = new TableColumn<>("Data inizio");
-        inizio.setCellValueFactory(data -> new ReadOnlyStringWrapper(((PrescriptionBean)data.getValue()).getInizio().toString()));
+        inizio.setCellValueFactory(data -> new ReadOnlyStringWrapper(((PrescriptionBean)data.getValue()).getStartDate().toString()));
 
         TableColumn<Object, String> numGiorni = new TableColumn<>("numero di volte");
-        numGiorni.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((PrescriptionBean)data.getValue()).getNumRipetizioni())));
+        numGiorni.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((PrescriptionBean)data.getValue()).getRepetitionNumber())));
 
         TableColumn<Object, String> rate = new TableColumn<>("ogni tot giorni");
-        rate.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((PrescriptionBean)data.getValue()).getRateGiorni())));
+        rate.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((PrescriptionBean)data.getValue()).getDayRate())));
 
         TableColumn<Object, String> orario = new TableColumn<>("orario");
-        orario.setCellValueFactory(data -> new ReadOnlyStringWrapper(((PrescriptionBean)data.getValue()).getDose().getOrario().toString()));
+        orario.setCellValueFactory(data -> new ReadOnlyStringWrapper(((PrescriptionBean)data.getValue()).getDose().getScheduledTime().toString()));
 
         TableColumn<Object, String> descrizione = new TableColumn<>("descrizione");
-        descrizione.setCellValueFactory(data -> new ReadOnlyStringWrapper(((PrescriptionBean)data.getValue()).getDose().getDescrizione()));
+        descrizione.setCellValueFactory(data -> new ReadOnlyStringWrapper(((PrescriptionBean)data.getValue()).getDose().getDescription()));
 
         TableColumn<Object, Void> aggiungiCol = new TableColumn<>("elimina");
         aggiungiCol.setCellFactory(col -> new EliminaDoseCostructorButtonCell());
@@ -104,21 +104,21 @@ public class RecapRichiestaGraphicController extends GuiGraphicController implem
 
     @Override
     public void setFinalInformation(FinalStepBean finalStep) throws IOException {
-        prescriptionBean.setInizio(finalStep.getInizio());
-        prescriptionBean.setNumRipetizioni(finalStep.getNumRipetizioni());
-        prescriptionBean.setRateGiorni(finalStep.getRateGiorni());
-        prescriptionBean.getDose().setDescrizione(finalStep.getDescrizioneMedica());
-        prescriptionBean.getDose().setOrario(finalStep.getOrario());
-        prescriptionBean.getDose().setUnitaMisura(finalStep.getUnitaMisura());
-        prescriptionBean.getDose().setQuantita(finalStep.getQuantita());
-        prescriptionBundleBean.addDoseCostructor(prescriptionBean);
+        prescriptionBean.setStartDate(finalStep.getStartDate());
+        prescriptionBean.setRepetitionNumber(finalStep.getRepetitionNumber());
+        prescriptionBean.setDayRate(finalStep.getDayRate());
+        prescriptionBean.getDose().setDescription(finalStep.getDescription());
+        prescriptionBean.getDose().setScheduledTime(finalStep.getScheduledTime());
+        prescriptionBean.getDose().setMeausurementUnit(finalStep.getMeasurementUnit());
+        prescriptionBean.getDose().setQuantity(finalStep.getQuantity());
+        prescriptionBundleBean.addPrescription(prescriptionBean);
         update();
         menuWindowManager.deleteTop(gruppo);
         menuWindowManager.show(gruppo);
     }
 
     public void update(){
-        dati = FXCollections.observableArrayList(prescriptionBundleBean.getDosi());
+        dati = FXCollections.observableArrayList(prescriptionBundleBean.getPrescriptions());
         recapTable.setItems(dati);
     }
 
@@ -140,7 +140,7 @@ public class RecapRichiestaGraphicController extends GuiGraphicController implem
         public EliminaDoseCostructorButtonCell() {
             btn.setOnAction(event -> {
                 PrescriptionBean selezione = (PrescriptionBean)getTableView().getItems().get(getIndex());
-                prescriptionBundleBean.deleteDoseCostructor(selezione);
+                prescriptionBundleBean.removePrescription(selezione);
             });
         }
 

@@ -1,7 +1,7 @@
 package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.medicographic;
 
 import it.uniroma2.progettoispw.controller.bean.AuthenticationBean;
-import it.uniroma2.progettoispw.controller.bean.InformazioniUtente;
+import it.uniroma2.progettoispw.controller.bean.UserInformation;
 import it.uniroma2.progettoispw.controller.controller.applicativi.SendPrescriptionBundleController;
 import it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.GuiGraphicController;
 import it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.MenuWindowManager;
@@ -17,7 +17,7 @@ public class InviaRichiestaViewController extends GuiGraphicController {
     private SendPrescriptionBundleController sendPrescriptionBundleController;
     private String gruppo;
     private AuthenticationBean authenticationBean;
-    private InformazioniUtente utente;
+    private UserInformation utente;
     private MenuWindowManager menuWindowManager;
 
     @FXML
@@ -41,11 +41,11 @@ public class InviaRichiestaViewController extends GuiGraphicController {
 
     @FXML
     void conferma(ActionEvent event) {
-        this.utente = sendPrescriptionBundleController.getInformazioniPaziente(authenticationBean.getCodice(), cFField.getText());
-        cognomeLabel.setText(utente.getCognome());
-        nomeLabel.setText(utente.getNome());
+        this.utente = sendPrescriptionBundleController.getPatientInformation(authenticationBean.getCodice(), cFField.getText());
+        cognomeLabel.setText(utente.getSurname());
+        nomeLabel.setText(utente.getName());
         emailLabel.setText(utente.getEmail());
-        numeroLabel.setText(utente.getTelefono());
+        numeroLabel.setText(utente.getPhoneNumber());
         confermaButton.setDisable(false);
     }
 

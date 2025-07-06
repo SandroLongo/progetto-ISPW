@@ -23,7 +23,7 @@ public class MenuDottore extends Receiver {
         public MenuState() {
             this.initialMessage = """
                     MENU DEL DOTTORE, scegli cosa vuoi fare
-                    invia --> invia una sentPrescriptionBundle
+                    send --> send una sentPrescriptionBundle
                     logout --> torna al login
                     """;
         }
@@ -32,7 +32,7 @@ public class MenuDottore extends Receiver {
         public String goNext(Receiver stateMachine, String command) {
             String option = command.toLowerCase();
             switch (option) {
-                case "invia": return stateMachine.getPromptController().setReceiver(inviarichiesteReceiver);
+                case "send": return stateMachine.getPromptController().setReceiver(inviarichiesteReceiver);
                 case "logout": stateMachine.getPromptController().resetLogout();
                     LogInController logInController = new LogInController();
                     logInController.logOut(authenticationBean.getCodice());

@@ -36,7 +36,7 @@ public class Terapia extends Receiver {
             this.authenticationBean = authenticationBean;
             this.currentDate = currentDate;
             this.therapyController = new TherapyController();
-            this.dailyTherapyBean = therapyController.getTerapiaGiornaliera(authenticationBean.getCodice(), currentDate);
+            this.dailyTherapyBean = therapyController.getDailyTherapy(authenticationBean.getCodice(), currentDate);
             this.initialMessage = dailyTherapyBean.toString() + "scegli cosa fare\n" +
                     "avanti --> giorno successivo\n" +
                     "indietro --> giorno precedente\n" +
@@ -52,10 +52,10 @@ public class Terapia extends Receiver {
 
             switch (opzione) {
                 case "avanti": this.currentDate = currentDate.plusDays(1);
-                    this.dailyTherapyBean = therapyController.getTerapiaGiornaliera(authenticationBean.getCodice(), currentDate);
+                    this.dailyTherapyBean = therapyController.getDailyTherapy(authenticationBean.getCodice(), currentDate);
                     return stateMachine.goNext(new ShowTerapiaState(authenticationBean, currentDate));
                 case "indietro": this.currentDate = currentDate.minusDays(1);
-                    this.dailyTherapyBean = therapyController.getTerapiaGiornaliera(authenticationBean.getCodice(), currentDate);
+                    this.dailyTherapyBean = therapyController.getDailyTherapy(authenticationBean.getCodice(), currentDate);
                     return stateMachine.goNext(new ShowTerapiaState(authenticationBean, currentDate));
                 case "aggiungi": PrescriptionBean prescriptionBean = new PrescriptionBean();
                     return stateMachine.goNext(new AggiungiStateFase1(authenticationBean, therapyController, prescriptionBean)) +
@@ -87,7 +87,7 @@ public class Terapia extends Receiver {
         @Override
         public String comeBackAction(Receiver stateMachine){
             DoseBean dosebean = prescriptionBean.getDose();
-            if (dosebean.getNome() != null && dosebean.getCodice() != null) {
+            if (dosebean.getName() != null && dosebean.getId() != null) {
                 return stateMachine.goNext(new AggiungiStateFase2(authenticationBean, therapyController, prescriptionBean)) + stateMachine.getPromptController().setReceiver(new InformazioniFinali(prescriptionBean, stateMachine)) ;
             } else {
                 return stateMachine.goNext(new ShowTerapiaState(authenticationBean));

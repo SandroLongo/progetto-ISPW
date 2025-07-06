@@ -10,46 +10,48 @@ import it.uniroma2.progettoispw.model.domain.User;
 public class LogInController implements Controller{
     private final DaoFacade daoFacade = new DaoFacade();
 
-    public AuthenticationBean logIn(UserLogInData userLogInData) throws FomatoInvalidoException, DaoException {
+    public AuthenticationBean logIn(UserLogInData userLogInData) throws FomatoInvalidoException, LogInFailedException {
         if (userLogInData.isComplete()) {
             User user;
             try {
-                switch (userLogInData.getRuolo()){
-                    case PAZIENTE -> user = daoFacade.login(userLogInData.getCodiceFiscale(), userLogInData.getPassword(), 0, 0);
-                    case DOTTORE -> { user = daoFacade.login(userLogInData.getCodiceFiscale(), userLogInData.getPassword(), 1,
-                                    userLogInData.getCodiceDottore());}
+                switch (userLogInData.getRole()){
+                    case PATIENT -> user = daoFacade.login(userLogInData.getTaxCode(), userLogInData.getPassword(), 0, 0);
+                    case DOCTOR -> { user = daoFacade.login(userLogInData.getTaxCode(), userLogInData.getPassword(), 1,
+                                    userLogInData.getDoctorCode());}
                     default -> user = null;
                 }
             } catch (DaoException e) {
-                e.printStackTrace();
                 throw new LogInFailedException(e.getMessage());
             }
-            System.out.println(user.getCodiceFiscale());
+            if (user == null) {
+                throw new LogInFailedException("login failed");
+            }
+            System.out.println(user.getTaxCode());
             Session session = SessionManager.getInstance().setSession(user);
-            return new AuthenticationBean(session.getUtente().getNome(), session.getUtente().getCognome(), session.getCodice(), session.getUtente().isType());
+            return new AuthenticationBean(session.getUtente().getName(), session.getUtente().getSurname(), session.getCode(), session.getUtente().isType());
         } else {
             throw new FomatoInvalidoException("le informazioni non sono state completate");
         }
     }
 
 
-    public void registerPaziente(PatientRegistrationData utenteRegistrationData) throws FomatoInvalidoException {
-        if (utenteRegistrationData.isComplete()) {
-            daoFacade.addPaziente(utenteRegistrationData.getCodiceFiscale(), utenteRegistrationData.getNome(),
-                            utenteRegistrationData.getCognome(), utenteRegistrationData.getDataNascita(), utenteRegistrationData.getEmail(),
-                            utenteRegistrationData.getTelefono(), utenteRegistrationData.getPassword());
-            System.out.println(utenteRegistrationData.getCodiceFiscale() + "in logincontroller");
+    public void registerPatient(PatientRegistrationData patientRegistrationData) throws FomatoInvalidoException {
+        if (patientRegistrationData.isComplete()) {
+            daoFacade.addPaziente(patientRegistrationData.getTaxCode(), patientRegistrationData.getName(),
+                            patientRegistrationData.getSurname(), patientRegistrationData.getBirthDate(), patientRegistrationData.getEmail(),
+                            patientRegistrationData.getPhoneNumber(), patientRegistrationData.getPassword());
+            System.out.println(patientRegistrationData.getTaxCode() + "in logincontroller");
         } else {
             throw new FomatoInvalidoException("i dati non sono stati compleatati");
         }
 
     }
 
-    public int registerDottore(DoctorRegistrationData utenteRegistrationData) throws FomatoInvalidoException{
-        if (utenteRegistrationData.isComplete()) {
-            return daoFacade.addDottore(utenteRegistrationData.getCodiceFiscale(), utenteRegistrationData.getNome(),
-                    utenteRegistrationData.getCognome(), utenteRegistrationData.getDataNascita(), utenteRegistrationData.getEmail(),
-                    utenteRegistrationData.getTelefono(), utenteRegistrationData.getPassword());
+    public int registerDoctor(DoctorRegistrationData doctorRegistrationData) throws FomatoInvalidoException{
+        if (doctorRegistrationData.isComplete()) {
+            return daoFacade.addDottore(doctorRegistrationData.getTaxCode(), doctorRegistrationData.getName(),
+                    doctorRegistrationData.getSurname(), doctorRegistrationData.getBirthDate(), doctorRegistrationData.getEmail(),
+                    doctorRegistrationData.getPhoneNumber(), doctorRegistrationData.getPassword());
         } else {
             throw new FomatoInvalidoException("i dati non sono stati compleati");
         }

@@ -5,53 +5,53 @@ import java.util.List;
 import java.util.Map;
 
 public class Patient extends User {
-    private transient TherapyCalendar calendario;
-    private transient PendentBundle pendenti;
+    private transient TherapyCalendar calendar;
+    private transient PendentBundles pending;
 
     public Patient(Patient patient) {
         super(patient);
-        calendario = new TherapyCalendar();
-        pendenti = new PendentBundle();
+        calendar = new TherapyCalendar();
+        pending = new PendentBundles();
     }
 
     public Patient(String taxCode){
         super(taxCode);
     }
 
-    public Patient(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono) {
-        super(codiceFiscale, nome, cognome, nascita, email, telefono);
-        this.calendario = new TherapyCalendar();
-        this.pendenti = new PendentBundle();
+    public Patient(String taxCode, String name, String surname, LocalDate birthDate, String email, String phoneNumber) {
+        super(taxCode, name, surname, birthDate, email, phoneNumber);
+        this.calendar = new TherapyCalendar();
+        this.pending = new PendentBundles();
     }
 
-    public PendentBundle getRichiestePendenti() {
-        return pendenti;
+    public PendentBundles getRichiestePendenti() {
+        return pending;
     }
 
     public void setRichiestePendenti(List<SentPrescriptionBundle> richiestePendenti) {
-        pendenti.setRichieste(richiestePendenti);
+        pending.setPending(richiestePendenti);
     }
 
 
-    public TherapyCalendar getCalendario() {
-        return calendario;
+    public TherapyCalendar getCalendar() {
+        return calendar;
     }
 
     @Override
     public Role isType() {
-        return Role.PAZIENTE;
+        return Role.PATIENT;
     }
 
     @Override
     public void logout() {
-        if (calendario != null){
-            Map<LocalDate, DailyTherapy> map = calendario.getCalendar();
+        if (calendar != null){
+            Map<LocalDate, DailyTherapy> map = calendar.getCalendar();
             for (DailyTherapy t : map.values()){
                 t.detachAll();
             }
         }
-        if (pendenti != null){
-            pendenti.detachAll();
+        if (pending != null){
+            pending.detachAll();
         }
     }
 }

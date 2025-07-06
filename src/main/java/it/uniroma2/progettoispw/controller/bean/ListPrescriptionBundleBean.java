@@ -2,41 +2,37 @@ package it.uniroma2.progettoispw.controller.bean;
 
 import it.uniroma2.progettoispw.controller.graphic.controller.Notificator;
 import it.uniroma2.progettoispw.model.domain.SentPrescriptionBundle;
-import it.uniroma2.progettoispw.model.domain.PendentBundle;
+import it.uniroma2.progettoispw.model.domain.PendentBundles;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListPrescriptionBundleBean extends Observer {
-    private List<SentPrescriptionBundleBean> lista = new ArrayList<SentPrescriptionBundleBean>();
-    private PendentBundle pendenti;
+    private List<SentPrescriptionBundleBean> list = new ArrayList<SentPrescriptionBundleBean>();
+    private PendentBundles pending;
     private List<Notificator> notificators = new ArrayList<>();
 
     public ListPrescriptionBundleBean() {}
 
-    public ListPrescriptionBundleBean(PendentBundle pendenti) {
-        replace(pendenti.getRichieste());
-        this.pendenti = pendenti;
+    public ListPrescriptionBundleBean(PendentBundles pending) {
+        replace(pending.getPending());
+        this.pending = pending;
     }
 
     public void replace(List<SentPrescriptionBundle> richieste){
         for (SentPrescriptionBundle sentPrescriptionBundle : richieste) {
             SentPrescriptionBundleBean sentPrescriptionBundleBean = new SentPrescriptionBundleBean(sentPrescriptionBundle);
-            lista.add(sentPrescriptionBundleBean);
+            list.add(sentPrescriptionBundleBean);
         }
     }
 
-    public List<SentPrescriptionBundleBean> getLista() {
-        return lista;
-    }
-
-    public void add(SentPrescriptionBundleBean bean) {
-        lista.add(bean);
+    public List<SentPrescriptionBundleBean> getList() {
+        return list;
     }
 
     @Override
     public void update() {
-        replace(pendenti.getRichieste());
+        replace(pending.getPending());
         for (Notificator notificator : notificators) {
             notificator.notifica();
         }
@@ -44,7 +40,7 @@ public class ListPrescriptionBundleBean extends Observer {
 
     @Override
     public void detach() {
-        pendenti = null;
+        pending = null;
     }
 
     public void addNotificator(Notificator notificator) {

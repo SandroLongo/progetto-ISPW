@@ -10,38 +10,37 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class DailyTherapy extends Subject {
-    private LocalDate data;
-    private SortedMap<LocalTime, List<MedicationDose>> dosiPerOrario = new TreeMap<>();
+    private LocalDate date;
+    private SortedMap<LocalTime, List<MedicationDose>> dosesByTime = new TreeMap<>();
 
-    public DailyTherapy(LocalDate data) {
-        this.data = data;
+    public DailyTherapy(LocalDate date) {
+        this.date = date;
     }
-    public LocalDate getData() {
-        return data;
+    public LocalDate getDate() {
+        return date;
     }
-    public void setData(LocalDate data) {
-        this.data = data;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
-    public SortedMap<LocalTime, List<MedicationDose>> getDosiPerOrario() {
-        return dosiPerOrario;
+    public SortedMap<LocalTime, List<MedicationDose>> getDosesByTime() {
+        return dosesByTime;
     }
-    public void addDose(MedicationDose nuovaMedicationDose) {
-        //forse da lanciare un eccezione se null
-        if (nuovaMedicationDose == null){
+    public void addDose(MedicationDose newMedicationDose) {
+        if (newMedicationDose == null){
             return;
         }
-        dosiPerOrario.computeIfAbsent(nuovaMedicationDose.getOrario(), orarioChiave -> new ArrayList<>()).add(nuovaMedicationDose);
+        dosesByTime.computeIfAbsent(newMedicationDose.getScheduledTime(), timeKey -> new ArrayList<>()).add(newMedicationDose);
         notifica();
     }
 
     public void removeDose(MedicationDose medicationDose) {
         if (medicationDose != null){
-            dosiPerOrario.get(medicationDose.getOrario()).remove(medicationDose);
+            dosesByTime.get(medicationDose.getScheduledTime()).remove(medicationDose);
         }
     }
 
-    public void setDosiPerOrario(SortedMap<LocalTime, List<MedicationDose>> dosiPerOrario) {
-        this.dosiPerOrario = dosiPerOrario;
+    public void setDosesByTime(SortedMap<LocalTime, List<MedicationDose>> dosesByTime) {
+        this.dosesByTime = dosesByTime;
     }
 
 }

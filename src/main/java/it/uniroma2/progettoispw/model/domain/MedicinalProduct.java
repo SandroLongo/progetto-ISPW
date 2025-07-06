@@ -28,7 +28,7 @@ public class MedicinalProduct extends Medication{
 
     @Override
     public MedicationType getType() {
-        return MedicationType.CONFEZIONE;
+        return MedicationType.MEDICINALPRODUCT;
     }
 
     public void setCodiceAic(int codiceAic) {

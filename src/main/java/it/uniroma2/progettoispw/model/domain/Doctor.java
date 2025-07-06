@@ -8,8 +8,8 @@ public class Doctor extends User {
         super(doctor);
     }
 
-    public Doctor(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono) {
-        super(codiceFiscale, nome, cognome, nascita, email, telefono);
+    public Doctor(String taxCode, String name, String surname, LocalDate birthDate, String email, String phoneNumber) {
+        super(taxCode, name, surname, birthDate, email, phoneNumber);
     }
 
     public Doctor(String codiceFiscale){
@@ -18,7 +18,7 @@ public class Doctor extends User {
 
     @Override
     public Role isType() {
-        return Role.DOTTORE;
+        return Role.DOCTOR;
     }
 
     @Override

@@ -26,8 +26,8 @@ public class Richieste extends Receiver {
         public ShowRichieste(AuthenticationBean authenticationBean) {
             this.authenticationBean = authenticationBean;
             this.manageSentPrescriptionBundleController = new ManageSentPrescriptionBundleController();
-            richiestePendenti = manageSentPrescriptionBundleController.getRichieste(authenticationBean.getCodice());
-            this.initialMessage = listaRichiesteToString(richiestePendenti.getLista()) + """
+            richiestePendenti = manageSentPrescriptionBundleController.getPendingPrescriptionBundles(authenticationBean.getCodice());
+            this.initialMessage = listaRichiesteToString(richiestePendenti.getList()) + """
                     scegli cosa fare:
                     scrivi un  numero(es 0) --> seleziona la sentPrescriptionBundle con quel numero
                     menu --> torna al menu
@@ -62,8 +62,8 @@ public class Richieste extends Receiver {
             }
             switch (tipo) {
                 case 1:
-                    if (0 <= numero && numero < richiestePendenti.getLista().size()){
-                        SentPrescriptionBundleBean sentPrescriptionBundleBean = richiestePendenti.getLista().get(numero);
+                    if (0 <= numero && numero < richiestePendenti.getList().size()){
+                        SentPrescriptionBundleBean sentPrescriptionBundleBean = richiestePendenti.getList().get(numero);
                         return stateMachine.goNext(new ShowDettagliRichiesta(authenticationBean, manageSentPrescriptionBundleController, sentPrescriptionBundleBean));
                     } else {
                         return "numero non valido";
@@ -101,7 +101,7 @@ public class Richieste extends Receiver {
             String option = command.toLowerCase();
             switch (option) {
                 case "accetta":
-                    manageSentPrescriptionBundleController.accettaRichiesta(authenticationBean.getCodice(), mandata.getIdRichiesta());
+                    manageSentPrescriptionBundleController.acceptPrescriptionBundle(authenticationBean.getCodice(), mandata.getId());
                     return stateMachine.goNext(new ShowRichieste(authenticationBean));
                 case "rifiuta": return "";
                 case "indietro": return stateMachine.goNext(new ShowRichieste(authenticationBean));
