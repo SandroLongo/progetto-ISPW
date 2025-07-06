@@ -1,10 +1,10 @@
 package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller;
 
 import it.uniroma2.progettoispw.controller.bean.FomatoInvalidoException;
-import it.uniroma2.progettoispw.controller.bean.UtenteRegistrationData;
+import it.uniroma2.progettoispw.controller.bean.UserRegistrationData;
 import it.uniroma2.progettoispw.controller.controller.applicativi.LogInController;
-import it.uniroma2.progettoispw.controller.bean.DottoreRegistrationData;
-import it.uniroma2.progettoispw.controller.bean.PazienteRegistrationData;
+import it.uniroma2.progettoispw.controller.bean.DoctorRegistrationData;
+import it.uniroma2.progettoispw.controller.bean.PatientRegistrationData;
 import it.uniroma2.progettoispw.model.dao.DaoException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -67,12 +67,12 @@ public class RegistrationViewController extends GuiGraphicController {
         String messaggio;
         try {
             if (dottoreCheckBox.isSelected()) {
-                DottoreRegistrationData drd = new DottoreRegistrationData();
+                DoctorRegistrationData drd = new DoctorRegistrationData();
                 setInformation(drd);
                 int id = logInController.registerDottore(drd);
                 messaggio = "Il tuo codice è: " + id;
             } else {
-                PazienteRegistrationData prd= new PazienteRegistrationData();
+                PatientRegistrationData prd= new PatientRegistrationData();
                 setInformation(prd);
                 logInController.registerPaziente(prd);
                 messaggio = "";
@@ -97,7 +97,7 @@ public class RegistrationViewController extends GuiGraphicController {
 
     }
 
-    private void setInformation(UtenteRegistrationData urd) throws FomatoInvalidoException {
+    private void setInformation(UserRegistrationData urd) throws FomatoInvalidoException {
         urd.setCodiceFiscale(codiceFiscaleField.getText());
         urd.setCognome(cognomeField.getText());
         urd.setEmail(emailField.getText());

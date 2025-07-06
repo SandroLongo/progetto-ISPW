@@ -1,14 +1,14 @@
 package it.uniroma2.progettoispw.controller.bean;
 
-import it.uniroma2.progettoispw.model.domain.PrincipioAttivo;
+import it.uniroma2.progettoispw.model.domain.ActiveIngridient;
 
 public class PrincipioAttivoBean {
     private String codiceAtc;
     private String nome;
 
-    public PrincipioAttivoBean(PrincipioAttivo principioAttivo) {
-        this.codiceAtc = principioAttivo.getCodiceAtc();
-        this.nome = principioAttivo.getNome();
+    public PrincipioAttivoBean(ActiveIngridient activeIngridient) {
+        this.codiceAtc = activeIngridient.getCodiceAtc();
+        this.nome = activeIngridient.getNome();
     }
 
     public String getCodiceAtc() {

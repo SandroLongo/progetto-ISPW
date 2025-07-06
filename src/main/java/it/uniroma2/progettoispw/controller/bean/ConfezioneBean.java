@@ -1,6 +1,6 @@
 package it.uniroma2.progettoispw.controller.bean;
 
-import it.uniroma2.progettoispw.model.domain.Confezione;
+import it.uniroma2.progettoispw.model.domain.MedicinalProduct;
 
 public class ConfezioneBean {
     private int codiceAic;
@@ -11,14 +11,14 @@ public class ConfezioneBean {
     private long quantita;
     private String unitaMisura;
 
-    public ConfezioneBean(Confezione confezione) {
-        this.codiceAic = confezione.getCodiceAic();
-        this.denominazione = confezione.getDenominazione();
-        this.descrizione = confezione.getDescrizione();
-        this.forma = confezione.getForma();
-        this.paAssociati = confezione.getPaAssociati();
-        this.quantita = confezione.getQuantita();
-        this.unitaMisura = confezione.getUnitaMisura();
+    public ConfezioneBean(MedicinalProduct medicinalProduct) {
+        this.codiceAic = medicinalProduct.getCodiceAic();
+        this.denominazione = medicinalProduct.getDenominazione();
+        this.descrizione = medicinalProduct.getDescrizione();
+        this.forma = medicinalProduct.getForma();
+        this.paAssociati = medicinalProduct.getPaAssociati();
+        this.quantita = medicinalProduct.getQuantita();
+        this.unitaMisura = medicinalProduct.getUnitaMisura();
     }
 
     public int getCodiceAic() {

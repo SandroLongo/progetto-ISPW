@@ -1,11 +1,11 @@
 package it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller;
 
 import it.uniroma2.progettoispw.controller.bean.AuthenticationBean;
-import it.uniroma2.progettoispw.controller.bean.UtenteLogInData;
+import it.uniroma2.progettoispw.controller.bean.UserLogInData;
 import it.uniroma2.progettoispw.controller.controller.applicativi.LogInController;
 import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.medico.MenuDottore;
 import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.paziente.MenuPaziente;
-import it.uniroma2.progettoispw.model.domain.Ruolo;
+import it.uniroma2.progettoispw.model.domain.Role;
 
 public class LogInReceiver extends Receiver {
 
@@ -19,8 +19,8 @@ public class LogInReceiver extends Receiver {
         public WelcomeState() {
             this.initialMessage  = """
                     Benvenuto nell'applicazione, scegli cosa vuoi fare
-                    paziente --> entra come paziente
-                    dottore --> entra come dottore
+                    patient --> entra come patient
+                    doctor --> entra come doctor
                     registrazione --> registrati
                     """;
         }
@@ -29,9 +29,9 @@ public class LogInReceiver extends Receiver {
         public String goNext(Receiver stateMachine, String command) {
             String option = command.toLowerCase();
             switch (option) {
-                case "paziente":
+                case "patient":
                     return stateMachine.goNext(new CFPazienteState());
-                case "dottore":
+                case "doctor":
                     return stateMachine.goNext(new CfMedicoState());
                 case "registrati":
                     return stateMachine.getPromptController().setReceiver(new Registrazione(stateMachine));
@@ -42,50 +42,51 @@ public class LogInReceiver extends Receiver {
     }
 
     private class CfMedicoState extends AbstractState{
-        private UtenteLogInData utenteLogInData;
+        private UserLogInData userLogInData;
         public CfMedicoState() {
             super();
-            this.utenteLogInData = new UtenteLogInData();
-            utenteLogInData.setRuolo(Ruolo.DOTTORE);
+            this.userLogInData = new UserLogInData();
+            userLogInData.setRuolo(Role.DOTTORE);
             this.initialMessage = "inserisci il codice fiscale\n";
         }
 
         @Override
         public String goNext(Receiver stateMachine, String command) {
-            this.utenteLogInData.setCodiceFiscale(command);
-            return stateMachine.goNext(new PassMedicoState(utenteLogInData));
+            this.userLogInData.setCodiceFiscale(command);
+            return stateMachine.goNext(new PassMedicoState(userLogInData));
         }
     }
 
     private class PassMedicoState extends AbstractState{
-        private UtenteLogInData utenteLogInData;
-        public PassMedicoState(UtenteLogInData utenteLogInData) {
+        private UserLogInData userLogInData;
+        public PassMedicoState(UserLogInData userLogInData) {
             super();
             this.initialMessage = "inserisci la password\n";
-            this.utenteLogInData = utenteLogInData;
+            this.userLogInData = userLogInData;
         }
 
         @Override
         public String goNext(Receiver stateMachine, String command) {
-            utenteLogInData.setPassword(command);
-            return stateMachine.goNext(new CodiceMedicoState(utenteLogInData));
+            userLogInData.setPassword(command);
+            return stateMachine.goNext(new CodiceMedicoState(userLogInData));
         }
     }
 
     private class CodiceMedicoState extends AbstractState{
-        private UtenteLogInData utenteLogInData;
+        private UserLogInData userLogInData;
 
-        public CodiceMedicoState(UtenteLogInData utenteLogInData) {
+        public CodiceMedicoState(UserLogInData userLogInData) {
             super();
-            this.utenteLogInData = utenteLogInData;
+            this.userLogInData = userLogInData;
             this.initialMessage = "inserisci il codice di sicurezza";
         }
 
         @Override
         public String goNext(Receiver stateMachine, String command) {
-            utenteLogInData.setCodiceDottore(command);
+            userLogInData.setCodiceDottore(command);
             LogInController logInController = new LogInController();
-            AuthenticationBean authenticationBean = logInController.logIn(utenteLogInData);
+            AuthenticationBean authenticationBean = logInController.logIn(userLogInData);
+            stateMachine.getPromptController().setLogout(authenticationBean);
             stateMachine.getPromptController().setAuthenticationBean(authenticationBean);
             stateMachine.setCurrentState(new WelcomeState());
             switch (authenticationBean.getRuolo()){
@@ -103,36 +104,36 @@ public class LogInReceiver extends Receiver {
     }
 
     private class CFPazienteState extends AbstractState{
-        private UtenteLogInData utenteLogInData;
+        private UserLogInData userLogInData;
         public CFPazienteState(){
             super();
-            this.utenteLogInData = new UtenteLogInData();
-            this.utenteLogInData.setRuolo(Ruolo.PAZIENTE);
+            this.userLogInData = new UserLogInData();
+            this.userLogInData.setRuolo(Role.PAZIENTE);
             this.initialMessage = "inserisci il codice fiscale";
         }
 
         @Override
         public String goNext(Receiver stateMachine, String command) {
-            utenteLogInData.setCodiceFiscale(command);
-            return stateMachine.goNext(new PassPazienteState(utenteLogInData));
+            userLogInData.setCodiceFiscale(command);
+            return stateMachine.goNext(new PassPazienteState(userLogInData));
         }
     }
 
     private class PassPazienteState extends AbstractState{
-        private UtenteLogInData utenteLogInData;
+        private UserLogInData userLogInData;
 
-        public PassPazienteState(UtenteLogInData utenteLogInData) {
+        public PassPazienteState(UserLogInData userLogInData) {
             super();
-            this.utenteLogInData = utenteLogInData;
+            this.userLogInData = userLogInData;
             this.initialMessage = "inserisci la password";
         }
 
 
         @Override
         public String goNext(Receiver stateMachine, String command) {
-            utenteLogInData.setPassword(command);
+            userLogInData.setPassword(command);
             LogInController logInController = new LogInController();
-            AuthenticationBean authenticationBean = logInController.logIn(utenteLogInData);
+            AuthenticationBean authenticationBean = logInController.logIn(userLogInData);
             stateMachine.getPromptController().setAuthenticationBean(authenticationBean);
             stateMachine.setCurrentState(new WelcomeState());
             return "login effettuato con successo \n" + stateMachine.getPromptController().setReceiver(new MenuPaziente(authenticationBean, stateMachine));

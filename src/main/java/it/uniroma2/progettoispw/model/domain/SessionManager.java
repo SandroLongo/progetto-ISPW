@@ -32,32 +32,32 @@ public class SessionManager {
         return sessions.get(code);
     }
 
-    public Session setSession(Utente currentUtente) {
+    public Session setSession(User currentUser) {
         numSessions = numSessions+1;
-        Session session = new Session(currentUtente, numSessions);
+        Session session = new Session(currentUser, numSessions);
         sessions.put(numSessions, session);
         System.out.println("aperta sessione" + numSessions);
         return session;
     }
 
-    public void deleteRichiesta(Richiesta richiesta) {
-        List<Session> openSessionsByCF = getOpenSessionsByCF(richiesta.getRicevente().getCodiceFiscale());
+    public void deleteRichiesta(SentPrescriptionBundle sentPrescriptionBundle) {
+        List<Session> openSessionsByCF = getOpenSessionsByCF(sentPrescriptionBundle.getRicevente().getCodiceFiscale());
         for (Session s : openSessionsByCF){
-            Utente utente = s.getUtente();
-            if (Objects.requireNonNull(utente.isType()) == Ruolo.PAZIENTE) {
-                RichiestePendenti richiestePendenti = ((Paziente) utente).getRichiestePendenti();
-                richiestePendenti.deleteRichiesta(richiesta.getId());
+            User user = s.getUtente();
+            if (Objects.requireNonNull(user.isType()) == Role.PAZIENTE) {
+                PendentBundle pendentBundle = ((Patient) user).getRichiestePendenti();
+                pendentBundle.deleteRichiesta(sentPrescriptionBundle.getId());
             }
         }
     }
 
-    public void addRichiesta(Richiesta richiesta) {
-        List<Session> attive = SessionManager.getInstance().getOpenSessionsByCF(richiesta.getRicevente().getCodiceFiscale());
+    public void addRichiesta(SentPrescriptionBundle sentPrescriptionBundle) {
+        List<Session> attive = SessionManager.getInstance().getOpenSessionsByCF(sentPrescriptionBundle.getRicevente().getCodiceFiscale());
         for (Session session : attive){
-            Utente utente = session.getUtente();
-            if (Objects.requireNonNull(utente.isType()) == Ruolo.PAZIENTE) {
-                RichiestePendenti richiestePendenti = ((Paziente) utente).getRichiestePendenti();
-                richiestePendenti.addRichiesta(richiesta);
+            User user = session.getUtente();
+            if (Objects.requireNonNull(user.isType()) == Role.PAZIENTE) {
+                PendentBundle pendentBundle = ((Patient) user).getRichiestePendenti();
+                pendentBundle.addRichiesta(sentPrescriptionBundle);
             }
         }
     }

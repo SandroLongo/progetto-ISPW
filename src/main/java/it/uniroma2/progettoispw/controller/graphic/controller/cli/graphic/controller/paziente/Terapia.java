@@ -2,9 +2,9 @@ package it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.contr
 
 import it.uniroma2.progettoispw.controller.bean.AuthenticationBean;
 import it.uniroma2.progettoispw.controller.bean.DoseBean;
-import it.uniroma2.progettoispw.controller.bean.DoseCostructor;
-import it.uniroma2.progettoispw.controller.bean.TerapiaGiornalieraBean;
-import it.uniroma2.progettoispw.controller.controller.applicativi.TerapiaController;
+import it.uniroma2.progettoispw.controller.bean.Prescription;
+import it.uniroma2.progettoispw.controller.bean.DailyTherapyBean;
+import it.uniroma2.progettoispw.controller.controller.applicativi.TherapyController;
 import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.AbstractState;
 import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.InformazioniFinali;
 import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.Receiver;
@@ -25,8 +25,8 @@ public class Terapia extends Receiver {
     private class ShowTerapiaState extends AbstractState{
         private LocalDate currentDate;
         private AuthenticationBean authenticationBean;
-        private TerapiaGiornalieraBean terapiaGiornalieraBean;
-        private TerapiaController terapiaController;
+        private DailyTherapyBean dailyTherapyBean;
+        private TherapyController therapyController;
 
         public ShowTerapiaState(AuthenticationBean authenticationBean) {
             this(authenticationBean, LocalDate.now());
@@ -35,9 +35,9 @@ public class Terapia extends Receiver {
         public ShowTerapiaState(AuthenticationBean authenticationBean, LocalDate currentDate) {
             this.authenticationBean = authenticationBean;
             this.currentDate = currentDate;
-            this.terapiaController = new TerapiaController();
-            this.terapiaGiornalieraBean = terapiaController.getTerapiaGiornaliera(authenticationBean.getCodice(), currentDate);
-            this.initialMessage = terapiaGiornalieraBean.toString() + "scegli cosa fare\n" +
+            this.therapyController = new TherapyController();
+            this.dailyTherapyBean = therapyController.getTerapiaGiornaliera(authenticationBean.getCodice(), currentDate);
+            this.initialMessage = dailyTherapyBean.toString() + "scegli cosa fare\n" +
                     "avanti --> giorno successivo\n" +
                     "indietro --> giorno precedente\n" +
                     "aggiungi --> procedi all'aggiunta di un medicinale\n" +
@@ -52,14 +52,14 @@ public class Terapia extends Receiver {
 
             switch (opzione) {
                 case "avanti": this.currentDate = currentDate.plusDays(1);
-                    this.terapiaGiornalieraBean = terapiaController.getTerapiaGiornaliera(authenticationBean.getCodice(), currentDate);
+                    this.dailyTherapyBean = therapyController.getTerapiaGiornaliera(authenticationBean.getCodice(), currentDate);
                     return stateMachine.goNext(new ShowTerapiaState(authenticationBean, currentDate));
                 case "indietro": this.currentDate = currentDate.minusDays(1);
-                    this.terapiaGiornalieraBean = terapiaController.getTerapiaGiornaliera(authenticationBean.getCodice(), currentDate);
+                    this.dailyTherapyBean = therapyController.getTerapiaGiornaliera(authenticationBean.getCodice(), currentDate);
                     return stateMachine.goNext(new ShowTerapiaState(authenticationBean, currentDate));
-                case "aggiungi": DoseCostructor doseCostructor = new DoseCostructor();
-                    return stateMachine.goNext(new AggiungiStateFase1(authenticationBean, terapiaController, doseCostructor)) +
-                            stateMachine.getPromptController().setReceiver(new SelezionaMedicinale(doseCostructor.getDose(), stateMachine));
+                case "aggiungi": Prescription prescription = new Prescription();
+                    return stateMachine.goNext(new AggiungiStateFase1(authenticationBean, therapyController, prescription)) +
+                            stateMachine.getPromptController().setReceiver(new SelezionaMedicinale(prescription.getDose(), stateMachine));
                 case "menu": return stateMachine.getPromptController().setReceiver(stateMachine.getPreviousReceiver());
                 default: return "selezione invalida";
             }
@@ -69,13 +69,13 @@ public class Terapia extends Receiver {
 
     private class AggiungiStateFase1 extends AbstractState{
         private AuthenticationBean authenticationBean;
-        private DoseCostructor doseCostructor;
-        private TerapiaController terapiaController;
+        private Prescription prescription;
+        private TherapyController therapyController;
 
-        public AggiungiStateFase1(AuthenticationBean authenticationBean, TerapiaController terapiaController, DoseCostructor doseCostructor) {
-            this.doseCostructor = doseCostructor;
+        public AggiungiStateFase1(AuthenticationBean authenticationBean, TherapyController therapyController, Prescription prescription) {
+            this.prescription = prescription;
             this.authenticationBean = authenticationBean;
-            this.terapiaController = terapiaController;
+            this.therapyController = therapyController;
             this.initialMessage = "";
         }
 
@@ -86,9 +86,9 @@ public class Terapia extends Receiver {
 
         @Override
         public String comeBackAction(Receiver stateMachine){
-            DoseBean dosebean = doseCostructor.getDose();
+            DoseBean dosebean = prescription.getDose();
             if (dosebean.getNome() != null && dosebean.getCodice() != null) {
-                return stateMachine.goNext(new AggiungiStateFase2(authenticationBean, terapiaController, doseCostructor)) + stateMachine.getPromptController().setReceiver(new InformazioniFinali(doseCostructor, stateMachine)) ;
+                return stateMachine.goNext(new AggiungiStateFase2(authenticationBean, therapyController, prescription)) + stateMachine.getPromptController().setReceiver(new InformazioniFinali(prescription, stateMachine)) ;
             } else {
                 return stateMachine.goNext(new ShowTerapiaState(authenticationBean));
             }
@@ -97,13 +97,13 @@ public class Terapia extends Receiver {
 
     private class AggiungiStateFase2 extends AbstractState{
         private AuthenticationBean authenticationBean;
-        private DoseCostructor doseCostructor;
-        private TerapiaController terapiaController;
+        private Prescription prescription;
+        private TherapyController therapyController;
 
-        public AggiungiStateFase2(AuthenticationBean authenticationBean, TerapiaController terapiaController, DoseCostructor doseCostructor) {
-            this.doseCostructor = doseCostructor;
+        public AggiungiStateFase2(AuthenticationBean authenticationBean, TherapyController therapyController, Prescription prescription) {
+            this.prescription = prescription;
             this.authenticationBean = authenticationBean;
-            this.terapiaController = terapiaController;
+            this.therapyController = therapyController;
             this.initialMessage = "ora immetti le informazioni finali\n ";
         }
 
@@ -114,9 +114,9 @@ public class Terapia extends Receiver {
 
         @Override
         public String comeBackAction(Receiver stateMachine){
-            DoseBean dosebean = doseCostructor.getDose();
+            DoseBean dosebean = prescription.getDose();
             if (dosebean.isCompleate()) {
-                terapiaController.addDose(authenticationBean.getCodice(), doseCostructor);
+                therapyController.addDose(authenticationBean.getCodice(), prescription);
                 return "dose aggiunta con successo\n" + stateMachine.goNext(new ShowTerapiaState(authenticationBean));
             } else {
                 return "aggiunta della dose fallita\n" + stateMachine.goNext(new ShowTerapiaState(authenticationBean));

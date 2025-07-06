@@ -1,18 +1,18 @@
 package it.uniroma2.progettoispw.controller.bean;
 
-import it.uniroma2.progettoispw.model.domain.Ruolo;
+import it.uniroma2.progettoispw.model.domain.Role;
 
 public class AuthenticationBean {
     private String nome;
     private String cognome;
     private int codice;
-    private Ruolo ruolo;
+    private Role role;
 
-    public AuthenticationBean(String nome, String cognome, int codice, Ruolo ruolo) {
+    public AuthenticationBean(String nome, String cognome, int codice, Role role) {
         this.nome = nome;
         this.cognome = cognome;
         this.codice = codice;
-        this.ruolo = ruolo;
+        this.role = role;
     }
 
     public String getNome() {
@@ -27,7 +27,7 @@ public class AuthenticationBean {
         return codice;
     }
 
-    public Ruolo getRuolo() {
-        return ruolo;
+    public Role getRuolo() {
+        return role;
     }
 }

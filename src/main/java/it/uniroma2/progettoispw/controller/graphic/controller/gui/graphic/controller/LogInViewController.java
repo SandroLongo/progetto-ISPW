@@ -3,14 +3,12 @@ package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.contr
 import it.uniroma2.progettoispw.controller.bean.AuthenticationBean;
 import it.uniroma2.progettoispw.controller.bean.FomatoInvalidoException;
 import it.uniroma2.progettoispw.controller.controller.applicativi.LogInController;
-import it.uniroma2.progettoispw.controller.bean.UtenteLogInData;
+import it.uniroma2.progettoispw.controller.bean.UserLogInData;
 import it.uniroma2.progettoispw.controller.controller.applicativi.LogInFailedException;
-import it.uniroma2.progettoispw.model.domain.Ruolo;
+import it.uniroma2.progettoispw.model.domain.Role;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -39,16 +37,16 @@ public class LogInViewController extends GuiGraphicController {
     void handleLogIn() throws IOException {
         String codice = codiceField.getText();
         String password = passwordField.getText();
-        UtenteLogInData utenteLogInData;
+        UserLogInData userLogInData;
         if (checkMedico.isSelected()) {
-            utenteLogInData = new UtenteLogInData(codice, password, Ruolo.DOTTORE, codiceMedicoField.getText());
+            userLogInData = new UserLogInData(codice, password, Role.DOTTORE, codiceMedicoField.getText());
         } else {
-            utenteLogInData = new UtenteLogInData(codice, password, Ruolo.PAZIENTE);
+            userLogInData = new UserLogInData(codice, password, Role.PAZIENTE);
         }
 
         AuthenticationBean authenticationBean;
         try {
-            authenticationBean = logInController.logIn(utenteLogInData);
+            authenticationBean = logInController.logIn(userLogInData);
         } catch (FomatoInvalidoException | LogInFailedException e ) {
             showAlert(e.getMessage());
             e.printStackTrace();

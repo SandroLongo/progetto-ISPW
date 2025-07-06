@@ -1,6 +1,7 @@
 package it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.medico;
 
 import it.uniroma2.progettoispw.controller.bean.AuthenticationBean;
+import it.uniroma2.progettoispw.controller.controller.applicativi.LogInController;
 import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.AbstractState;
 import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.Receiver;
 
@@ -22,8 +23,8 @@ public class MenuDottore extends Receiver {
         public MenuState() {
             this.initialMessage = """
                     MENU DEL DOTTORE, scegli cosa vuoi fare
-                    invia --> invia una richiesta
-                    menu --> torna al menu
+                    invia --> invia una sentPrescriptionBundle
+                    logout --> torna al login
                     """;
         }
 
@@ -32,7 +33,10 @@ public class MenuDottore extends Receiver {
             String option = command.toLowerCase();
             switch (option) {
                 case "invia": return stateMachine.getPromptController().setReceiver(inviarichiesteReceiver);
-                case "logout": return stateMachine.getPromptController().setReceiver(stateMachine.getPreviousReceiver());
+                case "logout": stateMachine.getPromptController().resetLogout();
+                    LogInController logInController = new LogInController();
+                    logInController.logOut(authenticationBean.getCodice());
+                    return stateMachine.getPromptController().setReceiver(stateMachine.getPreviousReceiver());
                 default: return "scelta non trovata";
             }
         }

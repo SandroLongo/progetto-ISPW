@@ -5,30 +5,27 @@ import it.uniroma2.progettoispw.model.dao.DaoException;
 import it.uniroma2.progettoispw.model.dao.DaoFacade;
 import it.uniroma2.progettoispw.model.domain.Session;
 import it.uniroma2.progettoispw.model.domain.SessionManager;
-import it.uniroma2.progettoispw.model.domain.Utente;
-
-import java.time.LocalDate;
-import java.time.Period;
+import it.uniroma2.progettoispw.model.domain.User;
 
 public class LogInController implements Controller{
     private final DaoFacade daoFacade = new DaoFacade();
 
-    public AuthenticationBean logIn(UtenteLogInData utenteLogInData) throws FomatoInvalidoException, DaoException {
-        if (utenteLogInData.isComplete()) {
-            Utente utente;
+    public AuthenticationBean logIn(UserLogInData userLogInData) throws FomatoInvalidoException, DaoException {
+        if (userLogInData.isComplete()) {
+            User user;
             try {
-                switch (utenteLogInData.getRuolo()){
-                    case PAZIENTE -> utente = daoFacade.login(utenteLogInData.getCodiceFiscale(), utenteLogInData.getPassword(), 0, 0);
-                    case DOTTORE -> { utente = daoFacade.login(utenteLogInData.getCodiceFiscale(), utenteLogInData.getPassword(), 1,
-                                    utenteLogInData.getCodiceDottore());}
-                    default -> utente = null;
+                switch (userLogInData.getRuolo()){
+                    case PAZIENTE -> user = daoFacade.login(userLogInData.getCodiceFiscale(), userLogInData.getPassword(), 0, 0);
+                    case DOTTORE -> { user = daoFacade.login(userLogInData.getCodiceFiscale(), userLogInData.getPassword(), 1,
+                                    userLogInData.getCodiceDottore());}
+                    default -> user = null;
                 }
             } catch (DaoException e) {
                 e.printStackTrace();
                 throw new LogInFailedException(e.getMessage());
             }
-            System.out.println(utente.getCodiceFiscale());
-            Session session = SessionManager.getInstance().setSession(utente);
+            System.out.println(user.getCodiceFiscale());
+            Session session = SessionManager.getInstance().setSession(user);
             return new AuthenticationBean(session.getUtente().getNome(), session.getUtente().getCognome(), session.getCodice(), session.getUtente().isType());
         } else {
             throw new FomatoInvalidoException("le informazioni non sono state completate");
@@ -36,7 +33,7 @@ public class LogInController implements Controller{
     }
 
 
-    public void registerPaziente(PazienteRegistrationData utenteRegistrationData) throws FomatoInvalidoException {
+    public void registerPaziente(PatientRegistrationData utenteRegistrationData) throws FomatoInvalidoException {
         if (utenteRegistrationData.isComplete()) {
             daoFacade.addPaziente(utenteRegistrationData.getCodiceFiscale(), utenteRegistrationData.getNome(),
                             utenteRegistrationData.getCognome(), utenteRegistrationData.getDataNascita(), utenteRegistrationData.getEmail(),
@@ -48,7 +45,7 @@ public class LogInController implements Controller{
 
     }
 
-    public int registerDottore(DottoreRegistrationData utenteRegistrationData) throws FomatoInvalidoException{
+    public int registerDottore(DoctorRegistrationData utenteRegistrationData) throws FomatoInvalidoException{
         if (utenteRegistrationData.isComplete()) {
             return daoFacade.addDottore(utenteRegistrationData.getCodiceFiscale(), utenteRegistrationData.getNome(),
                     utenteRegistrationData.getCognome(), utenteRegistrationData.getDataNascita(), utenteRegistrationData.getEmail(),

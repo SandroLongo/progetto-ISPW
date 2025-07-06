@@ -1,23 +1,23 @@
 package it.uniroma2.progettoispw.model.dao.memorydao;
 
 import it.uniroma2.progettoispw.model.dao.DaoFactory;
-import it.uniroma2.progettoispw.model.dao.RichiesteDao;
-import it.uniroma2.progettoispw.model.dao.TerapiaDao;
-import it.uniroma2.progettoispw.model.dao.UtenteDao;
+import it.uniroma2.progettoispw.model.dao.PrescriptionBundleDao;
+import it.uniroma2.progettoispw.model.dao.TherapyDao;
+import it.uniroma2.progettoispw.model.dao.UserDao;
 
 public class MemoryDaoFactory extends DaoFactory {
     @Override
-    public RichiesteDao getRichiesteDao() {
-        return RichiesteMemoryDao.getInstance();
+    public PrescriptionBundleDao getRichiesteDao() {
+        return PrescriptionBundleMemoryDao.getInstance();
     }
 
     @Override
-    public UtenteDao getUtenteDao() {
-        return UtenteMemoryDao.getInstance();
+    public UserDao getUtenteDao() {
+        return UserMemoryDao.getInstance();
     }
 
     @Override
-    public TerapiaDao getTerapiaDao() {
-        return TerapiaMemoryDao.getInstance();
+    public TherapyDao getTerapiaDao() {
+        return TherapyMemoryDao.getInstance();
     }
 }

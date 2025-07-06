@@ -1,9 +1,9 @@
 package it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.paziente;
 
 import it.uniroma2.progettoispw.controller.bean.AuthenticationBean;
-import it.uniroma2.progettoispw.controller.bean.ListaRichiesteBean;
-import it.uniroma2.progettoispw.controller.bean.RichiestaMandata;
-import it.uniroma2.progettoispw.controller.controller.applicativi.ManageRequestController;
+import it.uniroma2.progettoispw.controller.bean.ListPrescriptionBundleBean;
+import it.uniroma2.progettoispw.controller.bean.SentPrescriptionBundleBean;
+import it.uniroma2.progettoispw.controller.controller.applicativi.ManageSentPrescriptionBundleController;
 import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.AbstractState;
 import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.Receiver;
 
@@ -20,27 +20,27 @@ public class Richieste extends Receiver {
 
     private class ShowRichieste extends AbstractState{
         private AuthenticationBean authenticationBean;
-        private ManageRequestController manageRequestController;
-        private ListaRichiesteBean richiestePendenti;
+        private ManageSentPrescriptionBundleController manageSentPrescriptionBundleController;
+        private ListPrescriptionBundleBean richiestePendenti;
 
         public ShowRichieste(AuthenticationBean authenticationBean) {
             this.authenticationBean = authenticationBean;
-            this.manageRequestController = new ManageRequestController();
-            richiestePendenti = manageRequestController.getRichieste(authenticationBean.getCodice());
+            this.manageSentPrescriptionBundleController = new ManageSentPrescriptionBundleController();
+            richiestePendenti = manageSentPrescriptionBundleController.getRichieste(authenticationBean.getCodice());
             this.initialMessage = listaRichiesteToString(richiestePendenti.getLista()) + """
                     scegli cosa fare:
-                    scrivi un  numero(es 0) --> seleziona la richiesta con quel numero
+                    scrivi un  numero(es 0) --> seleziona la sentPrescriptionBundle con quel numero
                     menu --> torna al menu
                     """;
         }
 
-        private String listaRichiesteToString(List<RichiestaMandata> lista){
+        private String listaRichiesteToString(List<SentPrescriptionBundleBean> lista){
             StringBuilder sb = new StringBuilder();
             int i = 0;
             if(lista.isEmpty()){
                 return "non ci sono richieste al momento\n";
             }
-            for (RichiestaMandata mandata : lista){
+            for (SentPrescriptionBundleBean mandata : lista){
                 sb.append(i).append(" - ").append(mandata.toStringBase()).append("\n");
                 i++;
             }
@@ -63,8 +63,8 @@ public class Richieste extends Receiver {
             switch (tipo) {
                 case 1:
                     if (0 <= numero && numero < richiestePendenti.getLista().size()){
-                        RichiestaMandata richiestaMandata = richiestePendenti.getLista().get(numero);
-                        return stateMachine.goNext(new ShowDettagliRichiesta(authenticationBean, manageRequestController, richiestaMandata));
+                        SentPrescriptionBundleBean sentPrescriptionBundleBean = richiestePendenti.getLista().get(numero);
+                        return stateMachine.goNext(new ShowDettagliRichiesta(authenticationBean, manageSentPrescriptionBundleController, sentPrescriptionBundleBean));
                     } else {
                         return "numero non valido";
                     }
@@ -81,17 +81,17 @@ public class Richieste extends Receiver {
 
     private class ShowDettagliRichiesta extends AbstractState{
         private AuthenticationBean authenticationBean;
-        private ManageRequestController manageRequestController;
-        private RichiestaMandata mandata;
+        private ManageSentPrescriptionBundleController manageSentPrescriptionBundleController;
+        private SentPrescriptionBundleBean mandata;
 
-        public ShowDettagliRichiesta(AuthenticationBean authenticationBean, ManageRequestController manageRequestController, RichiestaMandata mandata) {
+        public ShowDettagliRichiesta(AuthenticationBean authenticationBean, ManageSentPrescriptionBundleController manageSentPrescriptionBundleController, SentPrescriptionBundleBean mandata) {
             this.authenticationBean = authenticationBean;
-            this.manageRequestController = manageRequestController;
+            this.manageSentPrescriptionBundleController = manageSentPrescriptionBundleController;
             this.mandata = mandata;
             this.initialMessage = mandata.toString()  + "\n" + """
                     sceli cosa vuoi fare
-                    accetta --> accetta la richiesta
-                    rifiuta --> rifiuta la richiesta
+                    accetta --> accetta la sentPrescriptionBundle
+                    rifiuta --> rifiuta la sentPrescriptionBundle
                     indietro --> visualizza ancora tutte le richieste
                     """;
         }
@@ -101,7 +101,7 @@ public class Richieste extends Receiver {
             String option = command.toLowerCase();
             switch (option) {
                 case "accetta":
-                    manageRequestController.accettaRichiesta(authenticationBean.getCodice(), mandata.getIdRichiesta());
+                    manageSentPrescriptionBundleController.accettaRichiesta(authenticationBean.getCodice(), mandata.getIdRichiesta());
                     return stateMachine.goNext(new ShowRichieste(authenticationBean));
                 case "rifiuta": return "";
                 case "indietro": return stateMachine.goNext(new ShowRichieste(authenticationBean));

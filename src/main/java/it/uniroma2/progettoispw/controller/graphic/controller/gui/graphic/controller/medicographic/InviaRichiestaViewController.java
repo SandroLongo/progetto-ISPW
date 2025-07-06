@@ -2,7 +2,7 @@ package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.contr
 
 import it.uniroma2.progettoispw.controller.bean.AuthenticationBean;
 import it.uniroma2.progettoispw.controller.bean.InformazioniUtente;
-import it.uniroma2.progettoispw.controller.controller.applicativi.RichiesteController;
+import it.uniroma2.progettoispw.controller.controller.applicativi.SendPrescriptionBundleController;
 import it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.GuiGraphicController;
 import it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.MenuWindowManager;
 import javafx.event.ActionEvent;
@@ -14,7 +14,7 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 
 public class InviaRichiestaViewController extends GuiGraphicController {
-    private RichiesteController richiesteController;
+    private SendPrescriptionBundleController sendPrescriptionBundleController;
     private String gruppo;
     private AuthenticationBean authenticationBean;
     private InformazioniUtente utente;
@@ -41,7 +41,7 @@ public class InviaRichiestaViewController extends GuiGraphicController {
 
     @FXML
     void conferma(ActionEvent event) {
-        this.utente = richiesteController.getInformazioniPaziente(authenticationBean.getCodice(), cFField.getText());
+        this.utente = sendPrescriptionBundleController.getInformazioniPaziente(authenticationBean.getCodice(), cFField.getText());
         cognomeLabel.setText(utente.getCognome());
         nomeLabel.setText(utente.getNome());
         emailLabel.setText(utente.getEmail());
@@ -51,7 +51,7 @@ public class InviaRichiestaViewController extends GuiGraphicController {
 
     @FXML
     void confermaDati() throws IOException {
-        menuWindowManager.addScene(gruppo, "/it/uniroma2/progettoispw/view/RecapRichiestaView.fxml", gruppo, richiesteController, authenticationBean, utente, menuWindowManager);
+        menuWindowManager.addScene(gruppo, "/it/uniroma2/progettoispw/view/RecapRichiestaView.fxml", gruppo, sendPrescriptionBundleController, authenticationBean, utente, menuWindowManager);
     }
 
     @Override
@@ -59,6 +59,6 @@ public class InviaRichiestaViewController extends GuiGraphicController {
         this.gruppo = (String) args[0];
         this.authenticationBean = (AuthenticationBean) args[1];
         this.menuWindowManager = (MenuWindowManager) args[2];
-        this.richiesteController = new RichiesteController();
+        this.sendPrescriptionBundleController = new SendPrescriptionBundleController();
     }
 }

@@ -1,7 +1,7 @@
 package it.uniroma2.progettoispw.controller.bean;
 
-import it.uniroma2.progettoispw.model.domain.Dose;
-import it.uniroma2.progettoispw.model.domain.TipoDose;
+import it.uniroma2.progettoispw.model.domain.MedicationDose;
+import it.uniroma2.progettoispw.model.domain.MediccationType;
 
 import java.time.LocalTime;
 
@@ -14,22 +14,22 @@ public class DoseBean {
     private boolean assunta;
     private InformazioniUtente inviante;
     private String nome;
-    private TipoDose tipo;
+    private MediccationType tipo;
 
-    public DoseBean(TipoDose tipo) {
+    public DoseBean(MediccationType tipo) {
         this.tipo = tipo;
     }
 
-    public DoseBean(Dose dose) {
-        this.codice = dose.getCodice();
-        this.unitaMisura = dose.getUnitaMisura();
-        this.orario = dose.getOrario();
-        this.quantita = dose.getQuantita();
-        this.assunta = dose.isAssunta();
-        this.descrizione = dose.getDescrizione();
-        this.nome = dose.getNome();
-        this.tipo = dose.isType();
-        this.inviante = new InformazioniUtente(dose.getInviante());
+    public DoseBean(MedicationDose medicationDose) {
+        this.codice = medicationDose.getCodice();
+        this.unitaMisura = medicationDose.getUnitaMisura();
+        this.orario = medicationDose.getOrario();
+        this.quantita = medicationDose.getQuantita();
+        this.assunta = medicationDose.isAssunta();
+        this.descrizione = medicationDose.getDescrizione();
+        this.nome = medicationDose.getNome();
+        this.tipo = medicationDose.isType();
+        this.inviante = new InformazioniUtente(medicationDose.getInviante());
     }
 
     public DoseBean() {
@@ -100,11 +100,11 @@ public class DoseBean {
         this.nome = nome;
     }
 
-    public TipoDose getTipo() {
+    public MediccationType getTipo() {
         return tipo;
     }
 
-    public void setTipo(TipoDose tipo) {
+    public void setTipo(MediccationType tipo) {
         this.tipo = tipo;
     }
 

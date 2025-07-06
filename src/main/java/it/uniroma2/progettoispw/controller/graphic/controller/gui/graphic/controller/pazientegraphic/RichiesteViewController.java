@@ -1,7 +1,7 @@
 package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.pazientegraphic;
 
 import it.uniroma2.progettoispw.controller.bean.*;
-import it.uniroma2.progettoispw.controller.controller.applicativi.ManageRequestController;
+import it.uniroma2.progettoispw.controller.controller.applicativi.ManageSentPrescriptionBundleController;
 import it.uniroma2.progettoispw.controller.graphic.controller.Notificator;
 import it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.GuiGraphicController;
 import it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.MenuWindowManager;
@@ -18,9 +18,9 @@ import java.io.IOException;
 
 public class RichiesteViewController extends GuiGraphicController implements Notificator {
     private String gruppo;
-    private ManageRequestController manageRequestController;
+    private ManageSentPrescriptionBundleController manageSentPrescriptionBundleController;
     private AuthenticationBean authenticationBean;
-    private ListaRichiesteBean listaRichiesteBean;
+    private ListPrescriptionBundleBean listPrescriptionBundleBean;
     private MenuWindowManager menuWindowManager;
 
     @FXML
@@ -32,31 +32,31 @@ public class RichiesteViewController extends GuiGraphicController implements Not
         this.gruppo = (String) args[0];
         this.authenticationBean = (AuthenticationBean) args[1];
         this.menuWindowManager = (MenuWindowManager) args[2];
-        this.manageRequestController = new ManageRequestController();
-        this.listaRichiesteBean = manageRequestController.getRichieste(authenticationBean.getCodice());
-        listaRichiesteBean.addNotificator(this);
+        this.manageSentPrescriptionBundleController = new ManageSentPrescriptionBundleController();
+        this.listPrescriptionBundleBean = manageSentPrescriptionBundleController.getRichieste(authenticationBean.getCodice());
+        listPrescriptionBundleBean.addNotificator(this);
         listaRichieste.getColumns().clear();
 
         TableColumn<Object, String> nomeDottore = new TableColumn<>("DOTTORE");
-        nomeDottore.setCellValueFactory(data -> new ReadOnlyStringWrapper(((RichiestaMandata)data.getValue()).getInviante().getNome() + " " +
-                ((RichiestaMandata)data.getValue()).getInviante().getCognome()));
+        nomeDottore.setCellValueFactory(data -> new ReadOnlyStringWrapper(((SentPrescriptionBundleBean)data.getValue()).getInviante().getNome() + " " +
+                ((SentPrescriptionBundleBean)data.getValue()).getInviante().getCognome()));
 
         TableColumn<Object, String> dataInvio = new TableColumn<>("inviata");
-        dataInvio.setCellValueFactory(data -> new ReadOnlyStringWrapper(((RichiestaMandata)data.getValue()).getInvio().toString()));
+        dataInvio.setCellValueFactory(data -> new ReadOnlyStringWrapper(((SentPrescriptionBundleBean)data.getValue()).getInvio().toString()));
 
         TableColumn<Object, Void> aggiungiCol = new TableColumn<>("seleziona");
         aggiungiCol.setCellFactory(col -> new SelezionaRichiestaButtonCell());
 
 
         listaRichieste.getColumns().addAll(nomeDottore, dataInvio,aggiungiCol);
-        this.dati = FXCollections.observableArrayList(listaRichiesteBean.getLista());
+        this.dati = FXCollections.observableArrayList(listPrescriptionBundleBean.getLista());
         listaRichieste.setItems(dati);
 
     }
 
     @Override
     public void notifica() {
-        dati = FXCollections.observableArrayList(listaRichiesteBean.getLista());
+        dati = FXCollections.observableArrayList(listPrescriptionBundleBean.getLista());
         listaRichieste.setItems(dati);
     }
 
@@ -65,9 +65,9 @@ public class RichiesteViewController extends GuiGraphicController implements Not
 
         public SelezionaRichiestaButtonCell() {
             btn.setOnAction(event -> {
-                RichiestaMandata selezione =  (RichiestaMandata) getTableView().getItems().get(getIndex());
+                SentPrescriptionBundleBean selezione =  (SentPrescriptionBundleBean) getTableView().getItems().get(getIndex());
                 try {
-                    menuWindowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/VisualizzaDettagliRichiestaView.fxml", gruppo, manageRequestController, authenticationBean, selezione, menuWindowManager);
+                    menuWindowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/VisualizzaDettagliRichiestaView.fxml", gruppo, manageSentPrescriptionBundleController, authenticationBean, selezione, menuWindowManager);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

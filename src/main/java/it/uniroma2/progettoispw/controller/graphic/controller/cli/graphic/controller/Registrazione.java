@@ -1,12 +1,12 @@
 package it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller;
 
-import it.uniroma2.progettoispw.controller.bean.DottoreRegistrationData;
+import it.uniroma2.progettoispw.controller.bean.DoctorRegistrationData;
 import it.uniroma2.progettoispw.controller.bean.FomatoInvalidoException;
-import it.uniroma2.progettoispw.controller.bean.PazienteRegistrationData;
-import it.uniroma2.progettoispw.controller.bean.UtenteRegistrationData;
+import it.uniroma2.progettoispw.controller.bean.PatientRegistrationData;
+import it.uniroma2.progettoispw.controller.bean.UserRegistrationData;
 import it.uniroma2.progettoispw.controller.controller.applicativi.LogInController;
 import it.uniroma2.progettoispw.model.dao.DaoException;
-import it.uniroma2.progettoispw.model.domain.Ruolo;
+import it.uniroma2.progettoispw.model.domain.Role;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -27,8 +27,8 @@ public class Registrazione extends Receiver{
         public OpzioniIniziali() {
             this.initialMessage = """
                     scelgi cosa vuoi fare:
-                    paziente --> registrati come paziente
-                    dottore --> registrati come dottore
+                    patient --> registrati come patient
+                    doctor --> registrati come doctor
                     indietro --> torna al login
                     """;
         }
@@ -37,11 +37,11 @@ public class Registrazione extends Receiver{
         public String goNext(Receiver stateMachine, String command) {
             String option = command.toLowerCase();
             switch (option) {
-                case "paziente":
-                    UtenteRegistrationData prd = new PazienteRegistrationData();
+                case "patient":
+                    UserRegistrationData prd = new PatientRegistrationData();
                     return stateMachine.goNext(new InserisciCf(prd));
-                case "dottore":
-                    UtenteRegistrationData drd = new DottoreRegistrationData();
+                case "doctor":
+                    UserRegistrationData drd = new DoctorRegistrationData();
                     return stateMachine.goNext(new InserisciCf(drd));
                 case "indietro":
                     return stateMachine.getPromptController().setReceiver(stateMachine.getPreviousReceiver());
@@ -52,9 +52,9 @@ public class Registrazione extends Receiver{
     }
 
     private class InserisciCf extends AbstractState{
-        private UtenteRegistrationData urd;
+        private UserRegistrationData urd;
 
-        public InserisciCf(UtenteRegistrationData urd) {
+        public InserisciCf(UserRegistrationData urd) {
             this.urd = urd;
             this.initialMessage = "Inserisci cf\n";
         }
@@ -72,9 +72,9 @@ public class Registrazione extends Receiver{
     }
 
     private class InserisciPass extends AbstractState{
-        private UtenteRegistrationData urd;
+        private UserRegistrationData urd;
 
-        public InserisciPass(UtenteRegistrationData urd) {
+        public InserisciPass(UserRegistrationData urd) {
             this.urd = urd;
             this.initialMessage = "Inserisci una password\n";
         }
@@ -92,9 +92,9 @@ public class Registrazione extends Receiver{
     }
 
     private class InserisciNome extends AbstractState{
-        private UtenteRegistrationData urd;
+        private UserRegistrationData urd;
 
-        public InserisciNome(UtenteRegistrationData urd) {
+        public InserisciNome(UserRegistrationData urd) {
             this.urd = urd;
             this.initialMessage = "Inserisci nome\n";
         }
@@ -112,9 +112,9 @@ public class Registrazione extends Receiver{
     }
 
     private class InserisciCognome extends AbstractState{
-        private UtenteRegistrationData urd;
+        private UserRegistrationData urd;
 
-        public InserisciCognome(UtenteRegistrationData urd) {
+        public InserisciCognome(UserRegistrationData urd) {
             this.urd = urd;
             this.initialMessage = "Inserisci cognome\n";
         }
@@ -132,9 +132,9 @@ public class Registrazione extends Receiver{
     }
 
     private class InserisciEmail extends AbstractState{
-        private UtenteRegistrationData urd;
+        private UserRegistrationData urd;
 
-        public InserisciEmail(UtenteRegistrationData urd) {
+        public InserisciEmail(UserRegistrationData urd) {
             this.urd = urd;
             this.initialMessage = "Inserisci email\n";
         }
@@ -152,9 +152,9 @@ public class Registrazione extends Receiver{
     }
 
     private class InserisciTelefono extends AbstractState{
-        private UtenteRegistrationData urd;
+        private UserRegistrationData urd;
 
-        public InserisciTelefono(UtenteRegistrationData urd) {
+        public InserisciTelefono(UserRegistrationData urd) {
             this.urd = urd;
             this.initialMessage = "Inserisci il tuo telefono\n";
         }
@@ -172,9 +172,9 @@ public class Registrazione extends Receiver{
     }
 
     private class InserisciDataNascita extends AbstractState{
-        private UtenteRegistrationData urd;
+        private UserRegistrationData urd;
 
-        public InserisciDataNascita(UtenteRegistrationData urd) {
+        public InserisciDataNascita(UserRegistrationData urd) {
             this.urd = urd;
             this.initialMessage = "Inserisci data di nascita(dd-MM-yyyy)\n";
         }
@@ -194,10 +194,10 @@ public class Registrazione extends Receiver{
             try{
                 String messaggio = "registrazione effettuata con successo";
                 LogInController logInController = new LogInController();
-                if (urd.isType() == Ruolo.PAZIENTE){
-                    logInController.registerPaziente((PazienteRegistrationData) urd);
+                if (urd.isType() == Role.PAZIENTE){
+                    logInController.registerPaziente((PatientRegistrationData) urd);
                 } else {
-                    messaggio += "il tuo codice è " +logInController.registerDottore((DottoreRegistrationData) urd);
+                    messaggio += "il tuo codice è " +logInController.registerDottore((DoctorRegistrationData) urd);
                 }
                 return messaggio + stateMachine.getPromptController().setReceiver(stateMachine.getPreviousReceiver());
             } catch (DaoException e){
@@ -207,10 +207,10 @@ public class Registrazione extends Receiver{
     }
 
     private class OpzioniIntermedie extends AbstractState{
-        private UtenteRegistrationData urd;
+        private UserRegistrationData urd;
         private AbstractState precedente;
 
-        public OpzioniIntermedie(UtenteRegistrationData urd, AbstractState precedente) {
+        public OpzioniIntermedie(UserRegistrationData urd, AbstractState precedente) {
             this.urd = urd;
             this.precedente = precedente;
             this.initialMessage = """

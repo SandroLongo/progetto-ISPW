@@ -1,6 +1,6 @@
 package it.uniroma2.progettoispw.controller.bean;
 
-import it.uniroma2.progettoispw.model.domain.Utente;
+import it.uniroma2.progettoispw.model.domain.User;
 
 import java.time.LocalDate;
 
@@ -21,7 +21,7 @@ public class InformazioniUtente {
         this.dataNascita = dataNascita;
     }
 
-    public InformazioniUtente(Utente inviante) {
+    public InformazioniUtente(User inviante) {
         nome = inviante.getNome();
         cognome = inviante.getCognome();
         email = inviante.getEmail();

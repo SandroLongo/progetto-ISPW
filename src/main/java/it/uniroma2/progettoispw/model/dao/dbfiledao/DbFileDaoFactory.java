@@ -1,7 +1,7 @@
 package it.uniroma2.progettoispw.model.dao.dbfiledao;
 
 import it.uniroma2.progettoispw.model.dao.*;
-import it.uniroma2.progettoispw.model.dao.filedao.UtenteFileDao;
+import it.uniroma2.progettoispw.model.dao.filedao.UserFileDao;
 
 public class DbFileDaoFactory extends DaoFactory {
     private boolean utenteDaoIsDb;
@@ -10,21 +10,21 @@ public class DbFileDaoFactory extends DaoFactory {
         this.utenteDaoIsDb = utenteDaoIsDb;
     }
     @Override
-    public RichiesteDao getRichiesteDao() {
-        return new RichiesteDbDao();
+    public PrescriptionBundleDao getRichiesteDao() {
+        return new PrescriptionBundleDbDao();
     }
 
     @Override
-    public UtenteDao getUtenteDao() {
+    public UserDao getUtenteDao() {
         if (utenteDaoIsDb) {
-            return new UtenteDbDao();
+            return new UserDbDao();
         } else {
-            return new UtenteFileDao();
+            return new UserFileDao();
         }
     }
 
     @Override
-    public TerapiaDao getTerapiaDao() {
-        return new TerapiaDbDao();
+    public TherapyDao getTerapiaDao() {
+        return new TherapyDbDao();
     }
 }
