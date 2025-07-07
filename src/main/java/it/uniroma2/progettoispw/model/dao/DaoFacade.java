@@ -46,7 +46,7 @@ public class DaoFacade {
 
     public Patient getPaziente(String codiceFiscale) throws DaoException{
         Patient patient = userDao.getPatient(codiceFiscale);
-        patient.setRichiestePendenti(prescriptionBundleDao.getPrescriptionBundlesByPatient(patient));
+        patient.setRichiestePendenti(prescriptionBundleDao.getBundles(patient));
         return patient;
     }
 
@@ -97,7 +97,7 @@ public class DaoFacade {
     }
 
     public List<SentPrescriptionBundle> getRichisteOfPaziente(Patient patient) throws DaoException{
-        List<SentPrescriptionBundle> list = prescriptionBundleDao.getPrescriptionBundlesByPatient(patient);
+        List<SentPrescriptionBundle> list = prescriptionBundleDao.getBundles(patient);
         for (SentPrescriptionBundle sentPrescriptionBundle : list) {
             Doctor inviante = userDao.getDoctor(sentPrescriptionBundle.getInviante().getTaxCode());
             sentPrescriptionBundle.setInviante(inviante);
@@ -124,7 +124,7 @@ public class DaoFacade {
         return list;
     }
     public void deleteRichiesta(int id) throws DaoException{
-        prescriptionBundleDao.deletePrescriptionBundle(id);
+        prescriptionBundleDao.deleteBundle(id);
     }
 
     public MedicinalProduct getConfezioneByCodiceAic(int codiceAic) throws DaoException{
@@ -151,9 +151,9 @@ public class DaoFacade {
     }
 
     public SentPrescriptionBundle addRichiesta(PrescriptionBundleBean prescriptionBean) throws DaoException{
-        int id = prescriptionBundleDao.addPrescriptionBundle(prescriptionBean);
+        int id = prescriptionBundleDao.addBundle(prescriptionBean);
         System.out.println("inviata richiesta con id:" + id);
-        return prescriptionBundleDao.getPrescriptionBundleById(id);
+        return prescriptionBundleDao.getBundleById(id);
     }
 
     public User getInfoUtente(String codiceFiscale) throws DaoException{

@@ -1,7 +1,5 @@
 package it.uniroma2.progettoispw.model.domain;
 
-import it.uniroma2.progettoispw.controller.bean.Subject;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -29,8 +27,8 @@ public class DailyTherapy extends Subject {
         if (newMedicationDose == null){
             return;
         }
-        dosesByTime.computeIfAbsent(newMedicationDose.getScheduledTime(), timeKey -> new ArrayList<>()).add(newMedicationDose);
-        notifica();
+        dosesByTime. computeIfAbsent(newMedicationDose.getScheduledTime(), timeKey -> new ArrayList<>()).add(newMedicationDose);
+        notifiyChanges();
     }
 
     public void removeDose(MedicationDose medicationDose) {

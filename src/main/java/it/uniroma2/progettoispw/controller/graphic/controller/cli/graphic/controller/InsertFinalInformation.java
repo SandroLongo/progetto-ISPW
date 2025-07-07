@@ -1,17 +1,16 @@
 package it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller;
 
 import it.uniroma2.progettoispw.controller.bean.FinalStepBean;
-import it.uniroma2.progettoispw.controller.bean.PrescriptionBean;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-public class InformazioniFinali extends Receiver {
+public class InsertFinalInformation extends Receiver {
     private static final String ERRORENUMERO = "devi inserire un numero\n";
 
-     public InformazioniFinali(FinalStepBean finalStepBean, Receiver receiver) {
+     public InsertFinalInformation(FinalStepBean finalStepBean, Receiver receiver) {
          this.promptController = receiver.getPromptController();
          this.previousReceiver = receiver;
          this.currentState = new InserisciQuantita(finalStepBean);

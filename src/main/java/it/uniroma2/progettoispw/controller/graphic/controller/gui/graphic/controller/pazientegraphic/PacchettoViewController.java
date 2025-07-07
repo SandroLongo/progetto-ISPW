@@ -16,7 +16,7 @@ import javafx.scene.control.TableView;
 
 import java.io.IOException;
 
-public class RichiesteViewController extends GuiGraphicController implements Notificator {
+public class PacchettoViewController extends GuiGraphicController implements Notificator {
     private String gruppo;
     private ManageSentPrescriptionBundleController manageSentPrescriptionBundleController;
     private AuthenticationBean authenticationBean;
@@ -55,7 +55,7 @@ public class RichiesteViewController extends GuiGraphicController implements Not
     }
 
     @Override
-    public void notifica() {
+    public void notifyChanges() {
         dati = FXCollections.observableArrayList(listPrescriptionBundleBean.getList());
         listaRichieste.setItems(dati);
     }

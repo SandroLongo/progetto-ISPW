@@ -1,4 +1,4 @@
-package it.uniroma2.progettoispw.controller.bean;
+package it.uniroma2.progettoispw.model.domain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ public abstract class Subject {
     public void detach(Observer o){
         observers.remove(o);
     }
-    protected void notifica(){
+    protected void notifiyChanges(){
         for(Observer o : observers){
             o.update();
         }

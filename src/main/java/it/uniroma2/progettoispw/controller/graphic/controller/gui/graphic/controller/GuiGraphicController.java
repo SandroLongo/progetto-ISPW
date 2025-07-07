@@ -4,7 +4,7 @@ import javafx.scene.control.Alert;
 
 import java.io.IOException;
 
-public abstract class GuiGraphicController {
+public abstract class  GuiGraphicController {
 
     public abstract void initialize(Object[] args) throws IOException;
 

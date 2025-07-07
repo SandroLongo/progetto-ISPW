@@ -1,7 +1,5 @@
 package it.uniroma2.progettoispw.model.domain;
 
-import it.uniroma2.progettoispw.controller.bean.Subject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +24,10 @@ public class PendentBundles extends Subject {
 
     public void addBundle(SentPrescriptionBundle sentPrescriptionBundle) {
         pending.add(sentPrescriptionBundle);
-        notifica();
+        notifiyChanges();
     }
 
-    public SentPrescriptionBundle getBundlesById(int id) {
+    public SentPrescriptionBundle getBundleById(int id) {
         for (SentPrescriptionBundle sentPrescriptionBundle : pending) {
             if (sentPrescriptionBundle.getId() == id) {
                 return sentPrescriptionBundle;
@@ -42,7 +40,7 @@ public class PendentBundles extends Subject {
         for (SentPrescriptionBundle sentPrescriptionBundle : pending) {
             if (sentPrescriptionBundle.getId() == id) {
                 pending.remove(sentPrescriptionBundle);
-                notifica();
+                notifiyChanges();
                 return true;
             }
         }

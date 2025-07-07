@@ -13,7 +13,7 @@ public class CliApp {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/viewCli/Terminale.fxml"));
         Parent root = fxmlLoader.load();
         PromptController controller = fxmlLoader.getController();
-        controller.initialize(new Object[]{new LogInReceiver(controller), stage});
+        controller.initialize(new Object[]{new LogIn(controller), stage});
         stage.setScene(new Scene(root));
         stage.show();
     }

@@ -116,32 +116,37 @@ public class UserFileDao extends FileDao implements UserDao {
     }
 
     @Override
-    public void addPatient(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
+    public void addPatient(String taxCode, String name, String surname, LocalDate birthDate, String email, String phoneNumber, String pass) throws DaoException {
         List<UtenteRegistrato> utenti = caricaUtenti();
-        if (utenti.stream().anyMatch(u -> u.getPaziente().getTaxCode().equals(codiceFiscale))){
+        if (utenti.stream().anyMatch(u -> u.getPaziente().getTaxCode().equals(taxCode))){
             throw new DaoException("patient gia registrato");
         }
-        utenti.add(new UtenteRegistrato(new Patient(codiceFiscale, nome, cognome, nascita, email, telefono), pass));
+        utenti.add(new UtenteRegistrato(new Patient(taxCode, name, surname, birthDate, email, phoneNumber), pass));
         salvaUtenti(utenti);
     }
 
     @Override
-    public int addDoctor(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
+    public int addDoctor(String taxCode, String name, String surname, LocalDate birthDate, String email, String phoneNumber, String pass) throws DaoException {
         List<DottoreRegistrato> dottori = caricaDottori();
-        if (dottori.stream().anyMatch(u -> u.getDottore().getTaxCode().equals(codiceFiscale))){
+        if (dottori.stream().anyMatch(u -> u.getDottore().getTaxCode().equals(taxCode))){
             throw new DaoException("patient gia registrato");
         }
         int codice = generaCodiceUnico(dottori);
-        dottori.add(new DottoreRegistrato(new Doctor(codiceFiscale, nome, cognome, nascita,email, telefono), pass, codice));
+        dottori.add(new DottoreRegistrato(new Doctor(taxCode, name, surname, birthDate,email, phoneNumber), pass, codice));
+        List<UtenteRegistrato> utenti = caricaUtenti();
+        if (utenti.stream().anyMatch(u -> u.getPaziente().getTaxCode().equals(taxCode))){
+            throw new DaoException("patient gia registrato");
+        }
+        salvaUtenti(utenti);
         salvaDottori(dottori);
         return codice;
     }
 
     @Override
-    public User login(String codiceFiscale, String password, int isDottore, int codiceDottore) throws DaoException {
-        if (isDottore == 1){
+    public User login(String taxCode, String password, int isDoctor, int doctorCode) throws DaoException {
+        if (isDoctor == 1){
             List<DottoreRegistrato> dottori = caricaDottori();
-            Optional<DottoreRegistrato> dottoreRegistrato = dottori.stream().filter(u -> u.getDottore().getTaxCode().equals(codiceFiscale) && u.getPassword().equals(password)).findFirst();
+            Optional<DottoreRegistrato> dottoreRegistrato = dottori.stream().filter(u -> u.getDottore().getTaxCode().equals(taxCode) && u.getPassword().equals(password)).findFirst();
             if (dottoreRegistrato.isPresent()){
                 return new Doctor(dottoreRegistrato.get().getDottore());
             } else {
@@ -149,7 +154,7 @@ public class UserFileDao extends FileDao implements UserDao {
             }
         } else {
             List<UtenteRegistrato> pazienti = caricaUtenti();
-            Optional<UtenteRegistrato> utenteRegistrato = pazienti.stream().filter(u -> u.getPaziente().getTaxCode().equals(codiceFiscale) && u.getPassword().equals(password)).findFirst();
+            Optional<UtenteRegistrato> utenteRegistrato = pazienti.stream().filter(u -> u.getPaziente().getTaxCode().equals(taxCode) && u.getPassword().equals(password)).findFirst();
             if (utenteRegistrato.isPresent()){
                 return new Patient(utenteRegistrato.get().getPaziente());
             } else {
@@ -159,9 +164,9 @@ public class UserFileDao extends FileDao implements UserDao {
     }
 
     @Override
-    public User getUserInformation(String codiceFiscale) throws DaoException {
+    public User getUserInformation(String taxCode) throws DaoException {
         List<UtenteRegistrato> utenti = caricaUtenti();
-        Optional<UtenteRegistrato> utenteRegistrato = utenti.stream().filter(u -> u.getPaziente().getTaxCode().equals(codiceFiscale)).findFirst();
+        Optional<UtenteRegistrato> utenteRegistrato = utenti.stream().filter(u -> u.getPaziente().getTaxCode().equals(taxCode)).findFirst();
         if (utenteRegistrato.isPresent()){
             return new Patient(utenteRegistrato.get().getPaziente());
         } else {

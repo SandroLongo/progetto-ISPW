@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class RecapRichiestaGraphicController extends GuiGraphicController implements DoseAccepter, FinalAccepter {
+public class RecapPacchettoGraphicController extends GuiGraphicController implements DoseAccepter, FinalAccepter {
     private SendPrescriptionBundleController sendPrescriptionBundleController;
     private String gruppo;
     private ObservableList<Object> dati;

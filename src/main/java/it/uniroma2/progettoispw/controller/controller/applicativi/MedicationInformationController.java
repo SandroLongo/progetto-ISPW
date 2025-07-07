@@ -1,6 +1,6 @@
 package it.uniroma2.progettoispw.controller.controller.applicativi;
 
-import it.uniroma2.progettoispw.controller.bean.ListActiveIngridientName;
+import it.uniroma2.progettoispw.controller.bean.InvalidFormatException;
 import it.uniroma2.progettoispw.model.dao.DaoException;
 import it.uniroma2.progettoispw.model.dao.DaoFacade;
 import it.uniroma2.progettoispw.model.domain.MedicinalProduct;
@@ -30,11 +30,13 @@ public class MedicationInformationController implements Controller {
         return medicinalProducts;
     }
 
-    public MedicinalProduct getMedicinalProductById(int id) throws PercistencyFailedException{
+    public MedicinalProduct getMedicinalProductById(String id) throws PercistencyFailedException{
         try {
-            return daoFacade.getConfezioneByCodiceAic(id);
+            return daoFacade.getConfezioneByCodiceAic(Integer.parseInt(id));
         } catch (DaoException e) {
             throw new PercistencyFailedException(e);
+        } catch (NumberFormatException e) {
+            throw new InvalidFormatException("deve essere un numero");
         }
     }
     public List<String> getMedicinalProductNameByPartialName(String partialName) throws PercistencyFailedException{
@@ -65,9 +67,9 @@ public class MedicationInformationController implements Controller {
             throw new PercistencyFailedException(e);
         }
     }
-    public List<MedicinalProduct> getMedicinalProductByActiveIngridient(String ActiveIngridientId) throws PercistencyFailedException {
+    public List<MedicinalProduct> getMedicinalProductByActiveIngridient(String activeIngridientId) throws PercistencyFailedException {
         try {
-            return daoFacade.getConfezioniByCodiceAtc(ActiveIngridientId);
+            return daoFacade.getConfezioniByCodiceAtc(activeIngridientId);
         } catch (DaoException e) {
             throw new PercistencyFailedException(e);
         }

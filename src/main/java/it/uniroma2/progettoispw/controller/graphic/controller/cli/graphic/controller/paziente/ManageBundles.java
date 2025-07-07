@@ -9,10 +9,10 @@ import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.contro
 
 import java.util.List;
 
-public class Richieste extends Receiver {
+public class ManageBundles extends Receiver {
     private static final String OPZIONE_NON_VALIDA_ERROR = "opzione non valida\n";
 
-    public Richieste(AuthenticationBean authenticationBean, Receiver receiver) {
+    public ManageBundles(AuthenticationBean authenticationBean, Receiver receiver) {
         this.promptController = receiver.getPromptController();
         this.previousReceiver = receiver;
         this.currentState = new ShowRichieste(authenticationBean);

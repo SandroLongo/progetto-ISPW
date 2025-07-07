@@ -8,11 +8,11 @@ import it.uniroma2.progettoispw.model.domain.MedicationType;
 
 import java.util.List;
 
-public class SelezionaMedicinale extends Receiver{
+public class SelectMedication extends Receiver{
     private static final String COMANDO_CONFEZIONE = "medicinalProduct";
     private static final String OPZIONE_NON_VALIDA_ERROR = "opzione non valida\n";
 
-    public SelezionaMedicinale(DoseBean doseBean, Receiver prevoisReceiver) {
+    public SelectMedication(DoseBean doseBean, Receiver prevoisReceiver) {
             this.previousReceiver = prevoisReceiver;
             this.promptController = prevoisReceiver.getPromptController();
             this.currentState = new InitialState(doseBean);

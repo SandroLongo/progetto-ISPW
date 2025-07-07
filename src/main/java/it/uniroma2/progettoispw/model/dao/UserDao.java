@@ -9,12 +9,12 @@ import java.time.LocalDate;
 public interface UserDao {
     Patient getPatient(String taxCode) throws DaoException;
     Doctor getDoctor(String taxCode) throws DaoException;
-    void addPatient(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono,
+    void addPatient(String taxCode, String name, String surname, LocalDate birthDate, String email, String phoneNumber,
                     String pass) throws DaoException;
-    int addDoctor(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono,
+    int addDoctor(String taxCode, String name, String surname, LocalDate birthDate, String email, String phoneNumber,
                   String pass) throws DaoException;
-    User login(String codiceFiscale, String password, int isDottore, int codiceDottore) throws DaoException;
-    User getUserInformation(String codiceFiscale) throws DaoException;
+    User login(String taxCode, String password, int isDoctor, int doctorCode) throws DaoException;
+    User getUserInformation(String taxCode) throws DaoException;
 
 
 }

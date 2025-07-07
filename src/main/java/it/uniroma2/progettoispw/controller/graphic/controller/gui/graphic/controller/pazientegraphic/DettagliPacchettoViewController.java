@@ -13,7 +13,7 @@ import javafx.scene.control.*;
 
 import java.io.IOException;
 
-public class DettagliRichiestaController extends GuiGraphicController {
+public class DettagliPacchettoViewController extends GuiGraphicController {
     private String gruppo;
     private AuthenticationBean authenticationBean;
     private ManageSentPrescriptionBundleController manageSentPrescriptionBundleController;
@@ -46,6 +46,13 @@ public class DettagliRichiestaController extends GuiGraphicController {
     @FXML
     void aggiungi() {
         manageSentPrescriptionBundleController.acceptPrescriptionBundle(authenticationBean.getCodice(), richiestaBean.getId());
+        windowManager.deleteTop(gruppo);
+        windowManager.show(gruppo);
+    }
+
+    @FXML
+    void elimina(ActionEvent event) {
+        manageSentPrescriptionBundleController.rejectPrescriptionBundle(authenticationBean.getCodice(), richiestaBean.getId());
         windowManager.deleteTop(gruppo);
         windowManager.show(gruppo);
     }

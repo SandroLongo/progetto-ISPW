@@ -13,7 +13,7 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
-public class InviaRichiestaViewController extends GuiGraphicController {
+public class SelezionaPazienteViewController extends GuiGraphicController {
     private SendPrescriptionBundleController sendPrescriptionBundleController;
     private String gruppo;
     private AuthenticationBean authenticationBean;
@@ -40,7 +40,7 @@ public class InviaRichiestaViewController extends GuiGraphicController {
 
 
     @FXML
-    void conferma(ActionEvent event) {
+    void cerca(ActionEvent event) {
         this.utente = sendPrescriptionBundleController.getPatientInformation(authenticationBean.getCodice(), cFField.getText());
         cognomeLabel.setText(utente.getSurname());
         nomeLabel.setText(utente.getName());

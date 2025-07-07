@@ -22,7 +22,7 @@ public class SessionManager {
         return instance;
     }
 
-    public List<Session> getOpenSessionsByCF(String taxCode) {
+    public List<Session> getOpenSessionsByTC(String taxCode) {
         return sessions.values().stream()
                 .filter(session -> session.getUtente() != null &&
                         taxCode.equals(session.getUtente().getTaxCode()))
@@ -33,16 +33,16 @@ public class SessionManager {
         return sessions.get(code);
     }
 
-    public Session setSession(User currentUser) {
+    public Session setSession(User user) {
         numSessions = numSessions+1;
-        Session session = new Session(currentUser, numSessions);
+        Session session = new Session(user, numSessions);
         sessions.put(numSessions, session);
         System.out.println("aperta sessione" + numSessions);
         return session;
     }
 
-    public void deleteRichiesta(SentPrescriptionBundle sentPrescriptionBundle) {
-        List<Session> openSessionsByCF = getOpenSessionsByCF(sentPrescriptionBundle.getRicevente().getTaxCode());
+    public void deleteBundle(SentPrescriptionBundle sentPrescriptionBundle) {
+        List<Session> openSessionsByCF = getOpenSessionsByTC(sentPrescriptionBundle.getRicevente().getTaxCode());
         for (Session s : openSessionsByCF){
             User user = s.getUtente();
             if (Objects.requireNonNull(user.isType()) == Role.PATIENT) {
@@ -53,7 +53,7 @@ public class SessionManager {
     }
 
     public void addRichiesta(SentPrescriptionBundle sentPrescriptionBundle) {
-        List<Session> attive = SessionManager.getInstance().getOpenSessionsByCF(sentPrescriptionBundle.getRicevente().getTaxCode());
+        List<Session> attive = SessionManager.getInstance().getOpenSessionsByTC(sentPrescriptionBundle.getRicevente().getTaxCode());
         for (Session session : attive){
             User user = session.getUtente();
             if (Objects.requireNonNull(user.isType()) == Role.PATIENT) {
@@ -70,7 +70,7 @@ public class SessionManager {
     }
 
     public void aggiornaSessioni(String taxCode,MedicationDose medicationDose, LocalDate date){
-        List<Session> openSessions = getOpenSessionsByCF(taxCode);
+        List<Session> openSessions = getOpenSessionsByTC(taxCode);
         for (Session session : openSessions) {
             User user = session.getUtente();
             if (user.isType() == Role.PATIENT){

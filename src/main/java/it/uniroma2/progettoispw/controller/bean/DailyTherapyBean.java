@@ -3,6 +3,7 @@ package it.uniroma2.progettoispw.controller.bean;
 import it.uniroma2.progettoispw.controller.graphic.controller.Notificator;
 import it.uniroma2.progettoispw.model.domain.MedicationDose;
 import it.uniroma2.progettoispw.model.domain.DailyTherapy;
+import it.uniroma2.progettoispw.model.domain.Observer;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -55,7 +56,7 @@ public class DailyTherapyBean extends Observer {
     public void update() {
         replaceDosi(dailyTherapy.getDosesByTime());
         for (Notificator notificator: notificators) {
-            notificator.notifica();
+            notificator.notifyChanges();
         }
     }
 
@@ -67,7 +68,7 @@ public class DailyTherapyBean extends Observer {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Terapia del: ").append(data.toString()).append("\n");
+        sb.append("ManageTherapy del: ").append(data.toString()).append("\n");
         for (Map.Entry<LocalTime, List<DoseBean>> entry: dosiPerOrario.entrySet()) {
             for (DoseBean dose: entry.getValue()) {
                 sb.append(entry.getKey().toString()).append(" - ").append(dose.toString()).append("\n");

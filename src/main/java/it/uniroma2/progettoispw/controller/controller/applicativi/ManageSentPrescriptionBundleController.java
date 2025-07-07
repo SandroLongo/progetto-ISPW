@@ -25,11 +25,11 @@ public class ManageSentPrescriptionBundleController {
     public void acceptPrescriptionBundle(int code, int codiceRichiesta) {
         User user = SessionManager.getInstance().getSession(code).getUtente();
         if (Objects.requireNonNull(user.isType()) == Role.PATIENT) {
-            SentPrescriptionBundle sentPrescriptionBundle = ((Patient) user).getRichiestePendenti().getBundlesById(codiceRichiesta);
+            SentPrescriptionBundle sentPrescriptionBundle = ((Patient) user).getRichiestePendenti().getBundleById(codiceRichiesta);
             daoFacade.addTerapiaByRichiesta(sentPrescriptionBundle);
             ((Patient) user).getRichiestePendenti().deleteBundle(codiceRichiesta);
             daoFacade.deleteRichiesta(codiceRichiesta);
-            SessionManager.getInstance().deleteRichiesta(sentPrescriptionBundle);
+            SessionManager.getInstance().deleteBundle(sentPrescriptionBundle);
         } else {
             throw new UnsupportedOperation("operazione non supportata");
         }
@@ -38,8 +38,8 @@ public class ManageSentPrescriptionBundleController {
     public void rejectPrescriptionBundle(int code, int codiceRichiesta) {
         User user = SessionManager.getInstance().getSession(code).getUtente();
         if (Objects.requireNonNull(user.isType()) == Role.PATIENT) {
-            SentPrescriptionBundle sentPrescriptionBundle = ((Patient) user).getRichiestePendenti().getBundlesById(codiceRichiesta);
-            SessionManager.getInstance().deleteRichiesta(sentPrescriptionBundle);
+            SentPrescriptionBundle sentPrescriptionBundle = ((Patient) user).getRichiestePendenti().getBundleById(codiceRichiesta);
+            SessionManager.getInstance().deleteBundle(sentPrescriptionBundle);
         } else {
             throw new UnsupportedOperation("operazione non supportata");
         }

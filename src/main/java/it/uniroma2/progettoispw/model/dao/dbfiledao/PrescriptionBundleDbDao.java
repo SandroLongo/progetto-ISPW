@@ -38,7 +38,7 @@ public class PrescriptionBundleDbDao extends DbDao implements PrescriptionBundle
     }
 
     @Override
-    public List<SentPrescriptionBundle> getPrescriptionBundlesByPatient(Patient patient) throws DaoException {
+    public List<SentPrescriptionBundle> getBundles(Patient patient) throws DaoException {
         List<SentPrescriptionBundle> richieste = new ArrayList<SentPrescriptionBundle>();
         try {
             Connection conn = ConnectionFactory.getConnection();
@@ -64,7 +64,7 @@ public class PrescriptionBundleDbDao extends DbDao implements PrescriptionBundle
     }
 
     @Override
-    public void deletePrescriptionBundle(int id) throws DaoException {
+    public void deleteBundle(int id) throws DaoException {
         try {
             Connection conn = ConnectionFactory.getConnection();
             CallableStatement cs = conn.prepareCall("{call delete_richiesta(?)}");
@@ -76,14 +76,14 @@ public class PrescriptionBundleDbDao extends DbDao implements PrescriptionBundle
     }
 
     @Override
-    public int addPrescriptionBundle(PrescriptionBundleBean sentPrescriptionBundle) throws DaoException {
+    public int addBundle(PrescriptionBundleBean prescriptionBundle) throws DaoException {
         int id;
         try {
             Connection conn = ConnectionFactory.getConnection();
             CallableStatement cs = conn.prepareCall("{call add_richiesta(?,?,?,?)}");
-            cs.setDate(1, Date.valueOf(sentPrescriptionBundle.getSubmissionDate()));
-            cs.setString(2, sentPrescriptionBundle.getReceiver().getTaxCode());
-            cs.setString(3, sentPrescriptionBundle.getSender().getTaxCode());
+            cs.setDate(1, Date.valueOf(prescriptionBundle.getSubmissionDate()));
+            cs.setString(2, prescriptionBundle.getReceiver().getTaxCode());
+            cs.setString(3, prescriptionBundle.getSender().getTaxCode());
             cs.registerOutParameter(4, java.sql.Types.INTEGER);
             cs.execute();
             id = cs.getInt(4);
@@ -91,7 +91,7 @@ public class PrescriptionBundleDbDao extends DbDao implements PrescriptionBundle
             CallableStatement cs2 = conn.prepareCall("{call add_invio_pa(?,?,?,?,?,?,?,?,?)}");
             cs1.setInt(1, id);
             cs2.setInt(1, id);
-            for (PrescriptionBean prescription : sentPrescriptionBundle.getPrescriptions()) {
+            for (PrescriptionBean prescription : prescriptionBundle.getPrescriptions()) {
                 DoseBean medicationDose = prescription.getDose();
                 cs1.setDate(3, Date.valueOf(prescription.getStartDate()));
                 cs1.setInt(4, prescription.getRepetitionNumber());
@@ -120,7 +120,7 @@ public class PrescriptionBundleDbDao extends DbDao implements PrescriptionBundle
     }
 
     @Override
-    public SentPrescriptionBundle getPrescriptionBundleById(int id) throws DaoException {
+    public SentPrescriptionBundle getBundleById(int id) throws DaoException {
         SentPrescriptionBundle sentPrescriptionBundle;
         try{
             Connection conn = ConnectionFactory.getConnection();

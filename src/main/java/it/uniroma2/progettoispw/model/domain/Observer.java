@@ -1,4 +1,4 @@
-package it.uniroma2.progettoispw.controller.bean;
+package it.uniroma2.progettoispw.model.domain;
 
 public abstract class Observer {
     public abstract void update();

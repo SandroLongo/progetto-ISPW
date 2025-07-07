@@ -46,21 +46,21 @@ public class UserMemoryDao extends MemoryDao implements UserDao {
     }
 
     @Override
-    public void addPatient(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
-        UserKey userKey = new UserKey(codiceFiscale, pass);
-        System.out.println(codiceFiscale + pass);
-        pazienti.put(userKey, new Patient(codiceFiscale, nome, cognome, nascita, email, telefono));
-        infoUtenti.put(codiceFiscale, new Patient(codiceFiscale, nome, cognome, nascita, email, telefono));
+    public void addPatient(String taxCode, String name, String surname, LocalDate birthDate, String email, String phoneNumber, String pass) throws DaoException {
+        UserKey userKey = new UserKey(taxCode, pass);
+        System.out.println(taxCode + pass);
+        pazienti.put(userKey, new Patient(taxCode, name, surname, birthDate, email, phoneNumber));
+        infoUtenti.put(taxCode, new Patient(taxCode, name, surname, birthDate, email, phoneNumber));
     }
 
     @Override
-    public int addDoctor(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
+    public int addDoctor(String taxCode, String name, String surname, LocalDate birthDate, String email, String phoneNumber, String pass) throws DaoException {
         int codiceDottore = generaCodiceUnico(dottori);
-        UserKey userKey = new UserKey(codiceFiscale, pass);
-        DoctorKey doctorKey = new DoctorKey(codiceFiscale, pass, codiceDottore);
-        pazienti.put(userKey, new Patient(codiceFiscale, nome, cognome, nascita, email, telefono));
-        dottori.put(doctorKey, new Doctor(codiceFiscale, nome, cognome, nascita, email, telefono));
-        infoUtenti.put(codiceFiscale, new Doctor(codiceFiscale, nome, cognome, nascita, email, telefono));
+        UserKey userKey = new UserKey(taxCode, pass);
+        DoctorKey doctorKey = new DoctorKey(taxCode, pass, codiceDottore);
+        pazienti.put(userKey, new Patient(taxCode, name, surname, birthDate, email, phoneNumber));
+        dottori.put(doctorKey, new Doctor(taxCode, name, surname, birthDate, email, phoneNumber));
+        infoUtenti.put(taxCode, new Doctor(taxCode, name, surname, birthDate, email, phoneNumber));
         return codiceDottore;
     }
 
@@ -80,13 +80,13 @@ public class UserMemoryDao extends MemoryDao implements UserDao {
     }
 
     @Override
-    public User login(String codiceFiscale, String password, int isDottore, int codiceDottore) throws DaoException {
-        System.out.println(codiceFiscale + password);
-        if (isDottore == 1) {
-            DoctorKey chiave = new DoctorKey(codiceFiscale, password, codiceDottore);
+    public User login(String taxCode, String password, int isDoctor, int doctorCode) throws DaoException {
+        System.out.println(taxCode + password);
+        if (isDoctor == 1) {
+            DoctorKey chiave = new DoctorKey(taxCode, password, doctorCode);
             return new Doctor(dottori.get(chiave));
         } else {
-            UserKey chiave = new UserKey(codiceFiscale, password);
+            UserKey chiave = new UserKey(taxCode, password);
             return new Patient(pazienti.get(chiave));
         }
 
@@ -94,8 +94,8 @@ public class UserMemoryDao extends MemoryDao implements UserDao {
 
 
     @Override
-    public User getUserInformation(String codiceFiscale) throws DaoException {
-        return infoUtenti.get(codiceFiscale);
+    public User getUserInformation(String taxCode) throws DaoException {
+        return infoUtenti.get(taxCode);
     }
 
 

@@ -27,12 +27,12 @@ public class PrescriptionBundleMemoryDao extends MemoryDao implements Prescripti
 
 
     @Override
-    public List<SentPrescriptionBundle> getPrescriptionBundlesByPatient(Patient patient) throws DaoException {
+    public List<SentPrescriptionBundle> getBundles(Patient patient) throws DaoException {
         return new ArrayList<>(prescriptionBundleByUser.getOrDefault(patient.getTaxCode(), Collections.emptyMap()).values());
     }
 
     @Override
-    public void deletePrescriptionBundle(int id) throws DaoException {
+    public void deleteBundle(int id) throws DaoException {
         for (Map<Integer, SentPrescriptionBundle> mappaRichieste : prescriptionBundleByUser.values()) {
             if (mappaRichieste.containsKey(id)) {
                 mappaRichieste.remove(id);
@@ -43,7 +43,7 @@ public class PrescriptionBundleMemoryDao extends MemoryDao implements Prescripti
     }
 
     @Override
-    public int addPrescriptionBundle(PrescriptionBundleBean prescriptionBundle) throws DaoException {
+    public int addBundle(PrescriptionBundleBean prescriptionBundle) throws DaoException {
         numRichieste++;
         SentPrescriptionBundle sentPrescriptionBundle = new SentPrescriptionBundle(prescriptionBundle);
         sentPrescriptionBundle.setId(numRichieste);
@@ -54,7 +54,7 @@ public class PrescriptionBundleMemoryDao extends MemoryDao implements Prescripti
     }
 
     @Override
-    public SentPrescriptionBundle getPrescriptionBundleById(int id) throws DaoException {
+    public SentPrescriptionBundle getBundleById(int id) throws DaoException {
         return prescriptionBundleById.get(id);
     }
 }

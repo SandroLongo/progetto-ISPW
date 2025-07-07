@@ -1,6 +1,7 @@
 package it.uniroma2.progettoispw.controller.bean;
 
 import it.uniroma2.progettoispw.controller.graphic.controller.Notificator;
+import it.uniroma2.progettoispw.model.domain.Observer;
 import it.uniroma2.progettoispw.model.domain.SentPrescriptionBundle;
 import it.uniroma2.progettoispw.model.domain.PendentBundles;
 
@@ -35,7 +36,7 @@ public class ListPrescriptionBundleBean extends Observer {
     public void update() {
         replace(pending.getPending());
         for (Notificator notificator : notificators) {
-            notificator.notifica();
+            notificator.notifyChanges();
         }
     }
 

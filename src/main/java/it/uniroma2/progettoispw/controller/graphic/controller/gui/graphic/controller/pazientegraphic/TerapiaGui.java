@@ -130,7 +130,7 @@ public class TerapiaGui extends GuiGraphicController implements DoseAccepter, Fi
     }
 
     @Override
-    public void notifica() {
+    public void notifyChanges() {
         updateList();
     }
 }

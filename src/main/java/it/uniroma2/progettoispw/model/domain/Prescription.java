@@ -24,6 +24,9 @@ public class Prescription {
     }
 
     public Prescription(PrescriptionBean prescriptionBean) {
+        if (!prescriptionBean.isComplete()){
+            throw new InvalidFormatException("informazioni incomplete");
+        }
         setInizio(prescriptionBean.getStartDate());
         setNumGiorni(prescriptionBean.getRepetitionNumber());
         setRateGiorni(prescriptionBean.getDayRate());

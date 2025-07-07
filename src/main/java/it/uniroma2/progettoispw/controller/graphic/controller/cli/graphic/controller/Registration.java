@@ -12,10 +12,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-public class Registrazione extends Receiver{
+public class Registration extends Receiver{
     private static final String OPZIONE_NON_VALIDA_ERROR = "opzione non valida\n";
 
-    public Registrazione(Receiver prevoiusReceiver) {
+    public Registration(Receiver prevoiusReceiver) {
         this.previousReceiver = prevoiusReceiver;
         this.promptController = prevoiusReceiver.getPromptController();
         this.currentState = new OpzioniIniziali();

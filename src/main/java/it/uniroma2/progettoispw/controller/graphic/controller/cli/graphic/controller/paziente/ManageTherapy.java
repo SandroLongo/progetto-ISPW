@@ -3,16 +3,16 @@ package it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.contr
 import it.uniroma2.progettoispw.controller.bean.*;
 import it.uniroma2.progettoispw.controller.controller.applicativi.TherapyController;
 import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.AbstractState;
-import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.InformazioniFinali;
+import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.InsertFinalInformation;
 import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.Receiver;
-import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.SelezionaMedicinale;
+import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.SelectMedication;
 
 import java.time.LocalDate;
 
-public class Terapia extends Receiver {
+public class ManageTherapy extends Receiver {
     private AuthenticationBean authenticationBean;
 
-    public Terapia(AuthenticationBean authenticationBean, Receiver previousReceiver) {
+    public ManageTherapy(AuthenticationBean authenticationBean, Receiver previousReceiver) {
         this.authenticationBean = authenticationBean;
         this.promptController = previousReceiver.getPromptController();
         this.currentState = new ShowTerapiaState(authenticationBean);
@@ -56,7 +56,7 @@ public class Terapia extends Receiver {
                     return stateMachine.goNext(new ShowTerapiaState(authenticationBean, currentDate));
                 case "aggiungi": PrescriptionBean prescriptionBean = new PrescriptionBean();
                     return stateMachine.goNext(new AggiungiStateFase1(authenticationBean, therapyController, prescriptionBean)) +
-                            stateMachine.getPromptController().setReceiver(new SelezionaMedicinale(prescriptionBean.getDose(), stateMachine));
+                            stateMachine.getPromptController().setReceiver(new SelectMedication(prescriptionBean.getDose(), stateMachine));
                 case "menu": return stateMachine.getPromptController().setReceiver(stateMachine.getPreviousReceiver());
                 default: return "selezione invalida";
             }
@@ -86,7 +86,7 @@ public class Terapia extends Receiver {
             DoseBean dosebean = prescriptionBean.getDose();
             if (dosebean.getName() != null && dosebean.getId() != null) {
                 FinalStepBean finalStepBean = new FinalStepBean();
-                return stateMachine.goNext(new AggiungiStateFase2(authenticationBean, therapyController, prescriptionBean, finalStepBean)) + stateMachine.getPromptController().setReceiver(new InformazioniFinali(finalStepBean, stateMachine)) ;
+                return stateMachine.goNext(new AggiungiStateFase2(authenticationBean, therapyController, prescriptionBean, finalStepBean)) + stateMachine.getPromptController().setReceiver(new InsertFinalInformation(finalStepBean, stateMachine)) ;
             } else {
                 return stateMachine.goNext(new ShowTerapiaState(authenticationBean));
             }

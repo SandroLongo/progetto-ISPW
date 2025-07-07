@@ -3,14 +3,14 @@ package it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.contr
 import it.uniroma2.progettoispw.controller.bean.*;
 import it.uniroma2.progettoispw.controller.controller.applicativi.SendPrescriptionBundleController;
 import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.AbstractState;
-import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.InformazioniFinali;
+import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.InsertFinalInformation;
 import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.Receiver;
-import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.SelezionaMedicinale;
+import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.SelectMedication;
 
-public class InviaRichiesta extends Receiver {
+public class SendBundle extends Receiver {
     private AuthenticationBean authenticationBean;
 
-    public InviaRichiesta(AuthenticationBean authenticationBean, Receiver receiver) {
+    public SendBundle(AuthenticationBean authenticationBean, Receiver receiver) {
         this.previousReceiver = receiver;
         this.promptController = receiver.getPromptController();
         this.authenticationBean = authenticationBean;
@@ -84,7 +84,7 @@ public class InviaRichiesta extends Receiver {
                     PrescriptionBundleBean prescriptionBundleBean = new PrescriptionBundleBean();
                     prescriptionBundleBean.setReceiver(userInformation);
                     stateMachine.goNext(new AggiungiState1(authenticationBean, sendPrescriptionBundleController, prescriptionBean, prescriptionBundleBean));
-                    return stateMachine.getPromptController().setReceiver(new SelezionaMedicinale(doseBean, stateMachine));
+                    return stateMachine.getPromptController().setReceiver(new SelectMedication(doseBean, stateMachine));
                 case "indietro": return stateMachine.goNext(new GetCfPaziente(authenticationBean));
                 default: return "comando non riconosciuto";
             }
@@ -150,7 +150,7 @@ public class InviaRichiesta extends Receiver {
             if (dosebean.getName() != null && dosebean.getId() != null) {
                 FinalStepBean finalStepBean = new FinalStepBean();
                 return stateMachine.goNext(new AggiungiState2(authenticationBean, sendPrescriptionBundleController, prescriptionBean, prescriptionBundleBean, finalStepBean)) +
-                        stateMachine.getPromptController().setReceiver(new InformazioniFinali(finalStepBean, stateMachine));
+                        stateMachine.getPromptController().setReceiver(new InsertFinalInformation(finalStepBean, stateMachine));
             } else {
                 return "aggiunta abortita" + stateMachine.goNext(new RecapRichiesta(authenticationBean, sendPrescriptionBundleController, prescriptionBean, prescriptionBundleBean));
             }

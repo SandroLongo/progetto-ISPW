@@ -3,13 +3,13 @@ package it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.contr
 import it.uniroma2.progettoispw.controller.bean.AuthenticationBean;
 import it.uniroma2.progettoispw.controller.bean.UserLogInData;
 import it.uniroma2.progettoispw.controller.controller.applicativi.LogInController;
-import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.medico.MenuDottore;
-import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.paziente.MenuPaziente;
+import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.medico.DoctorMenu;
+import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.paziente.PatientMenu;
 import it.uniroma2.progettoispw.model.domain.Role;
 
-public class LogInReceiver extends Receiver {
+public class LogIn extends Receiver {
 
-    public LogInReceiver(PromptController promptController) {
+    public LogIn(PromptController promptController) {
         this.promptController = promptController;
         this.currentState = new WelcomeState();
     }
@@ -34,7 +34,7 @@ public class LogInReceiver extends Receiver {
                 case "doctor":
                     return stateMachine.goNext(new CfMedicoState());
                 case "registrati":
-                    return stateMachine.getPromptController().setReceiver(new Registrazione(stateMachine));
+                    return stateMachine.getPromptController().setReceiver(new Registration(stateMachine));
                 default:
                     return "scelta non valida\n" + initialMessage;
             }
@@ -91,10 +91,10 @@ public class LogInReceiver extends Receiver {
             stateMachine.setCurrentState(new WelcomeState());
             switch (authenticationBean.getRuolo()){
                 case DOCTOR -> {
-                    return stateMachine.getPromptController().setReceiver(new MenuDottore(authenticationBean, stateMachine));
+                    return stateMachine.getPromptController().setReceiver(new DoctorMenu(authenticationBean, stateMachine));
                 }
                 case PATIENT -> {
-                    return stateMachine.getPromptController().setReceiver(new MenuPaziente(authenticationBean, stateMachine));
+                    return stateMachine.getPromptController().setReceiver(new PatientMenu(authenticationBean, stateMachine));
                 }
                 default -> {
                     return "ruolo non riconosciuto" + initialMessage;
@@ -136,7 +136,7 @@ public class LogInReceiver extends Receiver {
             AuthenticationBean authenticationBean = logInController.logIn(userLogInData);
             stateMachine.getPromptController().setAuthenticationBean(authenticationBean);
             stateMachine.setCurrentState(new WelcomeState());
-            return "login effettuato con successo \n" + stateMachine.getPromptController().setReceiver(new MenuPaziente(authenticationBean, stateMachine));
+            return "login effettuato con successo \n" + stateMachine.getPromptController().setReceiver(new PatientMenu(authenticationBean, stateMachine));
         }
     }
 
