@@ -4,7 +4,7 @@ import it.uniroma2.progettoispw.controller.bean.AuthenticationBean;
 import it.uniroma2.progettoispw.controller.bean.UserInformation;
 import it.uniroma2.progettoispw.controller.controller.applicativi.SendPrescriptionBundleController;
 import it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.GuiGraphicController;
-import it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.MenuWindowManager;
+import it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.WindowManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -18,7 +18,7 @@ public class InviaRichiestaViewController extends GuiGraphicController {
     private String gruppo;
     private AuthenticationBean authenticationBean;
     private UserInformation utente;
-    private MenuWindowManager menuWindowManager;
+    private WindowManager windowManager;
 
     @FXML
     private TextField cFField;
@@ -51,14 +51,14 @@ public class InviaRichiestaViewController extends GuiGraphicController {
 
     @FXML
     void confermaDati() throws IOException {
-        menuWindowManager.addScene(gruppo, "/it/uniroma2/progettoispw/view/RecapRichiestaView.fxml", gruppo, sendPrescriptionBundleController, authenticationBean, utente, menuWindowManager);
+        windowManager.addScene(gruppo, "/it/uniroma2/progettoispw/view/RecapRichiestaView.fxml", gruppo, sendPrescriptionBundleController, authenticationBean, utente, windowManager);
     }
 
     @Override
     public void initialize(Object[] args) throws IOException {
         this.gruppo = (String) args[0];
         this.authenticationBean = (AuthenticationBean) args[1];
-        this.menuWindowManager = (MenuWindowManager) args[2];
+        this.windowManager = (WindowManager) args[2];
         this.sendPrescriptionBundleController = new SendPrescriptionBundleController();
     }
 }

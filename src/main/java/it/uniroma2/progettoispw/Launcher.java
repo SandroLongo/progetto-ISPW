@@ -13,22 +13,32 @@ import java.net.Socket;
 public class Launcher {
     private static final int PORT = 34567;
 
+    private static volatile ServerSocket serverSocket; // aggiunto
+    private static volatile boolean running = true;    // aggiunto
+
     public static void main(String[] args) {
         if (tryStartSocketServer()) {
-            // Sono la prima istanza: lancio JavaFX
             Application.launch(App.class, args);
         } else {
-            // Già exists: devo mandargli i miei args e uscire
             sendArgsToRunningInstance(args);
             System.exit(0);
         }
     }
 
+    public static void shutdownSocketServer() {  // chiamabile da WindowCounter
+        running = false;
+        try {
+            if (serverSocket != null && !serverSocket.isClosed()) {
+                serverSocket.close(); // forza chiusura del listener
+            }
+        } catch (IOException ignored) {
+        }
+    }
+
     private static boolean tryStartSocketServer() {
         try {
-            ServerSocket server = new ServerSocket(PORT, 1, InetAddress.getLoopbackAddress());
-            // lancio in background il thread che ascolta richieste
-            new Thread(() -> listenForClients(server), "IPC-Listener").start();
+            serverSocket = new ServerSocket(PORT, 1, InetAddress.getLoopbackAddress());
+            new Thread(() -> listenForClients(serverSocket), "IPC-Listener").start();
             return true;
         } catch (IOException e) {
             return false;
@@ -36,13 +46,13 @@ public class Launcher {
     }
 
     private static void listenForClients(ServerSocket server) {
-        while (true) {
+        while (running && !server.isClosed()) {
             try (Socket client = server.accept();
                  ObjectInputStream in = new ObjectInputStream(client.getInputStream())) {
-                // qui dentro, nella JVM principale, apro una nuova finestra
                 Platform.runLater(App::openNewWindow);
-            } catch (Exception e) {
-                //ignoro e continuo semplicemente l'esecuzione
+            } catch (IOException e) {
+                if (!running || server.isClosed()) break; // interrompe il loop
+            } catch (Exception ignored) {
             }
         }
     }
@@ -52,7 +62,6 @@ public class Launcher {
              ObjectOutputStream out = new ObjectOutputStream(sock.getOutputStream())) {
             out.writeObject(args);
         } catch (IOException ignored) {
-            //ignoro e continuo semplicemente l'esecuzione
         }
     }
 }

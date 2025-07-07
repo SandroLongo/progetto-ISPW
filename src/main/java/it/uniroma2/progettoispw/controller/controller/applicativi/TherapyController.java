@@ -1,6 +1,7 @@
 package it.uniroma2.progettoispw.controller.controller.applicativi;
 
 import it.uniroma2.progettoispw.controller.bean.DoseBean;
+import it.uniroma2.progettoispw.controller.bean.InvalidFormatException;
 import it.uniroma2.progettoispw.controller.bean.PrescriptionBean;
 import it.uniroma2.progettoispw.controller.bean.DailyTherapyBean;
 import it.uniroma2.progettoispw.model.dao.DaoFacade;
@@ -24,16 +25,16 @@ public class TherapyController implements Controller{
             case ACRIVEINGREDIENT -> {
                 medication = daoFacade.getPrincipioAttvoByCodiceAtc(doseBean.getId());
             }
-            default -> throw new IllegalArgumentException("invalid dose type");
+            default -> throw new InvalidFormatException("invalid dose type");
         }
+        MedicationDose medDose = new MedicationDose(medication, doseBean.getQuantity(), doseBean.getMeausurementUnit(), doseBean.getScheduledTime(),
+                doseBean.getDescription(), user);
         if (medication == null){
             throw new UnsupportedOperation("the medication specified is not existent");
         }
-        Prescription prescription = new Prescription(new MedicationDose(medication, doseBean.getQuantity(), doseBean.getMeausurementUnit(), doseBean.getScheduledTime(),
-                                                        doseBean.getDescription(), user), prescriptionBean.getRepetitionNumber(), prescriptionBean.getStartDate(),
+        Prescription prescription = new Prescription(medDose, prescriptionBean.getRepetitionNumber(), prescriptionBean.getStartDate(),
                                                         prescriptionBean.getDayRate());
         prescription.getDose().setSender(user);
-        MedicationDose medDose = new MedicationDose();
         String taxCode = user.getTaxCode();
         List<LocalDate> dates = daoFacade.buildMedicationDose(prescription, user.getTaxCode());
         SessionManager sessionManager = SessionManager.getInstance();

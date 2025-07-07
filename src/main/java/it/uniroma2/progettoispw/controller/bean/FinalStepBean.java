@@ -34,9 +34,9 @@ public class FinalStepBean {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) throws IllegalArgumentException{
+    public void setStartDate(LocalDate startDate) throws InvalidFormatException {
         if (startDate == null) {
-            throw new IllegalArgumentException("startDate is null");
+            throw new InvalidFormatException("startDate is null");
         }
         this.startDate = startDate;
     }
@@ -45,9 +45,9 @@ public class FinalStepBean {
         return repetitionNumber;
     }
 
-    public void setRepetitionNumber(int repetitionNumber) throws IllegalArgumentException {
+    public void setRepetitionNumber(int repetitionNumber) throws InvalidFormatException {
         if (repetitionNumber < 0 || repetitionNumber > Config.MAX_REPETITION_ALLOWED) {
-            throw new IllegalArgumentException("repetitionNumber is out of range");
+            throw new InvalidFormatException("repetitionNumber is out of range");
         }
         this.repetitionNumber = repetitionNumber;
     }
@@ -56,9 +56,9 @@ public class FinalStepBean {
         return dayRate;
     }
 
-    public void setDayRate(int dayRate) throws IllegalArgumentException {
+    public void setDayRate(int dayRate) throws InvalidFormatException {
         if (dayRate < 0 || dayRate > Config.MAX_RATE_ALLOWED) {
-            throw new IllegalArgumentException("dayRate is out of range");
+            throw new InvalidFormatException("dayRate is out of range");
         }
         this.dayRate = dayRate;
     }
@@ -67,9 +67,9 @@ public class FinalStepBean {
         return quantity;
     }
 
-    public void setQuantity(int quantity) throws IllegalArgumentException {
+    public void setQuantity(int quantity) throws InvalidFormatException {
         if (quantity < 0 || quantity > Config.MAX_QUANTITY_ALLOWED) {
-            throw new IllegalArgumentException("quantity is out of range");
+            throw new InvalidFormatException("quantity is out of range");
         }
         this.quantity = quantity;
     }
@@ -78,9 +78,9 @@ public class FinalStepBean {
         return measurementUnit;
     }
 
-    public void setMeasurementUnit(String measurementUnit) throws IllegalArgumentException {
+    public void setMeasurementUnit(String measurementUnit) throws InvalidFormatException {
         if (measurementUnit == null || measurementUnit.isEmpty() || measurementUnit.length() > Config.MAX_MEAUSUREMENT_UNIT_LENGHT) {
-            throw new IllegalArgumentException("measurementUnit is out of range");
+            throw new InvalidFormatException("measurementUnit is out of range");
         }
         this.measurementUnit = measurementUnit;
     }
@@ -89,9 +89,9 @@ public class FinalStepBean {
         return scheduledTime;
     }
 
-    public void setScheduledTime(LocalTime scheduledTime) throws IllegalArgumentException {
+    public void setScheduledTime(LocalTime scheduledTime) throws InvalidFormatException {
         if (scheduledTime == null) {
-            throw new IllegalArgumentException("scheduledTime is null");
+            throw new InvalidFormatException("scheduledTime is null");
         }
         this.scheduledTime = scheduledTime;
     }
@@ -102,7 +102,7 @@ public class FinalStepBean {
 
     public void setDescription(String description) {
         if (description == null || description.isEmpty() || description.length() > Config.MAX_DESCRIPTION_LENGTH) {
-            throw new IllegalArgumentException("description empty or too long");
+            throw new InvalidFormatException("description empty or too long");
         }
         this.description = description;
     }

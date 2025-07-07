@@ -10,7 +10,7 @@ import it.uniroma2.progettoispw.model.domain.User;
 public class LogInController implements Controller{
     private final DaoFacade daoFacade = new DaoFacade();
 
-    public AuthenticationBean logIn(UserLogInData userLogInData) throws FomatoInvalidoException, LogInFailedException {
+    public AuthenticationBean logIn(UserLogInData userLogInData) throws InvalidFormatException, LogInFailedException {
         if (userLogInData.isComplete()) {
             User user;
             try {
@@ -30,30 +30,30 @@ public class LogInController implements Controller{
             Session session = SessionManager.getInstance().setSession(user);
             return new AuthenticationBean(session.getUtente().getName(), session.getUtente().getSurname(), session.getCode(), session.getUtente().isType());
         } else {
-            throw new FomatoInvalidoException("le informazioni non sono state completate");
+            throw new InvalidFormatException("le informazioni non sono state completate");
         }
     }
 
 
-    public void registerPatient(PatientRegistrationData patientRegistrationData) throws FomatoInvalidoException {
+    public void registerPatient(PatientRegistrationData patientRegistrationData) throws InvalidFormatException {
         if (patientRegistrationData.isComplete()) {
             daoFacade.addPaziente(patientRegistrationData.getTaxCode(), patientRegistrationData.getName(),
                             patientRegistrationData.getSurname(), patientRegistrationData.getBirthDate(), patientRegistrationData.getEmail(),
                             patientRegistrationData.getPhoneNumber(), patientRegistrationData.getPassword());
             System.out.println(patientRegistrationData.getTaxCode() + "in logincontroller");
         } else {
-            throw new FomatoInvalidoException("i dati non sono stati compleatati");
+            throw new InvalidFormatException("i dati non sono stati compleatati");
         }
 
     }
 
-    public int registerDoctor(DoctorRegistrationData doctorRegistrationData) throws FomatoInvalidoException{
+    public int registerDoctor(DoctorRegistrationData doctorRegistrationData) throws InvalidFormatException {
         if (doctorRegistrationData.isComplete()) {
             return daoFacade.addDottore(doctorRegistrationData.getTaxCode(), doctorRegistrationData.getName(),
                     doctorRegistrationData.getSurname(), doctorRegistrationData.getBirthDate(), doctorRegistrationData.getEmail(),
                     doctorRegistrationData.getPhoneNumber(), doctorRegistrationData.getPassword());
         } else {
-            throw new FomatoInvalidoException("i dati non sono stati compleati");
+            throw new InvalidFormatException("i dati non sono stati compleati");
         }
     }
 

@@ -33,14 +33,14 @@ public class PrescriptionBean {
         return dose;
     }
 
-    public void setDose(DoseBean dose) throws IllegalArgumentException{
+    public void setDose(DoseBean dose) throws InvalidFormatException {
         if (dose == null) {}
         this.dose = dose;
     }
 
-    public void setLastInformation(FinalStepBean lastInformation)throws IllegalArgumentException{
+    public void setLastInformation(FinalStepBean lastInformation)throws InvalidFormatException {
         if (!lastInformation.isComplete()) {
-            throw new IllegalArgumentException("information incompleate");
+            throw new InvalidFormatException("information incompleate");
         }
         this.startDate = lastInformation.getStartDate();
         this.repetitionNumber = lastInformation.getRepetitionNumber();

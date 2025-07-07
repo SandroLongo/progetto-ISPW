@@ -12,7 +12,7 @@ import java.time.LocalTime;
 public class AggiungiFinalStepController extends GuiGraphicController {
     private FinalAccepter accepter;
     private String gruppo;
-    private MenuWindowManager menuWindowManager;
+    private WindowManager windowManager;
 
     @FXML
     private DatePicker dataIniziale;
@@ -27,7 +27,7 @@ public class AggiungiFinalStepController extends GuiGraphicController {
     private TextField numGiorni;
 
     @FXML
-    private Spinner<Integer> oraPIcker;
+    private Spinner<Integer> oraPicker;
 
     @FXML
     private TextField quantita;
@@ -40,19 +40,19 @@ public class AggiungiFinalStepController extends GuiGraphicController {
 
     @FXML
     void indietro(ActionEvent event) {
-        menuWindowManager.deleteAndcomeBack(gruppo);
+        windowManager.deleteAndcomeBack(gruppo);
     }
 
     @Override
     public void initialize(Object[] args) {
         this.accepter = (FinalAccepter) args[0];
         this.gruppo = (String)args[1];
-        this.menuWindowManager = (MenuWindowManager) args[2];
+        this.windowManager = (WindowManager) args[2];
         SpinnerValueFactory<Integer> valueFactory =
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 12);
 
-        oraPIcker.setValueFactory(valueFactory);
-        oraPIcker.setEditable(true);
+        oraPicker.setValueFactory(valueFactory);
+        oraPicker.setEditable(true);
         minutiPicker.setValueFactory(
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0)
         );
@@ -67,7 +67,7 @@ public class AggiungiFinalStepController extends GuiGraphicController {
     @FXML
     void aggiungi(ActionEvent event) throws IOException {
         FinalStepBean finalStepBean = new FinalStepBean(dataIniziale.getValue(), Integer.parseInt(numGiorni.getText()), Integer.parseInt(rateGiorni.getText()),
-                                                            Integer.parseInt(quantita.getText()), unitaMisura.getText(), LocalTime.of(oraPIcker.getValue(), minutiPicker.getValue()),
+                                                            Integer.parseInt(quantita.getText()), unitaMisura.getText(), LocalTime.of(oraPicker.getValue(), minutiPicker.getValue()),
                                                             descrizione.getText());
         accepter.setFinalInformation(finalStepBean);
     }

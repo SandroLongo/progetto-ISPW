@@ -3,7 +3,7 @@ package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.contr
 import it.uniroma2.progettoispw.controller.bean.*;
 import it.uniroma2.progettoispw.controller.controller.applicativi.ManageSentPrescriptionBundleController;
 import it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.GuiGraphicController;
-import it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.MenuWindowManager;
+import it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.WindowManager;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,7 +19,7 @@ public class DettagliRichiestaController extends GuiGraphicController {
     private ManageSentPrescriptionBundleController manageSentPrescriptionBundleController;
     private SentPrescriptionBundleBean richiestaBean;
     private ObservableList<Object> dati;
-    private MenuWindowManager menuWindowManager;
+    private WindowManager windowManager;
 
     @FXML
     private Label cFLabel;
@@ -41,13 +41,13 @@ public class DettagliRichiestaController extends GuiGraphicController {
 
     @FXML
     void indietro(ActionEvent event) {
-        menuWindowManager.deleteAndcomeBack(gruppo);
+        windowManager.deleteAndcomeBack(gruppo);
     }
     @FXML
     void aggiungi() {
         manageSentPrescriptionBundleController.acceptPrescriptionBundle(authenticationBean.getCodice(), richiestaBean.getId());
-        menuWindowManager.deleteTop(gruppo);
-        menuWindowManager.show(gruppo);
+        windowManager.deleteTop(gruppo);
+        windowManager.show(gruppo);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class DettagliRichiestaController extends GuiGraphicController {
         this.gruppo = (String) args[0];
         this.authenticationBean = (AuthenticationBean) args[2];
         this.richiestaBean = (SentPrescriptionBundleBean) args[3];
-        this.menuWindowManager = (MenuWindowManager) args[4];
+        this.windowManager = (WindowManager) args[4];
 
         listDosi.getColumns().clear();
         TableColumn<Object, String> nome = new TableColumn<>("Nome");

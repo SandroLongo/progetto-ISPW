@@ -22,6 +22,7 @@ public class DailyTherapyBean extends Observer {
     }
 
     private void replaceDosi(Map<LocalTime, List<MedicationDose>> map){
+        dosiPerOrario.clear();
         for (List<MedicationDose> list: map.values()) {
             for (MedicationDose medicationDose : list) {
                 DoseBean doseBean = new DoseBean(medicationDose);

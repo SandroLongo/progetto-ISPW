@@ -55,6 +55,6 @@ public class PrescriptionBundleMemoryDao extends MemoryDao implements Prescripti
 
     @Override
     public SentPrescriptionBundle getPrescriptionBundleById(int id) throws DaoException {
-        return prescriptionBundleByUser.get(id).get(id);
+        return prescriptionBundleById.get(id);
     }
 }

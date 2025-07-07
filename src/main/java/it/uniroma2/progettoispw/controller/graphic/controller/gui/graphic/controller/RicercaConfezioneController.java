@@ -3,6 +3,8 @@ package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.contr
 import it.uniroma2.progettoispw.controller.bean.DoseBean;
 import it.uniroma2.progettoispw.controller.bean.ListActiveIngridientName;
 import it.uniroma2.progettoispw.controller.controller.applicativi.MedicationInformationController;
+import it.uniroma2.progettoispw.controller.controller.applicativi.PercistencyFailedException;
+import it.uniroma2.progettoispw.model.dao.DaoException;
 import it.uniroma2.progettoispw.model.domain.*;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -19,7 +21,7 @@ public class RicercaConfezioneController extends GuiGraphicController {
     private String gruppo;
     private Prescription prescription = new Prescription();
     private static final String SELEZIONA = "SELEZIONA";
-    private MenuWindowManager menuWindowManager;
+    private WindowManager windowManager;
     @FXML
     private TextField codiceATC;
 
@@ -34,20 +36,25 @@ public class RicercaConfezioneController extends GuiGraphicController {
 
     @FXML
     void indietro(ActionEvent event) {
-        menuWindowManager.deleteAndcomeBack(gruppo);
+        windowManager.deleteAndcomeBack(gruppo);
     }
 
     public void initialize(Object[] args) {
         this.doseAccepter = (DoseAccepter) args[0];
         this.gruppo = (String) args[1];
-        this.menuWindowManager = (MenuWindowManager) args[2];
+        this.windowManager = (WindowManager) args[2];
     }
 
     //bottone per confezioni
     @FXML
     void searchConfezione(ActionEvent event) {
-        List<MedicinalProduct> confezioni = medicationInformationController.getMedicinalProductsByPartialName(nomeConfezione.getText());
-
+        List<MedicinalProduct> confezioni = null;
+        try {
+            confezioni = medicationInformationController.getMedicinalProductsByPartialName(nomeConfezione.getText());
+        } catch (PercistencyFailedException e) {
+            showAlert(e.getMessage());
+            return;
+        }
         setConfezioni(confezioni);
     }
 
@@ -55,7 +62,18 @@ public class RicercaConfezioneController extends GuiGraphicController {
     @FXML
     void searchPrincipio(ActionEvent event) {
         risultatiTable.getColumns().clear();
-        ListActiveIngridientName nomiCompleti = medicationInformationController.getActiveIngridientsByPartialName(nomePrincipio.getText());
+        List<String> nomiCompleti = null;
+        try {
+            nomiCompleti = medicationInformationController.getActiveIngridientsNameByPartialName(nomePrincipio.getText());
+        } catch (PercistencyFailedException e) {
+            showAlert(e.getMessage());
+            return;
+        }
+        if (nomiCompleti.isEmpty()) {
+            showInformation("risultati non trovati");
+            risultatiTable.getColumns().clear();
+            return;
+        }
 
         TableColumn<Object, String> nomi = new TableColumn<>("Nomi");
         nomi.setCellValueFactory(data -> new ReadOnlyStringWrapper((String)data.getValue()));
@@ -67,11 +85,16 @@ public class RicercaConfezioneController extends GuiGraphicController {
         cercaCol.setCellFactory(col -> new CercaConfezioniDalPrincipioButtonCell());
 
         risultatiTable.getColumns().addAll(nomi, aggiungiCol, cercaCol);
-        ObservableList<Object> dati = FXCollections.observableArrayList(nomiCompleti.getNomiPa());
+        ObservableList<Object> dati = FXCollections.observableArrayList(nomiCompleti);
         risultatiTable.setItems(dati);
     }
 
     private void setConfezioni(List<MedicinalProduct> confezioni) {
+        if (confezioni.isEmpty()) {
+            showInformation("risultati non trovati");
+            risultatiTable.getColumns().clear();
+            return;
+        }
         risultatiTable.getColumns().clear();
         TableColumn<Object, String> denominazione = new TableColumn<>("Nomi");
         denominazione.setCellValueFactory(data -> new ReadOnlyStringWrapper(((MedicinalProduct)data.getValue()).getName()));
@@ -107,7 +130,13 @@ public class RicercaConfezioneController extends GuiGraphicController {
         public SelezionaPrincipioButtonCell() {
             btn.setOnAction(event -> {
                 String selezione = (String) getTableView().getItems().get(getIndex());
-                ActiveIngredient activeIngredient = medicationInformationController.getActiveIngridientByName(selezione);
+                ActiveIngredient activeIngredient = null;
+                try {
+                    activeIngredient = medicationInformationController.getActiveIngridientByName(selezione);
+                } catch (PercistencyFailedException e) {
+                    showAlert(e.getMessage());
+                    return;
+                }
                 DoseBean doseBean = new DoseBean(MedicationType.ACRIVEINGREDIENT);
                 doseBean.setId(activeIngredient.getId());
                 doseBean.setName(activeIngredient.getName());
@@ -128,9 +157,21 @@ public class RicercaConfezioneController extends GuiGraphicController {
         public CercaConfezioniDalPrincipioButtonCell() {
             btn.setOnAction(event -> {
                 String selezione =  (String)getTableView().getItems().get(getIndex());
-                ActiveIngredient activeIngredient = medicationInformationController.getActiveIngridientByName(selezione);
+                ActiveIngredient activeIngredient = null;
+                try {
+                    activeIngredient = medicationInformationController.getActiveIngridientByName(selezione);
+                } catch (PercistencyFailedException e) {
+                    showAlert(e.getMessage());
+                    return;
+                }
                 String codiceAtc = activeIngredient.getId();
-                List<MedicinalProduct> confezioni = medicationInformationController.getMedicinalProductByActiveIngridient(codiceAtc);
+                List<MedicinalProduct> confezioni = null;
+                try {
+                    confezioni = medicationInformationController.getMedicinalProductByActiveIngridient(codiceAtc);
+                } catch (PercistencyFailedException e) {
+                    showAlert(e.getMessage());
+                    return;
+                }
                 setConfezioni(confezioni);
             });
         }

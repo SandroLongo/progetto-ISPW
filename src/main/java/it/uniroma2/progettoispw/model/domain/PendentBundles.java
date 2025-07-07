@@ -38,7 +38,7 @@ public class PendentBundles extends Subject {
         return null;
     }
 
-    public boolean deleteRichiesta(int id) {
+    public boolean deleteBundle(int id) {
         for (SentPrescriptionBundle sentPrescriptionBundle : pending) {
             if (sentPrescriptionBundle.getId() == id) {
                 pending.remove(sentPrescriptionBundle);

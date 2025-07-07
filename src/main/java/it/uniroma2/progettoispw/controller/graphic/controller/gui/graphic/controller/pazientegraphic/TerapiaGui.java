@@ -7,7 +7,7 @@ import it.uniroma2.progettoispw.controller.graphic.controller.Notificator;
 import it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.DoseAccepter;
 import it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.FinalAccepter;
 import it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.GuiGraphicController;
-import it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.MenuWindowManager;
+import it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.WindowManager;
 import it.uniroma2.progettoispw.model.domain.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,7 +28,7 @@ public class TerapiaGui extends GuiGraphicController implements DoseAccepter, Fi
     private String gruppo;
     private AuthenticationBean authBean;
     private PrescriptionBean prescriptionBean;
-    private MenuWindowManager menuWindowManager;
+    private WindowManager windowManager;
 
     @FXML
     private DatePicker datePicker;
@@ -39,38 +39,40 @@ public class TerapiaGui extends GuiGraphicController implements DoseAccepter, Fi
     @FXML
     void addMedication(ActionEvent event) throws IOException {
         prescriptionBean = new PrescriptionBean();
-        menuWindowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/RicercaConfezione.fxml", this, gruppo, menuWindowManager);
+        windowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/RicercaConfezione.fxml", this, gruppo, windowManager);
     }
 
     @FXML
     void dateChanged(ActionEvent event) throws IOException {
-        terapiaGiornaliera.deleteNotificator(this);
-        terapiaGiornaliera = therapyController.getDailyTherapy(authBean.getCodice(), datePicker.getValue());
-        terapiaGiornaliera.addNotificator(this);
-        update();
+        DailyTherapyBean dailyTherapyBean = therapyController.getDailyTherapy(authBean.getCodice(), datePicker.getValue());
+        changeList(dailyTherapyBean);
     }
 
     @FXML
-    void update(ActionEvent event) throws IOException {
-        terapiaGiornaliera.deleteNotificator(this);
-        terapiaGiornaliera = therapyController.getDailyTherapy(authBean.getCodice(), datePicker.getValue());
-        terapiaGiornaliera.addNotificator(this);
-        update();
+    void changeList(ActionEvent event) throws IOException {
+        DailyTherapyBean dailyTherapyBean = therapyController.getDailyTherapy(authBean.getCodice(), datePicker.getValue());
+        changeList(dailyTherapyBean);
     }
 
     public void initialize(Object[] args) throws IOException {
         this.authBean = (AuthenticationBean) args[1];
         this.gruppo = (String) args[0];
-        this.menuWindowManager = (MenuWindowManager) args[2];
+        this.windowManager = (WindowManager) args[2];
         therapyController = new TherapyController();
         datePicker.setValue(LocalDate.now());
-        terapiaGiornaliera = therapyController.getDailyTherapy(authBean.getCodice(), datePicker.getValue());
-        terapiaGiornaliera.addNotificator(this);
-        update();
+        DailyTherapyBean dailyTherapyBean = therapyController.getDailyTherapy(authBean.getCodice(), datePicker.getValue());
+        changeList(dailyTherapyBean);
 
     }
-
-    public void update() {
+    public void changeList(DailyTherapyBean dailyTherapyBean){
+        if (terapiaGiornaliera != null) {
+            terapiaGiornaliera.deleteNotificator(this);
+        }
+        this.terapiaGiornaliera = dailyTherapyBean;
+        terapiaGiornaliera.addNotificator(this);
+        updateList();
+    }
+    public void updateList(){
         doseList.getChildren().clear();
         for (List<DoseBean> dosiPerOrario: this.terapiaGiornaliera.getDosiPerOrario().values()){
             for (DoseBean dose: dosiPerOrario){
@@ -111,17 +113,16 @@ public class TerapiaGui extends GuiGraphicController implements DoseAccepter, Fi
     public void setFinalInformation(FinalStepBean finalStep) {
         prescriptionBean.setLastInformation(finalStep);
         therapyController.addDose(authBean.getCodice(), prescriptionBean);
-        menuWindowManager.deleteTop(gruppo);
-        menuWindowManager.show(gruppo);
-        update();
+        windowManager.deleteTop(gruppo);
+        windowManager.show(gruppo);
     }
 
     @Override
     public void setDose(DoseBean dose) {
         this.prescriptionBean.setDose(dose);
-        menuWindowManager.deleteTop(gruppo);
+        windowManager.deleteTop(gruppo);
         try {
-            menuWindowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/AggiungiView.fxml", this,gruppo, menuWindowManager);
+            windowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/AggiungiView.fxml", this,gruppo, windowManager);
         } catch (IOException e) {
             e.printStackTrace();
             ((Stage)datePicker.getScene().getWindow()).close();
@@ -130,6 +131,6 @@ public class TerapiaGui extends GuiGraphicController implements DoseAccepter, Fi
 
     @Override
     public void notifica() {
-        update();
+        updateList();
     }
 }

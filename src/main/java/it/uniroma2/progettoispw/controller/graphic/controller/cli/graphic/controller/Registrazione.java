@@ -1,7 +1,7 @@
 package it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller;
 
 import it.uniroma2.progettoispw.controller.bean.DoctorRegistrationData;
-import it.uniroma2.progettoispw.controller.bean.FomatoInvalidoException;
+import it.uniroma2.progettoispw.controller.bean.InvalidFormatException;
 import it.uniroma2.progettoispw.controller.bean.PatientRegistrationData;
 import it.uniroma2.progettoispw.controller.bean.UserRegistrationData;
 import it.uniroma2.progettoispw.controller.controller.applicativi.LogInController;
@@ -64,7 +64,7 @@ public class Registrazione extends Receiver{
         public String goNext(Receiver stateMachine, String command) {
             try {
                 urd.setTaxCode(command.toUpperCase());
-            } catch (FomatoInvalidoException e) {
+            } catch (InvalidFormatException e) {
                 return e.getMessage() + stateMachine.goNext(new OpzioniIntermedie(urd, this));
             }
             return stateMachine.goNext(new InserisciPass(urd));
@@ -84,7 +84,7 @@ public class Registrazione extends Receiver{
         public String goNext(Receiver stateMachine, String command) {
             try {
                 urd.setPassword(command);
-            } catch (FomatoInvalidoException e) {
+            } catch (InvalidFormatException e) {
                 return e.getMessage() + stateMachine.goNext(new OpzioniIntermedie(urd, this));
             }
             return stateMachine.goNext(new InserisciNome(urd));
@@ -104,7 +104,7 @@ public class Registrazione extends Receiver{
         public String goNext(Receiver stateMachine, String command) {
             try {
                 urd.setName(command);
-            } catch (FomatoInvalidoException e) {
+            } catch (InvalidFormatException e) {
                 return e.getMessage()  + stateMachine.goNext(new OpzioniIntermedie(urd, this));
             }
             return stateMachine.goNext(new InserisciCognome(urd));
@@ -124,7 +124,7 @@ public class Registrazione extends Receiver{
         public String goNext(Receiver stateMachine, String command) {
             try {
                 urd.setSurname(command);
-            } catch (FomatoInvalidoException e) {
+            } catch (InvalidFormatException e) {
                 return e.getMessage() + stateMachine.goNext(new OpzioniIntermedie(urd, this));
             }
             return stateMachine.goNext(new InserisciEmail(urd));
@@ -144,7 +144,7 @@ public class Registrazione extends Receiver{
         public String goNext(Receiver stateMachine, String command) {
             try {
                 urd.setEmail(command);
-            } catch (FomatoInvalidoException e) {
+            } catch (InvalidFormatException e) {
                 return e.getMessage() + stateMachine.goNext(new OpzioniIntermedie(urd, this));
             }
             return stateMachine.goNext(new InserisciTelefono(urd));
@@ -164,7 +164,7 @@ public class Registrazione extends Receiver{
         public String goNext(Receiver stateMachine, String command) {
             try {
                 urd.setPhoneNumber(command);
-            } catch (FomatoInvalidoException e) {
+            } catch (InvalidFormatException e) {
                 return e.getMessage() + stateMachine.goNext(new OpzioniIntermedie(urd, this));
             }
             return stateMachine.goNext(new InserisciDataNascita(urd));
@@ -188,7 +188,7 @@ public class Registrazione extends Receiver{
                 urd.setBirthDate(date);
             } catch (DateTimeParseException e) {
                 return "devi inserire una data come 31-1-2002(gg-mm-aaaa)\n" + initialMessage;
-            } catch (FomatoInvalidoException e) {
+            } catch (InvalidFormatException e) {
                 return e.getMessage()  + stateMachine.goNext(new OpzioniIntermedie(urd, this));
             }
             try{

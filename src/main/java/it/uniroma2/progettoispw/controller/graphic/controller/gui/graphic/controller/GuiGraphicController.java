@@ -15,4 +15,12 @@ public abstract class GuiGraphicController {
         alert.setContentText(msg);
         alert.showAndWait();
     }
+
+    public void showInformation(String msg) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Errore");
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
+    }
 }

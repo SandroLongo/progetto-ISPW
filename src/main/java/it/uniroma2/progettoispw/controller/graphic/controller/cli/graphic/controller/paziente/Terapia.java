@@ -1,9 +1,6 @@
 package it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.paziente;
 
-import it.uniroma2.progettoispw.controller.bean.AuthenticationBean;
-import it.uniroma2.progettoispw.controller.bean.DoseBean;
-import it.uniroma2.progettoispw.controller.bean.PrescriptionBean;
-import it.uniroma2.progettoispw.controller.bean.DailyTherapyBean;
+import it.uniroma2.progettoispw.controller.bean.*;
 import it.uniroma2.progettoispw.controller.controller.applicativi.TherapyController;
 import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.AbstractState;
 import it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller.InformazioniFinali;
@@ -88,7 +85,8 @@ public class Terapia extends Receiver {
         public String comeBackAction(Receiver stateMachine){
             DoseBean dosebean = prescriptionBean.getDose();
             if (dosebean.getName() != null && dosebean.getId() != null) {
-                return stateMachine.goNext(new AggiungiStateFase2(authenticationBean, therapyController, prescriptionBean)) + stateMachine.getPromptController().setReceiver(new InformazioniFinali(prescriptionBean, stateMachine)) ;
+                FinalStepBean finalStepBean = new FinalStepBean();
+                return stateMachine.goNext(new AggiungiStateFase2(authenticationBean, therapyController, prescriptionBean, finalStepBean)) + stateMachine.getPromptController().setReceiver(new InformazioniFinali(finalStepBean, stateMachine)) ;
             } else {
                 return stateMachine.goNext(new ShowTerapiaState(authenticationBean));
             }
@@ -99,8 +97,10 @@ public class Terapia extends Receiver {
         private AuthenticationBean authenticationBean;
         private PrescriptionBean prescriptionBean;
         private TherapyController therapyController;
+        private FinalStepBean finalStepBean;
 
-        public AggiungiStateFase2(AuthenticationBean authenticationBean, TherapyController therapyController, PrescriptionBean prescriptionBean) {
+        public AggiungiStateFase2(AuthenticationBean authenticationBean, TherapyController therapyController, PrescriptionBean prescriptionBean, FinalStepBean finalStepBean) {
+            this.finalStepBean = finalStepBean;
             this.prescriptionBean = prescriptionBean;
             this.authenticationBean = authenticationBean;
             this.therapyController = therapyController;
@@ -115,7 +115,8 @@ public class Terapia extends Receiver {
         @Override
         public String comeBackAction(Receiver stateMachine){
             DoseBean dosebean = prescriptionBean.getDose();
-            if (dosebean.isCompleate()) {
+            if (finalStepBean.isComplete()) {
+                prescriptionBean.setLastInformation(finalStepBean);
                 therapyController.addDose(authenticationBean.getCodice(), prescriptionBean);
                 return "dose aggiunta con successo\n" + stateMachine.goNext(new ShowTerapiaState(authenticationBean));
             } else {

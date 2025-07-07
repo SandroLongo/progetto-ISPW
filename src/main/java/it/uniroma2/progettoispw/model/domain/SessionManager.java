@@ -47,7 +47,7 @@ public class SessionManager {
             User user = s.getUtente();
             if (Objects.requireNonNull(user.isType()) == Role.PATIENT) {
                 PendentBundles pendentBundles = ((Patient) user).getRichiestePendenti();
-                pendentBundles.deleteRichiesta(sentPrescriptionBundle.getId());
+                pendentBundles.deleteBundle(sentPrescriptionBundle.getId());
             }
         }
     }
@@ -76,6 +76,7 @@ public class SessionManager {
             if (user.isType() == Role.PATIENT){
                 TherapyCalendar therapyCalendar = ((Patient) user).getCalendar();
                 if (therapyCalendar.exists(date)){
+                    System.out.println("aggiunto");
                     therapyCalendar.getDailyTherapy(date).addDose(medicationDose);
                 }
             }

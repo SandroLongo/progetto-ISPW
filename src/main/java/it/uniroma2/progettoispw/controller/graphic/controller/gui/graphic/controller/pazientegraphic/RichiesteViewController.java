@@ -4,7 +4,7 @@ import it.uniroma2.progettoispw.controller.bean.*;
 import it.uniroma2.progettoispw.controller.controller.applicativi.ManageSentPrescriptionBundleController;
 import it.uniroma2.progettoispw.controller.graphic.controller.Notificator;
 import it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.GuiGraphicController;
-import it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.MenuWindowManager;
+import it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.WindowManager;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,7 +21,7 @@ public class RichiesteViewController extends GuiGraphicController implements Not
     private ManageSentPrescriptionBundleController manageSentPrescriptionBundleController;
     private AuthenticationBean authenticationBean;
     private ListPrescriptionBundleBean listPrescriptionBundleBean;
-    private MenuWindowManager menuWindowManager;
+    private WindowManager windowManager;
 
     @FXML
     private TableView<Object> listaRichieste;
@@ -31,7 +31,7 @@ public class RichiesteViewController extends GuiGraphicController implements Not
     public void initialize(Object[] args) throws IOException {
         this.gruppo = (String) args[0];
         this.authenticationBean = (AuthenticationBean) args[1];
-        this.menuWindowManager = (MenuWindowManager) args[2];
+        this.windowManager = (WindowManager) args[2];
         this.manageSentPrescriptionBundleController = new ManageSentPrescriptionBundleController();
         this.listPrescriptionBundleBean = manageSentPrescriptionBundleController.getPendingPrescriptionBundles(authenticationBean.getCodice());
         listPrescriptionBundleBean.addNotificator(this);
@@ -67,7 +67,7 @@ public class RichiesteViewController extends GuiGraphicController implements Not
             btn.setOnAction(event -> {
                 SentPrescriptionBundleBean selezione =  (SentPrescriptionBundleBean) getTableView().getItems().get(getIndex());
                 try {
-                    menuWindowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/VisualizzaDettagliRichiestaView.fxml", gruppo, manageSentPrescriptionBundleController, authenticationBean, selezione, menuWindowManager);
+                    windowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/VisualizzaDettagliRichiestaView.fxml", gruppo, manageSentPrescriptionBundleController, authenticationBean, selezione, windowManager);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

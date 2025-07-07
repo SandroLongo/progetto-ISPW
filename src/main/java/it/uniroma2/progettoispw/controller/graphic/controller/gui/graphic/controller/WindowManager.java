@@ -1,5 +1,8 @@
 package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller;
 
+import it.uniroma2.progettoispw.WindowCounter;
+import it.uniroma2.progettoispw.controller.bean.AuthenticationBean;
+import it.uniroma2.progettoispw.controller.controller.applicativi.LogInController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -10,14 +13,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
-public class MenuWindowManager {
+public class WindowManager {
     private Stage mainStage;
     private BorderPane menu;
     private Map<String, Stack<Scene>> sceneMap = new HashMap<String, Stack<Scene>>();
     private Scene loginScene;
     private Scene registerScene;
 
-    public MenuWindowManager(Stage mainStage) {
+    public WindowManager(Stage mainStage) {
         this.mainStage = mainStage;
     }
 
@@ -96,6 +99,19 @@ public class MenuWindowManager {
         this.menu = null;
     }
 
+    public void resetExit(){
+        mainStage.setOnCloseRequest(event -> {
+            WindowCounter.getInstance().decrement();
+        });
+    }
 
+
+    public void setExit(AuthenticationBean authenticationBean) {
+        mainStage.setOnCloseRequest(event -> {
+            LogInController logOutController = new LogInController();
+            logOutController.logOut(authenticationBean.getCodice());
+            WindowCounter.getInstance().decrement();
+        });
+    }
 }
 

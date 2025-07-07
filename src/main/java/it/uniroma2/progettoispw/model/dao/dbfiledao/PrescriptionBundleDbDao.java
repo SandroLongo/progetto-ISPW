@@ -130,9 +130,11 @@ public class PrescriptionBundleDbDao extends DbDao implements PrescriptionBundle
             if (status) {
                 ResultSet rs = cs.getResultSet();
                 if (rs.next()) {
-                    sentPrescriptionBundle = new SentPrescriptionBundle(id, rs.getDate(1).toLocalDate(), new Patient(rs.getString(2)),
-                            new Doctor(rs.getString(3)));
+                    sentPrescriptionBundle = new SentPrescriptionBundle(id, rs.getDate(2).toLocalDate(), new Patient(rs.getString(3)),
+                            new Doctor(rs.getString(4)));
                     addPrescriptions(sentPrescriptionBundle, cs);
+                } else {
+                    return null;
                 }
             } else {
                 return null;
@@ -140,7 +142,7 @@ public class PrescriptionBundleDbDao extends DbDao implements PrescriptionBundle
         } catch (SQLException e) {
             throw new DaoException(e.getMessage());
         }
-        return null;
+        return sentPrescriptionBundle;
     }
 
     private void addPrescriptions(SentPrescriptionBundle sentPrescriptionBundle, CallableStatement cs) throws SQLException {

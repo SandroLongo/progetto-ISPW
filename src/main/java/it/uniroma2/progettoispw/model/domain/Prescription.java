@@ -1,7 +1,7 @@
 package it.uniroma2.progettoispw.model.domain;
 
 import it.uniroma2.progettoispw.controller.bean.DoseBean;
-import it.uniroma2.progettoispw.controller.bean.FomatoInvalidoException;
+import it.uniroma2.progettoispw.controller.bean.InvalidFormatException;
 import it.uniroma2.progettoispw.controller.bean.PrescriptionBean;
 
 import java.time.LocalDate;
@@ -35,7 +35,7 @@ public class Prescription {
             case ACRIVEINGREDIENT -> new MedicationDose(new ActiveIngredient(doseBean.getId()),
                     doseBean.getQuantity(), doseBean.getMeausurementUnit(),
                     doseBean.getScheduledTime(), doseBean.getDescription(), new Patient(doseBean.getSender().getTaxCode()));
-            default -> throw new FomatoInvalidoException("invalid medication type");
+            default -> throw new InvalidFormatException("invalid medication type");
         }
 
     }

@@ -20,6 +20,7 @@ public class ListPrescriptionBundleBean extends Observer {
     }
 
     public void replace(List<SentPrescriptionBundle> richieste){
+        list.clear();
         for (SentPrescriptionBundle sentPrescriptionBundle : richieste) {
             SentPrescriptionBundleBean sentPrescriptionBundleBean = new SentPrescriptionBundleBean(sentPrescriptionBundle);
             list.add(sentPrescriptionBundleBean);

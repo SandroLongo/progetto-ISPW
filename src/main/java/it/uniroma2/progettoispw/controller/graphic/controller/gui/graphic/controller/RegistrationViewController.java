@@ -1,6 +1,6 @@
 package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller;
 
-import it.uniroma2.progettoispw.controller.bean.FomatoInvalidoException;
+import it.uniroma2.progettoispw.controller.bean.InvalidFormatException;
 import it.uniroma2.progettoispw.controller.bean.UserRegistrationData;
 import it.uniroma2.progettoispw.controller.controller.applicativi.LogInController;
 import it.uniroma2.progettoispw.controller.bean.DoctorRegistrationData;
@@ -21,7 +21,7 @@ import java.io.IOException;
 
 public class RegistrationViewController extends GuiGraphicController {
     private LogInController logInController = new LogInController();
-    private MenuWindowManager menuWindowManager;
+    private WindowManager windowManager;
 
     @FXML
     private TextField codiceFiscaleField;
@@ -59,7 +59,7 @@ public class RegistrationViewController extends GuiGraphicController {
 
     @FXML
     void indietro(ActionEvent event) {
-        menuWindowManager.showLogin();
+        windowManager.showLogin();
     }
 
     @FXML
@@ -77,27 +77,27 @@ public class RegistrationViewController extends GuiGraphicController {
                 logInController.registerPatient(prd);
                 messaggio = "";
             }
-        } catch (FomatoInvalidoException | DaoException e) {
+        } catch (InvalidFormatException | DaoException e) {
             showAlert(e.getMessage());
             e.printStackTrace();
             return;
         }
 
         try {
-            Stage stage = menuWindowManager.getMainStage();
+            Stage stage = windowManager.getMainStage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/view/RegistrationSuccessView.fxml"));
             Parent root = loader.load();
-            ((GuiGraphicController)loader.getController()).initialize(new Object[]{messaggio, menuWindowManager});
+            ((GuiGraphicController)loader.getController()).initialize(new Object[]{messaggio, windowManager});
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (FomatoInvalidoException | DaoException e) {
+        } catch (InvalidFormatException | DaoException e) {
             showAlert(e.getMessage());
         }
 
 
     }
 
-    private void setInformation(UserRegistrationData urd) throws FomatoInvalidoException {
+    private void setInformation(UserRegistrationData urd) throws InvalidFormatException {
         urd.setTaxCode(codiceFiscaleField.getText());
         urd.setSurname(cognomeField.getText());
         urd.setEmail(emailField.getText());
@@ -109,11 +109,11 @@ public class RegistrationViewController extends GuiGraphicController {
 
     @FXML
     void returnToLogin(ActionEvent event){
-        menuWindowManager.showLogin();
+        windowManager.showLogin();
     }
 
     @Override
     public void initialize(Object[] args) throws IOException {
-        this.menuWindowManager = (MenuWindowManager) args[0];
+        this.windowManager = (WindowManager) args[0];
     }
 }

@@ -1,7 +1,7 @@
 package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller;
 
 import it.uniroma2.progettoispw.controller.bean.AuthenticationBean;
-import it.uniroma2.progettoispw.controller.bean.FomatoInvalidoException;
+import it.uniroma2.progettoispw.controller.bean.InvalidFormatException;
 import it.uniroma2.progettoispw.controller.controller.applicativi.LogInController;
 import it.uniroma2.progettoispw.controller.bean.UserLogInData;
 import it.uniroma2.progettoispw.controller.controller.applicativi.LogInFailedException;
@@ -19,7 +19,7 @@ import java.io.IOException;
 
 public class LogInViewController extends GuiGraphicController {
     private final LogInController logInController = new LogInController();
-    MenuWindowManager menuWindowManager;
+    WindowManager windowManager;
 
 
     @FXML
@@ -47,9 +47,8 @@ public class LogInViewController extends GuiGraphicController {
         AuthenticationBean authenticationBean;
         try {
             authenticationBean = logInController.logIn(userLogInData);
-        } catch (FomatoInvalidoException | LogInFailedException e ) {
+        } catch (InvalidFormatException | LogInFailedException e ) {
             showAlert(e.getMessage());
-            e.printStackTrace();
             return;
         }
 
@@ -63,24 +62,21 @@ public class LogInViewController extends GuiGraphicController {
             }
         }
         BorderPane root = (BorderPane) loader.load();
-        Stage stage = menuWindowManager.getMainStage();
+        Stage stage = windowManager.getMainStage();
         AuthenticationBean finalAuthenticationBean = authenticationBean;
-        stage.setOnCloseRequest(event -> {
-            LogInController logOutController = new LogInController();
-            logOutController.logOut(finalAuthenticationBean.getCodice());
-        });
-        ((GuiGraphicController)loader.getController()).initialize(new Object[]{authenticationBean, menuWindowManager});
-        menuWindowManager.setMenu(root);
+        windowManager.setExit(authenticationBean);
+        ((GuiGraphicController)loader.getController()).initialize(new Object[]{authenticationBean, windowManager});
+        windowManager.setMenu(root);
 
     }
 
     @FXML
     void handleRegistration(ActionEvent event){
-        menuWindowManager.showRegisterScene();
+        windowManager.showRegisterScene();
     }
 
     @Override
     public void initialize(Object[] args) throws IOException {
-        this.menuWindowManager = (MenuWindowManager) args[0];
+        this.windowManager = (WindowManager) args[0];
     }
 }

@@ -49,7 +49,7 @@ public class PrescriptionBundleBean {
 
     public void addPrescription(PrescriptionBean prescriptionBean) {
         if (!prescriptionBean.isComplete()) {
-            throw new IllegalArgumentException("prescriptionBean is not complete");
+            throw new InvalidFormatException("prescriptionBean is not complete");
         }
         prescriptions.add(prescriptionBean);
     }
@@ -62,9 +62,9 @@ public class PrescriptionBundleBean {
         return submissionDate;
     }
 
-    public void setSubmissionDate(LocalDate submissionDate) throws IllegalArgumentException{
+    public void setSubmissionDate(LocalDate submissionDate) throws InvalidFormatException {
         if (submissionDate == null) {
-            throw new IllegalArgumentException("submissionDate cannot be null");
+            throw new InvalidFormatException("submissionDate cannot be null");
         }
         this.submissionDate = submissionDate;
     }
@@ -73,9 +73,9 @@ public class PrescriptionBundleBean {
         return receiver;
     }
 
-    public void setReceiver(UserInformation receiver) throws IllegalArgumentException{
+    public void setReceiver(UserInformation receiver) throws InvalidFormatException {
         if (!receiver.isCompleate()){
-            throw new IllegalArgumentException("Receiver not compleate");
+            throw new InvalidFormatException("Receiver not compleate");
         }
         this.receiver = receiver;
     }
@@ -84,9 +84,9 @@ public class PrescriptionBundleBean {
         return sender;
     }
 
-    public void setSender(UserInformation sender)  throws IllegalArgumentException {
+    public void setSender(UserInformation sender)  throws InvalidFormatException {
         if (!sender.isCompleate()){
-            throw new IllegalArgumentException("Sender not compleate");
+            throw new InvalidFormatException("Sender not compleate");
         }
         for (PrescriptionBean prescriptionBean : getPrescriptions()) {
             prescriptionBean.getDose().setSender(sender);

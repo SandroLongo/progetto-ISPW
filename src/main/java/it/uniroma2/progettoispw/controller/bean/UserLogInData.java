@@ -36,7 +36,7 @@ public class UserLogInData {
 
     public void setTaxCode(String cf) {
         if (cf == null || cf.length() < Config.MIN_CF_LENGTH || cf.length() > Config.MAX_CF_LENGTH) {
-            throw new FomatoInvalidoException("Codice fiscale non valido");
+            throw new InvalidFormatException("Codice fiscale non valido");
         }
         this.taxCode = cf;
     }
@@ -47,7 +47,7 @@ public class UserLogInData {
 
     public void setPassword(String pwd) {
         if (pwd == null || pwd.length() > Config.MAX_PASSWORD_LENGTH || pwd.length() <= Config.MIN_PASSWORD_LENGTH) {
-            throw  new FomatoInvalidoException("Password non valida");
+            throw  new InvalidFormatException("Password non valida");
         }
         this.password = pwd;
     }
@@ -60,7 +60,7 @@ public class UserLogInData {
     }
     public int getDoctorCode() {
         if (role != Role.DOCTOR){
-            throw new FomatoInvalidoException("il codice puo essere impostato solo per i dottori");
+            throw new InvalidFormatException("il codice puo essere impostato solo per i dottori");
         }
         return doctorCode;
     }
@@ -68,7 +68,7 @@ public class UserLogInData {
         try {
             this.doctorCode = Integer.parseInt(doctorCode);
         } catch (NumberFormatException e) {
-            throw new FomatoInvalidoException("il codice deve essere un numero");
+            throw new InvalidFormatException("il codice deve essere un numero");
         }
     }
 

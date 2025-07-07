@@ -27,7 +27,7 @@ public class ManageSentPrescriptionBundleController {
         if (Objects.requireNonNull(user.isType()) == Role.PATIENT) {
             SentPrescriptionBundle sentPrescriptionBundle = ((Patient) user).getRichiestePendenti().getBundlesById(codiceRichiesta);
             daoFacade.addTerapiaByRichiesta(sentPrescriptionBundle);
-            ((Patient) user).getRichiestePendenti().deleteRichiesta(codiceRichiesta);
+            ((Patient) user).getRichiestePendenti().deleteBundle(codiceRichiesta);
             daoFacade.deleteRichiesta(codiceRichiesta);
             SessionManager.getInstance().deleteRichiesta(sentPrescriptionBundle);
         } else {

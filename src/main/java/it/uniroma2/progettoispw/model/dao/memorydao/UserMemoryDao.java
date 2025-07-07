@@ -12,8 +12,8 @@ import java.util.*;
 
 public class UserMemoryDao extends MemoryDao implements UserDao {
     private static UserMemoryDao instance;
-    private Map<ChiaveUtente, Patient> pazienti = new HashMap<>();
-    private Map<ChiaveDottore, Doctor> dottori = new HashMap<>();
+    private Map<UserKey, Patient> pazienti = new HashMap<>();
+    private Map<DoctorKey, Doctor> dottori = new HashMap<>();
     private Map<String, User> infoUtenti = new HashMap<>();
     private Random random = new SecureRandom();
 
@@ -47,28 +47,28 @@ public class UserMemoryDao extends MemoryDao implements UserDao {
 
     @Override
     public void addPatient(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
-        ChiaveUtente chiaveUtente = new ChiaveUtente(codiceFiscale, pass);
+        UserKey userKey = new UserKey(codiceFiscale, pass);
         System.out.println(codiceFiscale + pass);
-        pazienti.put(chiaveUtente, new Patient(codiceFiscale, nome, cognome, nascita, email, telefono));
+        pazienti.put(userKey, new Patient(codiceFiscale, nome, cognome, nascita, email, telefono));
         infoUtenti.put(codiceFiscale, new Patient(codiceFiscale, nome, cognome, nascita, email, telefono));
     }
 
     @Override
     public int addDoctor(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono, String pass) throws DaoException {
         int codiceDottore = generaCodiceUnico(dottori);
-        ChiaveUtente chiaveUtente = new ChiaveUtente(codiceFiscale, pass);
-        ChiaveDottore chiaveDottore = new ChiaveDottore(codiceFiscale, pass, codiceDottore);
-        pazienti.put(chiaveUtente, new Patient(codiceFiscale, nome, cognome, nascita, email, telefono));
-        dottori.put(chiaveDottore, new Doctor(codiceFiscale, nome, cognome, nascita, email, telefono));
+        UserKey userKey = new UserKey(codiceFiscale, pass);
+        DoctorKey doctorKey = new DoctorKey(codiceFiscale, pass, codiceDottore);
+        pazienti.put(userKey, new Patient(codiceFiscale, nome, cognome, nascita, email, telefono));
+        dottori.put(doctorKey, new Doctor(codiceFiscale, nome, cognome, nascita, email, telefono));
         infoUtenti.put(codiceFiscale, new Doctor(codiceFiscale, nome, cognome, nascita, email, telefono));
         return codiceDottore;
     }
 
-    private int generaCodiceUnico(Map<ChiaveDottore, Doctor> mappa) {
+    private int generaCodiceUnico(Map<DoctorKey, Doctor> mappa) {
         Set<Integer> codiciEsistenti = new HashSet<>();
 
-        for (ChiaveDottore chiave : mappa.keySet()) {
-            codiciEsistenti.add(chiave.getCodiceDottore());
+        for (DoctorKey chiave : mappa.keySet()) {
+            codiciEsistenti.add(chiave.getDoctorCode());
         }
 
         int nuovoCodice;
@@ -83,10 +83,10 @@ public class UserMemoryDao extends MemoryDao implements UserDao {
     public User login(String codiceFiscale, String password, int isDottore, int codiceDottore) throws DaoException {
         System.out.println(codiceFiscale + password);
         if (isDottore == 1) {
-            ChiaveDottore chiave = new ChiaveDottore(codiceFiscale, password, codiceDottore);
+            DoctorKey chiave = new DoctorKey(codiceFiscale, password, codiceDottore);
             return new Doctor(dottori.get(chiave));
         } else {
-            ChiaveUtente chiave = new ChiaveUtente(codiceFiscale, password);
+            UserKey chiave = new UserKey(codiceFiscale, password);
             return new Patient(pazienti.get(chiave));
         }
 
@@ -99,17 +99,17 @@ public class UserMemoryDao extends MemoryDao implements UserDao {
     }
 
 
-    public static class ChiaveUtente {
-        private final String codiceFiscale;
+    public static class UserKey {
+        private final String taxCode;
         private final String password;
 
-        public ChiaveUtente(String codiceFiscale, String password) {
-            this.codiceFiscale = codiceFiscale;
+        public UserKey(String taxCode, String password) {
+            this.taxCode = taxCode;
             this.password = password;
         }
 
-        public String getCodiceFiscale() {
-            return codiceFiscale;
+        public String getTaxCode() {
+            return taxCode;
         }
 
         public String getPassword() {
@@ -119,55 +119,55 @@ public class UserMemoryDao extends MemoryDao implements UserDao {
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (!(o instanceof ChiaveUtente)) return false;
-            ChiaveUtente that = (ChiaveUtente) o;
-            return codiceFiscale.equals(that.codiceFiscale) &&
+            if (!(o instanceof UserKey)) return false;
+            UserKey that = (UserKey) o;
+            return taxCode.equals(that.taxCode) &&
                     password.equals(that.password);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(codiceFiscale, password);
+            return Objects.hash(taxCode, password);
         }
     }
 
-    public static class ChiaveDottore {
-        private final String codiceFiscale;
+    public static class DoctorKey {
+        private final String taxCode;
         private final String password;
-        private final int codiceDottore;
+        private final int doctorCode;
 
-        public ChiaveDottore(String codiceFiscale, String password, int codiceDottore) {
-            this.codiceFiscale = codiceFiscale;
+        public DoctorKey(String taxCode, String password, int doctorCode) {
+            this.taxCode = taxCode;
             this.password = password;
-            this.codiceDottore = codiceDottore;
+            this.doctorCode = doctorCode;
         }
 
-        public String getCodiceFiscale() {
-            return codiceFiscale;
+        public String getTaxCode() {
+            return taxCode;
         }
 
         public String getPassword() {
             return password;
         }
 
-        public int getCodiceDottore() {
-            return codiceDottore;
+        public int getDoctorCode() {
+            return doctorCode;
         }
 
         // ✅ Equals completo
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (!(o instanceof ChiaveDottore)) return false;
-            ChiaveDottore that = (ChiaveDottore) o;
-            return Objects.equals(codiceFiscale, that.codiceFiscale) &&
+            if (!(o instanceof DoctorKey)) return false;
+            DoctorKey that = (DoctorKey) o;
+            return Objects.equals(taxCode, that.taxCode) &&
                     Objects.equals(password, that.password) &&
-                    Objects.equals(codiceDottore, that.codiceDottore);
+                    Objects.equals(doctorCode, that.doctorCode);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(codiceFiscale, password, codiceDottore);
+            return Objects.hash(taxCode, password, doctorCode);
         }
     }
 }
