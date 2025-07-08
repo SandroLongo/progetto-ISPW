@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class SummaryBundleGraphicController extends GuiGraphicController implements DoseAccepter, FinalAccepter {
+public class SummaryBundleViewController extends GuiGraphicController implements DoseAccepter, FinalAccepter {
     private SendPrescriptionBundleController sendPrescriptionBundleController;
     private String group;
     private ObservableList<Object> dataResult;
@@ -72,7 +72,7 @@ public class SummaryBundleGraphicController extends GuiGraphicController impleme
         nomeLabel.setText(userInformation.getName());
         cognomeLabel.setText(userInformation.getSurname());
         emailLabel.setText(userInformation.getEmail());
-        numeroLabel.setText(userInformation.getPhoneNumber().toString());
+        numeroLabel.setText(userInformation.getPhoneNumber());
         this.windowManager = (WindowManager) args[4];
         recapTable.getColumns().clear();
 

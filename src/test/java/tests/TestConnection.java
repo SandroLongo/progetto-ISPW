@@ -5,8 +5,6 @@ import it.uniroma2.progettoispw.model.dao.dbfiledao.ConnectionFactory;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.sql.Connection;
-
 public class TestConnection {
 
     @Test
