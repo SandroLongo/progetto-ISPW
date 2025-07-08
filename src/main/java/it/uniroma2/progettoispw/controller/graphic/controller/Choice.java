@@ -24,7 +24,6 @@ public class Choice extends GuiGraphicController {
         try {
             cliApp.start(stage);
         } catch (Exception e) {
-            e.printStackTrace();
             stage.close();
         }
     }
@@ -36,7 +35,6 @@ public class Choice extends GuiGraphicController {
         try {
             guiApp.start(stage,windowManager);
         } catch (Exception e) {
-            e.printStackTrace();
             stage.close();
         }
     }

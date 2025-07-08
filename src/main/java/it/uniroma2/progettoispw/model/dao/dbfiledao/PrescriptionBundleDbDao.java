@@ -13,7 +13,7 @@ import java.util.List;
 
 public class PrescriptionBundleDbDao extends DbDao implements PrescriptionBundleDao {
 
-    private void addDosiInviataConfezione(ResultSet rs, SentPrescriptionBundle sentPrescriptionBundle) throws SQLException {
+    private void addDosiInviataConfezione(ResultSet rs, SentPrescriptionBundle sentPrescriptionBundle) throws DaoException {
         try {
             while (rs.next()) {
                 sentPrescriptionBundle.addDoseInviata(new Prescription(new MedicationDose(new MedicinalProduct(String.valueOf(rs.getInt(1))), rs.getInt(5),
@@ -21,11 +21,11 @@ public class PrescriptionBundleDbDao extends DbDao implements PrescriptionBundle
                         rs.getInt(3), rs.getDate(2).toLocalDate(), rs.getInt(4)));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e.getMessage());
         }
     }
 
-    private void addDosiInviataPrincipioAttivo(ResultSet rs, SentPrescriptionBundle sentPrescriptionBundle) throws SQLException {
+    private void addDosiInviataPrincipioAttivo(ResultSet rs, SentPrescriptionBundle sentPrescriptionBundle) throws DaoException {
         try {
             while (rs.next()) {
                 sentPrescriptionBundle.addDoseInviata(new Prescription(new MedicationDose(new ActiveIngredient(rs.getString(1)), rs.getInt(5),
@@ -33,7 +33,7 @@ public class PrescriptionBundleDbDao extends DbDao implements PrescriptionBundle
                         rs.getInt(3), rs.getDate(2).toLocalDate(), rs.getInt(4)));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e.getMessage());
         }
     }
 

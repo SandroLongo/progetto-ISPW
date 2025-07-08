@@ -79,7 +79,6 @@ public class RegistrationViewController extends GuiGraphicController {
             }
         } catch (InvalidFormatException | DaoException e) {
             showAlert(e.getMessage());
-            e.printStackTrace();
             return;
         }
 

@@ -77,7 +77,6 @@ public class TherapyViewController extends GuiGraphicController implements DoseA
                     try {
                         root = loader.load();
                     } catch (IOException e) {
-                        e.printStackTrace();
                         ((Stage) datePicker.getScene().getWindow()).close();
                         return;
                     }
@@ -90,7 +89,6 @@ public class TherapyViewController extends GuiGraphicController implements DoseA
                     try {
                         root = loader.load();
                     } catch (IOException e) {
-                        e.printStackTrace();
                         ((Stage) datePicker.getScene().getWindow()).close();
                         return;
                     }
@@ -118,7 +116,6 @@ public class TherapyViewController extends GuiGraphicController implements DoseA
         try {
             windowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/AggiungiView.fxml", this,gruppo, windowManager);
         } catch (IOException e) {
-            e.printStackTrace();
             ((Stage)datePicker.getScene().getWindow()).close();
         }
     }

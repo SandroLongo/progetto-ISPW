@@ -29,7 +29,6 @@ public class ConnectionFactory {
 
             connection = DriverManager.getConnection(connectionUrl, user, pass);
         } catch (IOException | SQLException e) {
-            e.printStackTrace();
             throw new DaoException(e.getMessage());
         }
 

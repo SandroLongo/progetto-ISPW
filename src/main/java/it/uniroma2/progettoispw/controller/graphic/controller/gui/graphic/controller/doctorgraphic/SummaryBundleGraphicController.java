@@ -130,7 +130,6 @@ public class SummaryBundleGraphicController extends GuiGraphicController impleme
         try {
             windowManager.addSceneAndShow(group, "/it/uniroma2/progettoispw/view/AggiungiView.fxml", this, group, windowManager);
         } catch (IOException e) {
-            e.printStackTrace();
             ((Stage)recapTable.getScene().getWindow()).close();
         }
     }

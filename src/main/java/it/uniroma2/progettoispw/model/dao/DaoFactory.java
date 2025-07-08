@@ -41,7 +41,6 @@ public abstract class DaoFactory {
                         System.exit(1);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
                 System.exit(1);
             }
         }
