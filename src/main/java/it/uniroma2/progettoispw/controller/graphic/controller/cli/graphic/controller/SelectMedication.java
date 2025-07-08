@@ -4,8 +4,6 @@ import it.uniroma2.progettoispw.controller.bean.ActiveIngredientBean;
 import it.uniroma2.progettoispw.controller.bean.DoseBean;
 import it.uniroma2.progettoispw.controller.bean.MedicinalProductBean;
 import it.uniroma2.progettoispw.controller.controller.applicativi.MedicationInformationController;
-import it.uniroma2.progettoispw.model.domain.MedicinalProduct;
-import it.uniroma2.progettoispw.model.domain.ActiveIngredient;
 import it.uniroma2.progettoispw.model.domain.MedicationType;
 
 import java.util.List;

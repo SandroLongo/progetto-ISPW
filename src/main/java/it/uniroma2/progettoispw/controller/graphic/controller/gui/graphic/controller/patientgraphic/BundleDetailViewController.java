@@ -67,7 +67,7 @@ public class BundleDetailViewController extends GuiGraphicController {
         nomeLabel.setText(userInformation.getName());
         cognomeLabel.setText(userInformation.getSurname());
         emailLabel.setText(userInformation.getEmail());
-        numeroLabel.setText(userInformation.getPhoneNumber().toString());
+        numeroLabel.setText(userInformation.getPhoneNumber());
         this.windowManager = (WindowManager) args[4];
 
         listDosi.getColumns().clear();

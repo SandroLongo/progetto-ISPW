@@ -114,7 +114,6 @@ public class ManageTherapy extends Receiver {
 
         @Override
         public String comeBackAction(Receiver stateMachine){
-            DoseBean dosebean = prescriptionBean.getDose();
             if (finalStepBean.isComplete()) {
                 prescriptionBean.setLastInformation(finalStepBean);
                 therapyController.addDose(authenticationBean.getCodice(), prescriptionBean);

@@ -19,12 +19,12 @@ public class TherapyController implements Controller{
         Medication medication;
         DoseBean doseBean = prescriptionBean.getDose();
         switch (doseBean.getType()){
-            case MEDICINALPRODUCT -> {
+            case MEDICINALPRODUCT ->
                 medication = daoFacade.getMedicinalProductByID(doseBean.getId());
-            }
-            case ACRIVEINGREDIENT -> {
+
+            case ACRIVEINGREDIENT ->
                 medication = daoFacade.getActiveIngridientByID(doseBean.getId());
-            }
+
             default -> throw new InvalidFormatException("invalid dose type");
         }
         MedicationDose medDose = new MedicationDose(medication, doseBean.getQuantity(), doseBean.getMeausurementUnit(), doseBean.getScheduledTime(),

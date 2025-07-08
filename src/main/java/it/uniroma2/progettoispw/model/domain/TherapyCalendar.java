@@ -15,8 +15,8 @@ public class TherapyCalendar {
         return calendar;
     }
 
-    public void addDailyTherapy(DailyTherapy DailyTherapy) {
-        calendar.put(DailyTherapy.getDate(), DailyTherapy);
+    public void addDailyTherapy(DailyTherapy dailyTherapy) {
+        calendar.put(dailyTherapy.getDate(), dailyTherapy);
     }
 
     public DailyTherapy getDailyTherapy(LocalDate date) {

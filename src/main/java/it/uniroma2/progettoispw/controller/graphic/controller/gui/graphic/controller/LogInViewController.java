@@ -62,8 +62,6 @@ public class LogInViewController extends GuiGraphicController {
             }
         }
         BorderPane root = (BorderPane) loader.load();
-        Stage stage = windowManager.getMainStage();
-        AuthenticationBean finalAuthenticationBean = authenticationBean;
         windowManager.setExit(authenticationBean);
         ((GuiGraphicController)loader.getController()).initialize(new Object[]{authenticationBean, windowManager});
         windowManager.setMenu(root);

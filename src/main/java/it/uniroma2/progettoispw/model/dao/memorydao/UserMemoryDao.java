@@ -14,7 +14,7 @@ public class UserMemoryDao extends MemoryDao implements UserDao {
     private static UserMemoryDao instance;
     private Map<UserKey, Patient> patients = new HashMap<>();
     private Map<DoctorKey, Doctor> doctors = new HashMap<>();
-    private Map<String, User> Userinfo = new HashMap<>();
+    private Map<String, User> userinfo = new HashMap<>();
     private Random random = new SecureRandom();
 
     private UserMemoryDao() {
@@ -30,7 +30,7 @@ public class UserMemoryDao extends MemoryDao implements UserDao {
     @Override
     public Patient getPatient(String taxCode) throws DaoException {
         if (patients.containsKey(taxCode)) {
-            return (Patient) Userinfo.get(taxCode);
+            return (Patient) userinfo.get(taxCode);
         } else {
             return null;
         }
@@ -39,7 +39,7 @@ public class UserMemoryDao extends MemoryDao implements UserDao {
     @Override
     public Doctor getDoctor(String taxCode) throws DaoException {
         if (doctors.containsKey(taxCode)) {
-            return (Doctor) Userinfo.get(taxCode);
+            return (Doctor) userinfo.get(taxCode);
         }  else {
             return null;
         }
@@ -50,7 +50,7 @@ public class UserMemoryDao extends MemoryDao implements UserDao {
         UserKey userKey = new UserKey(taxCode, pass);
         System.out.println(taxCode + pass);
         patients.put(userKey, new Patient(taxCode, name, surname, birthDate, email, phoneNumber));
-        Userinfo.put(taxCode, new Patient(taxCode, name, surname, birthDate, email, phoneNumber));
+        userinfo.put(taxCode, new Patient(taxCode, name, surname, birthDate, email, phoneNumber));
     }
 
     @Override
@@ -60,7 +60,7 @@ public class UserMemoryDao extends MemoryDao implements UserDao {
         DoctorKey doctorKey = new DoctorKey(taxCode, pass, codiceDottore);
         patients.put(userKey, new Patient(taxCode, name, surname, birthDate, email, phoneNumber));
         doctors.put(doctorKey, new Doctor(taxCode, name, surname, birthDate, email, phoneNumber));
-        Userinfo.put(taxCode, new Doctor(taxCode, name, surname, birthDate, email, phoneNumber));
+        userinfo.put(taxCode, new Doctor(taxCode, name, surname, birthDate, email, phoneNumber));
         return codiceDottore;
     }
 
@@ -103,7 +103,7 @@ public class UserMemoryDao extends MemoryDao implements UserDao {
 
     @Override
     public User getUserInformation(String taxCode) throws DaoException {
-        return Userinfo.get(taxCode);
+        return userinfo.get(taxCode);
     }
 
 

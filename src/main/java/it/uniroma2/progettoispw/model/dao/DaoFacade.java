@@ -134,8 +134,7 @@ public class DaoFacade {
     public SentPrescriptionBundle addBundle(PrescriptionBundleBean prescriptionBean) throws DaoException{
         int id = prescriptionBundleDao.addBundle(prescriptionBean);
         System.out.println("inviata richiesta con id:" + id);
-        SentPrescriptionBundle sentPrescriptionBundle = prescriptionBundleDao.getBundleById(id);
-        return sentPrescriptionBundle;
+        return prescriptionBundleDao.getBundleById(id);
     }
 
     private void compleateBundle(SentPrescriptionBundle sentPrescriptionBundle) {

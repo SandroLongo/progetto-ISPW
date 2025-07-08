@@ -1,3 +1,5 @@
+package tests;
+
 import it.uniroma2.progettoispw.model.dao.DaoException;
 import it.uniroma2.progettoispw.model.dao.dbfiledao.ConnectionFactory;
 import org.junit.jupiter.api.Test;
@@ -12,7 +14,7 @@ public class TestConnection {
         int flag = 0;
 
         try{
-            Connection con = ConnectionFactory.getConnection();
+            ConnectionFactory.getConnection();
         } catch (DaoException e){
             flag = 1;
         }

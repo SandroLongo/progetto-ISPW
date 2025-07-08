@@ -1,3 +1,5 @@
+package tests;
+
 import it.uniroma2.progettoispw.model.dao.DaoException;
 import it.uniroma2.progettoispw.model.dao.DaoFactory;
 import it.uniroma2.progettoispw.model.domain.ActiveIngredient;

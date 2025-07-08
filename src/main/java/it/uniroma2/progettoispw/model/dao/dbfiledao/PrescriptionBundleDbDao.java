@@ -126,7 +126,7 @@ public class PrescriptionBundleDbDao extends DbDao implements PrescriptionBundle
             Connection conn = ConnectionFactory.getConnection();
             CallableStatement cs = conn.prepareCall("{call get_richiesta_by_id(?)}");
             cs.setInt(1, id);
-            Boolean status = cs.execute();
+            boolean status = cs.execute();
             if (status) {
                 ResultSet rs = cs.getResultSet();
                 if (rs.next()) {
@@ -146,7 +146,7 @@ public class PrescriptionBundleDbDao extends DbDao implements PrescriptionBundle
     }
 
     private void addPrescriptions(SentPrescriptionBundle sentPrescriptionBundle, CallableStatement cs) throws SQLException {
-        Boolean status;
+        boolean status;
         ResultSet rs;
         status = cs.getMoreResults();
         if (status) {

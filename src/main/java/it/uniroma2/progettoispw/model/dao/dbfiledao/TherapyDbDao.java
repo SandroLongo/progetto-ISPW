@@ -61,7 +61,6 @@ public class TherapyDbDao extends DbDao implements TherapyDao {
     @Override
     public void addMedicationDose(MedicationDose medicationDose, LocalDate date, String taxCode) throws DaoException {
         try {
-            Connection conn = ConnectionFactory.getConnection();
             CallableStatement cs = createCSandSetMedicationInformation(medicationDose.getMedication());
             cs.setString(1, taxCode);
             cs.setInt(3, medicationDose.getQuantity());
@@ -86,8 +85,8 @@ public class TherapyDbDao extends DbDao implements TherapyDao {
             case ACRIVEINGREDIENT -> {
                 cs = conn.prepareCall("{call add_dose_pa(?,?,?,?,?,?,?,?)}");
                 cs.setString(1, medication.getId());}
-            default -> {throw new DaoException("invalid medication type");
-            }
+            default -> throw new DaoException("invalid medication type");
+
         }
         return cs;
     }
