@@ -32,6 +32,7 @@ public class Launcher {
                 serverSocket.close(); // forza chiusura del listener
             }
         } catch (IOException ignored) {
+            //ignoro
         }
     }
 
@@ -53,6 +54,7 @@ public class Launcher {
             } catch (IOException e) {
                 if (!running || server.isClosed()) break; // interrompe il loop
             } catch (Exception ignored) {
+                //ignoro
             }
         }
     }
@@ -62,6 +64,7 @@ public class Launcher {
              ObjectOutputStream out = new ObjectOutputStream(sock.getOutputStream())) {
             out.writeObject(args);
         } catch (IOException ignored) {
+            //ignoro
         }
     }
 }

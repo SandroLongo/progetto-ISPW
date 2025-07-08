@@ -19,7 +19,7 @@ import java.io.IOException;
 public class SummaryBundleGraphicController extends GuiGraphicController implements DoseAccepter, FinalAccepter {
     private SendPrescriptionBundleController sendPrescriptionBundleController;
     private String group;
-    private ObservableList<Object> data;
+    private ObservableList<Object> dataResult;
     private PrescriptionBundleBean prescriptionBundleBean = new PrescriptionBundleBean();
     private AuthenticationBean authenticationBean;
     private PrescriptionBean prescriptionBean = new PrescriptionBean();
@@ -104,8 +104,8 @@ public class SummaryBundleGraphicController extends GuiGraphicController impleme
         aggiungiCol.setCellFactory(col -> new EliminaDoseCostructorButtonCell());
 
         recapTable.getColumns().addAll(nome, quantita, unitaDiMisura, descrizione, numGiorni, rate, orario);
-        this.data = FXCollections.observableArrayList();
-        recapTable.setItems(data);
+        this.dataResult = FXCollections.observableArrayList();
+        recapTable.setItems(dataResult);
         windowManager.addSceneAndShow(group, "/it/uniroma2/progettoispw/view/RicercaConfezione.fxml", this, group, windowManager);
     }
 
@@ -119,8 +119,8 @@ public class SummaryBundleGraphicController extends GuiGraphicController impleme
     }
 
     public void update(){
-        data = FXCollections.observableArrayList(prescriptionBundleBean.getPrescriptions());
-        recapTable.setItems(data);
+        dataResult = FXCollections.observableArrayList(prescriptionBundleBean.getPrescriptions());
+        recapTable.setItems(dataResult);
     }
 
     @Override

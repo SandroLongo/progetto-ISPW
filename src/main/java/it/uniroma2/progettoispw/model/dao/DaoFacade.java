@@ -75,12 +75,14 @@ public class DaoFacade {
         return user;
     }
 
-    public void addDosesByBundle(SentPrescriptionBundle sentPrescriptionBundle) throws DaoException {
+    public List<List<LocalDate>> addDosesByBundle(SentPrescriptionBundle sentPrescriptionBundle) throws DaoException {
         Patient ricevente = sentPrescriptionBundle.getRicevente();
         List<Prescription> dosiInviate= sentPrescriptionBundle.getMedicinali();
-        for (it.uniroma2.progettoispw.model.domain.Prescription dose: dosiInviate) {
-            buildMedicationDose(dose, ricevente.getTaxCode());
+        List<List<LocalDate>> dates = new ArrayList<>();
+        for (Prescription dose: dosiInviate) {
+            dates.add(new ArrayList<>(buildMedicationDose(dose, ricevente.getTaxCode())));
         }
+        return dates;
     }
 
     public List<LocalDate> buildMedicationDose(Prescription prescription, String codiceFiscale) throws DaoException {

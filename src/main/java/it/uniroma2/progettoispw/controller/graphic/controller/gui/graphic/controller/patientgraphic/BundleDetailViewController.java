@@ -18,7 +18,7 @@ public class BundleDetailViewController extends GuiGraphicController {
     private AuthenticationBean authenticationBean;
     private ManageSentPrescriptionBundleController manageSentPrescriptionBundleController;
     private SentPrescriptionBundleBean bundleBean;
-    private ObservableList<Object> data;
+    private ObservableList<Object> dataResult;
     private WindowManager windowManager;
 
     @FXML
@@ -96,7 +96,7 @@ public class BundleDetailViewController extends GuiGraphicController {
         descrizione.setCellValueFactory(data -> new ReadOnlyStringWrapper(((PrescriptionBean)data.getValue()).getDose().getDescription()));
 
         listDosi.getColumns().addAll(nome, quantita, unitaDiMisura, inizio, descrizione, numGiorni, rate, orario);
-        this.data = FXCollections.observableArrayList(bundleBean.getPrescriptions());
-        listDosi.setItems(data);
+        this.dataResult = FXCollections.observableArrayList(bundleBean.getPrescriptions());
+        listDosi.setItems(dataResult);
     }
 }

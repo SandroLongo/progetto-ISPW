@@ -97,7 +97,7 @@ public class MedicationInformationController implements Controller {
             }
             return results;
         } else {
-            return null;
+            return new ArrayList<>();
         }
     }
 

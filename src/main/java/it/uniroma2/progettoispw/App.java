@@ -39,7 +39,7 @@ public class App extends Application {
         try {
             ((GuiGraphicController)loader.getController()).initialize(new Object[]{windowManager});
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.exit(1);
         }
         newStage.setScene(new Scene(root));
         newStage.show();

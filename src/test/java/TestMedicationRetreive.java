@@ -27,10 +27,7 @@ public class TestMedicationRetreive {
             return;
         }
 
-        assertEquals(activeIngredient.getName(), "PARACETAMOLO");
-        if (!Objects.equals(activeIngredient.getName(), "PARACETAMOLO")){
-            flag = 1;
-        }
+        assertEquals("PARACETAMOLO", activeIngredient.getName());
 
     }
 

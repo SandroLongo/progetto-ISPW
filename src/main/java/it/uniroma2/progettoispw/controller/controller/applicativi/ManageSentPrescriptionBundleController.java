@@ -4,6 +4,9 @@ import it.uniroma2.progettoispw.controller.bean.ListPrescriptionBundleBean;
 import it.uniroma2.progettoispw.model.dao.DaoFacade;
 import it.uniroma2.progettoispw.model.domain.*;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class ManageSentPrescriptionBundleController {
@@ -26,7 +29,16 @@ public class ManageSentPrescriptionBundleController {
         User user = SessionManager.getInstance().getSession(code).getUtente();
         if (Objects.requireNonNull(user.isType()) == Role.PATIENT) {
             SentPrescriptionBundle sentPrescriptionBundle = ((Patient) user).getRichiestePendenti().getBundleById(codiceRichiesta);
-            daoFacade.addDosesByBundle(sentPrescriptionBundle);
+            List<List<LocalDate>> dates = daoFacade.addDosesByBundle(sentPrescriptionBundle);
+            List<Prescription> prescriptions = sentPrescriptionBundle.getMedicinali();
+            int i = 0;
+            for (List<LocalDate> dateList : dates) {
+                Prescription prescription = prescriptions.get(i);
+                for (LocalDate date : dateList) {
+                    SessionManager.getInstance().aggiornaSessioni(user.getTaxCode(), prescription.getDose(), date);
+                }
+                i++;
+            }
             daoFacade.deleteBundle(codiceRichiesta);
             SessionManager.getInstance().deleteBundle(sentPrescriptionBundle);
         } else {

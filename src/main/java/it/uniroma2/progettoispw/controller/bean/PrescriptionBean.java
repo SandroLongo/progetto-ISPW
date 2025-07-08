@@ -35,7 +35,9 @@ public class PrescriptionBean {
     }
 
     public void setDose(MedicationBean medicationBean) throws InvalidFormatException {
-        if (dose == null) {}
+        if (dose == null) {
+            throw new InvalidFormatException("dose nulle");
+        }
         this.dose = new DoseBean(medicationBean);
     }
 

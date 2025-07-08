@@ -146,6 +146,7 @@ public class DoseBean {
                 if (id.length() > Config.MAX_ACTIVE_INGRIDIENT_ID_LENGHT) {
                     throw new InvalidFormatException("id too long");
                 }
+                this.id = id;
             }
             case MEDICINALPRODUCT -> {
                 if (id.length() > Config.MAX_MODICINAL_PRODUCT_ID_LENGHT) {
@@ -157,9 +158,9 @@ public class DoseBean {
                         throw new InvalidFormatException("id not a number");
                     }
                 }
+                this.id = id;
             }
             default -> throw new InvalidFormatException("type non valid");
         }
-        this.id = id;
     }
 }
