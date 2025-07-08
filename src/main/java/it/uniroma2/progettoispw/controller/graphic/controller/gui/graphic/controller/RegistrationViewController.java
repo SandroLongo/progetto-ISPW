@@ -58,7 +58,7 @@ public class RegistrationViewController extends GuiGraphicController {
     private Label messageLabel;
 
     @FXML
-    void indietro(ActionEvent event) {
+    void back(ActionEvent event) {
         windowManager.showLogin();
     }
 
@@ -98,13 +98,17 @@ public class RegistrationViewController extends GuiGraphicController {
     }
 
     private void setInformation(UserRegistrationData urd) throws InvalidFormatException {
-        urd.setTaxCode(codiceFiscaleField.getText());
-        urd.setSurname(cognomeField.getText());
-        urd.setEmail(emailField.getText());
-        urd.setName(nomeField.getText());
-        urd.setPassword(passwordField.getText());
-        urd.setPhoneNumber(telefonoField.getText());
-        urd.setBirthDate(dataNascitaField.getValue());
+        try {
+            urd.setTaxCode(codiceFiscaleField.getText());
+            urd.setSurname(cognomeField.getText());
+            urd.setEmail(emailField.getText());
+            urd.setName(nomeField.getText());
+            urd.setPassword(passwordField.getText());
+            urd.setPhoneNumber(telefonoField.getText());
+            urd.setBirthDate(dataNascitaField.getValue());
+        } catch (InvalidFormatException e) {
+            showAlert(e.getMessage());
+        }
     }
 
     @FXML

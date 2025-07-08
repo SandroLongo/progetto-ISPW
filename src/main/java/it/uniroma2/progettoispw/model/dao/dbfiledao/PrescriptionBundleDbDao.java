@@ -16,7 +16,7 @@ public class PrescriptionBundleDbDao extends DbDao implements PrescriptionBundle
     private void addDosiInviataConfezione(ResultSet rs, SentPrescriptionBundle sentPrescriptionBundle) throws SQLException {
         try {
             while (rs.next()) {
-                sentPrescriptionBundle.addDoseInviata(new Prescription(new MedicationDose(new MedicinalProduct(rs.getInt(1)), rs.getInt(5),
+                sentPrescriptionBundle.addDoseInviata(new Prescription(new MedicationDose(new MedicinalProduct(String.valueOf(rs.getInt(1))), rs.getInt(5),
                         rs.getString(6), rs.getTime(7).toLocalTime(), rs.getString(8), sentPrescriptionBundle.getInviante()),
                         rs.getInt(3), rs.getDate(2).toLocalDate(), rs.getInt(4)));
             }

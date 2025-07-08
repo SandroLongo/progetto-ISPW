@@ -1,4 +1,4 @@
-package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.pazientegraphic;
+package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.patientgraphic;
 
 import it.uniroma2.progettoispw.controller.bean.*;
 import it.uniroma2.progettoispw.controller.controller.applicativi.ManageSentPrescriptionBundleController;
@@ -16,8 +16,8 @@ import javafx.scene.control.TableView;
 
 import java.io.IOException;
 
-public class PacchettoViewController extends GuiGraphicController implements Notificator {
-    private String gruppo;
+public class ManageBundleViewController extends GuiGraphicController implements Notificator {
+    private String group;
     private ManageSentPrescriptionBundleController manageSentPrescriptionBundleController;
     private AuthenticationBean authenticationBean;
     private ListPrescriptionBundleBean listPrescriptionBundleBean;
@@ -29,7 +29,7 @@ public class PacchettoViewController extends GuiGraphicController implements Not
 
     @Override
     public void initialize(Object[] args) throws IOException {
-        this.gruppo = (String) args[0];
+        this.group = (String) args[0];
         this.authenticationBean = (AuthenticationBean) args[1];
         this.windowManager = (WindowManager) args[2];
         this.manageSentPrescriptionBundleController = new ManageSentPrescriptionBundleController();
@@ -37,7 +37,7 @@ public class PacchettoViewController extends GuiGraphicController implements Not
         listPrescriptionBundleBean.addNotificator(this);
         listaRichieste.getColumns().clear();
 
-        TableColumn<Object, String> nomeDottore = new TableColumn<>("DOCTOR");
+        TableColumn<Object, String> nomeDottore = new TableColumn<>("dottore");
         nomeDottore.setCellValueFactory(data -> new ReadOnlyStringWrapper(((SentPrescriptionBundleBean)data.getValue()).getSender().getName() + " " +
                 ((SentPrescriptionBundleBean)data.getValue()).getSender().getSurname()));
 
@@ -67,7 +67,7 @@ public class PacchettoViewController extends GuiGraphicController implements Not
             btn.setOnAction(event -> {
                 SentPrescriptionBundleBean selezione =  (SentPrescriptionBundleBean) getTableView().getItems().get(getIndex());
                 try {
-                    windowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/VisualizzaDettagliRichiestaView.fxml", gruppo, manageSentPrescriptionBundleController, authenticationBean, selezione, windowManager);
+                    windowManager.addSceneAndShow(group, "/it/uniroma2/progettoispw/view/VisualizzaDettagliRichiestaView.fxml", group, manageSentPrescriptionBundleController, authenticationBean, selezione, windowManager);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

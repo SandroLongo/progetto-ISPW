@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 public abstract class User implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String taxCode;
     private String name;
     private String surname;

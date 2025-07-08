@@ -3,6 +3,7 @@ package it.uniroma2.progettoispw.model.domain;
 import java.time.LocalDate;
 
 public class Doctor extends User {
+    private static final long serialVersionUID = 1L;
 
     public Doctor(Doctor doctor){
         super(doctor);

@@ -1,10 +1,8 @@
 package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller;
 
-import it.uniroma2.progettoispw.controller.bean.DoseBean;
-import it.uniroma2.progettoispw.controller.bean.ListActiveIngridientName;
+import it.uniroma2.progettoispw.controller.bean.*;
 import it.uniroma2.progettoispw.controller.controller.applicativi.MedicationInformationController;
 import it.uniroma2.progettoispw.controller.controller.applicativi.PercistencyFailedException;
-import it.uniroma2.progettoispw.model.dao.DaoException;
 import it.uniroma2.progettoispw.model.domain.*;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -15,7 +13,7 @@ import javafx.scene.control.*;
 
 import java.util.List;
 
-public class RicercaConfezioneController extends GuiGraphicController {
+public class SelectMedicationViewController extends GuiGraphicController {
     private final MedicationInformationController medicationInformationController = new MedicationInformationController();
     private DoseAccepter doseAccepter;
     private String gruppo;
@@ -35,7 +33,7 @@ public class RicercaConfezioneController extends GuiGraphicController {
     private TableView<Object> risultatiTable;
 
     @FXML
-    void indietro(ActionEvent event) {
+    void back(ActionEvent event) {
         windowManager.deleteAndcomeBack(gruppo);
     }
 
@@ -45,10 +43,10 @@ public class RicercaConfezioneController extends GuiGraphicController {
         this.windowManager = (WindowManager) args[2];
     }
 
-    //bottone per confezioni
+
     @FXML
-    void searchConfezione(ActionEvent event) {
-        List<MedicinalProduct> confezioni = null;
+    void searchMedicinalProductByName(ActionEvent event) {
+        List<MedicinalProductBean> confezioni = null;
         try {
             confezioni = medicationInformationController.getMedicinalProductsByPartialName(nomeConfezione.getText());
         } catch (PercistencyFailedException e) {
@@ -58,9 +56,9 @@ public class RicercaConfezioneController extends GuiGraphicController {
         setConfezioni(confezioni);
     }
 
-    //bottone per Principi
+
     @FXML
-    void searchPrincipio(ActionEvent event) {
+    void searchActiveIngredientByName(ActionEvent event) {
         risultatiTable.getColumns().clear();
         List<String> nomiCompleti = null;
         try {
@@ -79,17 +77,17 @@ public class RicercaConfezioneController extends GuiGraphicController {
         nomi.setCellValueFactory(data -> new ReadOnlyStringWrapper((String)data.getValue()));
 
         TableColumn<Object, Void> aggiungiCol = new TableColumn<>(SELEZIONA);
-        aggiungiCol.setCellFactory(col -> new SelezionaPrincipioButtonCell());
+        aggiungiCol.setCellFactory(col -> new SelectActiveIngredientButtonCell());
 
         TableColumn<Object, Void> cercaCol = new TableColumn<>("Cerca");
-        cercaCol.setCellFactory(col -> new CercaConfezioniDalPrincipioButtonCell());
+        cercaCol.setCellFactory(col -> new SelectAItoSearchMPButtonCell());
 
         risultatiTable.getColumns().addAll(nomi, aggiungiCol, cercaCol);
         ObservableList<Object> dati = FXCollections.observableArrayList(nomiCompleti);
         risultatiTable.setItems(dati);
     }
 
-    private void setConfezioni(List<MedicinalProduct> confezioni) {
+    private void setConfezioni(List<MedicinalProductBean> confezioni) {
         if (confezioni.isEmpty()) {
             showInformation("risultati non trovati");
             risultatiTable.getColumns().clear();
@@ -97,25 +95,25 @@ public class RicercaConfezioneController extends GuiGraphicController {
         }
         risultatiTable.getColumns().clear();
         TableColumn<Object, String> denominazione = new TableColumn<>("Nomi");
-        denominazione.setCellValueFactory(data -> new ReadOnlyStringWrapper(((MedicinalProduct)data.getValue()).getName()));
+        denominazione.setCellValueFactory(data -> new ReadOnlyStringWrapper(((MedicinalProductBean)data.getValue()).getName()));
 
         TableColumn<Object, String> descrizione = new TableColumn<>("Descrizione");
-        descrizione.setCellValueFactory(data -> new ReadOnlyStringWrapper(((MedicinalProduct)data.getValue()).getDescrizione()));
+        descrizione.setCellValueFactory(data -> new ReadOnlyStringWrapper(((MedicinalProductBean)data.getValue()).getDescription()));
 
         TableColumn<Object, String> forma = new TableColumn<>("Forma");
-        forma.setCellValueFactory(data -> new ReadOnlyStringWrapper(((MedicinalProduct)data.getValue()).getForma()));
+        forma.setCellValueFactory(data -> new ReadOnlyStringWrapper(((MedicinalProductBean)data.getValue()).getForm()));
 
         TableColumn<Object, String> codiceAtc = new TableColumn<>("codiceATC");
-        codiceAtc.setCellValueFactory(data -> new ReadOnlyStringWrapper(((MedicinalProduct)data.getValue()).getCodiceAtc()));
+        codiceAtc.setCellValueFactory(data -> new ReadOnlyStringWrapper(((MedicinalProductBean)data.getValue()).getActiveIngridientId()));
 
         TableColumn<Object, String> paAssociati = new TableColumn<>("paAssociati");
-        paAssociati.setCellValueFactory(data -> new ReadOnlyStringWrapper(((MedicinalProduct)data.getValue()).getPaAssociati()));
+        paAssociati.setCellValueFactory(data -> new ReadOnlyStringWrapper(((MedicinalProductBean)data.getValue()).getActiveIngridientName()));
 
         TableColumn<Object, String> codiceAIC = new TableColumn<>("codiceAIC");
-        codiceAIC.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((MedicinalProduct)data.getValue()).getId())));
+        codiceAIC.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((MedicinalProductBean)data.getValue()).getId())));
 
         TableColumn<Object, Void> aggiungiCol = new TableColumn<>(SELEZIONA);
-        aggiungiCol.setCellFactory(col -> new SelezionaConfezioneButtonCell());
+        aggiungiCol.setCellFactory(col -> new SelectMedicinalProductButtonCell());
 
         risultatiTable.getColumns().addAll(denominazione, descrizione,forma,codiceAtc,paAssociati,codiceAIC, aggiungiCol);
         ObservableList<Object> dati = FXCollections.observableArrayList(confezioni);
@@ -124,23 +122,20 @@ public class RicercaConfezioneController extends GuiGraphicController {
 
     }
 
-    private class SelezionaPrincipioButtonCell extends TableCell<Object, Void> {
+    private class SelectActiveIngredientButtonCell extends TableCell<Object, Void> {
         private final Button btn = new Button(SELEZIONA);
 
-        public SelezionaPrincipioButtonCell() {
+        public SelectActiveIngredientButtonCell() {
             btn.setOnAction(event -> {
                 String selezione = (String) getTableView().getItems().get(getIndex());
-                ActiveIngredient activeIngredient = null;
+                ActiveIngredientBean activeIngredient = null;
                 try {
                     activeIngredient = medicationInformationController.getActiveIngridientByName(selezione);
                 } catch (PercistencyFailedException e) {
                     showAlert(e.getMessage());
                     return;
                 }
-                DoseBean doseBean = new DoseBean(MedicationType.ACRIVEINGREDIENT);
-                doseBean.setId(activeIngredient.getId());
-                doseBean.setName(activeIngredient.getName());
-                doseAccepter.setDose(doseBean);
+                doseAccepter.setDose(new MedicationBean(activeIngredient));
             });
         }
 
@@ -151,13 +146,13 @@ public class RicercaConfezioneController extends GuiGraphicController {
         }
     }
 
-    private class CercaConfezioniDalPrincipioButtonCell extends TableCell<Object, Void> {
+    private class SelectAItoSearchMPButtonCell extends TableCell<Object, Void> {
         private final Button btn = new Button("cerca");
 
-        public CercaConfezioniDalPrincipioButtonCell() {
+        public SelectAItoSearchMPButtonCell() {
             btn.setOnAction(event -> {
                 String selezione =  (String)getTableView().getItems().get(getIndex());
-                ActiveIngredient activeIngredient = null;
+                ActiveIngredientBean activeIngredient = null;
                 try {
                     activeIngredient = medicationInformationController.getActiveIngridientByName(selezione);
                 } catch (PercistencyFailedException e) {
@@ -165,7 +160,7 @@ public class RicercaConfezioneController extends GuiGraphicController {
                     return;
                 }
                 String codiceAtc = activeIngredient.getId();
-                List<MedicinalProduct> confezioni = null;
+                List<MedicinalProductBean> confezioni = null;
                 try {
                     confezioni = medicationInformationController.getMedicinalProductByActiveIngridient(codiceAtc);
                 } catch (PercistencyFailedException e) {
@@ -187,16 +182,13 @@ public class RicercaConfezioneController extends GuiGraphicController {
         }
     }
 
-    private class SelezionaConfezioneButtonCell extends TableCell<Object, Void> {
+    private class SelectMedicinalProductButtonCell extends TableCell<Object, Void> {
         private final Button btn = new Button(SELEZIONA);
 
-        public SelezionaConfezioneButtonCell() {
+        public SelectMedicinalProductButtonCell() {
             btn.setOnAction(event -> {
-                MedicinalProduct medicinalProduct = (MedicinalProduct)getTableView().getItems().get(getIndex());
-                DoseBean doseBean = new DoseBean(MedicationType.MEDICINALPRODUCT);
-                doseBean.setId(String.valueOf(medicinalProduct.getId()));
-                doseBean.setName(medicinalProduct.getName());
-                doseAccepter.setDose(doseBean);
+                MedicinalProductBean medicinalProduct = (MedicinalProductBean) getTableView().getItems().get(getIndex());
+                doseAccepter.setDose(new MedicationBean(medicinalProduct));
             });
         }
 

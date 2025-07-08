@@ -1,5 +1,6 @@
 package it.uniroma2.progettoispw.model.dao.dbfiledao;
 
+import it.uniroma2.progettoispw.model.dao.DaoException;
 import it.uniroma2.progettoispw.model.dao.DaoFactory;
 
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class ConnectionFactory {
             connection = DriverManager.getConnection(connectionUrl, user, pass);
         } catch (IOException | SQLException e) {
             e.printStackTrace();
-            System.exit(1);
+            throw new DaoException(e.getMessage());
         }
 
     }

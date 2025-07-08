@@ -14,7 +14,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         WindowCounter.getInstance().increment();
-        stage.setTitle("application");
+        stage.setTitle("Medicamentum");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/progettoispw/sceltaGui.fxml"));
         Parent root = loader.load();
         stage.setScene(new Scene(root));
@@ -24,7 +24,7 @@ public class App extends Application {
         stage.show();
     }
 
-    public static void openNewWindow() {
+    public static void openNewWindow(){
         WindowCounter.getInstance().increment();
         Stage newStage = new Stage();
         FXMLLoader loader = new FXMLLoader(App.class.getResource("/it/uniroma2/progettoispw/sceltaGui.fxml"));
@@ -33,6 +33,13 @@ public class App extends Application {
             root = loader.load();
         } catch (IOException e) {
             return;
+        }
+        WindowManager windowManager = new WindowManager(newStage);
+        windowManager.resetExit();
+        try {
+            ((GuiGraphicController)loader.getController()).initialize(new Object[]{windowManager});
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         newStage.setScene(new Scene(root));
         newStage.show();

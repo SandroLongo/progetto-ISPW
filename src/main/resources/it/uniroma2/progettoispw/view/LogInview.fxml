@@ -14,17 +14,17 @@
       <Button layoutX="242.0" layoutY="355.0" mnemonicParsing="false" onAction="#handleRegistration" prefHeight="25.0" prefWidth="149.0" text="Registrati" />
       <CheckBox fx:id="checkMedico" layoutX="242.0" layoutY="166.0" mnemonicParsing="false" text="accedi come medico" />
       <Label layoutX="242.0" layoutY="119.0" prefHeight="17.0" prefWidth="149.0" text="Password" />
-      <Label layoutX="242.0" layoutY="75.0" prefHeight="17.0" prefWidth="149.0" text="id fiscale" />
+      <Label layoutX="242.0" layoutY="75.0" prefHeight="17.0" prefWidth="149.0" text="Codice Fiscale" />
       <PasswordField fx:id="passwordField" layoutX="242.0" layoutY="137.0" />
       <TextField fx:id="codiceField" layoutX="242.0" layoutY="92.0" />
       <Label layoutX="242.0" layoutY="338.0" prefHeight="17.0" prefWidth="149.0" text="non sei registrato?" />
-      <Label alignment="CENTER" prefHeight="49.0" prefWidth="601.0" styleClass="label-title" text="Benvenuto/a">
+      <Label alignment="CENTER" prefHeight="49.0" prefWidth="660.0" styleClass="label-title" text="Benvenuto/a, accedi per continuare nell'applicazione" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <font>
             <Font name="Berlin Sans FB Bold" size="36.0" />
          </font>
       </Label>
       <TextField fx:id="codiceMedicoField" layoutX="242.0" layoutY="203.0" />
-      <Label layoutX="242.0" layoutY="186.0" prefHeight="17.0" prefWidth="149.0" text="id" />
+      <Label layoutX="242.0" layoutY="186.0" prefHeight="17.0" prefWidth="149.0" text="Codice" />
       <Label fx:id="errorLabel" layoutX="245.0" layoutY="302.0" prefHeight="17.0" prefWidth="149.0" />
    </children>
 </AnchorPane>

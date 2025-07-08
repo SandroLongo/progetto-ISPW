@@ -14,7 +14,7 @@ public class SendPrescriptionBundleController implements Controller{
     public UserInformation getPatientInformation(int code, String taxCode) {
 
         if (SessionManager.getInstance().exists(code)) {
-            User user = daoFacade.getInfoUtente(taxCode);
+            User user = daoFacade.getUserInfo(taxCode);
             return new UserInformation(user.getTaxCode(), user.getName(), user.getSurname(),
                     user.getEmail(), user.getPhoneNumber(), user.getBirthDate());
         } else {
@@ -29,7 +29,7 @@ public class SendPrescriptionBundleController implements Controller{
         prescriptionBundleBean.setSubmissionDate(LocalDate.now());
         if (Objects.requireNonNull(user.isType()) == Role.DOCTOR) {
             prescriptionBundleBean.setSender(new UserInformation(user));
-            SentPrescriptionBundle sentPrescriptionBundle = daoFacade.addRichiesta(prescriptionBundleBean);
+            SentPrescriptionBundle sentPrescriptionBundle = daoFacade.addBundle(prescriptionBundleBean);
             SessionManager.getInstance().addRichiesta(sentPrescriptionBundle);
         } else {
             throw new UnsupportedOperation("operazione non supportata");

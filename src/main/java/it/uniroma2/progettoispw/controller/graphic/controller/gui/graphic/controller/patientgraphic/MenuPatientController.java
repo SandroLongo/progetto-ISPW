@@ -1,4 +1,4 @@
-package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.pazientegraphic;
+package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.patientgraphic;
 
 import it.uniroma2.progettoispw.controller.bean.AuthenticationBean;
 import it.uniroma2.progettoispw.controller.controller.applicativi.LogInController;
@@ -10,9 +10,9 @@ import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 
-public class MenuPazienteController extends GuiGraphicController {
-    private static final String RICHIESTA_PAZIENTE = "RICHIESTAPAZIENTE";
-    private static final String TERAPIA = "TERAPIA";
+public class MenuPatientController extends GuiGraphicController {
+    private static final String BUNDLES = "BUNDLES";
+    private static final String THERAPY = "THERAPY";
     private AuthenticationBean authenticationBean;
     private WindowManager windowManager;
 
@@ -20,7 +20,7 @@ public class MenuPazienteController extends GuiGraphicController {
     private BorderPane boarderPane;
 
     @FXML
-    void cercaMedicinali(ActionEvent event) {
+    void searchMedication(ActionEvent event) {
         //ancora non implementato
     }
 
@@ -40,22 +40,22 @@ public class MenuPazienteController extends GuiGraphicController {
     }
 
     @FXML
-    void richieste(ActionEvent event) {
-        windowManager.show(RICHIESTA_PAZIENTE);
+    void bundles(ActionEvent event) {
+        windowManager.show(BUNDLES);
     }
 
     @FXML
-    void terapia(ActionEvent event){
-        windowManager.show(TERAPIA);
+    void teraphy(ActionEvent event){
+        windowManager.show(THERAPY);
     }
 
     @Override
     public void initialize(Object[] args) throws IOException {
         authenticationBean = (AuthenticationBean) args[0];
         this.windowManager = (WindowManager) args[1];
-        windowManager.createNewStack(TERAPIA);
-        windowManager.addScene(TERAPIA, "/it/uniroma2/progettoispw/view/TerapiaView.fxml", TERAPIA, authenticationBean, windowManager);
-        windowManager.createNewStack(RICHIESTA_PAZIENTE);
-        windowManager.addScene(RICHIESTA_PAZIENTE, "/it/uniroma2/progettoispw/view/RichiesteView.fxml", RICHIESTA_PAZIENTE, authenticationBean, windowManager);
+        windowManager.createNewStack(THERAPY);
+        windowManager.addScene(THERAPY, "/it/uniroma2/progettoispw/view/TerapiaView.fxml", THERAPY, authenticationBean, windowManager);
+        windowManager.createNewStack(BUNDLES);
+        windowManager.addScene(BUNDLES, "/it/uniroma2/progettoispw/view/RichiesteView.fxml", BUNDLES, authenticationBean, windowManager);
     }
 }

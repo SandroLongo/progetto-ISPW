@@ -24,7 +24,7 @@ public class Prescription {
     }
 
     public Prescription(PrescriptionBean prescriptionBean) {
-        if (!prescriptionBean.isComplete()){
+        if (!prescriptionBean.isCompleate()){
             throw new InvalidFormatException("informazioni incomplete");
         }
         setInizio(prescriptionBean.getStartDate());
@@ -32,7 +32,7 @@ public class Prescription {
         setRateGiorni(prescriptionBean.getDayRate());
         DoseBean doseBean = prescriptionBean.getDose();
         switch (doseBean.getType()){
-            case MEDICINALPRODUCT -> this.medicationDose = new MedicationDose(new MedicinalProduct(Integer.parseInt(doseBean.getId())),
+            case MEDICINALPRODUCT -> this.medicationDose = new MedicationDose(new MedicinalProduct(doseBean.getId()),
                                                                             doseBean.getQuantity(), doseBean.getMeausurementUnit(),
                                                                         doseBean.getScheduledTime(), doseBean.getDescription(), new Patient(doseBean.getSender().getTaxCode()));
             case ACRIVEINGREDIENT -> new MedicationDose(new ActiveIngredient(doseBean.getId()),

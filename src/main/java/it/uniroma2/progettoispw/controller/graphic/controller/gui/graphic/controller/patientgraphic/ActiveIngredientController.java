@@ -1,4 +1,4 @@
-package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.pazientegraphic;
+package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.patientgraphic;
 
 import it.uniroma2.progettoispw.controller.bean.DoseBean;
 import javafx.event.ActionEvent;
@@ -6,12 +6,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
-public class DosePrincipioController {
+public class ActiveIngredientController {
     private DoseBean bean;
-    private TerapiaGui terapiaGui;
+    private TherapyViewController therapyViewController;
 
-    public void inizialize(DoseBean dose, TerapiaGui terapiaGui) {
-        this.terapiaGui = terapiaGui;
+    public void inizialize(DoseBean dose, TherapyViewController therapyViewController) {
+        this.therapyViewController = therapyViewController;
         this.bean = dose;
         update();
     }
@@ -34,31 +34,11 @@ public class DosePrincipioController {
     @FXML
     private Label unitaDiMisura;
 
-    @FXML
-    void assunta(ActionEvent event) {
-        //ancora non implementato
-    }
-
-    @FXML
-    void delete(ActionEvent event) {
-        //ancora non implementato
-    }
-
-    @FXML
-    void getInfo(ActionEvent event) {
-        //ancora non implementato
-    }
-
-    @FXML
-    void sostituisci(ActionEvent event) {
-        //ancora non implementato
-    }
-
     private void update() {
         nome.setText(bean.getName());
         orario.setText(bean.getScheduledTime().toString());
         quantita.setText(String.valueOf(bean.getQuantity()));
-        tipo.setText("Principio");
+        tipo.setText("Principio attivo");
     }
 
 }

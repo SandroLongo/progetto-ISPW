@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="551.0" prefWidth="843.0" styleClass="content" stylesheets="@../application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.medicographic.RecapPacchettoGraphicController">
+<AnchorPane prefHeight="551.0" prefWidth="843.0" styleClass="content" stylesheets="@../application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.doctorgraphic.SummaryBundleGraphicController">
    <children>
       <VBox prefHeight="330.0" prefWidth="401.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -31,13 +31,13 @@
                   </AnchorPane>
                   <VBox minWidth="125.0" prefHeight="160.0" prefWidth="200.0" styleClass="sidebar" HBox.hgrow="ALWAYS">
                      <children>
-                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#aggiungi" text="Aggiungi" VBox.vgrow="ALWAYS" />
-                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#invia" text="invia" VBox.vgrow="ALWAYS">
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#add" text="Aggiungi" VBox.vgrow="ALWAYS" />
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#send" text="invia" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                         </Button>
-                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#indietro" prefHeight="34.0" prefWidth="115.0" text="indietro" VBox.vgrow="ALWAYS" />
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#back" prefHeight="34.0" prefWidth="115.0" text="indietro" VBox.vgrow="ALWAYS" />
                      </children>
                   </VBox>
                </children>

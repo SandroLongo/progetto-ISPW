@@ -1,6 +1,8 @@
 package it.uniroma2.progettoispw.controller.graphic.controller.cli.graphic.controller;
 
+import it.uniroma2.progettoispw.controller.bean.ActiveIngredientBean;
 import it.uniroma2.progettoispw.controller.bean.DoseBean;
+import it.uniroma2.progettoispw.controller.bean.MedicinalProductBean;
 import it.uniroma2.progettoispw.controller.controller.applicativi.MedicationInformationController;
 import it.uniroma2.progettoispw.model.domain.MedicinalProduct;
 import it.uniroma2.progettoispw.model.domain.ActiveIngredient;
@@ -48,7 +50,7 @@ public class SelectMedication extends Receiver{
         @Override
         public String goNext(Receiver stateMachine, String command) {
             MedicationInformationController medicationInformationController = new MedicationInformationController();
-            List<MedicinalProduct> lista = medicationInformationController.getMedicinalProductsByPartialName(command);
+            List<MedicinalProductBean> lista = medicationInformationController.getMedicinalProductsByPartialName(command);
             if (lista.isEmpty()) {
                 return "non ci sono risultati per " + command;
             } else {
@@ -59,17 +61,17 @@ public class SelectMedication extends Receiver{
 
     private class VisualizzaConfezioni extends AbstractState {
         private DoseBean doseBean;
-        private List<MedicinalProduct> listaConfezioni;
-        public VisualizzaConfezioni(DoseBean doseBean, List<MedicinalProduct> listaConfezioni) {
+        private List<MedicinalProductBean> listaConfezioni;
+        public VisualizzaConfezioni(DoseBean doseBean, List<MedicinalProductBean> listaConfezioni) {
             this.doseBean = doseBean;
             this.listaConfezioni = listaConfezioni;
             this.initialMessage = listaToString(listaConfezioni) + "scrivi il numero della medicinalProduct scelta\n";
         }
 
-        private String listaToString(List<MedicinalProduct> listaConfezioni) {
+        private String listaToString(List<MedicinalProductBean> listaConfezioni) {
             StringBuilder sb = new StringBuilder();
             int i = 0;
-            for (MedicinalProduct medicinalProduct : listaConfezioni) {
+            for (MedicinalProductBean medicinalProduct : listaConfezioni) {
                 sb.append(i).append(" - ").append(medicinalProduct.toString()).append("\n");
                 i++;
             }
@@ -91,7 +93,7 @@ public class SelectMedication extends Receiver{
             switch (tipo) {
                 case 1:
                     if (0 < numero && numero < listaConfezioni.size()){
-                        MedicinalProduct medicinalProduct = listaConfezioni.get(numero);
+                        MedicinalProductBean medicinalProduct = listaConfezioni.get(numero);
                         this.doseBean.setName(medicinalProduct.getName());
                         this.doseBean.setType(MedicationType.MEDICINALPRODUCT);
                         this.doseBean.setId(String.valueOf(medicinalProduct.getId()));
@@ -179,8 +181,8 @@ public class SelectMedication extends Receiver{
                     if (tipo == 1){
                         numero = Integer.parseInt(options[1]);
                         if (0 < numero && numero < risultatiPrincipio.size()){
-                            ActiveIngredient selezione = medicationInformationController.getActiveIngridientByName(risultatiPrincipio.get(numero));
-                            List<MedicinalProduct> listaConfezioni = medicationInformationController.getMedicinalProductByActiveIngridient(selezione.getId());
+                            ActiveIngredientBean selezione = medicationInformationController.getActiveIngridientByName(risultatiPrincipio.get(numero));
+                            List<MedicinalProductBean> listaConfezioni = medicationInformationController.getMedicinalProductByActiveIngridient(selezione.getId());
                             return stateMachine.goNext(new VisualizzaConfezioni(doseBean, listaConfezioni));
                         } else {
                             return "il numero è troppo grande o troppo piccolo";
@@ -205,7 +207,7 @@ public class SelectMedication extends Receiver{
         private String processaNumero(String option, MedicationInformationController medicationInformationController, Receiver stateMachine) {
             int numero = Integer.parseInt(option);
             if (0 < numero && numero < risultatiPrincipio.size()){
-                ActiveIngredient selezione = medicationInformationController.getActiveIngridientByName(risultatiPrincipio.get(numero));
+                ActiveIngredientBean selezione = medicationInformationController.getActiveIngridientByName(risultatiPrincipio.get(numero));
                 this.doseBean.setName(selezione.getName());
                 this.doseBean.setType(MedicationType.ACRIVEINGREDIENT);
                 this.doseBean.setId(String.valueOf(selezione.getId()));

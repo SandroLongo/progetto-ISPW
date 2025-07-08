@@ -48,7 +48,7 @@ public class PrescriptionBundleBean {
     }
 
     public void addPrescription(PrescriptionBean prescriptionBean) {
-        if (!prescriptionBean.isComplete()) {
+        if (!prescriptionBean.isCompleate()) {
             throw new InvalidFormatException("prescriptionBean is not complete");
         }
         prescriptions.add(prescriptionBean);

@@ -5,16 +5,23 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="604.0" stylesheets="@../application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.RicercaConfezioneController">
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="604.0" stylesheets="@../application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.SelectMedicationViewController">
    <children>
-      <TableView fx:id="risultatiTable" layoutY="124.0" prefHeight="343.0" prefWidth="604.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-      <Button layoutX="21.0" layoutY="32.0" mnemonicParsing="false" onAction="#searchConfezione" text="cercaMedicinale" />
+      <TableView fx:id="risultatiTable" layoutY="124.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="395.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="4.0" />
+      <Button layoutX="21.0" layoutY="32.0" mnemonicParsing="false" onAction="#searchMedicinalProductByName" text="cercaMedicinale" />
       <TextField fx:id="nomeConfezione" layoutX="159.0" layoutY="32.0" />
-      <Label layoutX="159.0" layoutY="14.0" prefHeight="17.0" prefWidth="149.0" text="name" />
-      <Button layoutX="21.0" layoutY="73.0" mnemonicParsing="false" onAction="#searchPrincipio" text="cercaPrincipio" />
-      <TextField fx:id="nomePrincipio" layoutX="164.0" layoutY="73.0" prefHeight="25.0" prefWidth="138.0" />
-      <Label layoutX="164.0" layoutY="57.0" prefHeight="17.0" prefWidth="149.0" text="name" />
-      <Button layoutX="497.0" layoutY="31.0" mnemonicParsing="false" onAction="#indietro" prefHeight="25.0" prefWidth="84.0" text="indietro" />
+      <Label layoutX="159.0" layoutY="14.0" prefHeight="17.0" prefWidth="149.0" text="nome" />
+      <Button layoutX="27.0" layoutY="81.0" mnemonicParsing="false" onAction="#searchActiveIngredientByName" text="cercaPrincipio" />
+      <TextField fx:id="nomePrincipio" layoutX="159.0" layoutY="82.0" prefHeight="25.0" prefWidth="138.0" />
+      <Label layoutX="159.0" layoutY="64.0" prefHeight="18.0" prefWidth="157.0" text="nome" />
+      <Button layoutX="497.0" layoutY="31.0" mnemonicParsing="false" onAction="#back" prefHeight="25.0" prefWidth="84.0" text="indietro" />
+      <Label layoutX="228.0" layoutY="5.0" styleClass="label-title" stylesheets="@../application.css" text="seleziona il medicinale" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="56.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

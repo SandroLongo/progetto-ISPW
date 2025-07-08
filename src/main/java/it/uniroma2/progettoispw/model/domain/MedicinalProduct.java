@@ -1,5 +1,7 @@
 package it.uniroma2.progettoispw.model.domain;
 
+import it.uniroma2.progettoispw.controller.bean.InvalidFormatException;
+
 public class MedicinalProduct extends Medication{
     private int codiceAic;
     private int codFarmaco;
@@ -17,8 +19,12 @@ public class MedicinalProduct extends Medication{
     private String unitaMisura;
     private String link;
 
-    public MedicinalProduct(int codiceAic) {
-        this.codiceAic = codiceAic;
+    public MedicinalProduct(String id) {
+        try {
+            this.codiceAic = Integer.parseInt(id);
+        } catch (NumberFormatException e) {
+            throw new InvalidFormatException("the id must be an integer");
+        }
     }
 
     @Override
@@ -118,12 +124,5 @@ public class MedicinalProduct extends Medication{
     }
     public void setLink(String link) {
         this.link = link;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("confezione : " + "Nome: ").append(denominazione).append(", Descrizione: ").append(descrizione).append(", Forma:").append(forma).append(",pa associati: ").append(paAssociati).append(",codice aic: ").append(codiceAic).append(", codice Atc: ").append(codiceAtc);
-        return builder.toString();
     }
 }

@@ -38,7 +38,7 @@ public class UserLogInData {
         if (cf == null || cf.length() < Config.MIN_CF_LENGTH || cf.length() > Config.MAX_CF_LENGTH) {
             throw new InvalidFormatException("Codice fiscale non valido");
         }
-        this.taxCode = cf;
+        this.taxCode = cf.toUpperCase();
     }
 
     public String getPassword() {

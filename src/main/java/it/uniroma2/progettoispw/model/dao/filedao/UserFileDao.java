@@ -33,7 +33,7 @@ public class UserFileDao extends FileDao implements UserDao {
         private List<UtenteRegistrato> caricaUtenti() throws DaoException {
         File file = new File(utentiPath);
         if (!file.exists()){
-            throw new DaoException("file non trovato");
+            throw new DaoException("file not found");
         }
         if (file.length() == 0){
             return new ArrayList<UtenteRegistrato>();
@@ -41,15 +41,7 @@ public class UserFileDao extends FileDao implements UserDao {
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             return (List<UtenteRegistrato>) ois.readObject();
         } catch (IOException e) {
-            if (e instanceof FileNotFoundException){
-                throw new DaoException("file non trovato");
-            } else if (e instanceof EOFException){
-                throw new DaoException("file finito");
-            } else if (e instanceof StreamCorruptedException){
-                throw new DaoException("file corrotto");
-            } else {
-                throw new DaoException("file");
-            }
+            throw new DaoException("file corrupted");
         } catch (ClassNotFoundException e) {
             throw new DaoException("class not found");
         }
@@ -58,7 +50,7 @@ public class UserFileDao extends FileDao implements UserDao {
     private void salvaUtenti(List<UtenteRegistrato> lista) throws DaoException {
         File file = new File(utentiPath);
         if (!file.exists()){
-            throw new DaoException("file non trovato");
+            throw new DaoException("file not found");
         }
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(lista);
@@ -70,7 +62,7 @@ public class UserFileDao extends FileDao implements UserDao {
     private List<DottoreRegistrato> caricaDottori() throws DaoException {
         File file = new File(dottoriPath);
         if (!file.exists()){
-            throw new DaoException("file non trovato");
+            throw new DaoException("file not found");
         }
         if (file.length() == 0){
             return new ArrayList<DottoreRegistrato>();
@@ -101,7 +93,7 @@ public class UserFileDao extends FileDao implements UserDao {
         if (pazienteOpt.isPresent()){
             return new Patient(pazienteOpt.get().getPaziente());
         } else {
-            throw new DaoException("patient non trovato");
+            throw null;
         }
     }
 
@@ -111,7 +103,7 @@ public class UserFileDao extends FileDao implements UserDao {
         if (dottoreOpt.isPresent()){
             return new Doctor(dottoreOpt.get().getDottore());
         } else {
-            throw new DaoException("patient non trovato");
+            return null;
         }
     }
 
@@ -150,15 +142,16 @@ public class UserFileDao extends FileDao implements UserDao {
             if (dottoreRegistrato.isPresent()){
                 return new Doctor(dottoreRegistrato.get().getDottore());
             } else {
-                throw new DaoException("doctor non trovato");
+                throw null;
             }
         } else {
             List<UtenteRegistrato> pazienti = caricaUtenti();
-            Optional<UtenteRegistrato> utenteRegistrato = pazienti.stream().filter(u -> u.getPaziente().getTaxCode().equals(taxCode) && u.getPassword().equals(password)).findFirst();
+            Optional<UtenteRegistrato> utenteRegistrato = pazienti.stream().filter(u -> u.getPaziente().getTaxCode().equals(taxCode.trim()) && u.getPassword().equals(password.trim())).findFirst();
             if (utenteRegistrato.isPresent()){
+                System.out.println("trovato");
                 return new Patient(utenteRegistrato.get().getPaziente());
             } else {
-                throw new DaoException("patient non trovato");
+                throw null;
             }
         }
     }
@@ -170,7 +163,7 @@ public class UserFileDao extends FileDao implements UserDao {
         if (utenteRegistrato.isPresent()){
             return new Patient(utenteRegistrato.get().getPaziente());
         } else {
-            throw new DaoException("patient non trovato");
+            throw null;
         }
     }
 
@@ -190,6 +183,8 @@ public class UserFileDao extends FileDao implements UserDao {
     }
 
     private static class UtenteRegistrato implements Serializable {
+        private static final long serialVersionUID = 1L;
+
         private Patient patient;
         private String password;
 
@@ -216,6 +211,8 @@ public class UserFileDao extends FileDao implements UserDao {
     }
 
     private static class DottoreRegistrato implements Serializable {
+        private static final long serialVersionUID = 1L;
+
         private Doctor doctor;
         private String password;
         private int codice;

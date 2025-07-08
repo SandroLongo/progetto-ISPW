@@ -10,12 +10,12 @@ public class DbFileDaoFactory extends DaoFactory {
         this.utenteDaoIsDb = utenteDaoIsDb;
     }
     @Override
-    public PrescriptionBundleDao getRichiesteDao() {
+    public PrescriptionBundleDao getPrescriptionBundleDao() {
         return new PrescriptionBundleDbDao();
     }
 
     @Override
-    public UserDao getUtenteDao() {
+    public UserDao getUserDao() {
         if (utenteDaoIsDb) {
             return new UserDbDao();
         } else {
@@ -24,7 +24,7 @@ public class DbFileDaoFactory extends DaoFactory {
     }
 
     @Override
-    public TherapyDao getTerapiaDao() {
+    public TherapyDao getTherapyDao() {
         return new TherapyDbDao();
     }
 }

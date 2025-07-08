@@ -20,10 +20,10 @@ public class TherapyController implements Controller{
         DoseBean doseBean = prescriptionBean.getDose();
         switch (doseBean.getType()){
             case MEDICINALPRODUCT -> {
-                medication = daoFacade.getConfezioneByCodiceAic(Integer.parseInt(doseBean.getId()));
+                medication = daoFacade.getMedicinalProductByID(doseBean.getId());
             }
             case ACRIVEINGREDIENT -> {
-                medication = daoFacade.getPrincipioAttvoByCodiceAtc(doseBean.getId());
+                medication = daoFacade.getActiveIngridientByID(doseBean.getId());
             }
             default -> throw new InvalidFormatException("invalid dose type");
         }
@@ -52,7 +52,7 @@ public class TherapyController implements Controller{
         if (therapyCalendar.exists(date)) {
             dailyTherapy = therapyCalendar.getDailyTherapy(date);
         } else {
-            dailyTherapy = daoFacade.getTerapiaGiornaliera(patient.getTaxCode(), date);
+            dailyTherapy = daoFacade.getDailyTherapy(patient.getTaxCode(), date);
             patient.getCalendar().addDailyTherapy(dailyTherapy);
         }
         DailyTherapyBean dailyTherapyBean = new DailyTherapyBean(dailyTherapy);

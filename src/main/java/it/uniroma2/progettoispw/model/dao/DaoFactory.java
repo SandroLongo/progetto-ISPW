@@ -11,11 +11,11 @@ import java.util.Properties;
 
 public abstract class DaoFactory {
     private static DaoFactory daoFactory;
-    public abstract PrescriptionBundleDao getRichiesteDao();
-    public abstract UserDao getUtenteDao();
-    public abstract TherapyDao getTerapiaDao();
+    public abstract PrescriptionBundleDao getPrescriptionBundleDao();
+    public abstract UserDao getUserDao();
+    public abstract TherapyDao getTherapyDao();
 
-    public MedicationDao getMedicinaliDao() {
+    public MedicationDao getMedicationDao() {
         return new MedicationDbDao();
     }
 

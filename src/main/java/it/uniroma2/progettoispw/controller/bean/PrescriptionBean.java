@@ -20,8 +20,9 @@ public class PrescriptionBean {
         this.dayRate = prescription.getRateGiorni();
     }
 
-    public boolean isComplete(){
-        return dose.isCompleate() && startDate != null && repetitionNumber > 0 && dayRate > 0;
+    public boolean isCompleate(){
+        System.out.println((dose.isCompleate() && startDate != null && repetitionNumber == 0 && dayRate == 0) + "prescriptionBean");
+        return dose.isCompleate() && startDate != null && repetitionNumber != 0 && dayRate != 0;
     }
 
     @Override
@@ -33,9 +34,9 @@ public class PrescriptionBean {
         return dose;
     }
 
-    public void setDose(DoseBean dose) throws InvalidFormatException {
+    public void setDose(MedicationBean medicationBean) throws InvalidFormatException {
         if (dose == null) {}
-        this.dose = dose;
+        this.dose = new DoseBean(medicationBean);
     }
 
     public void setLastInformation(FinalStepBean lastInformation)throws InvalidFormatException {

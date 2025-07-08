@@ -1,4 +1,4 @@
-package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.medicographic;
+package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.doctorgraphic;
 
 import it.uniroma2.progettoispw.controller.bean.AuthenticationBean;
 import it.uniroma2.progettoispw.controller.bean.UserInformation;
@@ -13,11 +13,11 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
-public class SelezionaPazienteViewController extends GuiGraphicController {
+public class SelectPatientViewController extends GuiGraphicController {
     private SendPrescriptionBundleController sendPrescriptionBundleController;
-    private String gruppo;
+    private String group;
     private AuthenticationBean authenticationBean;
-    private UserInformation utente;
+    private UserInformation userInformation;
     private WindowManager windowManager;
 
     @FXML
@@ -40,23 +40,23 @@ public class SelezionaPazienteViewController extends GuiGraphicController {
 
 
     @FXML
-    void cerca(ActionEvent event) {
-        this.utente = sendPrescriptionBundleController.getPatientInformation(authenticationBean.getCodice(), cFField.getText());
-        cognomeLabel.setText(utente.getSurname());
-        nomeLabel.setText(utente.getName());
-        emailLabel.setText(utente.getEmail());
-        numeroLabel.setText(utente.getPhoneNumber());
+    void find(ActionEvent event) {
+        this.userInformation = sendPrescriptionBundleController.getPatientInformation(authenticationBean.getCodice(), cFField.getText());
+        cognomeLabel.setText(userInformation.getSurname());
+        nomeLabel.setText(userInformation.getName());
+        emailLabel.setText(userInformation.getEmail());
+        numeroLabel.setText(userInformation.getPhoneNumber());
         confermaButton.setDisable(false);
     }
 
     @FXML
-    void confermaDati() throws IOException {
-        windowManager.addScene(gruppo, "/it/uniroma2/progettoispw/view/RecapRichiestaView.fxml", gruppo, sendPrescriptionBundleController, authenticationBean, utente, windowManager);
+    void confirm() throws IOException {
+        windowManager.addScene(group, "/it/uniroma2/progettoispw/view/RecapRichiestaView.fxml", group, sendPrescriptionBundleController, authenticationBean, userInformation, windowManager);
     }
 
     @Override
     public void initialize(Object[] args) throws IOException {
-        this.gruppo = (String) args[0];
+        this.group = (String) args[0];
         this.authenticationBean = (AuthenticationBean) args[1];
         this.windowManager = (WindowManager) args[2];
         this.sendPrescriptionBundleController = new SendPrescriptionBundleController();

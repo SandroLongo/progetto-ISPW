@@ -1,5 +1,6 @@
 package it.uniroma2.progettoispw.model.dao;
 
+import it.uniroma2.progettoispw.controller.bean.InvalidFormatException;
 import it.uniroma2.progettoispw.controller.bean.PrescriptionBundleBean;
 import it.uniroma2.progettoispw.model.dao.dbfiledao.MedicationDbDao;
 import it.uniroma2.progettoispw.model.domain.*;
@@ -16,12 +17,12 @@ public class DaoFacade {
 
     public DaoFacade() {
         medicationDao = new MedicationDbDao();
-        prescriptionBundleDao = DaoFactory.getIstance().getRichiesteDao();
-        therapyDao = DaoFactory.getIstance().getTerapiaDao();
-        userDao = DaoFactory.getIstance().getUtenteDao();
+        prescriptionBundleDao = DaoFactory.getIstance().getPrescriptionBundleDao();
+        therapyDao = DaoFactory.getIstance().getTherapyDao();
+        userDao = DaoFactory.getIstance().getUserDao();
     }
 
-    public DailyTherapy getTerapiaGiornaliera(String codiceFiscale, LocalDate data) throws DaoException{
+    public DailyTherapy getDailyTherapy(String codiceFiscale, LocalDate data) throws DaoException{
         DailyTherapy dailyTherapy = therapyDao.getDailyTherapy(codiceFiscale, data);
         for (List<MedicationDose> dosiOrario: dailyTherapy.getDosesByTime().values()){
             for (MedicationDose medicationDose : dosiOrario){
@@ -29,12 +30,10 @@ public class DaoFacade {
                 MedicationType tipo = medication.getType();
                 switch (tipo){
                     case MEDICINALPRODUCT:
-                        int codiceAic = Integer.parseInt(medication.getId());
-                        medicationDose.setMedication(medicationDao.getConfezioneByCodiceAic(codiceAic));
+                        medicationDose.setMedication(medicationDao.getMedicinalProductByID(medication.getId()));
                         break;
                     case ACRIVEINGREDIENT:
-                        String codiceAtc = medication.getId();
-                        medicationDose.setMedication(medicationDao.getPrincipioAttvoByCodiceAtc(codiceAtc));
+                        medicationDose.setMedication(medicationDao.getAIByID(medication.getId()));
                         break;
                     default: throw new DaoException("invalid medication type");
                 }
@@ -44,24 +43,24 @@ public class DaoFacade {
         return dailyTherapy;
     }
 
-    public Patient getPaziente(String codiceFiscale) throws DaoException{
+    public Patient getPatient(String codiceFiscale) throws DaoException{
         Patient patient = userDao.getPatient(codiceFiscale);
         patient.setRichiestePendenti(prescriptionBundleDao.getBundles(patient));
         return patient;
     }
 
-    public Doctor getDottore(String codiceFiscale) throws DaoException{
+    public Doctor getDoctor(String codiceFiscale) throws DaoException{
         return userDao.getDoctor(codiceFiscale);
     }
 
-    public void addPaziente(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono,
-                            String pass) throws DaoException{
+    public void addPatient(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono,
+                           String pass) throws DaoException{
         System.out.println("IN ADD PATIENT");
         userDao.addPatient(codiceFiscale, nome, cognome, nascita, email, telefono, pass);
     }
 
-    public int addDottore(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono,
-                          String pass) throws DaoException{
+    public int addDoctor(String codiceFiscale, String nome, String cognome, LocalDate nascita, String email, String telefono,
+                         String pass) throws DaoException{
         return userDao.addDoctor(codiceFiscale, nome, cognome, nascita, email, telefono, pass);
     }
 
@@ -71,12 +70,12 @@ public class DaoFacade {
             throw new DaoException("credenziali errate");
         }
         if (user.isType() == Role.PATIENT) {
-            ((Patient) user).setRichiestePendenti(getRichisteOfPaziente((Patient) user));
+            ((Patient) user).setRichiestePendenti(getBundlesOfPatient((Patient) user));
         }
         return user;
     }
 
-    public void addTerapiaByRichiesta(SentPrescriptionBundle sentPrescriptionBundle) throws DaoException {
+    public void addDosesByBundle(SentPrescriptionBundle sentPrescriptionBundle) throws DaoException {
         Patient ricevente = sentPrescriptionBundle.getRicevente();
         List<Prescription> dosiInviate= sentPrescriptionBundle.getMedicinali();
         for (it.uniroma2.progettoispw.model.domain.Prescription dose: dosiInviate) {
@@ -96,67 +95,72 @@ public class DaoFacade {
         return dates;
     }
 
-    public List<SentPrescriptionBundle> getRichisteOfPaziente(Patient patient) throws DaoException{
+    public List<SentPrescriptionBundle> getBundlesOfPatient(Patient patient) throws DaoException{
         List<SentPrescriptionBundle> list = prescriptionBundleDao.getBundles(patient);
         for (SentPrescriptionBundle sentPrescriptionBundle : list) {
-            Doctor inviante = userDao.getDoctor(sentPrescriptionBundle.getInviante().getTaxCode());
-            sentPrescriptionBundle.setInviante(inviante);
-            for (it.uniroma2.progettoispw.model.domain.Prescription prescription : sentPrescriptionBundle.getMedicinali()) {
-                MedicationDose medicationDose = prescription.getDose();
-                MedicationType tipo = medicationDose.isType();
-                switch (tipo){
-                    case MEDICINALPRODUCT:
-                        medicationDose.setMedication(medicationDao.getConfezioneByCodiceAic(Integer.parseInt(medicationDose.getMedication().getId())));
-                        medicationDose.setSender(inviante);
-                        break;
-
-                    case ACRIVEINGREDIENT:
-                        medicationDose.setMedication(medicationDao.getPrincipioAttvoByCodiceAtc(medicationDose.getMedication().getId()));
-                        medicationDose.setSender(inviante);
-                        break;
-
-                    default:
-                        break;
-
-                }
-            }
+            compleateBundle(sentPrescriptionBundle);
         }
         return list;
     }
-    public void deleteRichiesta(int id) throws DaoException{
+    public void deleteBundle(int id) throws DaoException{
         prescriptionBundleDao.deleteBundle(id);
     }
 
-    public MedicinalProduct getConfezioneByCodiceAic(int codiceAic) throws DaoException{
-        return medicationDao.getConfezioneByCodiceAic(codiceAic);
+    public MedicinalProduct getMedicinalProductByID(String id) throws DaoException, InvalidFormatException {
+        return medicationDao.getMedicinalProductByID(id);
     }
 
-    public List<String> getNomiConfezioniByNomeParziale(String nome) throws DaoException{
-        return medicationDao.getNomiConfezioniByNomeParziale(nome);
+    public List<String> getMedicinalProductsNamesByPartialName(String nome) throws DaoException{
+        return medicationDao.getMPNameByPartialName(nome);
     }
-    public List<MedicinalProduct> getConfezioniByNome(String nome) throws DaoException{
-        return medicationDao.getConfezioniByNome(nome);
+    public List<MedicinalProduct> getMedicinalProductsByName(String nome) throws DaoException{
+        return medicationDao.getMPbyName(nome);
     }
-    public List<String> getNomiPrincipioAttivoByNomeParziale(String nome) throws DaoException{
-        return medicationDao.getMedicinalProductNameByPartialName(nome);
+    public List<String> getActiveIngredientNamesByPartialNames(String nome) throws DaoException{
+        return medicationDao.getAINamesByPartialName(nome);
     }
-    public ActiveIngredient getPrincipioAttvoByNome(String nome) throws DaoException{
-        return medicationDao.getPrincipioAttvoByNome(nome);
+    public ActiveIngredient getActiveIgredientByName(String nome) throws DaoException{
+        return medicationDao.getAIByName(nome);
     }
-    public List<MedicinalProduct> getConfezioniByCodiceAtc(String codiceAtc) throws DaoException{
-        return medicationDao.getConfezioniByCodiceAtc(codiceAtc);
+    public List<MedicinalProduct> getMedicinalProductByActiveIngredientID(String id) throws DaoException{
+        return medicationDao.getMPByAIID(id);
     }
-    public ActiveIngredient getPrincipioAttvoByCodiceAtc(String codiceAtc) throws DaoException{
-        return medicationDao.getPrincipioAttvoByCodiceAtc(codiceAtc);
+    public ActiveIngredient getActiveIngridientByID(String id) throws DaoException{
+        return medicationDao.getAIByID(id);
     }
 
-    public SentPrescriptionBundle addRichiesta(PrescriptionBundleBean prescriptionBean) throws DaoException{
+    public SentPrescriptionBundle addBundle(PrescriptionBundleBean prescriptionBean) throws DaoException{
         int id = prescriptionBundleDao.addBundle(prescriptionBean);
         System.out.println("inviata richiesta con id:" + id);
-        return prescriptionBundleDao.getBundleById(id);
+        SentPrescriptionBundle sentPrescriptionBundle = prescriptionBundleDao.getBundleById(id);
+        return sentPrescriptionBundle;
     }
 
-    public User getInfoUtente(String codiceFiscale) throws DaoException{
+    private void compleateBundle(SentPrescriptionBundle sentPrescriptionBundle) {
+        Doctor inviante = userDao.getDoctor(sentPrescriptionBundle.getInviante().getTaxCode());
+        sentPrescriptionBundle.setInviante(inviante);
+        for (Prescription prescription : sentPrescriptionBundle.getMedicinali()) {
+            MedicationDose medicationDose = prescription.getDose();
+            MedicationType tipo = medicationDose.isType();
+            switch (tipo){
+                case MEDICINALPRODUCT:
+                    medicationDose.setMedication(medicationDao.getMedicinalProductByID(medicationDose.getMedication().getId()));
+                    medicationDose.setSender(inviante);
+                    break;
+
+                case ACRIVEINGREDIENT:
+                    medicationDose.setMedication(medicationDao.getAIByID(medicationDose.getMedication().getId()));
+                    medicationDose.setSender(inviante);
+                    break;
+
+                default:
+                    break;
+
+            }
+        }
+    }
+
+    public User getUserInfo(String codiceFiscale) throws DaoException{
         return userDao.getUserInformation(codiceFiscale);
     }
  }

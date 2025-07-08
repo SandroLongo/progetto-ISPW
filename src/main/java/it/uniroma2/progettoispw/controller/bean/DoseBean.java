@@ -34,12 +34,19 @@ public class DoseBean {
     public DoseBean() {
     }
 
+    public DoseBean(MedicationBean medicationBean) {
+        this.type = medicationBean.getType();
+        this.id = medicationBean.getId();
+        this.name = medicationBean.getName();
+    }
+
     @Override
     public String toString() {
         return "type: " + type + ", name: " + name +", quantity: " + quantity + " " + meausurementUnit + ", description: " + description;
     }
 
     public boolean isCompleate(){
+        System.out.println((id != null && quantity != 0 && meausurementUnit != null && scheduledTime != null && description != null && name != null && type != null) + "dose");
         return id != null && quantity != 0 && meausurementUnit != null && scheduledTime != null && description != null && name != null && type != null;
     }
 

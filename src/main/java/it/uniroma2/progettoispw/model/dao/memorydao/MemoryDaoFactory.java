@@ -7,17 +7,17 @@ import it.uniroma2.progettoispw.model.dao.UserDao;
 
 public class MemoryDaoFactory extends DaoFactory {
     @Override
-    public PrescriptionBundleDao getRichiesteDao() {
+    public PrescriptionBundleDao getPrescriptionBundleDao() {
         return PrescriptionBundleMemoryDao.getInstance();
     }
 
     @Override
-    public UserDao getUtenteDao() {
+    public UserDao getUserDao() {
         return UserMemoryDao.getInstance();
     }
 
     @Override
-    public TherapyDao getTerapiaDao() {
+    public TherapyDao getTherapyDao() {
         return TherapyMemoryDao.getInstance();
     }
 }

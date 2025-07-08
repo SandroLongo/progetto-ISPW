@@ -12,9 +12,9 @@ import java.util.*;
 
 public class UserMemoryDao extends MemoryDao implements UserDao {
     private static UserMemoryDao instance;
-    private Map<UserKey, Patient> pazienti = new HashMap<>();
-    private Map<DoctorKey, Doctor> dottori = new HashMap<>();
-    private Map<String, User> infoUtenti = new HashMap<>();
+    private Map<UserKey, Patient> patients = new HashMap<>();
+    private Map<DoctorKey, Doctor> doctors = new HashMap<>();
+    private Map<String, User> Userinfo = new HashMap<>();
     private Random random = new SecureRandom();
 
     private UserMemoryDao() {
@@ -29,8 +29,8 @@ public class UserMemoryDao extends MemoryDao implements UserDao {
 
     @Override
     public Patient getPatient(String taxCode) throws DaoException {
-        if (pazienti.containsKey(taxCode)) {
-            return (Patient)infoUtenti.get(taxCode);
+        if (patients.containsKey(taxCode)) {
+            return (Patient) Userinfo.get(taxCode);
         } else {
             return null;
         }
@@ -38,8 +38,8 @@ public class UserMemoryDao extends MemoryDao implements UserDao {
 
     @Override
     public Doctor getDoctor(String taxCode) throws DaoException {
-        if (dottori.containsKey(taxCode)) {
-            return (Doctor)infoUtenti.get(taxCode);
+        if (doctors.containsKey(taxCode)) {
+            return (Doctor) Userinfo.get(taxCode);
         }  else {
             return null;
         }
@@ -49,18 +49,18 @@ public class UserMemoryDao extends MemoryDao implements UserDao {
     public void addPatient(String taxCode, String name, String surname, LocalDate birthDate, String email, String phoneNumber, String pass) throws DaoException {
         UserKey userKey = new UserKey(taxCode, pass);
         System.out.println(taxCode + pass);
-        pazienti.put(userKey, new Patient(taxCode, name, surname, birthDate, email, phoneNumber));
-        infoUtenti.put(taxCode, new Patient(taxCode, name, surname, birthDate, email, phoneNumber));
+        patients.put(userKey, new Patient(taxCode, name, surname, birthDate, email, phoneNumber));
+        Userinfo.put(taxCode, new Patient(taxCode, name, surname, birthDate, email, phoneNumber));
     }
 
     @Override
     public int addDoctor(String taxCode, String name, String surname, LocalDate birthDate, String email, String phoneNumber, String pass) throws DaoException {
-        int codiceDottore = generaCodiceUnico(dottori);
+        int codiceDottore = generaCodiceUnico(doctors);
         UserKey userKey = new UserKey(taxCode, pass);
         DoctorKey doctorKey = new DoctorKey(taxCode, pass, codiceDottore);
-        pazienti.put(userKey, new Patient(taxCode, name, surname, birthDate, email, phoneNumber));
-        dottori.put(doctorKey, new Doctor(taxCode, name, surname, birthDate, email, phoneNumber));
-        infoUtenti.put(taxCode, new Doctor(taxCode, name, surname, birthDate, email, phoneNumber));
+        patients.put(userKey, new Patient(taxCode, name, surname, birthDate, email, phoneNumber));
+        doctors.put(doctorKey, new Doctor(taxCode, name, surname, birthDate, email, phoneNumber));
+        Userinfo.put(taxCode, new Doctor(taxCode, name, surname, birthDate, email, phoneNumber));
         return codiceDottore;
     }
 
@@ -84,10 +84,18 @@ public class UserMemoryDao extends MemoryDao implements UserDao {
         System.out.println(taxCode + password);
         if (isDoctor == 1) {
             DoctorKey chiave = new DoctorKey(taxCode, password, doctorCode);
-            return new Doctor(dottori.get(chiave));
+            Doctor doctor = doctors.get(chiave);
+            if (doctor == null) {
+                return null;
+            }
+            return doctor;
         } else {
             UserKey chiave = new UserKey(taxCode, password);
-            return new Patient(pazienti.get(chiave));
+            Patient patient = patients.get(chiave);
+            if (patient == null) {
+                return null;
+            }
+            return patient;
         }
 
     }
@@ -95,7 +103,7 @@ public class UserMemoryDao extends MemoryDao implements UserDao {
 
     @Override
     public User getUserInformation(String taxCode) throws DaoException {
-        return infoUtenti.get(taxCode);
+        return Userinfo.get(taxCode);
     }
 
 

@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class AggiungiFinalStepController extends GuiGraphicController {
+public class LastInformationViewController extends GuiGraphicController {
     private FinalAccepter accepter;
     private String gruppo;
     private WindowManager windowManager;
@@ -39,7 +39,7 @@ public class AggiungiFinalStepController extends GuiGraphicController {
     private TextField unitaMisura;
 
     @FXML
-    void indietro(ActionEvent event) {
+    void back(ActionEvent event) {
         windowManager.deleteAndcomeBack(gruppo);
     }
 
@@ -65,7 +65,7 @@ public class AggiungiFinalStepController extends GuiGraphicController {
 
 
     @FXML
-    void aggiungi(ActionEvent event) throws IOException {
+    void add(ActionEvent event) throws IOException {
         FinalStepBean finalStepBean = new FinalStepBean(dataIniziale.getValue(), Integer.parseInt(numGiorni.getText()), Integer.parseInt(rateGiorni.getText()),
                                                             Integer.parseInt(quantita.getText()), unitaMisura.getText(), LocalTime.of(oraPicker.getValue(), minutiPicker.getValue()),
                                                             descrizione.getText());

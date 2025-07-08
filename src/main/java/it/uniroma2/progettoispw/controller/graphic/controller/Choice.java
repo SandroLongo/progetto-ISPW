@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Scelta extends GuiGraphicController {
+public class Choice extends GuiGraphicController {
     private WindowManager windowManager;
 
     @FXML

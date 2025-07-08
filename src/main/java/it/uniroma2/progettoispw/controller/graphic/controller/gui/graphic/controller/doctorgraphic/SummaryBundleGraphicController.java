@@ -1,4 +1,4 @@
-package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.medicographic;
+package it.uniroma2.progettoispw.controller.graphic.controller.gui.graphic.controller.doctorgraphic;
 
 import it.uniroma2.progettoispw.controller.bean.*;
 import it.uniroma2.progettoispw.controller.controller.applicativi.SendPrescriptionBundleController;
@@ -16,10 +16,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class RecapPacchettoGraphicController extends GuiGraphicController implements DoseAccepter, FinalAccepter {
+public class SummaryBundleGraphicController extends GuiGraphicController implements DoseAccepter, FinalAccepter {
     private SendPrescriptionBundleController sendPrescriptionBundleController;
-    private String gruppo;
-    private ObservableList<Object> dati;
+    private String group;
+    private ObservableList<Object> data;
     private PrescriptionBundleBean prescriptionBundleBean = new PrescriptionBundleBean();
     private AuthenticationBean authenticationBean;
     private PrescriptionBean prescriptionBean = new PrescriptionBean();
@@ -43,49 +43,56 @@ public class RecapPacchettoGraphicController extends GuiGraphicController implem
     private TableView<Object> recapTable;
 
     @FXML
-    void indietro(ActionEvent event) {
-        windowManager.deleteAndcomeBack(gruppo);
+    void back(ActionEvent event) {
+        windowManager.deleteAndcomeBack(group);
     }
 
     @FXML
-    void aggiungi(ActionEvent event) throws IOException {
+    void add(ActionEvent event) throws IOException {
         this.prescriptionBean = new PrescriptionBean();
-        windowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/RicercaConfezione.fxml", this, gruppo, windowManager);
+        windowManager.addSceneAndShow(group, "/it/uniroma2/progettoispw/view/RicercaConfezione.fxml", this, group, windowManager);
     }
 
     @FXML
-    void invia(ActionEvent event) {
+    void send(ActionEvent event) {
         sendPrescriptionBundleController.send(authenticationBean.getCodice(), prescriptionBundleBean);
-        windowManager.deleteTop(gruppo);
-        windowManager.show(gruppo);
+        showInformation("il tuo pacchetto è stato inviato con successo");
+        windowManager.deleteTop(group);
+        windowManager.show(group);
     }
 
     @Override
     public void initialize(Object[] args) throws IOException {
         this.sendPrescriptionBundleController = (SendPrescriptionBundleController) args[1];
-        this.gruppo = (String) args[0];
+        this.group = (String) args[0];
         this.authenticationBean = (AuthenticationBean) args[2];
-        this.prescriptionBundleBean.setReceiver((UserInformation) args[3]);
+        UserInformation userInformation = (UserInformation) args[3];
+        this.prescriptionBundleBean.setReceiver(userInformation);
+        cFLabel.setText(userInformation.getTaxCode());
+        nomeLabel.setText(userInformation.getName());
+        cognomeLabel.setText(userInformation.getSurname());
+        emailLabel.setText(userInformation.getEmail());
+        numeroLabel.setText(userInformation.getPhoneNumber().toString());
         this.windowManager = (WindowManager) args[4];
         recapTable.getColumns().clear();
 
         TableColumn<Object, String> nome = new TableColumn<>("Nome");
         nome.setCellValueFactory(data -> new ReadOnlyStringWrapper(((PrescriptionBean)data.getValue()).getDose().getName()));
 
-        TableColumn<Object, String> quantita = new TableColumn<>("quantita");
+        TableColumn<Object, String> quantita = new TableColumn<>("quantità");
         quantita.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((PrescriptionBean)data.getValue()).getDose().getQuantity())));
 
-        TableColumn<Object, String> unitaDiMisura = new TableColumn<>("unita di misura");
+        TableColumn<Object, String> unitaDiMisura = new TableColumn<>("unità");
         unitaDiMisura.setCellValueFactory(data -> new ReadOnlyStringWrapper(((PrescriptionBean)data.getValue()).getDose().getMeausurementUnit()));
 
         TableColumn<Object, String> inizio = new TableColumn<>("Data inizio");
         inizio.setCellValueFactory(data -> new ReadOnlyStringWrapper(((PrescriptionBean)data.getValue()).getStartDate().toString()));
 
-        TableColumn<Object, String> numGiorni = new TableColumn<>("numero di volte");
-        numGiorni.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((PrescriptionBean)data.getValue()).getRepetitionNumber())));
+        TableColumn<Object, String> numGiorni = new TableColumn<>("per");
+        numGiorni.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((PrescriptionBean)data.getValue()).getRepetitionNumber()) + " giorni"));
 
-        TableColumn<Object, String> rate = new TableColumn<>("ogni tot giorni");
-        rate.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((PrescriptionBean)data.getValue()).getDayRate())));
+        TableColumn<Object, String> rate = new TableColumn<>("ogni");
+        rate.setCellValueFactory(data -> new ReadOnlyStringWrapper(String.valueOf(((PrescriptionBean)data.getValue()).getDayRate() + " giorni")));
 
         TableColumn<Object, String> orario = new TableColumn<>("orario");
         orario.setCellValueFactory(data -> new ReadOnlyStringWrapper(((PrescriptionBean)data.getValue()).getDose().getScheduledTime().toString()));
@@ -97,9 +104,9 @@ public class RecapPacchettoGraphicController extends GuiGraphicController implem
         aggiungiCol.setCellFactory(col -> new EliminaDoseCostructorButtonCell());
 
         recapTable.getColumns().addAll(nome, quantita, unitaDiMisura, descrizione, numGiorni, rate, orario);
-        this.dati = FXCollections.observableArrayList();
-        recapTable.setItems(dati);
-        windowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/RicercaConfezione.fxml", this, gruppo, windowManager);
+        this.data = FXCollections.observableArrayList();
+        recapTable.setItems(data);
+        windowManager.addSceneAndShow(group, "/it/uniroma2/progettoispw/view/RicercaConfezione.fxml", this, group, windowManager);
     }
 
     @Override
@@ -107,21 +114,21 @@ public class RecapPacchettoGraphicController extends GuiGraphicController implem
         prescriptionBean.setLastInformation(finalStep);
         prescriptionBundleBean.addPrescription(prescriptionBean);
         update();
-        windowManager.deleteTop(gruppo);
-        windowManager.show(gruppo);
+        windowManager.deleteTop(group);
+        windowManager.show(group);
     }
 
     public void update(){
-        dati = FXCollections.observableArrayList(prescriptionBundleBean.getPrescriptions());
-        recapTable.setItems(dati);
+        data = FXCollections.observableArrayList(prescriptionBundleBean.getPrescriptions());
+        recapTable.setItems(data);
     }
 
     @Override
-    public void setDose(DoseBean dose) {
-        this.prescriptionBean.setDose(dose);
-        windowManager.deleteTop(gruppo);
+    public void setDose(MedicationBean medicationBean) {
+        this.prescriptionBean.setDose(medicationBean);
+        windowManager.deleteTop(group);
         try {
-            windowManager.addSceneAndShow(gruppo, "/it/uniroma2/progettoispw/view/AggiungiView.fxml", this,gruppo, windowManager);
+            windowManager.addSceneAndShow(group, "/it/uniroma2/progettoispw/view/AggiungiView.fxml", this, group, windowManager);
         } catch (IOException e) {
             e.printStackTrace();
             ((Stage)recapTable.getScene().getWindow()).close();

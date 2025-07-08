@@ -37,7 +37,7 @@ public class LogInController implements Controller{
 
     public void registerPatient(PatientRegistrationData patientRegistrationData) throws InvalidFormatException {
         if (patientRegistrationData.isComplete()) {
-            daoFacade.addPaziente(patientRegistrationData.getTaxCode(), patientRegistrationData.getName(),
+            daoFacade.addPatient(patientRegistrationData.getTaxCode(), patientRegistrationData.getName(),
                             patientRegistrationData.getSurname(), patientRegistrationData.getBirthDate(), patientRegistrationData.getEmail(),
                             patientRegistrationData.getPhoneNumber(), patientRegistrationData.getPassword());
             System.out.println(patientRegistrationData.getTaxCode() + "in logincontroller");
@@ -49,7 +49,7 @@ public class LogInController implements Controller{
 
     public int registerDoctor(DoctorRegistrationData doctorRegistrationData) throws InvalidFormatException {
         if (doctorRegistrationData.isComplete()) {
-            return daoFacade.addDottore(doctorRegistrationData.getTaxCode(), doctorRegistrationData.getName(),
+            return daoFacade.addDoctor(doctorRegistrationData.getTaxCode(), doctorRegistrationData.getName(),
                     doctorRegistrationData.getSurname(), doctorRegistrationData.getBirthDate(), doctorRegistrationData.getEmail(),
                     doctorRegistrationData.getPhoneNumber(), doctorRegistrationData.getPassword());
         } else {

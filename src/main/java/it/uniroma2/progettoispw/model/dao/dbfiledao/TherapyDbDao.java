@@ -12,7 +12,7 @@ public class TherapyDbDao extends DbDao implements TherapyDao {
     private void addDosiConfezione(ResultSet rs, DailyTherapy terapia) throws SQLException {
         try {
             while (rs.next()) {
-                terapia.addDose(new MedicationDose(new MedicinalProduct(rs.getInt(6)), rs.getInt(1),
+                terapia.addDose(new MedicationDose(new MedicinalProduct(String.valueOf(rs.getInt(6))), rs.getInt(1),
                         rs.getString(2), rs.getTime(3).toLocalTime(), rs.getString(4), new Doctor(rs.getString(5))));
             }
         } catch (SQLException e){

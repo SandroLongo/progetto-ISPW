@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Patient extends User {
+    private static final long serialVersionUID = 1L;
+
     private transient TherapyCalendar calendar;
     private transient PendentBundles pending;
 
